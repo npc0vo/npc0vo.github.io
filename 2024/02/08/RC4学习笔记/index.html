@@ -31,18 +31,18 @@ document.addEventListener("pjax:success", initScrollReveal);
 <meta property="og:site_name" content="Npc | Blog">
 <meta property="og:description" content="RC4加密算法学习算法分析背景RC4（来自Rivest Cipher 4的缩写）是一种流加密算法，密钥长度可变。它加解密使用相同的密钥，因此也属于对称加密算法。RC4是有线等效加密（WEP）中采用的加密算法，也曾经是TLS可采用的算法之一。 —-wiki https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;zh-hans&#x2F;RC4 加密(解密)原理RC4由伪随机数生成器和异或运算组成。RC4的密钥长度">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://onelastchick.github.io/images/RC4-2.png">
-<meta property="og:image" content="http://onelastchick.github.io/images/RC4-1.png">
-<meta property="og:image" content="http://onelastchick.github.io/images/RC4-3.png">
-<meta property="og:image" content="http://onelastchick.github.io/images/RC4-4.png">
-<meta property="og:image" content="http://onelastchick.github.io/images/RC4-5.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/08/FTz9qeO41RpLKZ5.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/08/qe2SOEDrsNHYimk.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/08/HvaAqdF9gmVGQKR.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/08/yT5htaPwmGvsk8r.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/08/tOZhsIxabTy6mlG.png">
 <meta property="article:published_time" content="2024-02-08T08:58:04.000Z">
-<meta property="article:modified_time" content="2024-02-08T10:05:48.606Z">
+<meta property="article:modified_time" content="2024-02-08T10:13:06.455Z">
 <meta property="article:author" content="Npc">
 <meta property="article:tag" content="Reverse">
 <meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://onelastchick.github.io/images/RC4-2.png"><script>(function() {
+<meta name="twitter:image" content="https://s2.loli.net/2024/02/08/FTz9qeO41RpLKZ5.png"><script>(function() {
   if (CONFIG.mode !== 'auto') return
   const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
   const setting = localStorage.getItem('darken-mode') || 'auto'
@@ -76,8 +76,8 @@ IconifyProviders = {
 <p>参数3是密钥长度，Len&#x3D;strlen(key);</p>
 <p>初始化长度为256的S盒。第一个for循环将0到255的互不重复的元素装入S盒。第二个for循环根据密钥打乱S盒。</p>
 <p>i确保S-box的每个元素都得到处理，j保证S-box的搅乱是随机的</p>
-<p><img src="/./images/RC4-2.png" loading="lazy"></p>
-<p><img src="/./images/RC4-1.png" alt="初始化图解" loading="lazy"></p>
+<p><img src="https://s2.loli.net/2024/02/08/FTz9qeO41RpLKZ5.png" loading="lazy"></p>
+<p><img src="https://s2.loli.net/2024/02/08/qe2SOEDrsNHYimk.png" loading="lazy"></p>
 <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">rc4_init</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">char</span> <span class="token operator">*</span>s<span class="token punctuation">,</span><span class="token keyword">unsigned</span> <span class="token keyword">char</span> <span class="token operator">*</span>key<span class="token punctuation">,</span><span class="token keyword">unsigned</span> <span class="token keyword">long</span> Len<span class="token punctuation">)</span>
 <span class="token punctuation">&#123;</span>
     <span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span>j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
@@ -106,7 +106,7 @@ IconifyProviders = {
 <p>参数2是需要加密的数据data</p>
 <p>参数3是data的长度</p>
 <p>每收到一个字节，就进行while循环，通过一定的算法定位S盒中的一个元素，并与输入字节异或，得到k。循环中还改变了S盒。如果输入的是明文，输出的就是密文；如果输入的是密文，输出的就是明文。</p>
-<p><img src="/./images/RC4-3.png" alt="加解密图解" loading="lazy"></p>
+<p><img src="https://s2.loli.net/2024/02/08/HvaAqdF9gmVGQKR.png" loading="lazy"></p>
 <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">rc4_crypt</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">char</span> <span class="token operator">*</span>s<span class="token punctuation">,</span><span class="token keyword">unsigned</span> <span class="token keyword">char</span> <span class="token operator">*</span>Data<span class="token punctuation">,</span><span class="token keyword">unsigned</span> <span class="token keyword">long</span> Len<span class="token punctuation">)</span>
 <span class="token punctuation">&#123;</span>
     <span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span>j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span>t<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
@@ -196,11 +196,11 @@ pData&#x3D;7��K�l��
 
 pData&#x3D;HelloWorld<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h2 id="逆向分析"><a href="#逆向分析" class="headerlink" title="逆向分析"></a>逆向分析</h2><p><img src="/./images/RC4-4.png" alt="RC4-4" loading="lazy"></p>
+<h2 id="逆向分析"><a href="#逆向分析" class="headerlink" title="逆向分析"></a>逆向分析</h2><p><img src="https://s2.loli.net/2024/02/08/yT5htaPwmGvsk8r.png" loading="lazy"></p>
 <p>rc4共有两个函数 sub_E41000,sub_E410E0<br>下面来具体分析这两个函数，具体解释都放在图里了，看图即可</p>
 <h4 id="sub-E41000初始化"><a href="#sub-E41000初始化" class="headerlink" title="sub_E41000初始化"></a>sub_E41000初始化</h4><p>函数头如下，三个值<br><code>sub_E41000(&amp;v6, &amp;v10, strlen(&amp;v10));</code><br>对应上面源码<br><code>void rc4_init(unsigned char *s,unsigned char *key, unsigned long Len)</code></p>
 <p>伪代码</p>
-<p><img src="/./images/RC4-5.png" alt="RC4-5" loading="lazy"></p>
+<p><img src="https://s2.loli.net/2024/02/08/tOZhsIxabTy6mlG.png" loading="lazy"></p>
 <h4 id="sub-E410E0-加密"><a href="#sub-E410E0-加密" class="headerlink" title="sub_E410E0 加密"></a>sub_E410E0 加密</h4><p>sub_E410E0(&amp;v6, v3, strlen(v3));</p>
 <p>对应上面的源码:</p>
 <p>void rc4_crypt(unsigned char *s,unsigned char *Data,unsigned long Len)</p>
