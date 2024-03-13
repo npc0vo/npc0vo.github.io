@@ -36,7 +36,7 @@ document.addEventListener("pjax:success", initScrollReveal);
 <meta property="og:image" content="https://s2.loli.net/2024/03/13/yWVxA3bJfXZIp5l.png">
 <meta property="og:image" content="https://s2.loli.net/2024/03/13/8kqGnfgsecl5pYt.png">
 <meta property="article:published_time" content="2024-03-13T08:05:40.000Z">
-<meta property="article:modified_time" content="2024-03-13T14:06:42.813Z">
+<meta property="article:modified_time" content="2024-03-13T14:11:44.300Z">
 <meta property="article:author" content="Npc">
 <meta property="article:tag" content="爬虫">
 <meta name="twitter:card" content="summary">
@@ -599,11 +599,15 @@ r <span class="token operator">=</span> s<span class="token punctuation">.</span
 <h3 id="常用正则"><a href="#常用正则" class="headerlink" title="常用正则"></a>常用正则</h3><table>
 <thead>
 <tr>
-<th>用户名</th>
-<th>&#x2F;^[a-z0-9_-]{3,16}$&#x2F;</th>
+<th>target</th>
+<th>pattern</th>
 </tr>
 </thead>
 <tbody><tr>
+<td>用户名</td>
+<td>&#x2F;^[a-z0-9_-]{3,16}$&#x2F;</td>
+</tr>
+<tr>
 <td>密码</td>
 <td>&#x2F;^[a-z0-9_-]{6,18}$&#x2F;</td>
 </tr>
@@ -955,8 +959,8 @@ client<span class="token operator">=</span>httpx<span class="token punctuation">
 asyncio<span class="token punctuation">.</span>get_event_loop<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>run_until_complete<span class="token punctuation">(</span>fetch<span class="token punctuation">(</span><span class="token string">'https://www.httpbin.org/get'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
 <h1 id="labs"><a href="#labs" class="headerlink" title="labs"></a><strong>labs</strong></h1><h2 id="lab-1"><a href="#lab-1" class="headerlink" title="lab-1"></a>lab-1</h2><blockquote>
-<p>targetWebsite:<a target="_blank" rel="noopener" href="https://ssr1.scrape.center/">https://ssr1.scrape.center/</a></p>
-<p>tasks:spider the films</p>
+<p>url:<a target="_blank" rel="noopener" href="https://ssr1.scrape.center/">https://ssr1.scrape.center/</a></p>
+<p>tasks:spider the films names and details;save into json</p>
 <p>goals: to familiar with re,requests,multiprocess</p>
 </blockquote>
 </div></section></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/03/01/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/" rel="next" title="算法学习"><span class="post-nav-text">算法学习</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
