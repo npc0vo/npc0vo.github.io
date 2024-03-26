@@ -24,12 +24,12 @@ document.addEventListener("pjax:success", initScrollReveal);
   }
   var s = document.getElementsByTagName("script")[0];
   s.parentNode.insertBefore(bp, s);
-})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="introduction学习python爬虫的笔记 basicsWeb-basicsurl scheme:&#x2F;&#x2F;[username:password@]hostname[:port][&#x2F;path][;parameters][?query][#fragment]  scheme:协议，eg：http;https;ftp  也称作protocol username,pass">
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="introduction 学习python爬虫的笔记  basics  Web-basics  url  scheme:&#x2F;&#x2F;[username:password@]hostname[:port][&#x2F;path][;parameters][?query][#fragment]  scheme:协议，eg：http;https;ftp  也称作protocol username,password:用户">
 <meta property="og:type" content="article">
 <meta property="og:title" content="爬虫笔记">
 <meta property="og:url" content="http://onelastchick.github.io/2024/03/13/%E7%88%AC%E8%99%AB%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Npc | Blog">
-<meta property="og:description" content="introduction学习python爬虫的笔记 basicsWeb-basicsurl scheme:&#x2F;&#x2F;[username:password@]hostname[:port][&#x2F;path][;parameters][?query][#fragment]  scheme:协议，eg：http;https;ftp  也称作protocol username,pass">
+<meta property="og:description" content="introduction 学习python爬虫的笔记  basics  Web-basics  url  scheme:&#x2F;&#x2F;[username:password@]hostname[:port][&#x2F;path][;parameters][?query][#fragment]  scheme:协议，eg：http;https;ftp  也称作protocol username,password:用户">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2024/03/13/LyuRpMGgJ6lZTs1.png">
 <meta property="og:image" content="https://s2.loli.net/2024/03/13/AgvElbUamZCHrqD.png">
@@ -58,9 +58,13 @@ IconifyProviders = {
     // Wait for 1 second before switching API hosts
     rotate: 1000,
   },
-};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">A fw in hust.</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">10</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">5</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">6</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/OneLastChick" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#introduction"><span class="toc-number">1.</span> <span class="toc-text">introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#basics"><span class="toc-number">2.</span> <span class="toc-text">basics</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Web-basics"><span class="toc-number">2.1.</span> <span class="toc-text">Web-basics</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#url"><span class="toc-number">2.1.1.</span> <span class="toc-text">url</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http-https"><span class="toc-number">2.1.2.</span> <span class="toc-text">http,https</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#request"><span class="toc-number">2.1.3.</span> <span class="toc-text">request</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#request-method"><span class="toc-number">2.1.3.1.</span> <span class="toc-text">request-method</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#request-head"><span class="toc-number">2.1.3.2.</span> <span class="toc-text">request-head</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#request-body"><span class="toc-number">2.1.3.3.</span> <span class="toc-text">request-body</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#response"><span class="toc-number">2.1.4.</span> <span class="toc-text">response</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#status-code"><span class="toc-number">2.1.4.1.</span> <span class="toc-text">status-code</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#response-header"><span class="toc-number">2.1.4.2.</span> <span class="toc-text">response-header</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#response-body"><span class="toc-number">2.1.4.3.</span> <span class="toc-text">response-body</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#urllib"><span class="toc-number">2.2.</span> <span class="toc-text">urllib</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#urllib-request"><span class="toc-number">2.2.1.</span> <span class="toc-text">urllib.request</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#urllib-error"><span class="toc-number">2.2.2.</span> <span class="toc-text">urllib.error</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#urllib-parse"><span class="toc-number">2.2.3.</span> <span class="toc-text">urllib.parse</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#urllib-robotparser"><span class="toc-number">2.2.4.</span> <span class="toc-text">urllib.robotparser</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#handler"><span class="toc-number">2.2.5.</span> <span class="toc-text">handler</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#requests"><span class="toc-number">2.3.</span> <span class="toc-text">requests</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#re"><span class="toc-number">2.4.</span> <span class="toc-text">re</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E8%AF%AD%E6%B3%95"><span class="toc-number">2.4.1.</span> <span class="toc-text">正则语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99"><span class="toc-number">2.4.2.</span> <span class="toc-text">常用正则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#re%E5%BA%93"><span class="toc-number">2.4.3.</span> <span class="toc-text">re库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E9%A1%B9%E6%9F%A5%E6%89%BE%E5%87%BD%E6%95%B0"><span class="toc-number">2.4.3.1.</span> <span class="toc-text">单项查找函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E9%A1%B9%E6%9F%A5%E6%89%BE%E5%87%BD%E6%95%B0"><span class="toc-number">2.4.3.2.</span> <span class="toc-text">多项查找函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%89%B2%E5%87%BD%E6%95%B0"><span class="toc-number">2.4.3.3.</span> <span class="toc-text">分割函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9B%BF%E6%8D%A2%E5%87%BD%E6%95%B0"><span class="toc-number">2.4.3.4.</span> <span class="toc-text">替换函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#css-selector"><span class="toc-number">2.5.</span> <span class="toc-text">css-selector</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-number">2.5.1.</span> <span class="toc-text">基本选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%BB%84%E9%80%89%E6%8B%A9%E5%99%A8%EF%BC%88Grouping-selector%EF%BC%89"><span class="toc-number">2.5.2.</span> <span class="toc-text">分组选择器（Grouping selector）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E5%99%A8%EF%BC%88Combinator%EF%BC%89"><span class="toc-number">2.5.3.</span> <span class="toc-text">组合器（Combinator）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E9%80%89%E6%8B%A9%E5%99%A8%EF%BC%88Pseudo%EF%BC%89"><span class="toc-number">2.5.4.</span> <span class="toc-text">伪选择器（Pseudo）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%AA%E9%80%89%E6%8B%A9%E5%99%A8%E7%94%A8%E4%BA%8E%E8%A1%A8%E7%A4%BA%E6%97%A0%E6%B3%95%E7%94%A8-HTML-%E8%AF%AD%E4%B9%89%E8%A1%A8%E8%BE%BE%E7%9A%84%E5%AE%9E%E4%BD%93%E3%80%82-%E4%BE%8B%E5%AD%90%EF%BC%9Ap-first-line-%E5%8C%B9%E9%85%8D%E6%89%80%E6%9C%89-%E5%85%83%E7%B4%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E8%A1%8C%E3%80%82"><span class="toc-number">2.5.4.1.</span> <span class="toc-text">:: 伪选择器用于表示无法用 HTML 语义表达的实体。    例子：p::first-line 匹配所有 &#96;&#96; 元素的第一行。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#httpx"><span class="toc-number">2.6.</span> <span class="toc-text">httpx</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="toc-number">2.6.1.</span> <span class="toc-text">基本用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Client%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.6.2.</span> <span class="toc-text">Client对象</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#X-Path"><span class="toc-number">2.7.</span> <span class="toc-text">X-Path</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Xpath%E8%AF%AD%E6%B3%95"><span class="toc-number">2.7.1.</span> <span class="toc-text">Xpath语法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#xml%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.7.1.1.</span> <span class="toc-text">xml实例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AF%E8%AF%AD"><span class="toc-number">2.7.1.2.</span> <span class="toc-text">术语</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E5%8F%96%E8%8A%82%E7%82%B9"><span class="toc-number">2.7.1.3.</span> <span class="toc-text">选取节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B0%93%E8%AF%AD%EF%BC%88Predicates%EF%BC%89"><span class="toc-number">2.7.1.4.</span> <span class="toc-text">谓语（Predicates）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E5%8F%96%E6%9C%AA%E7%9F%A5%E8%8A%82%E7%82%B9"><span class="toc-number">2.7.1.5.</span> <span class="toc-text">选取未知节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E5%8F%96%E8%8B%A5%E5%B9%B2%E8%B7%AF%E5%BE%84"><span class="toc-number">2.7.1.6.</span> <span class="toc-text">选取若干路径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">2.7.1.7.</span> <span class="toc-text">运算符</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lxml%E5%BA%93"><span class="toc-number">2.7.2.</span> <span class="toc-text">lxml库</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#labs"><span class="toc-number">3.</span> <span class="toc-text">labs</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-1"><span class="toc-number">3.1.</span> <span class="toc-text">lab-1</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://onelastchick.github.io/2024/03/13/%E7%88%AC%E8%99%AB%E7%AC%94%E8%AE%B0/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">爬虫笔记</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2024-03-13 16:05:40" itemprop="dateCreated datePublished" datetime="2024-03-13T16:05:40+08:00">2024-03-13</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="修改时间：2024-03-16 12:20:00" itemprop="dateModified" datetime="2024-03-16T12:20:00+08:00">2024-03-16</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="本文字数">10.5k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="阅读时长">44m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="--text-color:#FB7299" itemprop="url" rel="index"><span itemprop="text">学习笔记</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/%E7%88%AC%E8%99%AB/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">爬虫</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h1 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a><strong>introduction</strong></h1><p>学习python爬虫的笔记</p>
-<h1 id="basics"><a href="#basics" class="headerlink" title="basics"></a><strong>basics</strong></h1><h2 id="Web-basics"><a href="#Web-basics" class="headerlink" title="Web-basics"></a><strong>Web-basics</strong></h2><h3 id="url"><a href="#url" class="headerlink" title="url"></a><strong>url</strong></h3><blockquote>
-<p>scheme:&#x2F;&#x2F;[username:password@]hostname[:port][&#x2F;path][;parameters][?query][#fragment]</p>
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="文章目录"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="站点概览"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">A fw in hust.</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="首页"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="归档"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">10</span></a></div><div class="site-state-item"><a href="/categories/" title="分类"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">5</span></a></div><div class="site-state-item"><a href="/tags/" title="标签"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">6</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/OneLastChick" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#introduction"><span class="toc-number">1.</span> <span class="toc-text"> introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#basics"><span class="toc-number">2.</span> <span class="toc-text"> basics</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#web-basics"><span class="toc-number">2.1.</span> <span class="toc-text"> Web-basics</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#url"><span class="toc-number">2.1.1.</span> <span class="toc-text"> url</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#httphttps"><span class="toc-number">2.1.2.</span> <span class="toc-text"> http,https</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#request"><span class="toc-number">2.1.3.</span> <span class="toc-text"> request</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#request-method"><span class="toc-number">2.1.3.1.</span> <span class="toc-text"> request-method</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#request-head"><span class="toc-number">2.1.3.2.</span> <span class="toc-text"> request-head</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#request-body"><span class="toc-number">2.1.3.3.</span> <span class="toc-text"> request-body</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#response"><span class="toc-number">2.1.4.</span> <span class="toc-text"> response</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#status-code"><span class="toc-number">2.1.4.1.</span> <span class="toc-text"> status-code</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#response-header"><span class="toc-number">2.1.4.2.</span> <span class="toc-text"> response-header</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#response-body"><span class="toc-number">2.1.4.3.</span> <span class="toc-text"> response-body</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#urllib"><span class="toc-number">2.2.</span> <span class="toc-text"> urllib</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#urllibrequest"><span class="toc-number">2.2.1.</span> <span class="toc-text"> urllib.request</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#urlliberror"><span class="toc-number">2.2.2.</span> <span class="toc-text"> urllib.error</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#urllibparse"><span class="toc-number">2.2.3.</span> <span class="toc-text"> urllib.parse</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#urllibrobotparser"><span class="toc-number">2.2.4.</span> <span class="toc-text"> urllib.robotparser</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#handler"><span class="toc-number">2.2.5.</span> <span class="toc-text"> handler</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#requests"><span class="toc-number">2.3.</span> <span class="toc-text"> requests</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#re"><span class="toc-number">2.4.</span> <span class="toc-text"> re</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E8%AF%AD%E6%B3%95"><span class="toc-number">2.4.1.</span> <span class="toc-text"> 正则语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99"><span class="toc-number">2.4.2.</span> <span class="toc-text"> 常用正则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#re%E5%BA%93"><span class="toc-number">2.4.3.</span> <span class="toc-text"> re库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E9%A1%B9%E6%9F%A5%E6%89%BE%E5%87%BD%E6%95%B0"><span class="toc-number">2.4.3.1.</span> <span class="toc-text"> 单项查找函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E9%A1%B9%E6%9F%A5%E6%89%BE%E5%87%BD%E6%95%B0"><span class="toc-number">2.4.3.2.</span> <span class="toc-text"> 多项查找函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%89%B2%E5%87%BD%E6%95%B0"><span class="toc-number">2.4.3.3.</span> <span class="toc-text"> 分割函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9B%BF%E6%8D%A2%E5%87%BD%E6%95%B0"><span class="toc-number">2.4.3.4.</span> <span class="toc-text"> 替换函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#css-selector"><span class="toc-number">2.5.</span> <span class="toc-text"> css-selector</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-number">2.5.1.</span> <span class="toc-text"> 基本选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%BB%84%E9%80%89%E6%8B%A9%E5%99%A8grouping-selector"><span class="toc-number">2.5.2.</span> <span class="toc-text"> 分组选择器（Grouping selector）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E5%99%A8combinator"><span class="toc-number">2.5.3.</span> <span class="toc-text"> 组合器（Combinator）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E9%80%89%E6%8B%A9%E5%99%A8pseudo"><span class="toc-number">2.5.4.</span> <span class="toc-text"> 伪选择器（Pseudo）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%AA%E9%80%89%E6%8B%A9%E5%99%A8%E7%94%A8%E4%BA%8E%E8%A1%A8%E7%A4%BA%E6%97%A0%E6%B3%95%E7%94%A8-html-%E8%AF%AD%E4%B9%89%E8%A1%A8%E8%BE%BE%E7%9A%84%E5%AE%9E%E4%BD%93-%E4%BE%8B%E5%AD%90pfirst-line-%E5%8C%B9%E9%85%8D%E6%89%80%E6%9C%89-%E5%85%83%E7%B4%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E8%A1%8C"><span class="toc-number">2.5.4.1.</span> <span class="toc-text"> :: 伪选择器用于表示无法用 HTML 语义表达的实体。    例子：p::first-line 匹配所有 &#96;&#96; 元素的第一行。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#httpx"><span class="toc-number">2.6.</span> <span class="toc-text"> httpx</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="toc-number">2.6.1.</span> <span class="toc-text"> 基本用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#client%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.6.2.</span> <span class="toc-text"> Client对象</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#x-path"><span class="toc-number">2.7.</span> <span class="toc-text"> X-Path</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#xpath%E8%AF%AD%E6%B3%95"><span class="toc-number">2.7.1.</span> <span class="toc-text"> Xpath语法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#xml%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.7.1.1.</span> <span class="toc-text"> xml实例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AF%E8%AF%AD"><span class="toc-number">2.7.1.2.</span> <span class="toc-text"> 术语</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E5%8F%96%E8%8A%82%E7%82%B9"><span class="toc-number">2.7.1.3.</span> <span class="toc-text"> 选取节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B0%93%E8%AF%ADpredicates"><span class="toc-number">2.7.1.4.</span> <span class="toc-text"> 谓语（Predicates）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E5%8F%96%E6%9C%AA%E7%9F%A5%E8%8A%82%E7%82%B9"><span class="toc-number">2.7.1.5.</span> <span class="toc-text"> 选取未知节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E5%8F%96%E8%8B%A5%E5%B9%B2%E8%B7%AF%E5%BE%84"><span class="toc-number">2.7.1.6.</span> <span class="toc-text"> 选取若干路径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">2.7.1.7.</span> <span class="toc-text"> 运算符</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lxml%E5%BA%93"><span class="toc-number">2.7.2.</span> <span class="toc-text"> lxml库</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#labs"><span class="toc-number">3.</span> <span class="toc-text"> labs</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#lab-1"><span class="toc-number">3.1.</span> <span class="toc-text"> lab-1</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://onelastchick.github.io/2024/03/13/%E7%88%AC%E8%99%AB%E7%AC%94%E8%AE%B0/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">爬虫笔记</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="创建时间：2024-03-13 16:05:40" itemprop="dateCreated datePublished" datetime="2024-03-13T16:05:40+08:00">2024-03-13</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="修改时间：2024-03-16 12:20:00" itemprop="dateModified" datetime="2024-03-16T12:20:00+08:00">2024-03-16</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="本文字数"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="本文字数">10.5k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="阅读时长"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="阅读时长">44m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="--text-color:#FB7299" itemprop="url" rel="index"><span itemprop="text">学习笔记</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/%E7%88%AC%E8%99%AB/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">爬虫</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h1 id="introduction"><a class="markdownIt-Anchor" href="#introduction"></a> <strong>introduction</strong></h1>
+<p>学习python爬虫的笔记</p>
+<h1 id="basics"><a class="markdownIt-Anchor" href="#basics"></a> <strong>basics</strong></h1>
+<h2 id="web-basics"><a class="markdownIt-Anchor" href="#web-basics"></a> <strong>Web-basics</strong></h2>
+<h3 id="url"><a class="markdownIt-Anchor" href="#url"></a> <strong>url</strong></h3>
+<blockquote>
+<p>scheme://[username:password@]hostname[:port][/path][;parameters][?query][#fragment]</p>
 <ul>
 <li><strong>scheme</strong>:协议，eg：http;https;ftp  也称作protocol</li>
 <li>username,password:用户,密码  有的url需要提供用户名和密码才能访问</li>
@@ -72,10 +76,13 @@ IconifyProviders = {
 <li>fragment:片段  对资源描述的部分补充,相当于资源内部的书签:可用作单页面路由或者HTML锚点</li>
 </ul>
 </blockquote>
-<h3 id="http-https"><a href="#http-https" class="headerlink" title="http,https"></a><strong>http,https</strong></h3><p>http1.0&#x2F;http1.1:目前的正式标准广泛使用，持久连接，节约宽带，管道机制，分块传输编码</p>
+<h3 id="httphttps"><a class="markdownIt-Anchor" href="#httphttps"></a> <strong>http,https</strong></h3>
+<p>http1.0/http1.1:目前的正式标准广泛使用，持久连接，节约宽带，管道机制，分块传输编码</p>
 <p>http2.0:多路复用，服务器推送，头信息压缩，二进制协议，逐渐覆盖市场</p>
 <p>https:http下加入SSL层进行加密，主打一个安全</p>
-<h3 id="request"><a href="#request" class="headerlink" title="request"></a><strong>request</strong></h3><h4 id="request-method"><a href="#request-method" class="headerlink" title="request-method"></a><strong>request-method</strong></h4><ul>
+<h3 id="request"><a class="markdownIt-Anchor" href="#request"></a> <strong>request</strong></h3>
+<h4 id="request-method"><a class="markdownIt-Anchor" href="#request-method"></a> <strong>request-method</strong></h4>
+<ul>
 <li><strong>GET</strong> 请求中的参数包含在url中，数据可以在url中看到，最多提交1024字节</li>
 <li><strong>POST</strong> 请求的URL不会包含这些数据，数据通过表达传输，包含在请求体中</li>
 <li>HEAD 类似于GET请求，但是返回的响应中没有具体内容，用于获取报头</li>
@@ -85,7 +92,8 @@ IconifyProviders = {
 <li>OPTIONS 允许客户端查看服务器性能</li>
 <li>TRACE 回显服务器收到的请求，主要用于测试或者诊断</li>
 </ul>
-<h4 id="request-head"><a href="#request-head" class="headerlink" title="request-head"></a><strong>request-head</strong></h4><blockquote>
+<h4 id="request-head"><a class="markdownIt-Anchor" href="#request-head"></a> <strong>request-head</strong></h4>
+<blockquote>
 <p>Accept:请求报头域，用于指定客户端可以接受哪些类型信息</p>
 <p>Accept-Language:指定客户端可接受的语言类型</p>
 <p>Accept-Encoding:指定客户端可解搜的内容编码</p>
@@ -93,17 +101,20 @@ IconifyProviders = {
 <p>Cookie: 或写作Cookies，为了辨别用户，进行会话跟踪而存储在用户本地的数据,主要功能是维持当前访问会话，保存登录信息</p>
 <p>Referer: 用于标识请求从哪个页面发过来的，用作来源统计或者防盗链处理</p>
 <p>User-Agent:UA头，使服务器识别客户端使用的操作系统及版本，浏览器及版本等信息，爬虫凭此可伪装成浏览器</p>
-<p>Content-Type: 互联网媒体类型，text&#x2F;html代表html格式，image&#x2F;git代表gif图片，application&#x2F;json 代表json类型</p>
+<p>Content-Type: 互联网媒体类型，text/html代表html格式，image/git代表gif图片，application/json 代表json类型</p>
 <p>Upgrade-Insecure-Requests:一个请求首部，用来向服务器端发送信号，表示客户端优先选择加密及带有身份验证的响应，并且它可以成功处理 upgrade-insecure-requests CSP (en-US) 指令。</p>
 <p>Sec-Fetch-*:<a target="_blank" rel="noopener" href="https://juejin.cn/post/6888119172144824327">Sec-Fetch-*请求头，了解下? - 掘金 (juejin.cn)</a></p>
 </blockquote>
 <p>eg：访问baidu.com的请求头</p>
-<p><img src="https://s2.loli.net/2024/03/13/LyuRpMGgJ6lZTs1.png" loading="lazy"></p>
-<h4 id="request-body"><a href="#request-body" class="headerlink" title="request-body"></a><strong>request-body</strong></h4><blockquote>
+<p><img src="https://s2.loli.net/2024/03/13/LyuRpMGgJ6lZTs1.png" alt="" / loading="lazy"></p>
+<h4 id="request-body"><a class="markdownIt-Anchor" href="#request-body"></a> <strong>request-body</strong></h4>
+<blockquote>
 <p>GET:请求体为空</p>
-<p>POST: 数据在请求体中，数据以内容表单数据的形式提交给服务器。requestheader的Content-Type 为 application&#x2F;x-www-form-urlencoded POST提交数据方式为:表达数据  multipart&#x2F;form-data 表单文件上传 application&#x2F;json 序列化json数据 text&#x2F;xml XML表单数据</p>
+<p>POST: 数据在请求体中，数据以内容表单数据的形式提交给服务器。requestheader的Content-Type 为 application/x-www-form-urlencoded POST提交数据方式为:表达数据  multipart/form-data 表单文件上传 application/json 序列化json数据 text/xml XML表单数据</p>
 </blockquote>
-<h3 id="response"><a href="#response" class="headerlink" title="response"></a><strong>response</strong></h3><h4 id="status-code"><a href="#status-code" class="headerlink" title="status-code"></a><strong>status-code</strong></h4><pre class="line-numbers language-none"><code class="language-none">2XX 成功
+<h3 id="response"><a class="markdownIt-Anchor" href="#response"></a> <strong>response</strong></h3>
+<h4 id="status-code"><a class="markdownIt-Anchor" href="#status-code"></a> <strong>status-code</strong></h4>
+<pre class="line-numbers language-none"><code class="language-none">2XX 成功
 200 ok（请求成功）
 204 no content （请求成功，但是没有结果返回）
 206 partial content （客户端请求一部分资源，服务端成功响应，返回一范围资源）
@@ -122,28 +133,30 @@ IconifyProviders = {
 5XX 服务器错误
 500 internal server error （服务端执行请求时发生了错误）
 503 service unavailable （服务器正在超负载或者停机维护，无法处理请求）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <p>其他不常见的请见<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904202863394830">HTTP 状态码 - 掘金 (juejin.cn)</a></p>
-<h4 id="response-header"><a href="#response-header" class="headerlink" title="response-header"></a><strong>response-header</strong></h4><blockquote>
+<h4 id="response-header"><a class="markdownIt-Anchor" href="#response-header"></a> <strong>response-header</strong></h4>
+<blockquote>
 <p>Data: 标识响应产生的时间</p>
 <p>Last-Modified: 指定资源的最后修改时间</p>
 <p>Content-Encoding: 指定响应内容的编码</p>
 <p>Server: 包含服务器的信息，例如名称和版本号</p>
-<p>Content-Type: 文档类型，指定返回的数据是什么类型text&#x2F;html:html文档，application&#x2F;x-javascript返回javascript类型，image&#x2F;jpeg返回图片</p>
+<p>Content-Type: 文档类型，指定返回的数据是什么类型text/html:html文档，application/x-javascript返回javascript类型，image/jpeg返回图片</p>
 <p>Set-Cookie:设置Cookie,告诉浏览器需要将此内容放在Cooki中</p>
 <p>Expires:用于指定响应的过期时间</p>
 </blockquote>
-<h4 id="response-body"><a href="#response-body" class="headerlink" title="response-body"></a><strong>response-body</strong></h4><p>即响应的正文数据，是我们需要爬取的内容如图下<img src="https://s2.loli.net/2024/03/13/AgvElbUamZCHrqD.png" loading="lazy"></p>
-<h2 id="urllib"><a href="#urllib" class="headerlink" title="urllib"></a><strong>urllib</strong></h2><p>llib 包 包含以下几个模块：</p>
+<h4 id="response-body"><a class="markdownIt-Anchor" href="#response-body"></a> <strong>response-body</strong></h4>
+<p>即响应的正文数据，是我们需要爬取的内容如图下<img src="https://s2.loli.net/2024/03/13/AgvElbUamZCHrqD.png" alt="" / loading="lazy"></p>
+<h2 id="urllib"><a class="markdownIt-Anchor" href="#urllib"></a> <strong>urllib</strong></h2>
+<p>llib 包 包含以下几个模块：</p>
 <ul>
 <li><strong>urllib.request</strong> - <strong>打开和读取 URL</strong>。</li>
 <li>urllib.error - 包含 urllib.request 抛出的异常。</li>
 <li><strong>urllib.parse</strong> - <strong>解析 URL</strong>。</li>
 <li>urllib.robotparser - 解析 robots.txt 文件。</li>
 </ul>
-<h3 id="urllib-request"><a href="#urllib-request" class="headerlink" title="urllib.request"></a><strong>urllib.request</strong></h3><blockquote>
+<h3 id="urllibrequest"><a class="markdownIt-Anchor" href="#urllibrequest"></a> <strong>urllib.request</strong></h3>
+<blockquote>
 <pre class="line-numbers language-none"><code class="language-none">urllib.request.urlopen(url, data&#x3D;None, [timeout, ]*, cafile&#x3D;None, capath&#x3D;None, cadefault&#x3D;False, context&#x3D;None)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
 <ul>
 <li><strong>url</strong>：url 地址。</li>
 <li><strong>data</strong>：发送到服务器的其他数据对象，默认为 None。</li>
@@ -165,11 +178,9 @@ response<span class="token punctuation">.</span>read<span class="token punctuati
 response<span class="token punctuation">.</span>readline<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">#读取一行内容</span>
 response<span class="token punctuation">.</span>readlines<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">#读取全部内容，返回一个列表，每一行是列表的元素</span>
 encoded_url<span class="token operator">=</span>urllib<span class="token punctuation">.</span>request<span class="token punctuation">.</span>quote<span class="token punctuation">(</span><span class="token string">'www.baidu.com'</span><span class="token punctuation">)</span><span class="token comment">#编码，unquote就是url解码</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <p>模拟头部信息则需要urllib.request.Request类</p>
 <blockquote>
 <pre class="line-numbers language-none"><code class="language-none">class urllib.request.Request(url, data&#x3D;None, headers&#x3D;&#123;&#125;, origin_req_host&#x3D;None, unverifiable&#x3D;False, method&#x3D;None)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
 <ul>
 <li><strong>url</strong>：url 地址。</li>
 <li><strong>data</strong>：发送到服务器的其他数据对象，默认为 None。</li>
@@ -195,8 +206,8 @@ data<span class="token operator">=</span>urllib<span class="token punctuation">.
 request<span class="token operator">=</span>urllib<span class="token punctuation">.</span>request<span class="token punctuation">.</span>Request<span class="token punctuation">(</span>url<span class="token punctuation">,</span>data<span class="token punctuation">,</span>header，method<span class="token operator">=</span><span class="token string">'POST'</span><span class="token punctuation">)</span><span class="token comment">#请求处理</span>
 response<span class="token operator">=</span>urllib<span class="token punctuation">.</span>request<span class="token punctuation">.</span>urlopen<span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">#输出响应体</span>
 req<span class="token punctuation">.</span>add_header<span class="token punctuation">(</span><span class="token string">'xxx'</span><span class="token punctuation">,</span><span class="token string">'wwww'</span><span class="token punctuation">)</span><span class="token comment">#添加文件头</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="urllib-error"><a href="#urllib-error" class="headerlink" title="urllib.error"></a><strong>urllib.error</strong></h3><p>urllib.error 模块为 urllib.request 所引发的异常定义了异常类，基础异常类是 URLError。</p>
+<h3 id="urlliberror"><a class="markdownIt-Anchor" href="#urlliberror"></a> <strong>urllib.error</strong></h3>
+<p>urllib.error 模块为 urllib.request 所引发的异常定义了异常类，基础异常类是 URLError。</p>
 <p>urllib.error 包含了两个方法，URLError 和 HTTPError。</p>
 <p>URLError 是 OSError 的一个子类，用于处理程序在遇到问题时会引发此异常（或其派生的异常），包含的属性 reason 为引发异常的原因。</p>
 <p>HTTPError 是 URLError 的一个子类，用于处理特殊 HTTP 错误例如作为认证请求的时候，包含的属性 code 为 HTTP 的状态码， reason 为引发异常的原因，headers 为导致 HTTPError 的特定 HTTP 请求的 HTTP 响应头。</p>
@@ -209,10 +220,10 @@ myurl<span class="token operator">=</span>urllib<span class="token punctuation">
 <span class="token keyword">except</span> urllib<span class="token punctuation">.</span>error<span class="token punctuation">.</span>HTTPError <span class="token keyword">as</span> e<span class="token punctuation">:</span>
     <span class="token keyword">if</span> e<span class="token punctuation">.</span>code<span class="token operator">==</span><span class="token number">404</span><span class="token punctuation">:</span>
         <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token number">404</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="urllib-parse"><a href="#urllib-parse" class="headerlink" title="urllib.parse"></a><strong>urllib.parse</strong></h3><p>解析url</p>
+<h3 id="urllibparse"><a class="markdownIt-Anchor" href="#urllibparse"></a> <strong>urllib.parse</strong></h3>
+<p>解析url</p>
 <blockquote>
-<p> urllib.parse.urlparse(urlstring, scheme&#x3D;’’, allow_fragments&#x3D;True)</p>
+<p>urllib.parse.urlparse(urlstring, scheme=‘’, allow_fragments=True)</p>
 <ul>
 <li>urlstring:url地址</li>
 <li>scheme:协议类型</li>
@@ -223,7 +234,6 @@ myurl<span class="token operator">=</span>urllib<span class="token punctuation">
 o <span class="token operator">=</span> urlparse<span class="token punctuation">(</span><span class="token string">"https://www.runoob.com/?s=python+%E6%95%99%E7%A8%8B"</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>o<span class="token punctuation">)</span>
 <span class="token comment">#ParseResult(scheme='https', netloc='www.runoob.com', path='/', params='', query='s=python+%E6%95%99%E7%A8%8B', fragment='')</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
 <ul>
 <li>urllib.parse.urlunparse:用于构造url</li>
 </ul>
@@ -231,27 +241,34 @@ o <span class="token operator">=</span> urlparse<span class="token punctuation">
 data<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'https'</span><span class="token punctuation">,</span><span class="token string">'www.baidu.com'</span><span class="token punctuation">,</span><span class="token string">'index.html'</span><span class="token punctuation">,</span><span class="token string">'user'</span><span class="token punctuation">,</span><span class="token string">'a=6'</span><span class="token punctuation">,</span><span class="token string">'comment'</span><span class="token punctuation">]</span>
 urllib<span class="token punctuation">.</span>unparse<span class="token punctuation">(</span>data<span class="token punctuation">)</span>
 <span class="token comment">#https://www.baidu.com/index.html;user?a=6#comment</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
 <ul>
-<li><p>urllib.parse.urlsplit:类型与urlparse 不过不单独解析params，合并到path</p>
+<li>
+<p>urllib.parse.urlsplit:类型与urlparse 不过不单独解析params，合并到path</p>
 </li>
-<li><p>urllib.parse.urljoin:提供一个base_url作为第一个参数，将新的连接作为第二个参数，urljoin会分析base_url的scheme,netloc,path三个内容，对新连接确实的部分进行补充，然后返回结果</p>
+<li>
+<p>urllib.parse.urljoin:提供一个base_url作为第一个参数，将新的连接作为第二个参数，urljoin会分析base_url的scheme,netloc,path三个内容，对新连接确实的部分进行补充，然后返回结果</p>
 <p>baseurl提供scheme,netloc,path若新连接不存在这三项，则补充，否则使用新链接的</p>
 </li>
-<li><p>urllib.parse.encode:构造get请求</p>
+<li>
+<p>urllib.parse.encode:构造get请求</p>
 </li>
-<li><p>urllib.parse.parse_qs 反序列化</p>
+<li>
+<p>urllib.parse.parse_qs 反序列化</p>
 </li>
-<li><p>urllib.parse.parse_qsl  参数转元组组成的列表</p>
+<li>
+<p>urllib.parse.parse_qsl  参数转元组组成的列表</p>
 </li>
-<li><p>urllib.parse.quote 转化url编码格式</p>
+<li>
+<p>urllib.parse.quote 转化url编码格式</p>
 </li>
-<li><p>urllib.parse.unquote(url)  将url解码</p>
+<li>
+<p>urllib.parse.unquote(url)  将url解码</p>
 </li>
 </ul>
-<h3 id="urllib-robotparser"><a href="#urllib-robotparser" class="headerlink" title="urllib.robotparser"></a><strong>urllib.robotparser</strong></h3><p>不常用</p>
+<h3 id="urllibrobotparser"><a class="markdownIt-Anchor" href="#urllibrobotparser"></a> <strong>urllib.robotparser</strong></h3>
+<p>不常用</p>
 <blockquote>
-<p> class urllib.robotparser.RobotFileParser(url&#x3D;’’)</p>
+<p>class urllib.robotparser.RobotFileParser(url=‘’)</p>
 </blockquote>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token operator">>></span><span class="token operator">></span> <span class="token keyword">import</span> urllib<span class="token punctuation">.</span>robotparser
 <span class="token operator">>></span><span class="token operator">></span> rp <span class="token operator">=</span> urllib<span class="token punctuation">.</span>robotparser<span class="token punctuation">.</span>RobotFileParser<span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -268,11 +285,12 @@ urllib<span class="token punctuation">.</span>unparse<span class="token punctuat
 <span class="token boolean">False</span>
 <span class="token operator">>></span><span class="token operator">></span> rp<span class="token punctuation">.</span>can_fetch<span class="token punctuation">(</span><span class="token string">"*"</span><span class="token punctuation">,</span> <span class="token string">"http://www.musi-cal.com/"</span><span class="token punctuation">)</span>
 <span class="token boolean">True</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="handler"><a href="#handler" class="headerlink" title="handler"></a><strong>handler</strong></h3><p><img src="https://s2.loli.net/2024/03/13/yWVxA3bJfXZIp5l.png" loading="lazy"></p>
-<p><img src="https://s2.loli.net/2024/03/13/8kqGnfgsecl5pYt.png" loading="lazy"></p>
+<h3 id="handler"><a class="markdownIt-Anchor" href="#handler"></a> <strong>handler</strong></h3>
+<p><img src="https://s2.loli.net/2024/03/13/yWVxA3bJfXZIp5l.png" alt="" / loading="lazy"></p>
+<p><img src="https://s2.loli.net/2024/03/13/8kqGnfgsecl5pYt.png" alt="" / loading="lazy"></p>
 <ul>
-<li><p>设置代理</p>
+<li>
+<p>设置代理</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> urllib<span class="token punctuation">.</span>error <span class="token keyword">import</span> URLError
 <span class="token keyword">from</span> urllib<span class="token punctuation">.</span>request <span class="token keyword">import</span> ProxyHandler<span class="token punctuation">,</span>build_opener
 <span class="token comment">#Request相当于一个特殊的opener类</span>
@@ -288,7 +306,8 @@ opener<span class="token operator">=</span>build_opener<span class="token punctu
 <span class="token keyword">except</span> URLError <span class="token keyword">as</span> e<span class="token punctuation">:</span>
     <span class="token keyword">print</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>reason<span class="token punctuation">)</span> <span class="token comment">#打印httperror的状态</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
-<li><p>身份验证</p>
+<li>
+<p>身份验证</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> urllib<span class="token punctuation">.</span>request <span class="token keyword">import</span> HTTPPasswordMgrWithDefaultRealm<span class="token punctuation">,</span>HTTPBasicAuthHandler<span class="token punctuation">,</span>build_opener
 <span class="token keyword">from</span> urllib<span class="token punctuation">.</span>error <span class="token keyword">import</span>  URLError
 
@@ -308,7 +327,8 @@ opener<span class="token operator">=</span>build_opener<span class="token punctu
 <span class="token keyword">except</span> URLError <span class="token keyword">as</span> e<span class="token punctuation">:</span>
     <span class="token keyword">print</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>reason<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
-<li><p>设置Cookie</p>
+<li>
+<p>设置Cookie</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> http<span class="token punctuation">.</span>cookiejar<span class="token punctuation">,</span>urllib<span class="token punctuation">.</span>request
 
 cookie <span class="token operator">=</span> http<span class="token punctuation">.</span>cookiejar<span class="token punctuation">.</span>CookieJar<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">#声明一个CookieJar对象</span>
@@ -316,9 +336,11 @@ handler <span class="token operator">=</span> urllib<span class="token punctuati
 opener<span class="token operator">=</span>urllib<span class="token punctuation">.</span>request<span class="token punctuation">.</span>build_opener<span class="token punctuation">(</span>handler<span class="token punctuation">)</span>
 response<span class="token operator">=</span>opener<span class="token punctuation">.</span><span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"http://www.baidu.com"</span><span class="token punctuation">)</span>
 <span class="token keyword">for</span> item <span class="token keyword">in</span> cookie<span class="token punctuation">:</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>name<span class="token operator">+</span><span class="token string">'='</span><span class="token operator">+</span>item<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>name<span class="token operator">+</span><span class="token string">'='</span><span class="token operator">+</span>item<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
 </ul>
-<h2 id="requests"><a href="#requests" class="headerlink" title="requests"></a><strong>requests</strong></h2><p>对比起urllib库实则是方便太多了，但是urllib是标准库捏,还是要学一下</p>
+<h2 id="requests"><a class="markdownIt-Anchor" href="#requests"></a> <strong>requests</strong></h2>
+<p>对比起urllib库实则是方便太多了，但是urllib是标准库捏,还是要学一下</p>
 <p>,所有数据体返回体基本都是json格式</p>
 <ul>
 <li>抓数据</li>
@@ -333,7 +355,6 @@ data<span class="token operator">=</span><span class="token punctuation">&#123;<
 <span class="token comment">#传入的数据是json格式的</span>
 r<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'https://www.httpbin.org/get'</span><span class="token punctuation">,</span>params<span class="token operator">=</span>date<span class="token punctuation">)</span>
 <span class="token comment">#网页返回的类型是str类型且是json格式的</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <p>demo:爬取所有电影名</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span>  requests
 <span class="token keyword">import</span> re
@@ -341,13 +362,11 @@ r<span class="token operator">=</span>requests<span class="token punctuation">.<
 pattern<span class="token operator">=</span>re<span class="token punctuation">.</span><span class="token builtin">compile</span><span class="token punctuation">(</span><span class="token string">'&lt;h2.*?>(.*?)&lt;/h2>'</span><span class="token punctuation">,</span>re<span class="token punctuation">.</span>S<span class="token punctuation">)</span>
 titles<span class="token operator">=</span>re<span class="token punctuation">.</span>findall<span class="token punctuation">(</span>pattern<span class="token punctuation">,</span>r<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>titles<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <p>demo2:抓取二进制数据，一半用于爬取图片，以及视频</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> requests
 r<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'https://scrape.center/favicon.ico'</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span>text<span class="token punctuation">)</span> <span class="token comment">#图片的二进制流转为str类型</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span>content<span class="token punctuation">)</span> <span class="token comment">#返回bytes类型的数据</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
 <ul>
 <li>添加请求头</li>
 </ul>
@@ -356,7 +375,6 @@ r<span class="token operator">=</span>requests<span class="token punctuation">.<
 <span class="token punctuation">&#125;</span>
 r<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'www.baidu.com'</span><span class="token punctuation">,</span>headers<span class="token operator">=</span>headers<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span>text<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <ul>
 <li>响应</li>
 </ul>
@@ -366,7 +384,6 @@ r<span class="token punctuation">.</span>headers <span class="token comment">#�
 r<span class="token punctuation">.</span>cookies <span class="token comment">#cookie</span>
 r<span class="token punctuation">.</span>url <span class="token comment">#url</span>
 r<span class="token punctuation">.</span>histroy <span class="token comment">#请求历史</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <ul>
 <li>文件上传</li>
 </ul>
@@ -376,11 +393,10 @@ r<span class="token punctuation">.</span>histroy <span class="token comment">#�
 files<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">'file'</span><span class="token punctuation">:</span><span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">'favicon.ico'</span><span class="token punctuation">,</span><span class="token string">'rb'</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span>
 r<span class="token operator">=</span>requests<span class="token punctuation">.</span>post<span class="token punctuation">(</span><span class="token string">'https://www.httpbin.org/post'</span><span class="token punctuation">,</span><span class="token builtin">file</span><span class="token operator">=</span>files<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span>text<span class="token punctuation">)</span><span class="token comment">#返回上传文件后的响应</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
 <ul>
 <li>设置Cookies</li>
 </ul>
-<p>只需要在headers的字典中添加’Cookie’：’xxx’即可</p>
+<p>只需要在headers的字典中添加’Cookie’：'xxx’即可</p>
 <ul>
 <li>维持Seesion</li>
 </ul>
@@ -392,115 +408,117 @@ s<span class="token punctuation">.</span>get<span class="token punctuation">(</s
 r <span class="token operator">=</span> s<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'https://httpbin.org/cookies'</span><span class="token punctuation">)</span>
 
 <span class="token keyword">print</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span>text<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="re"><a href="#re" class="headerlink" title="re"></a><strong>re</strong></h2><p><a target="_blank" rel="noopener" href="https://tool.oschina.net/regex">在线正则表达式测试 (oschina.net)</a></p>
+<h2 id="re"><a class="markdownIt-Anchor" href="#re"></a> <strong>re</strong></h2>
+<p><a target="_blank" rel="noopener" href="https://tool.oschina.net/regex">在线正则表达式测试 (oschina.net)</a></p>
 <p>正则教程：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/poloyy/category/1796055.html">https://www.cnblogs.com/poloyy/category/1796055.html</a></p>
-<h3 id="正则语法"><a href="#正则语法" class="headerlink" title="正则语法"></a><strong>正则语法</strong></h3><table>
+<h3 id="正则语法"><a class="markdownIt-Anchor" href="#正则语法"></a> <strong>正则语法</strong></h3>
+<table>
 <thead>
 <tr>
 <th>正则字符</th>
 <th>描述</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>\</td>
-<td>将下一个字符标记为一个特殊字符、或一个原义字符、或一个向后引用、或一个八进制转义符。例如，“<code>n</code>“匹配字符”<code>n</code>“。”<code>\n</code>“匹配一个换行符。串行”<code>\\</code>“匹配”<code>\</code>“而”<code>\(</code>“则匹配”<code>(</code>“。</td>
+<td>将下一个字符标记为一个特殊字符、或一个原义字符、或一个向后引用、或一个八进制转义符。例如，“<code>n</code>&quot;匹配字符&quot;<code>n</code>&quot;。“<code>\n</code>&quot;匹配一个换行符。串行”<code>\\</code>“匹配”<code>\</code>“而”<code>\(</code>“则匹配”<code>(</code>&quot;。</td>
 </tr>
 <tr>
 <td>^</td>
-<td>匹配输入字符串的开始位置。如果设置了RegExp对象的Multiline属性，^也匹配“<code>\n</code>“或”<code>\r</code>“之后的位置。</td>
+<td>匹配输入字符串的开始位置。如果设置了RegExp对象的Multiline属性，^也匹配“<code>\n</code>&quot;或&quot;<code>\r</code>&quot;之后的位置。</td>
 </tr>
 <tr>
 <td>$</td>
-<td>匹配输入字符串的结束位置。如果设置了RegExp对象的Multiline属性，$也匹配“<code>\n</code>“或”<code>\r</code>“之前的位置。</td>
+<td>匹配输入字符串的结束位置。如果设置了RegExp对象的Multiline属性，$也匹配“<code>\n</code>&quot;或&quot;<code>\r</code>&quot;之前的位置。</td>
 </tr>
 <tr>
 <td>*</td>
-<td>匹配前面的子表达式零次或多次。例如，zo<em>能匹配“<code>z</code>“以及”<code>zoo</code>“。</em>等价于{0,}。</td>
+<td>匹配前面的子表达式零次或多次。例如，zo*能匹配“<code>z</code>&quot;以及&quot;<code>zoo</code>&quot;。*等价于{0,}。</td>
 </tr>
 <tr>
 <td>+</td>
-<td>匹配前面的子表达式一次或多次。例如，“<code>zo+</code>“能匹配”<code>zo</code>“以及”<code>zoo</code>“，但不能匹配”<code>z</code>“。+等价于{1,}。</td>
+<td>匹配前面的子表达式一次或多次。例如，“<code>zo+</code>“能匹配&quot;<code>zo</code>&quot;以及&quot;<code>zoo</code>”，但不能匹配&quot;<code>z</code>&quot;。+等价于{1,}。</td>
 </tr>
 <tr>
 <td>?</td>
-<td>匹配前面的子表达式零次或一次。例如，“<code>do(es)?</code>“可以匹配”<code>does</code>“或”<code>does</code>“中的”<code>do</code>“。?等价于{0,1}。</td>
+<td>匹配前面的子表达式零次或一次。例如，“<code>do(es)?</code>“可以匹配&quot;<code>does</code>&quot;或&quot;<code>does</code>&quot;中的&quot;<code>do</code>”。?等价于{0,1}。</td>
 </tr>
 <tr>
 <td>{<em>n</em>}</td>
-<td><em>n</em>是一个非负整数。匹配确定的<em>n</em>次。例如，“<code>o&#123;2&#125;</code>“不能匹配”<code>Bob</code>“中的”<code>o</code>“，但是能匹配”<code>food</code>“中的两个o。</td>
+<td><em>n</em>是一个非负整数。匹配确定的<em>n</em>次。例如，“<code>o&#123;2&#125;</code>“不能匹配&quot;<code>Bob</code>&quot;中的&quot;<code>o</code>”，但是能匹配&quot;<code>food</code>&quot;中的两个o。</td>
 </tr>
 <tr>
 <td>{<em>n</em>,}</td>
-<td><em>n</em>是一个非负整数。至少匹配<em>n</em>次。例如，“<code>o&#123;2,&#125;</code>“不能匹配”<code>Bob</code>“中的”<code>o</code>“，但能匹配”<code>foooood</code>“中的所有o。”<code>o&#123;1,&#125;</code>“等价于”<code>o+</code>“。”<code>o&#123;0,&#125;</code>“则等价于”<code>o*</code>“。</td>
+<td><em>n</em>是一个非负整数。至少匹配<em>n</em>次。例如，“<code>o&#123;2,&#125;</code>“不能匹配&quot;<code>Bob</code>&quot;中的&quot;<code>o</code>”，但能匹配&quot;<code>foooood</code>&quot;中的所有o。&quot;<code>o&#123;1,&#125;</code>“等价于&quot;<code>o+</code>”。&quot;<code>o&#123;0,&#125;</code>“则等价于&quot;<code>o*</code>”。</td>
 </tr>
 <tr>
 <td>{<em>n</em>,<em>m</em>}</td>
-<td><em>m</em>和<em>n</em>均为非负整数，其中<em>n</em>&lt;&#x3D;<em>m</em>。最少匹配<em>n</em>次且最多匹配<em>m</em>次。例如，“<code>o&#123;1,3&#125;</code>“将匹配”<code>fooooood</code>“中的前三个o。”<code>o&#123;0,1&#125;</code>“等价于”<code>o?</code>“。请注意在逗号和两个数之间不能有空格。</td>
+<td><em>m</em>和<em>n</em>均为非负整数，其中<em>n</em>&lt;=<em>m</em>。最少匹配<em>n</em>次且最多匹配<em>m</em>次。例如，“<code>o&#123;1,3&#125;</code>&quot;将匹配&quot;<code>fooooood</code>&quot;中的前三个o。&quot;<code>o&#123;0,1&#125;</code>“等价于&quot;<code>o?</code>”。请注意在逗号和两个数之间不能有空格。</td>
 </tr>
 <tr>
 <td>?</td>
-<td>当该字符紧跟在任何一个其他限制符（*,+,?，{<em>n</em>}，{<em>n</em>,}，{<em>n</em>,<em>m</em>}）后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串“<code>oooo</code>“，”<code>o+?</code>“将匹配单个”<code>o</code>“，而”<code>o+</code>“将匹配所有”<code>o</code>“。</td>
+<td>当该字符紧跟在任何一个其他限制符（*,+,?，{<em>n</em>}，{<em>n</em>,}，{<em>n</em>,<em>m</em>}）后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串“<code>oooo</code>&quot;，&quot;<code>o+?</code>“将匹配单个&quot;<code>o</code>”，而&quot;<code>o+</code>“将匹配所有&quot;<code>o</code>”。</td>
 </tr>
 <tr>
 <td>.</td>
-<td>匹配除“<code>\</code><em><code>n</code></em>“之外的任何单个字符。要匹配包括”<code>\</code><em><code>n</code></em>“在内的任何字符，请使用像”&#96;(.</td>
+<td>匹配除“<code>\</code><em><code>n</code></em>&quot;之外的任何单个字符。要匹配包括&quot;<code>\</code><em><code>n</code></em>&quot;在内的任何字符，请使用像&quot;`(.</td>
 </tr>
 <tr>
 <td>(pattern)</td>
-<td>匹配pattern并获取这一匹配。所获取的匹配可以从产生的Matches集合得到，在VBScript中使用SubMatches集合，在JScript中则使用$0…$9属性。要匹配圆括号字符，请使用“<code>\(</code>“或”<code>\)</code>“。</td>
+<td>匹配pattern并获取这一匹配。所获取的匹配可以从产生的Matches集合得到，在VBScript中使用SubMatches集合，在JScript中则使用$0…$9属性。要匹配圆括号字符，请使用“<code>\(</code>“或”<code>\)</code>&quot;。</td>
 </tr>
 <tr>
 <td>(?:pattern)</td>
-<td>匹配pattern但不获取匹配结果，也就是说这是一个非获取匹配，不进行存储供以后使用。这在使用或字符“&#96;(</td>
+<td>匹配pattern但不获取匹配结果，也就是说这是一个非获取匹配，不进行存储供以后使用。这在使用或字符“`(</td>
 </tr>
 <tr>
-<td>(?&#x3D;pattern)</td>
-<td>正向肯定预查，在任何匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如，“&#96;Windows(?&#x3D;95</td>
+<td>(?=pattern)</td>
+<td>正向肯定预查，在任何匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如，“`Windows(?=95</td>
 </tr>
 <tr>
 <td>(?!pattern)</td>
-<td>正向否定预查，在任何不匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如“&#96;Windows(?!95</td>
+<td>正向否定预查，在任何不匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如“`Windows(?!95</td>
 </tr>
 <tr>
-<td>(?&lt;&#x3D;pattern)</td>
-<td>反向肯定预查，与正向肯定预查类拟，只是方向相反。例如，“&#96;(?&lt;&#x3D;95</td>
+<td>(?&lt;=pattern)</td>
+<td>反向肯定预查，与正向肯定预查类拟，只是方向相反。例如，“`(?&lt;=95</td>
 </tr>
 <tr>
 <td>(?&lt;!pattern)</td>
-<td>反向否定预查，与正向否定预查类拟，只是方向相反。例如“&#96;(?&lt;!95</td>
+<td>反向否定预查，与正向否定预查类拟，只是方向相反。例如“`(?&lt;!95</td>
 </tr>
 <tr>
 <td>x|y</td>
-<td>匹配x或y。例如，“&#96;z</td>
+<td>匹配x或y。例如，“`z</td>
 </tr>
 <tr>
 <td>[xyz]</td>
-<td>字符集合。匹配所包含的任意一个字符。例如，“<code>[abc]</code>“可以匹配”<code>plain</code>“中的”<code>a</code>“。</td>
+<td>字符集合。匹配所包含的任意一个字符。例如，“<code>[abc]</code>“可以匹配&quot;<code>plain</code>&quot;中的&quot;<code>a</code>”。</td>
 </tr>
 <tr>
 <td>[^xyz]</td>
-<td>负值字符集合。匹配未包含的任意字符。例如，“<code>[^abc]</code>“可以匹配”<code>plain</code>“中的”<code>p</code>“。</td>
+<td>负值字符集合。匹配未包含的任意字符。例如，“<code>[^abc]</code>“可以匹配&quot;<code>plain</code>&quot;中的&quot;<code>p</code>”。</td>
 </tr>
 <tr>
 <td>[a-z]</td>
-<td>字符范围。匹配指定范围内的任意字符。例如，“<code>[a-z]</code>“可以匹配”<code>a</code>“到”<code>z</code>“范围内的任意小写字母字符。</td>
+<td>字符范围。匹配指定范围内的任意字符。例如，“<code>[a-z]</code>&quot;可以匹配&quot;<code>a</code>&quot;到&quot;<code>z</code>&quot;范围内的任意小写字母字符。</td>
 </tr>
 <tr>
 <td>[^a-z]</td>
-<td>负值字符范围。匹配任何不在指定范围内的任意字符。例如，“<code>[^a-z]</code>“可以匹配任何不在”<code>a</code>“到”<code>z</code>“范围内的任意字符。</td>
+<td>负值字符范围。匹配任何不在指定范围内的任意字符。例如，“<code>[^a-z]</code>&quot;可以匹配任何不在&quot;<code>a</code>&quot;到&quot;<code>z</code>&quot;范围内的任意字符。</td>
 </tr>
 <tr>
 <td>\b</td>
-<td>匹配一个单词边界，也就是指单词和空格间的位置。例如，“<code>er\b</code>“可以匹配”<code>never</code>“中的”<code>er</code>“，但不能匹配”<code>verb</code>“中的”<code>er</code>“。</td>
+<td>匹配一个单词边界，也就是指单词和空格间的位置。例如，“<code>er\b</code>&quot;可以匹配&quot;<code>never</code>&quot;中的&quot;<code>er</code>&quot;，但不能匹配&quot;<code>verb</code>&quot;中的&quot;<code>er</code>&quot;。</td>
 </tr>
 <tr>
 <td>\B</td>
-<td>匹配非单词边界。“<code>er\B</code>“能匹配”<code>verb</code>“中的”<code>er</code>“，但不能匹配”<code>never</code>“中的”<code>er</code>“。</td>
+<td>匹配非单词边界。“<code>er\B</code>&quot;能匹配&quot;<code>verb</code>&quot;中的&quot;<code>er</code>&quot;，但不能匹配&quot;<code>never</code>&quot;中的&quot;<code>er</code>&quot;。</td>
 </tr>
 <tr>
 <td>\cx</td>
-<td>匹配由x指明的控制字符。例如，\cM匹配一个Control-M或回车符。x的值必须为A-Z或a-z之一。否则，将c视为一个原义的“<code>c</code>“字符。</td>
+<td>匹配由x指明的控制字符。例如，\cM匹配一个Control-M或回车符。x的值必须为A-Z或a-z之一。否则，将c视为一个原义的“<code>c</code>&quot;字符。</td>
 </tr>
 <tr>
 <td>\d</td>
@@ -540,19 +558,19 @@ r <span class="token operator">=</span> s<span class="token punctuation">.</span
 </tr>
 <tr>
 <td>\w</td>
-<td>匹配包括下划线的任何单词字符。等价于“<code>[A-Za-z0-9_]</code>“。</td>
+<td>匹配包括下划线的任何单词字符。等价于“<code>[A-Za-z0-9_]</code>&quot;。</td>
 </tr>
 <tr>
 <td>\W</td>
-<td>匹配任何非单词字符。等价于“<code>[^A-Za-z0-9_]</code>“。</td>
+<td>匹配任何非单词字符。等价于“<code>[^A-Za-z0-9_]</code>&quot;。</td>
 </tr>
 <tr>
 <td>\x<em>n</em></td>
-<td>匹配<em>n</em>，其中<em>n</em>为十六进制转义值。十六进制转义值必须为确定的两个数字长。例如，“<code>\x41</code>“匹配”<code>A</code>“。”<code>\x041</code>“则等价于”<code>\x04&amp;1</code>“。正则表达式中可以使用ASCII编码。.</td>
+<td>匹配<em>n</em>，其中<em>n</em>为十六进制转义值。十六进制转义值必须为确定的两个数字长。例如，“<code>\x41</code>&quot;匹配&quot;<code>A</code>&quot;。“<code>\x041</code>&quot;则等价于”<code>\x04&amp;1</code>&quot;。正则表达式中可以使用ASCII编码。.</td>
 </tr>
 <tr>
 <td>*num*</td>
-<td>匹配<em>num</em>，其中<em>num</em>是一个正整数。对所获取的匹配的引用。例如，“<code>(.)\1</code>“匹配两个连续的相同字符。</td>
+<td>匹配<em>num</em>，其中<em>num</em>是一个正整数。对所获取的匹配的引用。例如，“<code>(.)\1</code>&quot;匹配两个连续的相同字符。</td>
 </tr>
 <tr>
 <td>*n*</td>
@@ -570,75 +588,85 @@ r <span class="token operator">=</span> s<span class="token punctuation">.</span
 <td>\u<em>n</em></td>
 <td>匹配<em>n</em>，其中<em>n</em>是一个用四个十六进制数字表示的Unicode字符。例如，\u00A9匹配版权符号</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <blockquote>
-<p> 常见正则表达式运算符的优先级：</p>
+<p>常见正则表达式运算符的优先级：</p>
 </blockquote>
 <ul>
-<li><p><strong>转义符号：</strong> <code>\</code> 是用于转义其他特殊字符的转义符号。它具有最高的优先级。</p>
+<li>
+<p><strong>转义符号：</strong> <code>\</code> 是用于转义其他特殊字符的转义符号。它具有最高的优先级。</p>
 <p>示例：<code>\d</code>、<code>\.</code> 等，其中 <code>\d</code> 匹配数字，<code>\.</code> 匹配点号。</p>
 </li>
-<li><p><strong>括号：</strong> 圆括号 <code>()</code> 用于创建子表达式，具有高于其他运算符的优先级。</p>
+<li>
+<p><strong>括号：</strong> 圆括号 <code>()</code> 用于创建子表达式，具有高于其他运算符的优先级。</p>
 <p>示例：<code>(abc)+</code> 匹配 “abc” 一次或多次。</p>
 </li>
-<li><p><strong>量词：</strong> 量词指定前面的元素可以重复的次数。</p>
+<li>
+<p><strong>量词：</strong> 量词指定前面的元素可以重复的次数。</p>
 <p>示例：<code>a*</code> 匹配零个或多个 “a”。</p>
 </li>
-<li><p><strong>字符类：</strong> 字符类使用方括号 <code>[]</code> 表示，用于匹配括号内的任意字符。</p>
+<li>
+<p><strong>字符类：</strong> 字符类使用方括号 <code>[]</code> 表示，用于匹配括号内的任意字符。</p>
 <p>示例：<code>[aeiou]</code> 匹配任何一个元音字母。</p>
 </li>
-<li><p><strong>断言：</strong> 断言是用于检查字符串中特定位置的条件的元素。</p>
+<li>
+<p><strong>断言：</strong> 断言是用于检查字符串中特定位置的条件的元素。</p>
 <p>示例：<code>^</code> 表示行的开头，<code>$</code> 表示行的结尾。</p>
 </li>
-<li><p><strong>连接：</strong> 连接在没有其他运算符的情况下表示字符之间的简单连接。</p>
+<li>
+<p><strong>连接：</strong> 连接在没有其他运算符的情况下表示字符之间的简单连接。</p>
 <p>示例：<code>abc</code> 匹配 “abc”。</p>
 </li>
-<li><p><strong>管道：</strong> 管道符号 <code>|</code> 表示”或”关系，用于在多个模式之间选择一个。</p>
+<li>
+<p><strong>管道：</strong> 管道符号 <code>|</code> 表示&quot;或&quot;关系，用于在多个模式之间选择一个。</p>
 <p>示例：<code>cat|dog</code> 匹配 “cat” 或 “dog”。</p>
 </li>
 </ul>
-<h3 id="常用正则"><a href="#常用正则" class="headerlink" title="常用正则"></a>常用正则</h3><table>
+<h3 id="常用正则"><a class="markdownIt-Anchor" href="#常用正则"></a> 常用正则</h3>
+<table>
 <thead>
 <tr>
 <th>target</th>
 <th>pattern</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>用户名</td>
-<td>&#x2F;^[a-z0-9_-]{3,16}$&#x2F;</td>
+<td>/<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>{3,16}$/</td>
 </tr>
 <tr>
 <td>密码</td>
-<td>&#x2F;^[a-z0-9_-]{6,18}$&#x2F;</td>
+<td>/<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>{6,18}$/</td>
 </tr>
 <tr>
 <td>密码2</td>
-<td>(?&#x3D;^.{8,}$)(?&#x3D;.<em>\d)(?&#x3D;.<em>\W+)(?&#x3D;.</em>[A-Z])(?&#x3D;.</em>[a-z])(?!.<em>\n).</em>$ (由数字&#x2F;大写字母&#x2F;小写字母&#x2F;标点符号组成，四种都必有，8位以上)</td>
+<td>(?=^.{8,}<span class='katex-error' title='ParseError: KaTeX parse error: Undefined control sequence: \d at position 7: )(?=.*\̲d̲)(?=.*\W+)(?=.*…'>)(?=.*\d)(?=.*\W+)(?=.*[A-Z])(?=.*[a-z])(?!.*\n).*</span> (由数字/大写字母/小写字母/标点符号组成，四种都必有，8位以上)</td>
 </tr>
 <tr>
 <td>十六进制值</td>
-<td>&#x2F;^#?([a-f0-9]{6}|[a-f0-9]{3})$&#x2F;</td>
+<td>/^#?([a-f0-9]{6}|[a-f0-9]{3})$/</td>
 </tr>
 <tr>
 <td>电子邮箱</td>
-<td>&#x2F;^([a-z0-9_.-]+)@([\da-z.-]+).([a-z.]{2,6})$&#x2F;   &#x2F;^[a-z\d]+(.[a-z\d]+)<em>@(<a href="-%5B%5Cda-z%5D">\da-z</a>?)+(.{1,2}[a-z]+)+$&#x2F;或\w+([-+.]\w+)</em>@\w+([-.]\w+)<em>.\w+([-.]\w+)</em></td>
+<td>/^([a-z0-9_.-]+)@([\da-z.-]+).([a-z.]{2,6})<span class='katex-error' title='ParseError: KaTeX parse error: Undefined control sequence: \d at position 11: /   /^[a-z\̲d̲]+(\.[a-z\d]+)*…'>/   /^[a-z\d]+(\.[a-z\d]+)*@([\da-z](-[\da-z])?)+(\.{1,2}[a-z]+)+</span>/或\w+([-+.]\w+)<em>@\w+([-.]\w+)</em>.\w+([-.]\w+)*</td>
 </tr>
 <tr>
 <td>URL</td>
-<td>&#x2F;^(https?://)?([\da-z.-]+).([a-z.]{2,6})([/\w .-]*)<em>/?$&#x2F; 或 [a-zA-z]+:&#x2F;&#x2F;[^\s]</em></td>
+<td>/^(https?://)?([\da-z.-]+).([a-z.]{2,6})([/\w .-]<em>)</em>/?$/ 或 [a-zA-z]+://[^\s]*</td>
 </tr>
 <tr>
 <td>IP 地址</td>
-<td>&#x2F;((2[0-4]\d|25[0-5]|[01]?\d\d?).){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)&#x2F; &#x2F;^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$&#x2F; 或 ((2[0-4]\d|25[0-5]|[01]?\d\d?).){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)</td>
+<td>/((2[0-4]\d|25[0-5]|[01]?\d\d?).){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)/ /^(?😦?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/ 或 ((2[0-4]\d|25[0-5]|[01]?\d\d?).){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)</td>
 </tr>
 <tr>
 <td>HTML 标签</td>
-<td>&#x2F;^&lt;([a-z]+)([^&lt;]+)<em>(?:&gt;(.</em>)&lt;/\1&gt;|\s+/&gt;)$&#x2F;或&lt;(.<em>)(.*)&gt;.</em>&lt;/\1&gt;|&lt;(.*) /&gt;</td>
+<td>/<sup>&lt;([a-z]+)([</sup>&lt;]+)<em>(?:&gt;(.</em>)&lt;/\1&gt;|\s+/&gt;)$/或&lt;(.<em>)(.</em>)&gt;.<em>&lt;/\1&gt;|&lt;(.</em>) /&gt;</td>
 </tr>
 <tr>
 <td>删除代码\注释</td>
-<td>(?&lt;!http:|\S)&#x2F;&#x2F;.*$</td>
+<td>(?&lt;!http:|\S)//.*$</td>
 </tr>
 <tr>
 <td>匹配双字节字符(包括汉字在内)</td>
@@ -650,7 +678,7 @@ r <span class="token operator">=</span> s<span class="token punctuation">.</span
 </tr>
 <tr>
 <td>Unicode编码中的汉字范围</td>
-<td>&#x2F;^[\u2E80-\u9FFF]+$&#x2F;</td>
+<td>/<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>+$/</td>
 </tr>
 <tr>
 <td>中文及全角标点符号(字符)</td>
@@ -661,12 +689,12 @@ r <span class="token operator">=</span> s<span class="token punctuation">.</span
 <td>(\d{4}|\d{2})-((0?([1-9]))|(1[1|2]))-((0?[1-9])|(<a href="%5B1-9%5D">12</a>)|(3[0|1]))</td>
 </tr>
 <tr>
-<td>日期(月&#x2F;日&#x2F;年)</td>
-<td>((0?[1-9]{1})|(1[1|2]))&#x2F;(0?[1-9]|([12][1-9])|(3[0|1]))&#x2F;(\d{4}|\d{2})</td>
+<td>日期(月/日/年)</td>
+<td>((0?[1-9]{1})|(1[1|2]))/(0?[1-9]|([12][1-9])|(3[0|1]))/(\d{4}|\d{2})</td>
 </tr>
 <tr>
 <td>时间(小时:分钟, 24小时制)</td>
-<td>((1|0?)[0-9]|2[0-3]):([0-5][0-9])</td>
+<td>((1|0?)[0-9]|2[0-3])😦[0-5][0-9])</td>
 </tr>
 <tr>
 <td>中国大陆固定电话号码</td>
@@ -706,7 +734,7 @@ r <span class="token operator">=</span> s<span class="token punctuation">.</span
 </tr>
 <tr>
 <td>空白行</td>
-<td>\n\s*\r 或者 \n\n(editplus) 或者 ^[\s\S ]*\n</td>
+<td>\n\s*\r 或者 \n\n(editplus) 或者 <sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>*\n</td>
 </tr>
 <tr>
 <td>QQ号码</td>
@@ -722,14 +750,16 @@ r <span class="token operator">=</span> s<span class="token punctuation">.</span
 </tr>
 <tr>
 <td>编辑常用</td>
-<td>以下是针对特殊中文的一些替换(editplus)^[0-9].*\n ^[^第].<em>\n ^[习题].<em>\n^[\s\S ]<em>\n ^[0-9]<em>. ^[\s\S ]<em>\n &lt;p[^&lt;&gt;</em>]&gt;href&#x3D;”javascript:if(confirm(‘(.</em>?)’))window.location&#x3D;’(.</em>?)’”&lt;span style&#x3D;”.[^”]*rgb(255,255,255)“&gt;.[^&lt;&gt;]</em></span> <DIV class=xs0>[\s\S]</em>?</DIV></td>
+<td>以下是针对特殊中文的一些替换(editplus)<sup class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup>.<em>\n <sup>[</sup>第].</em>\n <sup>[习题].*\n</sup>[\s\S ]<em>\n <sup class="footnote-ref"><a href="#fn6" id="fnref6">[6]</a></sup></em>. <sup class="footnote-ref"><a href="#fn7" id="fnref7">[7]</a></sup><em>\n &lt;p[^&lt;&gt;</em>]&gt;href=“javascript:if(confirm(‘(.<em>?)‘))window.location=’(.</em>?)’”&lt;span style=&quot;.[<sup>“]*rgb(255,255,255)”&gt;.[</sup>&lt;&gt;]<em></span> <DIV class=xs0>[\s\S]</em>?</DIV></td>
 </tr>
-</tbody></table>
-<h3 id="re库"><a href="#re库" class="headerlink" title="re库"></a><strong>re库</strong></h3><p>参考网址：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/565487182">https://zhuanlan.zhihu.com/p/565487182</a></p>
+</tbody>
+</table>
+<h3 id="re库"><a class="markdownIt-Anchor" href="#re库"></a> <strong>re库</strong></h3>
+<p>参考网址：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/565487182">https://zhuanlan.zhihu.com/p/565487182</a></p>
 <p>re模块官方文档:<a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3.8/library/re.html">https://docs.python.org/zh-cn/3.8/library/re.html</a></p>
 <p>正则的匹配模式</p>
 <blockquote>
-<p> <strong>flags</strong> : 可选，表示匹配模式，比如忽略大小写，多行模式等，具体参数为：</p>
+<p><strong>flags</strong> : 可选，表示匹配模式，比如忽略大小写，多行模式等，具体参数为：</p>
 </blockquote>
 <ol>
 <li>re.I re.IGNORECASE忽略大小写</li>
@@ -740,8 +770,9 @@ r <span class="token operator">=</span> s<span class="token punctuation">.</span
 <li>re.X re.VERBOSE为了增加可读性，忽略空格和 # 后面的注释,可以在正则表达式中加注解</li>
 <li>re.A re.ASCII  让 \w, \W, \b, \B, \d, \D, \s 和 \S 只匹配ASCII，而不是Unicode。</li>
 </ol>
-<h4 id="单项查找函数"><a href="#单项查找函数" class="headerlink" title="单项查找函数"></a>单项查找函数</h4><blockquote>
-<p>re.search(pattern,string,flags&#x3D;0) 三个函数参数相同</p>
+<h4 id="单项查找函数"><a class="markdownIt-Anchor" href="#单项查找函数"></a> 单项查找函数</h4>
+<blockquote>
+<p>re.search(pattern,string,flags=0) 三个函数参数相同</p>
 <ul>
 <li>pattern 匹配规则</li>
 <li>string 匹配内容</li>
@@ -749,7 +780,7 @@ r <span class="token operator">=</span> s<span class="token punctuation">.</span
 </ul>
 </blockquote>
 <ul>
-<li>re.search: 会匹配整个字符串，并返回第一个成功的匹配。如果匹配失败，则返回None </li>
+<li>re.search: 会匹配整个字符串，并返回第一个成功的匹配。如果匹配失败，则返回None</li>
 <li>re.match:  必须从字符串开头匹配</li>
 <li>re.fullmatch: 整个字符串与正则完全匹配</li>
 </ul>
@@ -759,22 +790,20 @@ r <span class="token operator">=</span> s<span class="token punctuation">.</span
 info<span class="token operator">=</span>re<span class="token punctuation">.</span><span class="token builtin">compile</span><span class="token punctuation">(</span><span class="token string">r'([0-9]&#123;2&#125;)'</span><span class="token punctuation">)</span><span class="token comment">#[0-9]&#123;2&#125;表示0-9的任意数字匹配2次，()代表作为一组返回</span>
 result<span class="token operator">=</span>info<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token comment">#('12',)  每次只返回一个，但是如果第二次返回就是('12','34')</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#match实例</span>
 <span class="token keyword">import</span> re
 <span class="token builtin">str</span><span class="token operator">=</span><span class="token string">'ab12cd34ef567'</span>
 info<span class="token operator">=</span>re<span class="token punctuation">.</span><span class="token builtin">compile</span><span class="token punctuation">(</span><span class="token string">r'([a-z]&#123;2&#125;)(\d&#123;2&#125;)'</span><span class="token punctuation">)</span><span class="token comment">#group(0)表示a-z的两个任意字符，\d&#123;2&#125;表示数字的两个任意字符</span>
 result<span class="token operator">=</span>info<span class="token punctuation">.</span><span class="token keyword">match</span><span class="token punctuation">(</span><span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#ab12</span>
 result1<span class="token operator">=</span>info<span class="token punctuation">.</span><span class="token keyword">match</span><span class="token punctuation">(</span><span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">.</span>groups<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">#('ab','12')</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#fullmatch实例-比match限制更严格</span>
 <span class="token keyword">import</span> re
 string<span class="token operator">=</span><span class="token string">"MyTools"</span>
 pattern<span class="token operator">=</span><span class="token string">'My'</span>
 re<span class="token punctuation">.</span><span class="token keyword">match</span><span class="token punctuation">(</span>pattern<span class="token punctuation">,</span>string<span class="token punctuation">)</span>
 re<span class="token punctuation">.</span>fullmatch<span class="token punctuation">(</span>pattern<span class="token punctuation">,</span>string<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="多项查找函数"><a href="#多项查找函数" class="headerlink" title="多项查找函数"></a><strong>多项查找函数</strong></h4><ul>
+<h4 id="多项查找函数"><a class="markdownIt-Anchor" href="#多项查找函数"></a> <strong>多项查找函数</strong></h4>
+<ul>
 <li>findall： 从字符串任意位置查找，返回一个列表</li>
 <li>finditer：从字符串任意位置查找，返回一个迭代器</li>
 </ul>
@@ -790,9 +819,9 @@ it<span class="token operator">=</span>re<span class="token punctuation">.</span
 <span class="token keyword">for</span> <span class="token keyword">match</span> <span class="token keyword">in</span> it<span class="token punctuation">:</span>
     <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token keyword">match</span><span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token comment">#12 32 43 3</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="分割函数"><a href="#分割函数" class="headerlink" title="分割函数"></a><strong>分割函数</strong></h4><blockquote>
-<p>re.split(pattern, string, maxsplit&#x3D;0, flags&#x3D;0)</p>
+<h4 id="分割函数"><a class="markdownIt-Anchor" href="#分割函数"></a> <strong>分割函数</strong></h4>
+<blockquote>
+<p>re.split(pattern, string, maxsplit=0, flags=0)</p>
 <ul>
 <li>pattern 分割string的正则匹配规则</li>
 <li>maxsplit 最多分割次数</li>
@@ -807,9 +836,9 @@ it<span class="token operator">=</span>re<span class="token punctuation">.</span
 s<span class="token operator">=</span><span class="token string">'abc,abc,defg,dds'</span>
 re<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">'(\W+)'</span><span class="token punctuation">,</span>s<span class="token punctuation">)</span><span class="token comment">#匹配，分割</span>
 <span class="token comment">#['abc', ',  ', 'abc', ',  ', 'defg', ',  ', 'dds']</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="替换函数"><a href="#替换函数" class="headerlink" title="替换函数"></a><strong>替换函数</strong></h4><blockquote>
-<p>re.sub(pattern, repl, string, count&#x3D;0, flags&#x3D;0)</p>
+<h4 id="替换函数"><a class="markdownIt-Anchor" href="#替换函数"></a> <strong>替换函数</strong></h4>
+<blockquote>
+<p>re.sub(pattern, repl, string, count=0, flags=0)</p>
 <ul>
 <li>pattern 匹配表达式</li>
 <li>repl 用于替换掉string被pattern匹配的字符</li>
@@ -830,12 +859,10 @@ re<span class="token punctuation">.</span>split<span class="token punctuation">(
 <span class="token builtin">str</span><span class="token operator">=</span><span class="token string">'ab12cd34ef567'</span>
 result<span class="token operator">=</span>re<span class="token punctuation">.</span>sub<span class="token punctuation">(</span><span class="token string">'\d'</span><span class="token punctuation">,</span>modify<span class="token punctuation">,</span><span class="token builtin">str</span><span class="token punctuation">)</span>
 <span class="token comment">#ab88cd88ef999</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#subn实例</span>
 <span class="token keyword">import</span> re
 <span class="token keyword">print</span><span class="token punctuation">(</span>re<span class="token punctuation">.</span>subn<span class="token punctuation">(</span><span class="token string">'ov'</span><span class="token punctuation">,</span> <span class="token string">'~*'</span> <span class="token punctuation">,</span> <span class="token string">'movie tickets booking in online'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token comment">#('m~*ie tickets booking in online', 1)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
 <p><strong>编译函数</strong></p>
 <blockquote>
 <p>compile函数</p>
@@ -847,58 +874,79 @@ result<span class="token operator">=</span>re<span class="token punctuation">.</
 <p>re.escape(pattern) 可以转义正则表达式中具有特殊含义的字符，比如：. 或者 *</p>
 <p>re.purge()不常用，清楚正则缓存</p>
 </blockquote>
-<h2 id="css-selector"><a href="#css-selector" class="headerlink" title="css-selector"></a>css-selector</h2><h3 id="基本选择器"><a href="#基本选择器" class="headerlink" title="基本选择器"></a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Selectors#%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8">基本选择器</a></h3><ul>
-<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Universal_selectors">通用选择器</a></p>
-<p>​    选择所有元素。（可选）可以将其限制为特定的名称空间或所有名称空间。    <strong>语法：</strong><code>*</code> <code>ns|*</code> <code>*|*</code>    <strong>例子：</strong><code>*</code> 将匹配文档的所有元素。  </p>
+<h2 id="css-selector"><a class="markdownIt-Anchor" href="#css-selector"></a> css-selector</h2>
+<h3 id="基本选择器"><a class="markdownIt-Anchor" href="#基本选择器"></a> <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Selectors#%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8">基本选择器</a></h3>
+<ul>
+<li>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Universal_selectors">通用选择器</a></p>
+<p>​    选择所有元素。（可选）可以将其限制为特定的名称空间或所有名称空间。    <strong>语法：</strong><code>*</code> <code>ns|*</code> <code>*|*</code>    <strong>例子：</strong><code>*</code> 将匹配文档的所有元素。</p>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Type_selectors">元素选择器</a></p>
-<p>​    按照给定的节点名称，选择所有匹配的元素。    <strong>语法：</strong><code>elementname</code>    <strong>例子：</strong><code>input</code> 匹配任何 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/input">&#96;&#96;</a> 元素。  </p>
+<li>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Type_selectors">元素选择器</a></p>
+<p>​    按照给定的节点名称，选择所有匹配的元素。    <strong>语法：</strong><code>elementname</code>    <strong>例子：</strong><code>input</code> 匹配任何 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/input">``</a> 元素。</p>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Class_selectors">类选择器</a></p>
-<p>​    按照给定的 <code>class</code> 属性的值，选择所有匹配的元素。    <strong>语法：</strong><code>.classname</code>    <strong>例子：</strong><code>.index</code> 匹配任何 <code>class</code> 属性中含有 “index” 类的元素。  </p>
+<li>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Class_selectors">类选择器</a></p>
+<p>​    按照给定的 <code>class</code> 属性的值，选择所有匹配的元素。    <strong>语法：</strong><code>.classname</code>    <strong>例子：</strong><code>.index</code> 匹配任何 <code>class</code> 属性中含有 “index” 类的元素。</p>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/ID_selectors">ID 选择器</a></p>
-<p>​    按照 <code>id</code> 属性选择一个与之匹配的元素。需要注意的是，一个文档中，每个 ID 属性都应当是唯一的。    <strong>语法：</strong><code>#idname</code>    <strong>例子：</strong><code>#toc</code> 匹配 ID 为 “toc” 的元素。  </p>
+<li>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/ID_selectors">ID 选择器</a></p>
+<p>​    按照 <code>id</code> 属性选择一个与之匹配的元素。需要注意的是，一个文档中，每个 ID 属性都应当是唯一的。    <strong>语法：</strong><code>#idname</code>    <strong>例子：</strong><code>#toc</code> 匹配 ID 为 “toc” 的元素。</p>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Attribute_selectors">属性选择器</a></p>
+<li>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Attribute_selectors">属性选择器</a></p>
 <p>​    按照给定的属性，选择所有匹配的元素。    <strong>语法：</strong><code>[attr]</code> <code>[attr=value]</code> <code>[attr~=value]</code> <code>[attr|=value]</code> <code>[attr^=value]</code> <code>[attr$=value]</code> <code>[attr*=value]</code>    <strong>例子：</strong><code>[autoplay]</code> 选择所有具有 <code>autoplay</code> 属性的元素（不论这个属性的值是什么）。</p>
 </li>
 </ul>
-<h3 id="分组选择器（Grouping-selector）"><a href="#分组选择器（Grouping-selector）" class="headerlink" title="分组选择器（Grouping selector）"></a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Selectors#%E5%88%86%E7%BB%84%E9%80%89%E6%8B%A9%E5%99%A8%EF%BC%88grouping_selector%EF%BC%89">分组选择器（Grouping selector）</a></h3><ul>
-<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Selector_list">选择器列表</a></p>
-<p>​    <code>,</code> 是将不同的选择器组合在一起的方法，它选择所有能被列表中的任意一个选择器选中的节点。    <strong>语法：</strong><code>A, B</code>    <strong>示例：</strong><code>div, span</code> 会同时匹配 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/span">&#96;&#96;</a> 元素和 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/div">&#96;&#96;</a> 元素。</p>
+<h3 id="分组选择器grouping-selector"><a class="markdownIt-Anchor" href="#分组选择器grouping-selector"></a> <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Selectors#%E5%88%86%E7%BB%84%E9%80%89%E6%8B%A9%E5%99%A8%EF%BC%88grouping_selector%EF%BC%89">分组选择器（Grouping selector）</a></h3>
+<ul>
+<li>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Selector_list">选择器列表</a></p>
+<p>​    <code>,</code> 是将不同的选择器组合在一起的方法，它选择所有能被列表中的任意一个选择器选中的节点。    <strong>语法：</strong><code>A, B</code>    <strong>示例：</strong><code>div, span</code> 会同时匹配 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/div"><code>](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/span) 元素和 [</code></a> 元素。</p>
 </li>
 </ul>
-<h3 id="组合器（Combinator）"><a href="#组合器（Combinator）" class="headerlink" title="组合器（Combinator）"></a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Selectors#%E7%BB%84%E5%90%88%E5%99%A8%EF%BC%88combinator%EF%BC%89">组合器（Combinator）</a></h3><ul>
-<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Descendant_combinator">后代组合器</a></p>
-<p>​    “ ”（空格）组合器选择前一个元素的后代节点。    <strong>语法：</strong><code>A B</code>    <strong>例子：</strong><code>div span</code> 匹配所有位于任意 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/div">&#96;&#96;</a> 元素之内的 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/span">&#96;&#96;</a> 元素。  </p>
+<h3 id="组合器combinator"><a class="markdownIt-Anchor" href="#组合器combinator"></a> <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Selectors#%E7%BB%84%E5%90%88%E5%99%A8%EF%BC%88combinator%EF%BC%89">组合器（Combinator）</a></h3>
+<ul>
+<li>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Descendant_combinator">后代组合器</a></p>
+<p>​    “ ”（空格）组合器选择前一个元素的后代节点。    <strong>语法：</strong><code>A B</code>    <strong>例子：</strong><code>div span</code> 匹配所有位于任意 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/span"><code>](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/div) 元素之内的 [</code></a> 元素。</p>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Child_combinator">直接子代组合器</a></p>
-<p>​    <code>&gt;</code> 组合器选择前一个元素的直接子代的节点。    <strong>语法：</strong><code>A &gt; B</code>    <strong>例子：</strong><code>ul &gt; li</code> 匹配直接嵌套在 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/ul">&#96;&#96;</a> 元素内的所有 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/li">&#96;&#96;</a> 元素。  </p>
+<li>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Child_combinator">直接子代组合器</a></p>
+<p>​    <code>&gt;</code> 组合器选择前一个元素的直接子代的节点。    <strong>语法：</strong><code>A &gt; B</code>    <strong>例子：</strong><code>ul &gt; li</code> 匹配直接嵌套在 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/li"><code>](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/ul) 元素内的所有 [</code></a> 元素。</p>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Subsequent-sibling_combinator">一般兄弟组合器</a></p>
-<p>​    <code>~</code> 组合器选择兄弟元素，也就是说，后一个节点在前一个节点后面的任意位置，并且共享同一个父节点。    <strong>语法：</strong><code>A ~ B</code>    <strong>例子：</strong><code>p ~ span</code> 匹配同一父元素下，<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/p">&#96;&#96;</a> 元素后的所有 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/span">&#96;&#96;</a> 元素。  </p>
+<li>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Subsequent-sibling_combinator">一般兄弟组合器</a></p>
+<p>​    <code>~</code> 组合器选择兄弟元素，也就是说，后一个节点在前一个节点后面的任意位置，并且共享同一个父节点。    <strong>语法：</strong><code>A ~ B</code>    <strong>例子：</strong><code>p ~ span</code> 匹配同一父元素下，<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/span"><code>](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/p) 元素后的所有 [</code></a> 元素。</p>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Next-sibling_combinator">紧邻兄弟组合器</a></p>
-<p>​    <code>+</code> 组合器选择相邻元素，即后一个元素紧跟在前一个之后，并且共享同一个父节点。    <strong>语法：</strong><code>A + B</code>    <strong>例子：</strong><code>h2 + p</code> 会匹配<em>紧</em>邻在 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Heading_Elements">h2</a> 元素后的第一个 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/p">&#96;&#96;</a> 元素。  </p>
+<li>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Next-sibling_combinator">紧邻兄弟组合器</a></p>
+<p>​    <code>+</code> 组合器选择相邻元素，即后一个元素紧跟在前一个之后，并且共享同一个父节点。    <strong>语法：</strong><code>A + B</code>    <strong>例子：</strong><code>h2 + p</code> 会匹配<em>紧</em>邻在 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Heading_Elements">h2</a> 元素后的第一个 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/p">``</a> 元素。</p>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Column_combinator">列组合器</a>     实验性</p>
-<p>​    <code>||</code> 组合器选择属于某个表格行的节点。    <strong>语法：</strong><code>A || B</code>    <strong>例子：</strong><code>col || td</code> 会匹配所有  作用域内的 &#96; (en-US)](<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td">https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td</a>) 元素。</p>
+<li>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Column_combinator">列组合器</a>     实验性</p>
+<p>​    <code>||</code> 组合器选择属于某个表格行的节点。    <strong>语法：</strong><code>A || B</code>    <strong>例子：</strong><code>col || td</code> 会匹配所有  作用域内的 ` (en-US)](<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td">https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td</a>) 元素。</p>
 </li>
 </ul>
-<h3 id="伪选择器（Pseudo）"><a href="#伪选择器（Pseudo）" class="headerlink" title="伪选择器（Pseudo）"></a><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Selectors#%E4%BC%AA%E9%80%89%E6%8B%A9%E5%99%A8%EF%BC%88pseudo%EF%BC%89">伪选择器（Pseudo）</a></h3><ul>
-<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-classes">伪类</a></p>
-<p>​    <code>:</code> 伪选择器支持按照未被包含在文档树中的状态信息来选择元素。    <strong>例子：</strong><code>a:visited</code> 匹配所有曾被访问过的 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/a">&#96;&#96;</a> 元素。  </p>
+<h3 id="伪选择器pseudo"><a class="markdownIt-Anchor" href="#伪选择器pseudo"></a> <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Selectors#%E4%BC%AA%E9%80%89%E6%8B%A9%E5%99%A8%EF%BC%88pseudo%EF%BC%89">伪选择器（Pseudo）</a></h3>
+<ul>
+<li>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-classes">伪类</a></p>
+<p>​    <code>:</code> 伪选择器支持按照未被包含在文档树中的状态信息来选择元素。    <strong>例子：</strong><code>a:visited</code> 匹配所有曾被访问过的 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/a">``</a> 元素。</p>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-elements">伪元素</a></p>
-<h4 id="伪选择器用于表示无法用-HTML-语义表达的实体。-例子：p-first-line-匹配所有-元素的第一行。"><a href="#伪选择器用于表示无法用-HTML-语义表达的实体。-例子：p-first-line-匹配所有-元素的第一行。" class="headerlink" title=":: 伪选择器用于表示无法用 HTML 语义表达的实体。    例子：p::first-line 匹配所有 &#96;&#96; 元素的第一行。"></a><code>::</code> 伪选择器用于表示无法用 HTML 语义表达的实体。    <strong>例子：</strong><code>p::first-line</code> 匹配所有 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/p">&#96;&#96;</a> 元素的第一行。</h4></li>
+<li>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-elements">伪元素</a></p>
+<h4 id="伪选择器用于表示无法用-html-语义表达的实体-例子pfirst-line-匹配所有-元素的第一行"><a class="markdownIt-Anchor" href="#伪选择器用于表示无法用-html-语义表达的实体-例子pfirst-line-匹配所有-元素的第一行"></a> <code>::</code> 伪选择器用于表示无法用 HTML 语义表达的实体。    <strong>例子：</strong><code>p::first-line</code> 匹配所有 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/p">``</a> 元素的第一行。</h4>
+</li>
 </ul>
-<h2 id="httpx"><a href="#httpx" class="headerlink" title="httpx"></a><strong>httpx</strong></h2><p>httpx针对于爬取http2.0协议的网站</p>
+<h2 id="httpx"><a class="markdownIt-Anchor" href="#httpx"></a> <strong>httpx</strong></h2>
+<p>httpx针对于爬取http2.0协议的网站</p>
 <p>httpx官方文档：<a target="_blank" rel="noopener" href="https://www.python-httpx.org/quickstart">https://www.python-httpx.org/quickstart</a></p>
 <blockquote>
 <p>httpx 和 requests 的API 极其相似</p>
 </blockquote>
-<h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a><strong>基本用法</strong></h3><ul>
+<h3 id="基本用法"><a class="markdownIt-Anchor" href="#基本用法"></a> <strong>基本用法</strong></h3>
+<ul>
 <li>GET</li>
 </ul>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> httpx   
@@ -911,11 +959,12 @@ headers<span class="token operator">=</span><span class="token punctuation">&#12
     <span class="token string">'User-Agent'</span><span class="token punctuation">:</span> <span class="token string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0'</span>
 <span class="token punctuation">&#125;</span>
 response<span class="token operator">=</span>httpx<span class="token punctuation">.</span>get<span class="token punctuation">(</span>url<span class="token punctuation">,</span>headers<span class="token operator">=</span>headers<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <ul>
-<li><p>其他方法:httpx.get&#x2F;post&#x2F;put&#x2F;delete&#x2F;patch</p>
+<li>
+<p>其他方法:httpx.get/post/put/delete/patch</p>
 </li>
-<li><p>Response对象的属性和方法</p>
+<li>
+<p>Response对象的属性和方法</p>
 <ul>
 <li>status_code 状态码</li>
 <li>text 响应体的文本内容</li>
@@ -925,7 +974,8 @@ response<span class="token operator">=</span>httpx<span class="token punctuation
 </ul>
 </li>
 </ul>
-<h3 id="Client对象"><a href="#Client对象" class="headerlink" title="Client对象"></a><strong>Client对象</strong></h3><blockquote>
+<h3 id="client对象"><a class="markdownIt-Anchor" href="#client对象"></a> <strong>Client对象</strong></h3>
+<blockquote>
 <p>可以与requests中的Session对象类比学习</p>
 <p>client的更多高级用法:<a target="_blank" rel="noopener" href="https://www.python-httpx.org/advanced">https://www.python-httpx.org/advanced</a></p>
 </blockquote>
@@ -936,7 +986,6 @@ response<span class="token operator">=</span>httpx<span class="token punctuation
 <span class="token keyword">with</span> httpx<span class="token punctuation">.</span>client<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> client<span class="token punctuation">:</span>
     response<span class="token operator">=</span>client<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'https://www.httpbin.org/get'</span><span class="token punctuation">)</span>
     <span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
 <p>等价于</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> httpx
 client<span class="token operator">=</span>httpx<span class="token punctuation">.</span>Client<span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -944,23 +993,29 @@ client<span class="token operator">=</span>httpx<span class="token punctuation">
     response<span class="token operator">=</span>clinet<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'https://www.httpbin.org/get'</span><span class="token punctuation">)</span>
 <span class="token keyword">finally</span><span class="token punctuation">:</span>
     client<span class="token punctuation">(</span>close<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <ul>
-<li><p>填入参数 header&#x3D;? </p>
+<li>
+<p>填入参数 header=?</p>
 </li>
-<li><p>新参数http_version 若http2&#x3D;True 则支持http2  默认是关闭的不支持http2</p>
+<li>
+<p>新参数http_version 若http2=True 则支持http2  默认是关闭的不支持http2</p>
 </li>
-<li><p>支持异步客户端请求</p>
+<li>
+<p>支持异步客户端请求</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> httpx
 <span class="token keyword">import</span> asyncio <span class="token comment">#一个异步爬虫框架</span>
 <span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">fetch</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token keyword">async</span> <span class="token keyword">with</span> httpx<span class="token punctuation">.</span>AsyncClient<span class="token punctuation">(</span>http2<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span> <span class="token keyword">as</span> client<span class="token punctuation">:</span>
         response<span class="token operator">=</span><span class="token keyword">await</span> client<span class="token punctuation">.</span>get<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
         <span class="token keyword">print</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>text<span class="token punctuation">)</span>
-asyncio<span class="token punctuation">.</span>get_event_loop<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>run_until_complete<span class="token punctuation">(</span>fetch<span class="token punctuation">(</span><span class="token string">'https://www.httpbin.org/get'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+asyncio<span class="token punctuation">.</span>get_event_loop<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>run_until_complete<span class="token punctuation">(</span>fetch<span class="token punctuation">(</span><span class="token string">'https://www.httpbin.org/get'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
 </ul>
-<h2 id="X-Path"><a href="#X-Path" class="headerlink" title="X-Path"></a>X-Path</h2><p>XPath的全程是XML PATH Language 即xml路径语言，用于在xml文档中 查找信息，但是同样适用于HTML文档的搜索</p>
-<h3 id="Xpath语法"><a href="#Xpath语法" class="headerlink" title="Xpath语法"></a>Xpath语法</h3><h4 id="xml实例"><a href="#xml实例" class="headerlink" title="xml实例"></a>xml实例</h4><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
+<h2 id="x-path"><a class="markdownIt-Anchor" href="#x-path"></a> X-Path</h2>
+<p>XPath的全程是XML PATH Language 即xml路径语言，用于在xml文档中 查找信息，但是同样适用于HTML文档的搜索</p>
+<h3 id="xpath语法"><a class="markdownIt-Anchor" href="#xpath语法"></a> Xpath语法</h3>
+<h4 id="xml实例"><a class="markdownIt-Anchor" href="#xml实例"></a> xml实例</h4>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
  
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bookstore</span><span class="token punctuation">></span></span>
  
@@ -975,8 +1030,8 @@ asyncio<span class="token punctuation">.</span>get_event_loop<span class="token 
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>book</span><span class="token punctuation">></span></span>
  
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>bookstore</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h4><p>在 XPath 中，有七种类型的<strong>节点</strong>：元素、属性、文本、命名空间、处理指令、注释以及文档（根）节点。XML 文档是被作为节点树来对待的。树的根被称为文档节点或者根节点。</p>
+<h4 id="术语"><a class="markdownIt-Anchor" href="#术语"></a> 术语</h4>
+<p>在 XPath 中，有七种类型的<strong>节点</strong>：元素、属性、文本、命名空间、处理指令、注释以及文档（根）节点。XML 文档是被作为节点树来对待的。树的根被称为文档节点或者根节点。</p>
 <p><strong>基本值</strong>是无父或无子的节点。</p>
 <p><strong>项目</strong>是基本值或者节点</p>
 <p>每个元素以及属性都有一个<strong>父</strong>。</p>
@@ -992,7 +1047,8 @@ asyncio<span class="token punctuation">.</span>get_event_loop<span class="token 
 <th>结果</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>ancestor</td>
 <td>选取当前节点的所有先辈（父、祖父等）。</td>
 </tr>
@@ -1044,24 +1100,27 @@ asyncio<span class="token punctuation">.</span>get_event_loop<span class="token 
 <td>self</td>
 <td>选取当前节点。</td>
 </tr>
-</tbody></table>
-<h4 id="选取节点"><a href="#选取节点" class="headerlink" title="选取节点"></a>选取节点</h4><table>
+</tbody>
+</table>
+<h4 id="选取节点"><a class="markdownIt-Anchor" href="#选取节点"></a> 选取节点</h4>
+<table>
 <thead>
 <tr>
 <th>表达式</th>
 <th>描述</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>nodename</td>
 <td>读取此节点的所有子节点</td>
 </tr>
 <tr>
-<td>&#x2F;</td>
+<td>/</td>
 <td>从当前节点选取直接子节点</td>
 </tr>
 <tr>
-<td>&#x2F;&#x2F;</td>
+<td>//</td>
 <td>从当前节点选取子孙节点</td>
 </tr>
 <tr>
@@ -1069,15 +1128,16 @@ asyncio<span class="token punctuation">.</span>get_event_loop<span class="token 
 <td>选取当前节点</td>
 </tr>
 <tr>
-<td>..</td>
+<td>…</td>
 <td>选取当前节点的父节点</td>
 </tr>
 <tr>
 <td>@</td>
 <td>选取属性</td>
 </tr>
-</tbody></table>
-<p>eg:&#x2F;&#x2F;title[@lang&#x3D;’eng’] 表示 所有名称为title，同时属性lang的值为eng的节点</p>
+</tbody>
+</table>
+<p>eg://title[@lang=‘eng’] 表示 所有名称为title，同时属性lang的值为eng的节点</p>
 <table>
 <thead>
 <tr>
@@ -1085,32 +1145,35 @@ asyncio<span class="token punctuation">.</span>get_event_loop<span class="token 
 <th>结果</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>bookstore</td>
 <td>选取 bookstore 元素的所有子节点。</td>
 </tr>
 <tr>
-<td>&#x2F;bookstore</td>
-<td>选取根元素 bookstore。 注释：假如路径起始于正斜杠( &#x2F; )，则此路径始终代表到某元素的绝对路径！</td>
+<td>/bookstore</td>
+<td>选取根元素 bookstore。 注释：假如路径起始于正斜杠( / )，则此路径始终代表到某元素的绝对路径！</td>
 </tr>
 <tr>
-<td>bookstore&#x2F;book</td>
+<td>bookstore/book</td>
 <td>选取属于 bookstore 的子元素的所有 book 元素。</td>
 </tr>
 <tr>
-<td>&#x2F;&#x2F;book</td>
+<td>//book</td>
 <td>选取所有 book 子元素，而不管它们在文档中的位置。</td>
 </tr>
 <tr>
-<td>bookstore&#x2F;&#x2F;book</td>
+<td>bookstore//book</td>
 <td>选择属于 bookstore 元素的后代的所有 book 元素，而不管它们位于 bookstore 之下的什么位置。</td>
 </tr>
 <tr>
-<td>&#x2F;&#x2F;@lang</td>
+<td>//@lang</td>
 <td>选取名为 lang 的所有属性。</td>
 </tr>
-</tbody></table>
-<h4 id="谓语（Predicates）"><a href="#谓语（Predicates）" class="headerlink" title="谓语（Predicates）"></a>谓语（Predicates）</h4><p>谓语用来查找某个特定的节点或者包含某个指定的值的节点。</p>
+</tbody>
+</table>
+<h4 id="谓语predicates"><a class="markdownIt-Anchor" href="#谓语predicates"></a> 谓语（Predicates）</h4>
+<p>谓语用来查找某个特定的节点或者包含某个指定的值的节点。</p>
 <p>谓语被嵌在方括号中。</p>
 <p>在下面的表格中，我们列出了带有谓语的一些路径表达式，以及表达式的结果：</p>
 <table>
@@ -1120,40 +1183,43 @@ asyncio<span class="token punctuation">.</span>get_event_loop<span class="token 
 <th>结果</th>
 </tr>
 </thead>
-<tbody><tr>
-<td>&#x2F;bookstore&#x2F;book[1]</td>
+<tbody>
+<tr>
+<td>/bookstore/book[1]</td>
 <td>选取属于 bookstore 子元素的第一个 book 元素。</td>
 </tr>
 <tr>
-<td>&#x2F;bookstore&#x2F;book[last()]</td>
+<td>/bookstore/book[last()]</td>
 <td>选取属于 bookstore 子元素的最后一个 book 元素。</td>
 </tr>
 <tr>
-<td>&#x2F;bookstore&#x2F;book[last()-1]</td>
+<td>/bookstore/book[last()-1]</td>
 <td>选取属于 bookstore 子元素的倒数第二个 book 元素。</td>
 </tr>
 <tr>
-<td>&#x2F;bookstore&#x2F;book[position()&lt;3]</td>
+<td>/bookstore/book[position()❤️]</td>
 <td>选取最前面的两个属于 bookstore 元素的子元素的 book 元素。</td>
 </tr>
 <tr>
-<td>&#x2F;&#x2F;title[@lang]</td>
+<td>//title[@lang]</td>
 <td>选取所有拥有名为 lang 的属性的 title 元素。</td>
 </tr>
 <tr>
-<td>&#x2F;&#x2F;title[@lang&#x3D;’eng’]</td>
+<td>//title[@lang=‘eng’]</td>
 <td>选取所有 title 元素，且这些元素拥有值为 eng 的 lang 属性。</td>
 </tr>
 <tr>
-<td>&#x2F;bookstore&#x2F;book[price&gt;35.00]</td>
+<td>/bookstore/book[price&gt;35.00]</td>
 <td>选取 bookstore 元素的所有 book 元素，且其中的 price 元素的值须大于 35.00。</td>
 </tr>
 <tr>
-<td>&#x2F;bookstore&#x2F;book[price&gt;35.00]&#x2F;&#x2F;title</td>
+<td>/bookstore/book[price&gt;35.00]//title</td>
 <td>选取 bookstore 元素中的 book 元素的所有 title 元素，且其中的 price 元素的值须大于 35.00。</td>
 </tr>
-</tbody></table>
-<h4 id="选取未知节点"><a href="#选取未知节点" class="headerlink" title="选取未知节点"></a>选取未知节点</h4><p>XPath 通配符可用来选取未知的 XML 元素。</p>
+</tbody>
+</table>
+<h4 id="选取未知节点"><a class="markdownIt-Anchor" href="#选取未知节点"></a> 选取未知节点</h4>
+<p>XPath 通配符可用来选取未知的 XML 元素。</p>
 <table>
 <thead>
 <tr>
@@ -1161,7 +1227,8 @@ asyncio<span class="token punctuation">.</span>get_event_loop<span class="token 
 <th>描述</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>*</td>
 <td>匹配任何元素节点。</td>
 </tr>
@@ -1173,7 +1240,8 @@ asyncio<span class="token punctuation">.</span>get_event_loop<span class="token 
 <td>node()</td>
 <td>匹配任何类型的节点。</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>在下面的表格中，我们列出了一些路径表达式，以及这些表达式的结果：</p>
 <table>
 <thead>
@@ -1182,20 +1250,23 @@ asyncio<span class="token punctuation">.</span>get_event_loop<span class="token 
 <th>结果</th>
 </tr>
 </thead>
-<tbody><tr>
-<td>&#x2F;bookstore&#x2F;*</td>
+<tbody>
+<tr>
+<td>/bookstore/*</td>
 <td>选取 bookstore 元素的所有子元素。</td>
 </tr>
 <tr>
-<td>&#x2F;&#x2F;*</td>
+<td>//*</td>
 <td>选取文档中的所有元素。</td>
 </tr>
 <tr>
-<td>&#x2F;&#x2F;title[@*]</td>
+<td>//title[@*]</td>
 <td>选取所有带有属性的 title 元素。</td>
 </tr>
-</tbody></table>
-<h4 id="选取若干路径"><a href="#选取若干路径" class="headerlink" title="选取若干路径"></a>选取若干路径</h4><p>通过在路径表达式中使用”|”运算符，您可以选取若干个路径。</p>
+</tbody>
+</table>
+<h4 id="选取若干路径"><a class="markdownIt-Anchor" href="#选取若干路径"></a> 选取若干路径</h4>
+<p>通过在路径表达式中使用&quot;|&quot;运算符，您可以选取若干个路径。</p>
 <p>在下面的表格中，我们列出了一些路径表达式，以及这些表达式的结果：</p>
 <table>
 <thead>
@@ -1204,20 +1275,23 @@ asyncio<span class="token punctuation">.</span>get_event_loop<span class="token 
 <th>结果</th>
 </tr>
 </thead>
-<tbody><tr>
-<td>&#x2F;&#x2F;book&#x2F;title | &#x2F;&#x2F;book&#x2F;price</td>
+<tbody>
+<tr>
+<td>//book/title | //book/price</td>
 <td>选取 book 元素的所有 title 和 price 元素。</td>
 </tr>
 <tr>
-<td>&#x2F;&#x2F;title | &#x2F;&#x2F;price</td>
+<td>//title | //price</td>
 <td>选取文档中的所有 title 和 price 元素。</td>
 </tr>
 <tr>
-<td>&#x2F;bookstore&#x2F;book&#x2F;title | &#x2F;&#x2F;price</td>
+<td>/bookstore/book/title | //price</td>
 <td>选取属于 bookstore 元素的 book 元素的所有 title 元素，以及文档中所有的 price 元素。</td>
 </tr>
-</tbody></table>
-<h4 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a><strong>运算符</strong></h4><table>
+</tbody>
+</table>
+<h4 id="运算符"><a class="markdownIt-Anchor" href="#运算符"></a> <strong>运算符</strong></h4>
+<table>
 <thead>
 <tr>
 <th>运算符</th>
@@ -1226,10 +1300,11 @@ asyncio<span class="token punctuation">.</span>get_event_loop<span class="token 
 <th>返回值</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>|</td>
 <td>计算两个节点集</td>
-<td>&#x2F;&#x2F;book | &#x2F;&#x2F;cd</td>
+<td>//book | //cd</td>
 <td>返回所有拥有 book 和 cd 元素的节点集</td>
 </tr>
 <tr>
@@ -1257,15 +1332,15 @@ asyncio<span class="token punctuation">.</span>get_event_loop<span class="token 
 <td>2</td>
 </tr>
 <tr>
-<td>&#x3D;</td>
+<td>=</td>
 <td>等于</td>
-<td>price&#x3D;9.80</td>
+<td>price=9.80</td>
 <td>如果 price 是 9.80，则返回 true。 如果 price 是 9.90，则返回 false。</td>
 </tr>
 <tr>
-<td>!&#x3D;</td>
+<td>!=</td>
 <td>不等于</td>
-<td>price!&#x3D;9.80</td>
+<td>price!=9.80</td>
 <td>如果 price 是 9.90，则返回 true。 如果 price 是 9.80，则返回 false。</td>
 </tr>
 <tr>
@@ -1275,9 +1350,9 @@ asyncio<span class="token punctuation">.</span>get_event_loop<span class="token 
 <td>如果 price 是 9.00，则返回 true。 如果 price 是 9.90，则返回 false。</td>
 </tr>
 <tr>
-<td>&lt;&#x3D;</td>
+<td>&lt;=</td>
 <td>小于或等于</td>
-<td>price&lt;&#x3D;9.80</td>
+<td>price&lt;=9.80</td>
 <td>如果 price 是 9.00，则返回 true。 如果 price 是 9.90，则返回 false。</td>
 </tr>
 <tr>
@@ -1287,15 +1362,15 @@ asyncio<span class="token punctuation">.</span>get_event_loop<span class="token 
 <td>如果 price 是 9.90，则返回 true。 如果 price 是 9.80，则返回 false。</td>
 </tr>
 <tr>
-<td>&gt;&#x3D;</td>
+<td>&gt;=</td>
 <td>大于或等于</td>
-<td>price&gt;&#x3D;9.80</td>
+<td>price&gt;=9.80</td>
 <td>如果 price 是 9.90，则返回 true。 如果 price 是 9.70，则返回 false。</td>
 </tr>
 <tr>
 <td>or</td>
 <td>或</td>
-<td>price&#x3D;9.80 or price&#x3D;9.70</td>
+<td>price=9.80 or price=9.70</td>
 <td>如果 price 是 9.80，则返回 true。 如果 price 是 9.50，则返回 false。</td>
 </tr>
 <tr>
@@ -1310,8 +1385,10 @@ asyncio<span class="token punctuation">.</span>get_event_loop<span class="token 
 <td>5 mod 2</td>
 <td>1</td>
 </tr>
-</tbody></table>
-<h3 id="lxml库"><a href="#lxml库" class="headerlink" title="lxml库"></a>lxml库</h3><p>可以通过xml库，利用XPath对HTML进行解析</p>
+</tbody>
+</table>
+<h3 id="lxml库"><a class="markdownIt-Anchor" href="#lxml库"></a> lxml库</h3>
+<p>可以通过xml库，利用XPath对HTML进行解析</p>
 <p>demo1：</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> lxml <span class="token keyword">import</span> etree
 <span class="token keyword">import</span> requests
@@ -1322,21 +1399,16 @@ html <span class="token operator">=</span> etree<span class="token punctuation">
 html<span class="token operator">=</span>etree<span class="token punctuation">.</span>parse<span class="token punctuation">(</span>text<span class="token punctuation">,</span>etree<span class="token punctuation">.</span>HTMLParse<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 results<span class="token operator">=</span>etree<span class="token punctuation">.</span>tostring<span class="token punctuation">(</span>html<span class="token punctuation">)</span> <span class="token comment">#调用tostring的方法，可以自动修正HTML文本，返回的是bytes类型</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>results<span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <p>对results进行html的xpath解析实例</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python">result1<span class="token operator">=</span>html<span class="token punctuation">.</span>xpath<span class="token punctuation">(</span><span class="token string">'//*'</span><span class="token punctuation">)</span>
 rresult2<span class="token operator">=</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>result1<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>result1<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
 <p>一些xpath表达式的解析</p>
 <blockquote>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token operator">//</span>a<span class="token punctuation">[</span>@href<span class="token operator">=</span><span class="token string">"link1.html"</span><span class="token punctuation">]</span><span class="token operator">/</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token operator">/</span>@ <span class="token keyword">class</span> <span class="token comment">#首先选中href属性为link4.html的a节点，然后获取其父节点，再获取父节点的class属性</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token operator">//</span>li<span class="token punctuation">[</span>@<span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"item-0"</span><span class="token punctuation">]</span><span class="token operator">/</span>text<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#先选取li节点，然后利用/选取其直接子节点a，在选取节点a 的文本</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token operator">></span><span class="token operator">/</span>bookstore<span class="token operator">/</span>book<span class="token punctuation">[</span>price<span class="token operator">></span><span class="token number">35</span><span class="token punctuation">]</span><span class="token operator">/</span>title <span class="token comment">#选取价格高于35的title节点</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token operator">></span><span class="token operator">//</span>li<span class="token punctuation">[</span>contains<span class="token punctuation">(</span>@<span class="token keyword">class</span><span class="token punctuation">,</span><span class="token string">"li"</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token operator">/</span>a<span class="token operator">/</span>text<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#给第一个参数传入属性名称，第二个参数传入属性值</span>
 <span class="token operator">></span>contains方法经常用于在某个节点的某个属性有多个值的时候用到
 
@@ -1364,14 +1436,16 @@ soup<span class="token operator">=</span>BeautifulSoup<span class="token punctua
 <span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>p<span class="token punctuation">.</span>string<span class="token punctuation">)</span><span class="token comment">#获取p节点的文本</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>soup<span class="token punctuation">.</span>p<span class="token punctuation">.</span>contents<span class="token punctuation">)</span><span class="token comment">#获取p的直接子节点</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </blockquote>
-<h1 id="labs"><a href="#labs" class="headerlink" title="labs"></a><strong>labs</strong></h1><h2 id="lab-1"><a href="#lab-1" class="headerlink" title="lab-1"></a>lab-1</h2><blockquote>
+<h1 id="labs"><a class="markdownIt-Anchor" href="#labs"></a> <strong>labs</strong></h1>
+<h2 id="lab-1"><a class="markdownIt-Anchor" href="#lab-1"></a> lab-1</h2>
+<blockquote>
 <p>url:<a target="_blank" rel="noopener" href="https://ssr1.scrape.center/">https://ssr1.scrape.center/</a></p>
 <p>tasks:spider the films names and details;save into json</p>
 <p>goals: to familiar with re,requests,multiprocess</p>
 </blockquote>
-<p><img src="https://s2.loli.net/2024/03/13/7aTBLdEbjHQ1GSy.png" loading="lazy"></p>
+<p><img src="https://s2.loli.net/2024/03/13/7aTBLdEbjHQ1GSy.png" alt="" / loading="lazy"></p>
 <ul>
-<li>Step0:  从列表页入手，观察列表页的结构和翻页规则，102条数据，11页,<strong>page格式:url&#x2F;page&#x2F;{pagenumber} ;detail格式:url&#x2F;detail&#x2F;{id}</strong></li>
+<li>Step0:  从列表页入手，观察列表页的结构和翻页规则，102条数据，11页,<strong>page格式:url/page/{pagenumber} ;detail格式:url/detail/{id}</strong></li>
 <li>Step1：浏览器查看源码:发现电影标题都在&lt;h2&gt;标签中</li>
 <li>Step2:  发现规律：完成列表页的爬取</li>
 </ul>
@@ -1474,7 +1548,6 @@ exists<span class="token punctuation">(</span>RESULT_DIR<span class="token punct
         logging<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">'saveing data to json file'</span><span class="token punctuation">)</span>
         save_data<span class="token punctuation">(</span>data<span class="token punctuation">)</span>
         logging<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">'data saved successfully'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 <ul>
 <li>多线程加速</li>
 </ul>
@@ -1497,7 +1570,25 @@ exists<span class="token punctuation">(</span>RESULT_DIR<span class="token punct
     pool<span class="token punctuation">.</span><span class="token builtin">map</span><span class="token punctuation">(</span>main<span class="token punctuation">,</span>pages<span class="token punctuation">)</span><span class="token comment">#分别把这10个页码传给这10个函数，进程池根据当前运行环境决定运行多少个进程</span>
     pool<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
     pool<span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<hr class="footnotes-sep" />
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>a-z0-9_- <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>a-z0-9_- <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>\u2E80-\u9FFF <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p>\s\S  <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p>0-9 <a href="#fnref5" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn6" class="footnote-item"><p>0-9 <a href="#fnref6" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn7" class="footnote-item"><p>\s\S  <a href="#fnref7" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
 </div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/03/24/NKCTF2024%E4%B8%AA%E4%BA%BAWp/" rel="prev" title="NKCTF2024个人Wp"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">NKCTF2024个人Wp</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/03/01/%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/" rel="next" title="算法学习"><span class="post-nav-text">算法学习</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="搜索"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
   // Handle and trigger popup window
   document.querySelector(".popup-trigger").addEventListener("click", () => {
