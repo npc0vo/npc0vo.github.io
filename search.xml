@@ -4,6 +4,50 @@
   
     
     <entry>
+      <title>NpcのDiary</title>
+      <link href="/2024/04/14/Npc%E3%81%AEDiary/"/>
+      <url>/2024/04/14/Npc%E3%81%AEDiary/</url>
+      
+        <content type="html"><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="Oh, these decrypted content cannot be verified, but you can still have a look.">  <script id="hbeData" type="hbeData" data-hmacdigest="b418332096ed8fce7688edaa7c57535eaa3f5e83e186fb1d0007570e81394a2b">2cb0a3973d8965d04dd2d6888666ab11e6cbce00aade42d8a7041d1eff1aeec1</script>  <div class="hbe hbe-content">    <div class="hbe hbe-input hbe-input-shrink">      <input class="hbe hbe-input-field hbe-input-field-shrink" type="password" id="hbePass">      <label class="hbe hbe-input-label hbe-input-label-shrink" for="hbePass">        <span class="hbe hbe-input-label-content hbe-input-label-content-shrink">Hey, password is required here.</span>      </label>    </div>  </div></div><script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> diary </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>JS&amp;Frida入门</title>
+      <link href="/2024/04/05/Frida%E5%85%A5%E9%97%A8/"/>
+      <url>/2024/04/05/Frida%E5%85%A5%E9%97%A8/</url>
+      
+        <content type="html"><![CDATA[<h1 id="basics"><a class="markdownIt-Anchor" href="#basics"></a> Basics</h1><p>基础教程&amp;参考链接</p><p><a href="https://www.runoob.com/js/js-tutorial.html">JavaScript 教程 | 菜鸟教程 (runoob.com)</a></p><p><a href="https://www.runoob.com/jsref/jsref-tutorial.html">JavaScript 和 HTML DOM 参考手册 | 菜鸟教程 (runoob.com)</a></p><p><a href="https://www.freebuf.com/articles/system/190565.html">一篇文章带你领悟Frida的精髓（基于安卓8.1） - FreeBuf网络安全行业门户</a></p><p>[<a href="https://bbs.kanxue.com/thread-226846.htm">原创]Frida从入门到入门—安卓逆向菜鸟的frida食用说明-Android安全-看雪-安全社区|安全招聘|kanxue.com</a></p><p><a href="https://frida.re/docs/home/">Welcome | Frida • A world-class dynamic instrumentation toolkit</a></p><h1 id="frida"><a class="markdownIt-Anchor" href="#frida"></a> Frida</h1>]]></content>
+      
+      
+      <categories>
+          
+          <category> Reverse </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习笔记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>NKCTF2024个人Wp</title>
       <link href="/2024/03/24/NKCTF2024%E4%B8%AA%E4%BA%BAWp/"/>
       <url>/2024/03/24/NKCTF2024%E4%B8%AA%E4%BA%BAWp/</url>
@@ -172,9 +216,9 @@
       
         <tags>
             
-            <tag> Reverse </tag>
-            
             <tag> 学习笔记 </tag>
+            
+            <tag> Reverse </tag>
             
         </tags>
       
