@@ -1,0 +1,1076 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>pwnCollege-2-ProgramInteraction | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"onelastchick.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="LectureNotes  Linux Command Line: Linux命令行:  File System: 文件系统:   Absolute Paths: start with &#x2F;绝对路径：以 &quot; &#x2F;&quot; 开头。 Relative Paths: do NOT start with &#x2F;, relative to the current working directory相">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pwnCollege-2-ProgramInteraction">
+<meta property="og:url" content="http://onelastchick.github.io/2024/05/09/PwnCollege2-ProgramInteraction/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="LectureNotes  Linux Command Line: Linux命令行:  File System: 文件系统:   Absolute Paths: start with &#x2F;绝对路径：以 &quot; &#x2F;&quot; 开头。 Relative Paths: do NOT start with &#x2F;, relative to the current working directory相">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s0merset7.github.io/post/2021/sept/program_interaction/fileSystemStructure.png">
+<meta property="og:image" content="https://s0merset7.github.io/post/2021/sept/program_interaction/symbolsChar.jpg">
+<meta property="article:published_time" content="2024-05-09T11:36:57.000Z">
+<meta property="article:modified_time" content="2024-05-29T15:48:06.461Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s0merset7.github.io/post/2021/sept/program_interaction/fileSystemStructure.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">24</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">8</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">11</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/OneLastChick" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#lecturenotes"><span class="toc-number">1.</span> <span class="toc-text"> LectureNotes</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#linux-command-line-linux%E5%91%BD%E4%BB%A4%E8%A1%8C"><span class="toc-number">1.1.</span> <span class="toc-text"> Linux Command Line: Linux命令行:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#file-system-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.1.1.</span> <span class="toc-text"> File System: 文件系统:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#environment-variables"><span class="toc-number">1.1.2.</span> <span class="toc-text"> Environment Variables:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#files"><span class="toc-number">1.1.3.</span> <span class="toc-text"> Files:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pipes"><span class="toc-number">1.1.4.</span> <span class="toc-text"> Pipes:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#useful-commands-cli"><span class="toc-number">1.1.5.</span> <span class="toc-text"> Useful Commands (CLI):</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#binary-files"><span class="toc-number">1.2.</span> <span class="toc-text"> Binary Files</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#elf-files"><span class="toc-number">1.2.1.</span> <span class="toc-text"> ELF Files:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#symbols"><span class="toc-number">1.2.2.</span> <span class="toc-text"> Symbols:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#resources-to-interact-with-elf"><span class="toc-number">1.2.3.</span> <span class="toc-text"> Resources to Interact with ELF:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#useful-commands-binary"><span class="toc-number">1.2.4.</span> <span class="toc-text"> Useful Commands (Binary):</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lifecycle-of-a-linux-process"><span class="toc-number">1.3.</span> <span class="toc-text"> Lifecycle of a Linux Process</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#what-is-a-process"><span class="toc-number">1.3.1.</span> <span class="toc-text"> What is a Process:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#process-timeline-%E8%BF%87%E7%A8%8B%E6%97%B6%E9%97%B4%E8%BD%B4"><span class="toc-number">1.3.2.</span> <span class="toc-text"> Process Timeline: 过程时间轴:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#useful-commands-viewing-processes"><span class="toc-number">1.3.3.</span> <span class="toc-text"> Useful Commands (Viewing Processes):</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sources"><span class="toc-number">1.4.</span> <span class="toc-text"> Sources:</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#challenges"><span class="toc-number">2.</span> <span class="toc-text"> Challenges</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#program-interaction"><span class="toc-number">2.1.</span> <span class="toc-text"> Program Interaction</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#level1"><span class="toc-number">2.1.1.</span> <span class="toc-text"> level1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level2"><span class="toc-number">2.1.2.</span> <span class="toc-text"> level2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level3"><span class="toc-number">2.1.3.</span> <span class="toc-text"> level3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level4"><span class="toc-number">2.1.4.</span> <span class="toc-text"> level4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level7"><span class="toc-number">2.1.5.</span> <span class="toc-text"> level7</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level5"><span class="toc-number">2.1.6.</span> <span class="toc-text"> level5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level6"><span class="toc-number">2.1.7.</span> <span class="toc-text"> level6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level8"><span class="toc-number">2.1.8.</span> <span class="toc-text"> level8</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level9"><span class="toc-number">2.1.9.</span> <span class="toc-text"> level9</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level10"><span class="toc-number">2.1.10.</span> <span class="toc-text"> level10</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level11"><span class="toc-number">2.1.11.</span> <span class="toc-text"> level11</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level12"><span class="toc-number">2.1.12.</span> <span class="toc-text"> level12</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level13"><span class="toc-number">2.1.13.</span> <span class="toc-text"> level13</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level14"><span class="toc-number">2.1.14.</span> <span class="toc-text"> level14</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level15"><span class="toc-number">2.1.15.</span> <span class="toc-text"> level15</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level16"><span class="toc-number">2.1.16.</span> <span class="toc-text"> level16</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level17"><span class="toc-number">2.1.17.</span> <span class="toc-text"> level17</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level18"><span class="toc-number">2.1.18.</span> <span class="toc-text"> level18</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level19"><span class="toc-number">2.1.19.</span> <span class="toc-text"> level19</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level20"><span class="toc-number">2.1.20.</span> <span class="toc-text"> level20</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level21"><span class="toc-number">2.1.21.</span> <span class="toc-text"> level21</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level22"><span class="toc-number">2.1.22.</span> <span class="toc-text"> level22</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level23"><span class="toc-number">2.1.23.</span> <span class="toc-text"> level23</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level24"><span class="toc-number">2.1.24.</span> <span class="toc-text"> level24</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level25"><span class="toc-number">2.1.25.</span> <span class="toc-text"> level25</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level26"><span class="toc-number">2.1.26.</span> <span class="toc-text"> level26</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level27"><span class="toc-number">2.1.27.</span> <span class="toc-text"> level27</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level28"><span class="toc-number">2.1.28.</span> <span class="toc-text"> level28</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level29"><span class="toc-number">2.1.29.</span> <span class="toc-text"> level29</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level30"><span class="toc-number">2.1.30.</span> <span class="toc-text"> level30</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level31"><span class="toc-number">2.1.31.</span> <span class="toc-text"> level31</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level32"><span class="toc-number">2.1.32.</span> <span class="toc-text"> level32</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level33"><span class="toc-number">2.1.33.</span> <span class="toc-text"> level33</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level34"><span class="toc-number">2.1.34.</span> <span class="toc-text"> level34</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level35"><span class="toc-number">2.1.35.</span> <span class="toc-text"> level35</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level36"><span class="toc-number">2.1.36.</span> <span class="toc-text"> level36</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level37"><span class="toc-number">2.1.37.</span> <span class="toc-text"> level37</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level38"><span class="toc-number">2.1.38.</span> <span class="toc-text"> level38</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level39"><span class="toc-number">2.1.39.</span> <span class="toc-text"> level39</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level40"><span class="toc-number">2.1.40.</span> <span class="toc-text"> level40</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level41"><span class="toc-number">2.1.41.</span> <span class="toc-text"> level41</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level42"><span class="toc-number">2.1.42.</span> <span class="toc-text"> level42</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level43"><span class="toc-number">2.1.43.</span> <span class="toc-text"> level43</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level44"><span class="toc-number">2.1.44.</span> <span class="toc-text"> level44</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level45"><span class="toc-number">2.1.45.</span> <span class="toc-text"> level45</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level46"><span class="toc-number">2.1.46.</span> <span class="toc-text"> level46</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level47"><span class="toc-number">2.1.47.</span> <span class="toc-text"> level47</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level48"><span class="toc-number">2.1.48.</span> <span class="toc-text"> level48</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level49"><span class="toc-number">2.1.49.</span> <span class="toc-text"> level49</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level50"><span class="toc-number">2.1.50.</span> <span class="toc-text"> level50</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level51"><span class="toc-number">2.1.51.</span> <span class="toc-text"> level51</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level52"><span class="toc-number">2.1.52.</span> <span class="toc-text"> level52</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level53"><span class="toc-number">2.1.53.</span> <span class="toc-text"> level53</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level54"><span class="toc-number">2.1.54.</span> <span class="toc-text"> level54</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level55"><span class="toc-number">2.1.55.</span> <span class="toc-text"> level55</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level56"><span class="toc-number">2.1.56.</span> <span class="toc-text"> level56</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level57"><span class="toc-number">2.1.57.</span> <span class="toc-text"> level57</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level58"><span class="toc-number">2.1.58.</span> <span class="toc-text"> level58</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level59"><span class="toc-number">2.1.59.</span> <span class="toc-text"> level59</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level60"><span class="toc-number">2.1.60.</span> <span class="toc-text"> level60</span></a></li></ol></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://onelastchick.github.io/2024/05/09/PwnCollege2-ProgramInteraction/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">pwnCollege-2-ProgramInteraction</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-05-09 19:36:57" itemprop="dateCreated datePublished" datetime="2024-05-09T19:36:57+08:00">2024-05-09</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-05-29 23:48:06" itemprop="dateModified" datetime="2024-05-29T23:48:06+08:00">2024-05-29</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">8.5k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">39m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/PwnCollege/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">PwnCollege</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/CTF/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">CTF</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h1 id="lecturenotes"><a class="markdownIt-Anchor" href="#lecturenotes"></a> LectureNotes</h1>
+<h2 id="linux-command-line-linux命令行"><a class="markdownIt-Anchor" href="#linux-command-line-linux命令行"></a> Linux Command Line: Linux命令行:</h2>
+<h3 id="file-system-文件系统"><a class="markdownIt-Anchor" href="#file-system-文件系统"></a> <strong>File System: 文件系统:</strong></h3>
+<p><img src="https://s0merset7.github.io/post/2021/sept/program_interaction/fileSystemStructure.png" alt="File System Structure" / loading="lazy"></p>
+<ul>
+<li>Absolute Paths: start with <code>/</code>绝对路径：以 &quot; <code>/</code>&quot; 开头。</li>
+<li>Relative Paths: do NOT start with <code>/</code>, relative to the current working directory相对路径：不要以“ <code>/</code> ”开头，相对于当前工作目录</li>
+</ul>
+<h3 id="environment-variables"><a class="markdownIt-Anchor" href="#environment-variables"></a> <strong>Environment Variables:</strong></h3>
+<p>Environment Variables: a set of Key/Value pairs passed into every process when launched. Critical variables include:环境变量：在启动进程时传递给每个进程的一组键/值对。关键变量包括：</p>
+<ul>
+<li><code>PATH</code>: list of directories to search for programs in[b0]：要搜索程序的目录列表</li>
+<li><code>PWD</code>: current working directory：当前工作目录</li>
+<li><code>HOME</code>: path to home directory家目录路径</li>
+<li><code>HOSTNAME</code>: name of the system系统的名称</li>
+</ul>
+<h3 id="files"><a class="markdownIt-Anchor" href="#files"></a> <strong>Files:</strong></h3>
+<ul>
+<li>Symbolic Links (Soft Links): special type of file that references another file 符号链接（软链接）：一种特殊的文件类型，它指向另一个文件。
+<ul>
+<li>symbolic links to relative paths are relative to the directory containing the link指向相对路径的符号链接相对于包含链接的目录是相对的。</li>
+</ul>
+</li>
+<li>Hard Links: a perfect reference to the data/content inside the linked file. They link only to the data of the linked file, not its original path硬链接：是对链接文件内部数据/内容的完美引用。它们仅链接到被链接文件的数据，而不链接到其原始路径。</li>
+</ul>
+<p><strong>Different Types of Files:不同类型的文件：</strong></p>
+<ul>
+<li><code>-</code>: regular file <code>-</code> :普通文件</li>
+<li><code>d</code>: a directory (yes, directories are actually just special files!)<code>d</code> ： 一个目录（是的，目录实际上只是一种特殊的文件！）</li>
+<li><code>l</code>: a symbolic link (a file that transparently points to another file or directory)`<code>l</code> `： 符号链接（一种透明地指向其他文件或目录的文件）</li>
+<li><code>p</code>: is a named pipe (also known as a FIFO)&quot;<code>p</code> &quot; 是一个命名管道（也称为 FIFO）。</li>
+<li><code>c</code>: is a character device file (i.e., backed by a hardware device that produces or receives data streams, such as a microphone)`/dev/b0` 是一个字符设备文件（即由硬件设备支持，该硬件设备可以生成或接收数据流，例如麦克风）。</li>
+<li><code>b</code>: a block device file (i.e., backed by a hardware device that stores and loads blocks of data, such as a hard drive)`<code>b</code> `： 块设备文件（即由硬件设备支持的文件，该硬件设备用于存储和加载数据块，例如硬盘）</li>
+<li><code>s</code>: a unix socket (essentially a local network connection encapsulated in a file)<code>s</code> ： 一个 Unix 套接字（本质上是一个封装在文件中的本地网络连接）</li>
+</ul>
+<h3 id="pipes"><a class="markdownIt-Anchor" href="#pipes"></a> <strong>Pipes:</strong></h3>
+<ul>
+<li>Unnamed Pipes (<code>|</code>): ethereal channels of communication, often used to direct data from one command to another匿名管道（ <code>|</code> ）：一种用于通信的无形通道，通常用于将数据从一个命令传输到另一个命令。</li>
+<li>Named Pipes (FIFOs): used to help facilitate data flow in certain situations. The flow of data is First In First Out (FIFO)命名管道（先进先出队列）：用于在某些情况下帮助数据流的传输。数据的传输遵循先进先出的原则（FIFO）。</li>
+</ul>
+<h3 id="useful-commands-cli"><a class="markdownIt-Anchor" href="#useful-commands-cli"></a> <strong>Useful Commands (CLI):</strong></h3>
+<ul>
+<li><code>witch programName</code>: will return the absolute path of the program given found by the <code>PATH</code> variable它将返回由  <code>PATH</code>  变量找到的程序的绝对路径。</li>
+<li><code>env</code>: prints all the environment variables to the screen`<code>env</code> ` 会将所有环境变量打印到屏幕上。</li>
+<li><code>export variable=value</code>: can set new/existing variables to a new value[b0] 可以为现有或新创建的变量设置新的值。</li>
+<li><code>ln -s fileToBeLinked symbolicLinkName</code>: creates a symbolic link创建一个符号链接。</li>
+<li><code>ln fileToBeLinked hardLinkName</code>: creates a hard link创建硬链接</li>
+<li><code>ls -ld</code>: Lists all files in current directory along with the files’ absolute path<code>ls -ld</code> ： 列出当前目录下的所有文件及其绝对路径</li>
+<li><code>mkfifo fifoName</code>: makes a new FIFO创建一个新的FIFO（先进先出队列）。</li>
+<li><code>command &lt; in_file</code>: redirect in_file into command’s input将 `in_file` 重定向到命令的输入中。</li>
+<li><code>command &gt; out_file</code>: redirect command’s output into out_file, overwriting it将命令的输出重定向到 out_file 文件中，并覆盖该文件。</li>
+<li><code>command &gt;&gt;out_file</code>: redirect the command’s output into out_file, appending to it将命令的输出重定向到 out_file 文件中，并追加到该文件中。</li>
+<li><code>command 2&gt;error_file</code>: redirect the command’s errors into error_file, overwriting it将命令的错误重定向到 error_file 中，并覆盖该文件。</li>
+<li><code>command 2&gt;&gt;error_file</code>: redirect the command’s errors into error_file, appending to it将命令的错误重定向到 error_file 中，并追加到其中。</li>
+</ul>
+<h2 id="binary-files"><a class="markdownIt-Anchor" href="#binary-files"></a> Binary Files</h2>
+<h3 id="elf-files"><a class="markdownIt-Anchor" href="#elf-files"></a> <strong>ELF Files:</strong></h3>
+<p>Executable and Linkable Format (ELF): defines a program as it will be loaded and executed in memory for Linux/BSD systems. Allows for a compiler to create and define a program可执行和可链接格式（ELF）：定义了Linux/BSD系统上加载并执行的程序在内存中的格式。允许编译器创建并定义程序。</p>
+<ul>
+<li>is a binary file format containing the program, its data, how the program should be loaded (program/segment headers), and the metadata describing program components (section headers)这是一种二进制文件格式，其中包含程序本身、数据以及程序的加载方式（程序/段头），以及描述程序组件的元数据（节头）。</li>
+<li>For Windows the equivalent are Portable Executables (PE)对于Windows系统来说，对应的文件格式是Portable Executables（PE）。</li>
+<li>For MacOS the equivalent are Mach-O对于MacOS，其对应的格式是Mach-O。</li>
+</ul>
+<p>Dynamically Linked ELF: The ELF file relies on libraries that also need to be loaded动态链接的ELF文件：该ELF文件依赖于需要加载的库文件。</p>
+<p>Program Headers: specify information and define segments needed to prepare the program for execution. The source of information used when loading a file程序头：指定需要的信息并定义为使程序能够执行所需的段。加载文件时使用的信息来源</p>
+<ul>
+<li>Segments: parts of an ELF file that are loaded into the memory of a computer when that file is executed段：当ELF文件被执行时，加载到计算机内存中的文件部分</li>
+</ul>
+<p><strong>Important Entry Types: 重要的入口类型：</strong></p>
+<ul>
+<li><code>INTERP</code>: entry type defining the library that should be used to load this ELF into memory[b0] 入口类型定义了应该使用哪个库来将此ELF加载到内存中。</li>
+<li><code>LOAD</code>: entry type defining a part of the file that should be loaded into memory<code>LOAD</code> ： 定义文件中应加载到内存中的一部分的入口类型</li>
+</ul>
+<p>Section Headers: represent a different view inside an ELF file with a lot more semantic information that is less important for the actual loading process节头：代表ELF文件中一种不同的内部视图，包含更多与实际加载过程关系不大的语义信息。</p>
+<ul>
+<li>They are not required in an ELF file, they are stored as metadata它们在ELF文件中不是必需的，而是作为元数据存储的。</li>
+</ul>
+<p><strong>Important Sections: 重要的部分:</strong></p>
+<ul>
+<li><code>.text</code>: the executable code of your program.[b0]：您程序的可执行代码。</li>
+<li><code>.plt</code> and <code>.got</code>: used to resolve and dispatch library calls.和：用于解决和分发库的调用。</li>
+<li><code>.data</code>: used for pre-initialized global writable data (such as global arrays with initial values)<code>.data</code> ： 用于预先初始化的全局可写数据（例如具有初始值的全局数组）</li>
+<li><code>.rodata</code>: used for global read-only data (such as string constants)<code>.rodata</code> ：用于全局只读数据（如字符串常量）</li>
+<li><code>.bss</code>: used for uninitialized global writable data (such as global arrays without initial values)<code>.bss</code> ： 用于未初始化的全局可写数据（例如没有初始值的全局数组）</li>
+</ul>
+<h3 id="symbols"><a class="markdownIt-Anchor" href="#symbols"></a> <strong>Symbols:</strong></h3>
+<p>Symbols: binaries and libraries that use dynamically loaded libraries to find libraries, resolve function calls into those libraries, etc <img src="https://s0merset7.github.io/post/2021/sept/program_interaction/symbolsChar.jpg" alt="ELF Symbols" / loading="lazy"></p>
+<h3 id="resources-to-interact-with-elf"><a class="markdownIt-Anchor" href="#resources-to-interact-with-elf"></a> <strong>Resources to Interact with ELF:</strong></h3>
+<ul>
+<li><code>gcc</code>: to make your ELF.制作你的ELF文件。</li>
+<li><code>readelf</code>: to parse the ELF header.解析ELF头文件。</li>
+<li><code>objdump</code>: to parse the ELF header and disassemble the source code.解析ELF头文件并反汇编源代码。</li>
+<li><code>nm</code>: to view your ELF’s symbols.[b0]：查看您的ELF文件的符号。</li>
+<li><code>patchelf</code>: to change some ELF properties.[b0]：用来更改一些ELF文件的属性。</li>
+<li><code>objcopy</code>: to swap out ELF sections.替换ELF段。</li>
+<li><code>strip</code>: to remove otherwise-helpful information (such as symbols).删除原本有用的信息（例如符号）。</li>
+<li><a target="_blank" rel="noopener" href="https://ide.kaitai.io/"><strong>kaitai struct</strong></a>: to look through your ELF interactively.凯泰结构：用于交互式查看ELF文件。</li>
+</ul>
+<h3 id="useful-commands-binary"><a class="markdownIt-Anchor" href="#useful-commands-binary"></a> <strong>Useful Commands (Binary):</strong></h3>
+<ul>
+<li><code>readelf -a programName</code>: will parse out the ELF file, providing information such as headers它会解析ELF文件，提供诸如头文件之类的信息。</li>
+<li><code>nm -a programName</code>: will list out all of the symbols associated with a program[b0] 将会列出与程序相关的所有符号。</li>
+<li><code>nm -D programName</code>: will list out all of the dynamic imports used at runtime将会列出在运行时使用的所有动态导入。</li>
+</ul>
+<h2 id="lifecycle-of-a-linux-process"><a class="markdownIt-Anchor" href="#lifecycle-of-a-linux-process"></a> Lifecycle of a Linux Process</h2>
+<h3 id="what-is-a-process"><a class="markdownIt-Anchor" href="#what-is-a-process"></a> <strong>What is a Process:</strong></h3>
+<p><strong>Every Linux process has: 每个Linux进程都有：</strong></p>
+<ul>
+<li>State 状态
+<ul>
+<li>running, waiting, stopped, zombie跑步、等待、停止、僵尸</li>
+</ul>
+</li>
+<li>Priority (and other scheduling information)优先级（以及其他调度信息）</li>
+<li>Parent, Siblings, Children父母、兄弟姐妹、子女</li>
+<li>Shared Resources 共享资源
+<ul>
+<li>files, pipes, sockets 文件、管道、套接字</li>
+</ul>
+</li>
+<li>Virtual Memory Space 虚拟内存空间</li>
+<li>Security Context 安全上下文
+<ul>
+<li>effective uid and gid 有效的UID（用户ID）和GID（组ID）</li>
+<li>saved uid and gid 已保存的uid和gid</li>
+<li>capabilities 功能</li>
+</ul>
+</li>
+</ul>
+<p>Virtual Memory: memory dedicated to a specific process虚拟内存：专门分配给某个进程的内存</p>
+<p>Physical Memory: memory shared among the whole system物理内存：系统中所有组件共享的内存</p>
+<p>libc: a library full of helper functions that is used by almost every program (including common C functions)libc 是一个包含大量辅助函数的库，几乎所有的程序（包括常见的 C 函数）都会使用它。</p>
+<h3 id="process-timeline-过程时间轴"><a class="markdownIt-Anchor" href="#process-timeline-过程时间轴"></a> <strong>Process Timeline: 过程时间轴:</strong></h3>
+<ol>
+<li><strong>Process is created 创建流程</strong>
+<ul>
+<li>Kernel will check for executable permissions</li>
+<li>Calls <code>execve()</code> to begin loading</li>
+</ul>
+</li>
+<li><strong>Process is loaded 进程已加载</strong></li>
+</ol>
+<ul>
+<li>Figures out what steps need to be taken to load the file
+<ul>
+<li>Starts from the beginning of the file, looks for <code>#!</code> (sh-bang) to extract the rest of the line (the interpreter)
+<ul>
+<li>Will see if the interpreter matches one in the system, and will instead run your file as an argument to the interpreter from <code>#!</code></li>
+</ul>
+</li>
+<li>If there is no <code>#!</code> (not a script) then it will check if the file matches a format in <code>/proc/sys/binfmt_misc</code>
+<ul>
+<li>If a match is found, then it will execute the interpreter for that format with your file as an argument</li>
+</ul>
+</li>
+<li>If it is a dynamically-linked ELF file, the kernel will read the interpreter/loader (collectively loader) defined in the ELF file
+<ul>
+<li>The interpreter will be loaded and will be given control</li>
+<li>The interpreter then locates the libraries
+<ul>
+<li><code>LD_PRELOAD</code>: environment variable, and anything in /etc/ld.so.preload</li>
+<li><code>LD_LIBRARY_PATH</code>: environment variable (can be set in the shell)</li>
+<li><code>DT_RUNPATH</code> or <code>DT_RPATH</code>: specified in the binary file (both can be modified with patchelf)</li>
+<li>/etc/ld.so.conf: system-wide configuration</li>
+<li>/lib and /usr/lib /lib和/usr/lib</li>
+</ul>
+</li>
+<li>The interpreter then runs the libraries
+<ul>
+<li>May cause more libraries to load if libraries depend on other libraries</li>
+<li>Will also update relocations during this process</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>If it is a static ELF file, the kernel will just load the file</li>
+</ul>
+</li>
+<li>All of this information will be loaded to its own virtual memory space containing (located in /proc/self/maps):
+<ul>
+<li>the binary 二进制</li>
+<li>the libraries 库</li>
+<li>the “heap” “堆”
+<ul>
+<li>for dynamically allocated memory</li>
+</ul>
+</li>
+<li>the “stack” “栈”
+<ul>
+<li>for function local variables</li>
+</ul>
+</li>
+<li>any memory specifically mapped by the program</li>
+<li>some helper regions 一些辅助区域</li>
+<li>kernel code in the “upper half” of memory is inaccessible to the process
+<ul>
+<li>above 0x8000000000000000 on 64-bit architectures</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li><strong>Process is initialized 进程已初始化。</strong>
+<ul>
+<li>Will run any constructors specified in the ELF file将会运行ELF文件中指定的所有构造函数。</li>
+</ul>
+</li>
+<li><strong>Process is launched 进程启动</strong>
+<ul>
+<li>The ELF file automatically calls <code>_libc_start_main()</code> from the libc library, which then calls the program’s <code>main()</code> functionELF文件会自动从libc库中调用 <code>_libc_start_main()</code> ，然后libc库会调用程序中的 <code>main()</code> 函数。</li>
+<li>Now the code is running现在代码正在运行。</li>
+</ul>
+</li>
+<li><strong>Process reads its arguments and environment程序会读取其参数和环境变量。</strong></li>
+</ol>
+<ul>
+<li>
+<p>The <code>int main(int argc, void **argv, void **envp);</code> function will take in three arguments:</p>
+<ul>
+<li><code>argc</code>: the loaded objects (binaries and libraries)加载的对象（二进制文件和库文件）</li>
+<li><code>argv</code>: command-line arguments in argvargv 中的命令行参数</li>
+<li><code>envp</code>: environment variables<code>envp</code> ： 环境变量</li>
+</ul>
+<p>这个 `b0` 函数将接受三个参数：</p>
+</li>
+</ul>
+<ol start="6">
+<li><strong>Process executes 流程执行</strong></li>
+</ol>
+<ul>
+<li>To interact with the operating system(OS), the process will use system calls为了与操作系统（OS）进行交互，进程将使用系统调用。</li>
+<li>For the OS to communicate with the process, signals are used 操作系统通过信号与进程进行通信。
+<ul>
+<li>Signals will pause process execution and invoke the handler (functions that take in the signal number) 信号会暂停进程的执行，并调用处理程序（即接收信号号码的函数）。
+<ul>
+<li>If the signal has no handler, the default action is to kill the process</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Another method of outside interaction is by sharing memory with other processes
+<ul>
+<li>This requires an initial system call, but then is self sustaining</li>
+<li>One way is to use a shared memory-mapped file in /dev/shm</li>
+</ul>
+</li>
+</ul>
+<ol start="7">
+<li><strong>Process terminates 进程终止</strong></li>
+</ol>
+<ul>
+<li>Only two ways a process can terminate:
+<ul>
+<li>Receive an unhandled signal</li>
+<li>Calling the <code>exit()</code> system call</li>
+</ul>
+</li>
+<li>After termination, processes must be “reaped”
+<ul>
+<li>A process will remain in a zombie state and take up memory until the <code>wait()</code> function is called by their parent</li>
+<li>This will return the process’s exit code to the parent and then the process will be freed
+<ul>
+<li>If this does not happen, the process is re-parented to PID 1 and will remain there until cleaned up</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="useful-commands-viewing-processes"><a class="markdownIt-Anchor" href="#useful-commands-viewing-processes"></a> Useful Commands (Viewing Processes):</h3>
+<ul>
+<li><code>readelf -a fileName | grep interpret</code>: will return the specific loader being used to load the file将会返回用于加载该文件的特定加载器。</li>
+<li><code>patchelf --set-interpreter /some/interpreter ./fileName</code>: will forcibly set the interpreter for a provided file[b0] 会强制为指定文件设置解释器。</li>
+<li><code>ldd ./fileName</code>: will list the libraries necessary for the file to run, including the interpreter它会列出该文件运行所需的库，包括解释器。</li>
+<li><code>strace ./executable uncompiledFile</code>: will “trace” out all of the system calls from when the process is first created to when its terminated它会追踪该进程从创建到终止期间的所有系统调用。</li>
+<li><code>./executable /proc/self/maps</code>: will show the virtual memory storage layout for the executable它将展示可执行文件的虚拟内存存储布局。</li>
+<li><code>man 2 open</code>: documentation for all the different system calls所有系统调用的文档</li>
+<li><code>du -sb programFile</code>: will output how many bytes a file is`<code>du -sb programFile</code> ` 会输出文件的大小（以字节为单位）。</li>
+</ul>
+<h2 id="sources"><a class="markdownIt-Anchor" href="#sources"></a> Sources:</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://pwn.college/modules/interaction">pwn.college Module 1 Lecturespwn.college 第一模块课程</a></li>
+<li><a target="_blank" rel="noopener" href="https://dojo.pwn.college/challenges/interaction">pwn.college Module 1 Challengespwn.college 第一模块挑战</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.twitch.tv/pwncollege">pwn.college Class Twitch Streams高校黑客学院 Twitch 直播课程</a></li>
+</ul>
+<h1 id="challenges"><a class="markdownIt-Anchor" href="#challenges"></a> Challenges</h1>
+<h2 id="program-interaction"><a class="markdownIt-Anchor" href="#program-interaction"></a> Program Interaction</h2>
+<p>这一部分主要涉及到基本的程序交互方法，包括linux环境下运行程序一些基本方法和知识，除此以外也教了一些基本的shell脚本、python脚本、c语言等知识</p>
+<p>embryoio  胚胎难度  <s>真的是这样吗</s></p>
+<h3 id="level1"><a class="markdownIt-Anchor" href="#level1"></a> level1</h3>
+<p>无密码直接运行</p>
+<h3 id="level2"><a class="markdownIt-Anchor" href="#level2"></a> level2</h3>
+<p>有密码，提示上写了</p>
+<h3 id="level3"><a class="markdownIt-Anchor" href="#level3"></a> level3</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">./embryoio_level3 suvobmbtle<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><code>env</code> 命令主要用于显示或设置环境变量，其常见的指令包括：</p>
+<ol>
+<li>
+<p><strong>显示当前环境变量</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">env<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li>
+<p><strong>设置环境变量并运行命令</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">env VARIABLE_NAME&#x3D;value your_command_here<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li>
+<p><strong>清除所有环境变量并运行命令</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">env -i your_command_here<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li>
+<p><strong>显示特定环境变量的值</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">env VARIABLE_NAME<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li>
+<p><strong>以逗号分隔显示多个环境变量的值</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">env VARIABLE1,VARIABLE2 your_command_here<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li>
+<p><strong>通过<code>-u</code>选项删除特定的环境变量</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">env -u VARIABLE_NAME your_command_here<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li>
+<p><strong>使用<code>-i</code>选项启动一个不包含任何环境变量的环境</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">env -i your_command_here<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+</ol>
+<h3 id="level4"><a class="markdownIt-Anchor" href="#level4"></a> level4</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">env</span> <span class="token parameter variable">-i</span> <span class="token assign-left variable">gizpoq</span><span class="token operator">=</span>tkikjioeyj ./embryoio_level4<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level7"><a class="markdownIt-Anchor" href="#level7"></a> level7</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">env</span> <span class="token parameter variable">-i</span> ./embryoio_level7<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level5"><a class="markdownIt-Anchor" href="#level5"></a> level5</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hacker@program-interaction~level5:/challenge$ <span class="token builtin class-name">echo</span> <span class="token string">"hxhxyvux"</span> <span class="token operator">></span> /tmp/cwxhwa
+hacker@program-interaction~level5:/challenge$ ./embryoio_level5 <span class="token operator">&lt;</span> /tmp/cwxhwa
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="level6"><a class="markdownIt-Anchor" href="#level6"></a> level6</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hacker@program-interaction~level6:/challenge$ ./embryoio_level6 <span class="token operator">></span> /tmp/tzdetd
+hacker@program-interaction~level6:/challenge$ <span class="token function">cat</span> /tmp/tzdetd <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="level8"><a class="markdownIt-Anchor" href="#level8"></a> level8</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token string">"/challenge/embryoio_level8"</span> <span class="token operator">></span> /tmp/my_script.sh <span class="token operator">&amp;&amp;</span> <span class="token function">bash</span> /tmp/my_script.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level9"><a class="markdownIt-Anchor" href="#level9"></a> level9</h3>
+<p>同上，加个密码传参</p>
+<h3 id="level10"><a class="markdownIt-Anchor" href="#level10"></a> level10</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token string">"./embryoio_level10 xolzrhbfsw"</span> <span class="token operator">></span> /tmp/my_script.sh <span class="token operator">&amp;&amp;</span> <span class="token function">bash</span> my_script.sh
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level11"><a class="markdownIt-Anchor" href="#level11"></a> level11</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token string">"env -i huawoi=hzrutrkycu ./embryoio_level11"</span> <span class="token operator">></span> /tmp/my_script.sh <span class="token operator">&amp;&amp;</span> <span class="token function">bash</span> /tmp/my_script.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level12"><a class="markdownIt-Anchor" href="#level12"></a> level12</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hacker@program-interaction~level12:/challenge$ <span class="token builtin class-name">echo</span> <span class="token string">"bczijbap"</span> <span class="token operator">></span> /tmp/kzgaox
+hacker@program-interaction~level12:/challenge$ <span class="token builtin class-name">echo</span> <span class="token string">"./embryoio_level12 &lt; /tmp/kzgaox"</span> <span class="token operator">></span> /tmp/my_script.sh <span class="token operator">&amp;&amp;</span> <span class="token function">bash</span> /tmp/my_script.sh
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="level13"><a class="markdownIt-Anchor" href="#level13"></a> level13</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token string">"./embryoio_level13 > /tmp/xtnsry"</span> <span class="token operator">></span>/tmp/my_script.sh <span class="token operator">&amp;&amp;</span> <span class="token function">bash</span> /tmp/my_script.sh <span class="token operator">&amp;&amp;</span><span class="token function">cat</span> /tmp/xtnsry
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level14"><a class="markdownIt-Anchor" href="#level14"></a> level14</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token string">"env -i  ./embryoio_level14"</span> <span class="token operator">></span> /tmp/my_script.sh <span class="token operator">&amp;&amp;</span> <span class="token function">bash</span> /tmp/my_script.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level15"><a class="markdownIt-Anchor" href="#level15"></a> level15</h3>
+<p>Python中运行程序时，有几种常见的方法</p>
+<ol>
+<li>
+<p><strong>使用subprocess模块</strong>：通过subprocess模块可以在Python中执行外部命令和程序。可以使用<code>subprocess.run()</code>函数来执行程序，还可以使用<code>subprocess.Popen()</code>来获得更多控制和灵活性。</p>
+<p>要在Python中执行一个文件，你可以使用<code>subprocess</code>模块中的<code>run</code>函数。这个函数允许你运行外部命令，并等待它完成。以下是一个简单的示例，演示如何使用Python来执行一个名为<code>script.py</code>的Python脚本文件：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> subprocess
+
+<span class="token comment"># 指定要执行的文件名</span>
+filename <span class="token operator">=</span> <span class="token string">"script.py"</span>
+
+<span class="token comment"># 执行文件</span>
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    subprocess<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"python"</span><span class="token punctuation">,</span> filename<span class="token punctuation">]</span><span class="token punctuation">,</span> check<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+<span class="token keyword">except</span> subprocess<span class="token punctuation">.</span>CalledProcessError <span class="token keyword">as</span> e<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"执行文件时出错:"</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这将运行名为<code>script.py</code>的Python脚本。如果希望传递参数给脚本，可以在<code>subprocess.run</code>中的第二个参数中添加额外的参数。例如，如果要传递一个名为<code>arg1</code>的参数，可以这样做：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">subprocess<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"python"</span><span class="token punctuation">,</span> filename<span class="token punctuation">,</span> <span class="token string">"arg1"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> check<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这会将<code>arg1</code>作为参数传递给<code>script.py</code>脚本。</p>
+</li>
+<li>
+<p><strong>使用exec语句</strong>：使用<code>exec</code>语句可以在当前Python进程中执行另一个Python文件。但是要注意，它会改变当前进程的状态，包括变量、函数等。</p>
+</li>
+<li>
+<p><strong>使用import语句</strong>：你可以使用<code>import</code>语句来导入一个Python文件作为模块，然后调用它的函数或者执行其中的代码。这种方法更安全，因为它会创建一个新的命名空间，不会直接修改当前进程的状态。</p>
+</li>
+<li>
+<p><strong>使用os.system()函数</strong>：os模块提供了一个<code>system()</code>函数，它可以在操作系统级别执行命令。但是这个方法不够灵活，并且容易受到操作系统限制。</p>
+</li>
+<li>
+<p><strong>使用eval()函数</strong>：虽然不推荐，但你也可以使用<code>eval()</code>函数来执行Python代码字符串。这种方法潜在的安全风险很高，应该尽量避免使用。</p>
+</li>
+<li>
+<p><strong>使用execfile()函数</strong>：在Python 2中，你可以使用<code>execfile()</code>函数执行一个Python文件。但是在Python 3中已经移除了这个函数。</p>
+</li>
+</ol>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">In <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>: <span class="token function">import</span> os
+
+In <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span>: os.system<span class="token punctuation">(</span><span class="token string">"./embryoio_level15"</span><span class="token punctuation">)</span>
+WELCOME<span class="token operator">!</span> This challenge makes the following asks of you:
+- the challenge checks <span class="token keyword">for</span> a specific parent process <span class="token builtin class-name">:</span> ipython
+
+ONWARDS TO GREATNESS<span class="token operator">!</span>
+
+<span class="token punctuation">[</span>INFO<span class="token punctuation">]</span> This challenge will now perform a bunch of checks.
+<span class="token punctuation">[</span>INFO<span class="token punctuation">]</span> If you pass these checks, you will receive the flag.
+<span class="token punctuation">[</span>TEST<span class="token punctuation">]</span> Performing checks on the parent process of this process.
+<span class="token punctuation">[</span>TEST<span class="token punctuation">]</span> We will now check that that the process is an interactive ipython instance.
+
+<span class="token punctuation">[</span>INFO<span class="token punctuation">]</span> Since ipython runs as a script inside python, this will check a few things:
+<span class="token punctuation">[</span>INFO<span class="token punctuation">]</span> <span class="token number">1</span>. That the process itself is python.
+<span class="token punctuation">[</span>INFO<span class="token punctuation">]</span> <span class="token number">2</span>. That the module being run <span class="token keyword">in</span> python is ipython.
+<span class="token punctuation">[</span>INFO<span class="token punctuation">]</span> If the process being checked is just a normal <span class="token string">'ipython'</span>, you<span class="token string">'ll be okay!
+
+[INFO] The process'</span> executable is /usr/bin/dash.
+<span class="token punctuation">[</span>INFO<span class="token punctuation">]</span> This might be different than expected because of symbolic links <span class="token punctuation">(</span>for example, from /usr/bin/python to /usr/bin/python3 to /usr/bin/python3.8<span class="token punctuation">)</span>.
+<span class="token punctuation">[</span>INFO<span class="token punctuation">]</span> To pass the checks, the executable must be python3.8.
+<span class="token punctuation">[</span>FAIL<span class="token punctuation">]</span> You did not satisfy all the execution requirements.
+<span class="token punctuation">[</span>FAIL<span class="token punctuation">]</span> Specifically, you must fix the following issue:
+<span class="token punctuation">[</span>FAIL<span class="token punctuation">]</span>    Executable must be <span class="token string">'python'</span><span class="token builtin class-name">.</span> Yours is: dash
+Out<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span>: <span class="token number">512</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>尝试<code>os</code>不行，因为<code>os</code>模块还是调用的<code>dash</code>来执行的</p>
+<p>发现用<code>subprocess</code>可以</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">subprocess<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"./embryoio_level15"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level16"><a class="markdownIt-Anchor" href="#level16"></a> level16</h3>
+<p>同上，运行后再输入密码即可</p>
+<h3 id="level17"><a class="markdownIt-Anchor" href="#level17"></a> level17</h3>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">subprocess<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"./embryoio_level17"</span><span class="token punctuation">,</span><span class="token string">"jduimogzro"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level18"><a class="markdownIt-Anchor" href="#level18"></a> level18</h3>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">In <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token keyword">import</span> subprocess
+
+In <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">:</span> subprocess<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"env"</span><span class="token punctuation">,</span><span class="token string">"-i"</span><span class="token punctuation">,</span><span class="token string">"uaznno=hqbclqnobf"</span><span class="token punctuation">,</span><span class="token string">"./embryoio_level18"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="level19"><a class="markdownIt-Anchor" href="#level19"></a> level19</h3>
+<p>这里需要详细了解一下，如何用<code>subprocess.run</code>进行重定向</p>
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/w3cnote/python3-subprocess.html">Python3 subprocess | 菜鸟教程 (runoob.com)</a></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">subprocess<span class="token punctuation">.</span>run<span class="token punctuation">(</span>args<span class="token punctuation">,</span> <span class="token operator">*</span><span class="token punctuation">,</span> stdin<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token builtin">input</span><span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> stdout<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> stderr<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> capture_output<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">,</span> cwd<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> timeout<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> check<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> errors<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> env<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> universal_newlines<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ul>
+<li>args：表示要执行的命令。必须是一个字符串，字符串参数列表。</li>
+<li>stdin、stdout 和 stderr：子进程的标准输入、输出和错误。其值可以是 subprocess.PIPE、subprocess.DEVNULL、一个已经存在的文件描述符、已经打开的文件对象或者 None。subprocess.PIPE 表示为子进程创建新的管道。subprocess.DEVNULL 表示使用 os.devnull。默认使用的是 None，表示什么都不做。另外，stderr 可以合并到 stdout 里一起输出。</li>
+<li>timeout：设置命令超时时间。如果命令执行时间超时，子进程将被杀死，并弹出 TimeoutExpired 异常。</li>
+<li>check：如果该参数设置为 True，并且进程退出状态码不是 0，则弹 出 CalledProcessError 异常。</li>
+<li>encoding: 如果指定了该参数，则 stdin、stdout 和 stderr 可以接收字符串数据，并以该编码方式编码。否则只接收 bytes 类型的数据。</li>
+<li>shell：如果该参数为 True，将通过操作系统的 shell 执行指定的命令。</li>
+<li>input:程序运行后的交互输入  注意与stdin区分</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> subprocess
+
+<span class="token comment"># 定义命令及其参数</span>
+command <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"/challenge/embryoio_level19"</span><span class="token punctuation">]</span>
+
+<span class="token comment"># 打开输入文件并读取数据</span>
+<span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"/tmp/xhekoe"</span><span class="token punctuation">,</span> <span class="token string">"rb"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+    input_data <span class="token operator">=</span> f<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 使用subprocess.run()执行命令并重定向输入</span>
+result <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>run<span class="token punctuation">(</span>command<span class="token punctuation">,</span> <span class="token builtin">input</span><span class="token operator">=</span>input_data<span class="token punctuation">,</span> stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span> stderr<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">)</span>
+
+<span class="token comment"># 打印输出结果</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"stdout:"</span><span class="token punctuation">,</span> result<span class="token punctuation">.</span>stdout<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"stderr:"</span><span class="token punctuation">,</span> result<span class="token punctuation">.</span>stderr<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然而提示</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>ADVICE<span class="token punctuation">]</span> File descriptors are inherited from the parent, unless the FD_CLOEXEC is <span class="token builtin class-name">set</span> by the parent on the <span class="token function">file</span> descriptor.
+<span class="token punctuation">[</span>ADVICE<span class="token punctuation">]</span> For security reasons, some programs, such as python, <span class="token keyword">do</span> this by default <span class="token keyword">in</span> certain cases. Be careful <span class="token keyword">if</span> you are
+<span class="token punctuation">[</span>ADVICE<span class="token punctuation">]</span> creating and trying to pass <span class="token keyword">in</span> FDs <span class="token keyword">in</span> python.
+<span class="token punctuation">[</span>FAIL<span class="token punctuation">]</span> You did not satisfy all the execution requirements.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> subprocess
+
+<span class="token comment"># 定义命令及其参数</span>
+command <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"/challenge/embryoio_level19"</span><span class="token punctuation">]</span>
+
+<span class="token comment"># 打开输入文件并读取数据</span>
+<span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"/tmp/xhekoe"</span><span class="token punctuation">,</span> <span class="token string">"rb"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+
+<span class="token comment"># 使用subprocess.run()执行命令并重定向输入</span>
+    result <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>run<span class="token punctuation">(</span>command<span class="token punctuation">,</span> stdin<span class="token operator">=</span>f<span class="token punctuation">,</span> stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span> stderr<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">)</span>
+
+<span class="token comment"># 打印输出结果</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"stdout:"</span><span class="token punctuation">,</span> result<span class="token punctuation">.</span>stdout<span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"stderr:"</span><span class="token punctuation">,</span> result<span class="token punctuation">.</span>stderr<span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>事实上必须要用<code>stdin</code>传入,两者是有区别的:</p>
+<p>在Linux系统中，标准输入流（stdin）是指向终端（通常是键盘）的文件描述符。当你在终端上键入数据时，这些数据被发送到正在运行的程序的标准输入流中。</p>
+<p><code>FD_CLOEXEC</code> 是一个常量，通常在操作系统中用于文件描述符（file descriptor）。它是文件描述符标志之一，用于指示当执行 <code>exec</code> 系列函数时，文件描述符是否应该关闭。</p>
+<ol>
+<li><strong>input 参数</strong>：
+<ul>
+<li><code>input</code> 参数是一个字节串（bytes）或者 None。</li>
+<li>如果指定了 <code>input</code> 参数且不为 None，那么它会作为子进程的标准输入。</li>
+<li>如果 <code>input</code> 参数为 None（默认情况），则子进程的标准输入为空。</li>
+<li>当你有一个字节串数据需要传递给子进程作为标准输入时，可以使用 <code>input</code> 参数。</li>
+</ul>
+</li>
+<li><strong>stdin 参数</strong>：
+<ul>
+<li><code>stdin</code> 参数是一个文件对象或者一个文件描述符。</li>
+<li>如果指定了 <code>stdin</code> 参数，那么它会作为子进程的标准输入。</li>
+<li>如果 <code>stdin</code> 参数为 None（默认情况），则子进程的标准输入将会从 <code>/dev/null</code> 中读取空数据。</li>
+<li>当你已经有一个已经打开的文件对象或者文件描述符，想要将其传递给子进程作为标准输入时，可以使用 <code>stdin</code> 参数</li>
+</ul>
+</li>
+</ol>
+<p>根据提示，<code>input</code>不会传递<code>FD_CLOEXEC</code>而<code>stdin</code>则会传递<code>FD_CLOEXEC</code></p>
+<p>当然我们这题包含库文件可以很好的解决这个问题，事实上题目可能是要要求我们手搓,<s>我们用轮子绕过了这一个过程</s></p>
+<p>手搓一个试试</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> os
+
+<span class="token keyword">def</span> <span class="token function">run_program_with_input</span><span class="token punctuation">(</span>program_path<span class="token punctuation">,</span> input_file<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 打开输入文件</span>
+    input_fd <span class="token operator">=</span> os<span class="token punctuation">.</span><span class="token builtin">open</span><span class="token punctuation">(</span>input_file<span class="token punctuation">,</span> os<span class="token punctuation">.</span>O_RDONLY<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 创建子进程</span>
+    pid <span class="token operator">=</span> os<span class="token punctuation">.</span>fork<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">if</span> pid <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>  <span class="token comment"># 子进程</span>
+        <span class="token comment"># 重定向子进程的标准输入到输入文件</span>
+        os<span class="token punctuation">.</span>dup2<span class="token punctuation">(</span>input_fd<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 执行外部程序</span>
+        os<span class="token punctuation">.</span>execl<span class="token punctuation">(</span>program_path<span class="token punctuation">,</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>basename<span class="token punctuation">(</span>program_path<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>  <span class="token comment"># 父进程</span>
+        <span class="token comment"># 等待子进程结束</span>
+        os<span class="token punctuation">.</span>waitpid<span class="token punctuation">(</span>pid<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 关闭文件描述符</span>
+        os<span class="token punctuation">.</span>close<span class="token punctuation">(</span>input_fd<span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    program_path <span class="token operator">=</span> <span class="token string">"./your_program"</span>
+    input_file <span class="token operator">=</span> <span class="token string">"./input.txt"</span>
+    run_program_with_input<span class="token punctuation">(</span>program_path<span class="token punctuation">,</span> input_file<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="level20"><a class="markdownIt-Anchor" href="#level20"></a> level20</h3>
+<p>有了上题的经验</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> subprocess
+
+<span class="token comment"># 打开并读取文件内容</span>
+<span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">'/tmp/rfqbmu'</span><span class="token punctuation">,</span> <span class="token string">'w'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+<span class="token comment"># 将文件内容作为输入传递给子进程</span>
+    result <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'/challenge/embryoio_level20'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> stdin<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> stdout<span class="token operator">=</span>f<span class="token punctuation">,</span> stderr<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后直接cat就可以了</p>
+<h3 id="level21"><a class="markdownIt-Anchor" href="#level21"></a> level21</h3>
+<p><code>subprocess.run(['env','-i','/challenge/embryoio_level21'])</code></p>
+<h3 id="level22"><a class="markdownIt-Anchor" href="#level22"></a> level22</h3>
+<p>md，又来一轮，把上面的脚本<code>ipython</code>运行改为<code>python</code>运行，真是服了</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">subprocess.run<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'env'</span>,<span class="token string">'-i'</span>,<span class="token string">'/challenge/embryoio_level22'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level23"><a class="markdownIt-Anchor" href="#level23"></a> level23</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">subprocess.run<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'./embryoio_level23'</span><span class="token punctuation">]</span>,input<span class="token operator">=</span>b<span class="token string">"eyejkdde"</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level24"><a class="markdownIt-Anchor" href="#level24"></a> level24</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">subprocess.run<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'/challenge/embryoio_level24'</span>,<span class="token string">"yogjcbumez"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level25"><a class="markdownIt-Anchor" href="#level25"></a> level25</h3>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">subprocess<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'/challenge/embryoio_level25'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>env<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"qpvtwc"</span><span class="token punctuation">:</span><span class="token string">"eghdabuygy"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level26"><a class="markdownIt-Anchor" href="#level26"></a> level26</h3>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"/tmp/sjfilu"</span><span class="token punctuation">,</span><span class="token string">"r"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+    subprocess<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'/challenge/embryoio_level26'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdin<span class="token operator">=</span>f<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="level27"><a class="markdownIt-Anchor" href="#level27"></a> level27</h3>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"/tmp/zjvuap"</span><span class="token punctuation">,</span><span class="token string">"w"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+    subprocess<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'/challenge/embryoio_level27'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdin<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span>stdout<span class="token operator">=</span>f<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="level28"><a class="markdownIt-Anchor" href="#level28"></a> level28</h3>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">subprocess<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'/challenge/embryoio_level28'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdin<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span>env<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level29"><a class="markdownIt-Anchor" href="#level29"></a> level29</h3>
+<p>现在到C语言编程的篇章了</p>
+<p>这部分对linux系统进程的创建调用需要理解清除</p>
+<p><a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/difference-fork-exec/#">Difference between fork() and exec() - GeeksforGeeks</a></p>
+<p>听一遍课感觉还是收获很大</p>
+<p>题目要求<code>fork</code>开子进程然后调用文件</p>
+<ul>
+<li>在父进程中，<code>pid</code> 的值是新创建的子进程的进程 ID。这个值会大于 0。</li>
+<li>在子进程中，<code>pid</code> 的值是 0，用来表示当前正在执行的代码是子进程部分。</li>
+<li>对父进程的检测需要使用exec()系列的函数，因为system()或popen()函数都会执行一个shell，然后用shell来执行，所以此时父进程为shell（测试后是dash），而不是你的程序。</li>
+<li>而exec()只是替换掉正在exec()的进程，当用fork()函数时子进程调用exec()系列函数杀死自己的子进程副本的时候就会建立与当前主进程的父子关系。</li>
+<li>当一个父亲创建了一个孩子但没有等它结束就自己结束的话就可能造成系统异常，查询waitpid()的使用来等待孩子进程。</li>
+</ul>
+<p>另外查询了一下，说是exec系统调用，实际上在Linux中，并不存在一个exec()的函数形式，exec指的是一组函数，一共有6个，分别是：</p>
+<pre class="line-numbers language-none"><code class="language-none">#include &lt;unistd.h&gt;
+int execl(const char *path, const char *arg, ...);
+int execlp(const char *file, const char *arg, ...);
+int execle(const char *path, const char *arg, ..., char *const envp[]);
+int execv(const char *path, char *const argv[]);
+int execvp(const char *file, char *const argv[]);
+int execve(const char *path, char *const argv[], char *const envp[]);
+const char *filename：表示要执行的程序的文件路径。这个参数指定了要执行的程序的路径。通常情况下，应该提供程序的绝对路径，以确保系统可以找到并正确执行程序。如果程序在 PATH 环境变量中，则可以直接提供程序的名称。
+
+char *const argv[]：表示程序的命令行参数列表。这个参数是一个字符串数组，每个字符串都是一个命令行参数。数组的第一个元素通常是程序的名称，后续元素是传递给程序的命令行参数。数组的最后一个元素必须是 NULL，以表示参数列表的结束。
+
+char *const envp[]：表示程序的环境变量列表。这个参数是一个字符串数组，每个字符串都是一个环境变量设置，格式为 &quot;name&#x3D;value&quot;。数组的最后一个元素也必须是 NULL，以表示环境变量列表的结束。
+
+下面是这些参数的详细说明：
+
+filename：是一个字符串，指定了要执行的程序的路径。如果路径指向一个可执行文件，则 execve() 将加载并执行该文件。注意，execve() 不会查找 PATH 环境变量中指定的路径，因此必须提供绝对路径或者相对路径。
+
+argv[]：是一个字符串数组，用于传递命令行参数给新程序。数组的第一个元素通常是程序的名称，后续元素是程序的命令行参数。数组的最后一个元素必须是 NULL，以表示参数列表的结束。
+
+envp[]：是一个字符串数组，用于传递环境变量给新程序。每个字符串都是一个环境变量设置，格式为 &quot;name&#x3D;value&quot;。数组的最后一个元素必须是 NULL，以表示环境变量列表的结束。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h></span></span>
+​
+<span class="token keyword">void</span> <span class="token function">pwncollege</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>env<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token function">execve</span><span class="token punctuation">(</span><span class="token string">"/challenge/embryoio_level29"</span><span class="token punctuation">,</span>argv<span class="token punctuation">,</span>env<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//使用exec系列函数执行时不会改变新进程的父亲，相当于只是将当前进>程替换掉了</span>
+    <span class="token keyword">return</span> <span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+​
+    <span class="token comment">//char *argv[]是一个指针数组，指向传入的参数，每个指针都指向一个字符串</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span><span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">char</span><span class="token operator">*</span> env<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token class-name">pid_t</span> fpid<span class="token punctuation">;</span>
+​
+    fpid<span class="token operator">=</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//fork()执行之后，会复制一个基本一样的进程作为子进程，然后两个进程会分别执行后面的代码</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>fpid<span class="token operator">&lt;</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token comment">//如果fpid为-1，说明fork失败</span>
+            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"error in fork!\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>fpid<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token comment">//成功则会出现两个进程，fpid==0的是子进程</span>
+            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"我是子进程\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">pwncollege</span><span class="token punctuation">(</span>argv<span class="token punctuation">,</span>env<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span><span class="token punctuation">&#123;</span><span class="token comment">//fpid==1的是父进程</span>
+            <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"我是父进程\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">wait</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//等待子进程结束</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>弄懂了基本原理后</p>
+<p>写出一个简单的运行程序</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;sys/wait.h></span></span>
+<span class="token keyword">void</span> <span class="token function">pwncollege</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>env<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span>newargv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"embryoio_level29"</span><span class="token punctuation">,</span><span class="token constant">NULL</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token function">execve</span><span class="token punctuation">(</span><span class="token string">"/challenge/embryoio_level29"</span><span class="token punctuation">,</span>newargv<span class="token punctuation">,</span>env<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span><span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>env<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">pid_t</span> fpid<span class="token punctuation">;</span>
+    fpid<span class="token operator">=</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>fpid<span class="token operator">&lt;</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Error in fork!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>fpid<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Im child!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">pwncollege</span><span class="token punctuation">(</span>argv<span class="token punctuation">,</span>env<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>fpid<span class="token operator">></span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Im Parent"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">wait</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="level30"><a class="markdownIt-Anchor" href="#level30"></a> level30</h3>
+<p>同上多个密码传参</p>
+<h3 id="level31"><a class="markdownIt-Anchor" href="#level31"></a> level31</h3>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;sys/wait.h></span></span>
+<span class="token keyword">void</span> <span class="token function">pwncollege</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>env<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span>newargv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"embryoio_level31"</span><span class="token punctuation">,</span><span class="token string">"aomapmyibu"</span><span class="token punctuation">,</span><span class="token constant">NULL</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span>env<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">""</span><span class="token punctuation">,</span><span class="token constant">NULL</span><span class="token punctuation">&#125;</span>
+    <span class="token function">execve</span><span class="token punctuation">(</span><span class="token string">"/challenge/embryoio_level31"</span><span class="token punctuation">,</span>newargv<span class="token punctuation">,</span>env<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span><span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>env<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">pid_t</span> fpid<span class="token punctuation">;</span>
+    fpid<span class="token operator">=</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>fpid<span class="token operator">&lt;</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Error in fork!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>fpid<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Im child!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">pwncollege</span><span class="token punctuation">(</span>argv<span class="token punctuation">,</span>env<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>fpid<span class="token operator">></span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Im Parent"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">wait</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="level32"><a class="markdownIt-Anchor" href="#level32"></a> level32</h3>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;sys/wait.h></span></span>
+<span class="token keyword">void</span> <span class="token function">pwncollege</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>env<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span>newargv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"embryoio_level32"</span><span class="token punctuation">,</span><span class="token constant">NULL</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span>newenv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"rnzara=mtqxpnweqm"</span><span class="token punctuation">,</span><span class="token constant">NULL</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token function">execve</span><span class="token punctuation">(</span><span class="token string">"/challenge/embryoio_level32"</span><span class="token punctuation">,</span>newargv<span class="token punctuation">,</span>newenv<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span><span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>env<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">pid_t</span> fpid<span class="token punctuation">;</span>
+    fpid<span class="token operator">=</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>fpid<span class="token operator">&lt;</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Error in fork!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>fpid<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Im child!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">pwncollege</span><span class="token punctuation">(</span>argv<span class="token punctuation">,</span>env<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>fpid<span class="token operator">></span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Im Parent"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">wait</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="level33"><a class="markdownIt-Anchor" href="#level33"></a> level33</h3>
+<p>输入流重定向</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;sys/wait.h></span></span>
+<span class="token keyword">void</span> <span class="token function">pwncollege</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>env<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span>newargv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"embryoio_level33"</span><span class="token punctuation">,</span><span class="token constant">NULL</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span>newenv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token constant">NULL</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token function">execve</span><span class="token punctuation">(</span><span class="token string">"/challenge/embryoio_level33"</span><span class="token punctuation">,</span>newargv<span class="token punctuation">,</span>newenv<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span><span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>env<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">pid_t</span> fpid<span class="token punctuation">;</span>
+    fpid<span class="token operator">=</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>fpid<span class="token operator">&lt;</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Error in fork!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>fpid<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        FILE <span class="token operator">*</span>fp<span class="token operator">=</span><span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"/tmp/aoztam"</span><span class="token punctuation">,</span><span class="token string">"r"</span><span class="token punctuation">,</span><span class="token constant">stdin</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Im child!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">pwncollege</span><span class="token punctuation">(</span>argv<span class="token punctuation">,</span>env<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>fpid<span class="token operator">></span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Im Parent"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">wait</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="level34"><a class="markdownIt-Anchor" href="#level34"></a> level34</h3>
+<p>输出流重定向</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;sys/wait.h></span></span>
+<span class="token keyword">void</span> <span class="token function">pwncollege</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>env<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span>newargv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"embryoio_level34"</span><span class="token punctuation">,</span><span class="token constant">NULL</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span>newenv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token constant">NULL</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token function">execve</span><span class="token punctuation">(</span><span class="token string">"/challenge/embryoio_level34"</span><span class="token punctuation">,</span>newargv<span class="token punctuation">,</span>newenv<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span><span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>env<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">pid_t</span> fpid<span class="token punctuation">;</span>
+    fpid<span class="token operator">=</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>fpid<span class="token operator">&lt;</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Error in fork!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>fpid<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        FILE <span class="token operator">*</span>fp<span class="token operator">=</span><span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"/tmp/ivyyzs"</span><span class="token punctuation">,</span><span class="token string">"w"</span><span class="token punctuation">,</span><span class="token constant">stdout</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Im child!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">pwncollege</span><span class="token punctuation">(</span>argv<span class="token punctuation">,</span>env<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>fpid<span class="token operator">></span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Im Parent"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">wait</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="level35"><a class="markdownIt-Anchor" href="#level35"></a> level35</h3>
+<p>设置空环境变量，不重复贴了</p>
+<h3 id="level36"><a class="markdownIt-Anchor" href="#level36"></a> level36</h3>
+<pre class="line-numbers language-none"><code class="language-none">- the challenge checks for a specific parent process : bash
+- the challenge checks for a specific process at the other end of stdout : cat
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>那么我们之间bash执行， 将stdout 输送到 cat即可</p>
+<pre class="line-numbers language-none"><code class="language-none">.&#x2F;embryoio_level36 | cat<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level37"><a class="markdownIt-Anchor" href="#level37"></a> level37</h3>
+<p>这里有个坑，因为我用的vscode ，默认是<code>dash</code></p>
+<p>需要手动输入<code>bash</code>切换到<code>bash</code>然后才能通过检查</p>
+<pre class="line-numbers language-none"><code class="language-none">.&#x2F;embryoio_level37 | grep &quot;pwn&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level38"><a class="markdownIt-Anchor" href="#level38"></a> level38</h3>
+<p>复习一下<code>sed</code></p>
+<ol>
+<li><strong>替换文本</strong>：
+<ul>
+<li><code>s/old/new/</code>：将行中的第一个匹配的 <code>old</code> 替换为 <code>new</code>。</li>
+<li><code>s/old/new/g</code>：将行中所有匹配的 <code>old</code> 替换为 <code>new</code>。</li>
+<li><code>s/old/new/2</code>：将行中第二个匹配的 <code>old</code> 替换为 <code>new</code>。</li>
+</ul>
+</li>
+<li><strong>删除行</strong>：
+<ul>
+<li><code>d</code>：删除匹配的行。</li>
+<li><code>1d</code>：删除第一行。</li>
+<li><code>2,5d</code>：删除第二到第五行。</li>
+</ul>
+</li>
+<li><strong>插入和追加文本</strong>：
+<ul>
+<li><code>i\text</code>：在匹配行前插入文本。</li>
+<li><code>a\text</code>：在匹配行后追加文本。</li>
+</ul>
+</li>
+<li><strong>打印文本</strong>：
+<ul>
+<li><code>p</code>：打印匹配的行。</li>
+</ul>
+</li>
+<li><strong>行的选择</strong>：
+<ul>
+<li><code>5p</code>：打印第五行。</li>
+<li><code>1,5p</code>：打印第一到第五行。</li>
+</ul>
+</li>
+<li><strong>执行文件中的命令</strong>：
+<ul>
+<li><code>-f scriptfile</code>：从指定文件中读取 <code>sed</code> 命令并执行。</li>
+</ul>
+</li>
+<li><strong>编辑标记</strong>：
+<ul>
+<li><code>b label</code>：跳转到标记 <code>label</code>。</li>
+<li><code>t label</code>：如果有替换，则跳转到标记 <code>label</code>。</li>
+</ul>
+</li>
+<li><strong>行号</strong>：
+<ul>
+<li><code>=</code>：打印行号。</li>
+<li><code>N</code>：将下一行添加到模式空间。</li>
+</ul>
+</li>
+<li><strong>模式匹配</strong>：
+<ul>
+<li><code>^</code>：匹配行的开头。</li>
+<li><code>$</code>：匹配行的结尾。</li>
+<li><code>.</code>：匹配任意单个字符。</li>
+<li><code>*</code>：匹配零个或多个前面的元素。</li>
+</ul>
+</li>
+<li><strong>其他命令</strong>：
+<ul>
+<li><code>q</code>：退出 <code>sed</code>。</li>
+</ul>
+</li>
+</ol>
+<pre class="line-numbers language-none"><code class="language-none">.&#x2F;embryoio_level38 | sed &quot;p&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level39"><a class="markdownIt-Anchor" href="#level39"></a> level39</h3>
+<pre class="line-numbers language-none"><code class="language-none">.&#x2F;embryoio_level39 | rev |rev<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level40"><a class="markdownIt-Anchor" href="#level40"></a> level40</h3>
+<pre class="line-numbers language-none"><code class="language-none">cat | .&#x2F;embryoio_level40<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level41"><a class="markdownIt-Anchor" href="#level41"></a> level41</h3>
+<p>有点sb?</p>
+<p>没懂什么原理</p>
+<p>开始使用<code>rev | ./embryoio_level41</code>输入后没反应</p>
+<p><a target="_blank" rel="noopener" href="https://discord.com/channels/750635557666816031/1193136623169310731/threads/1214880613790777365">• Discord | #program-interaction | pwn.college</a></p>
+<p>发现很多人和我一个问题，在vscode里面的终端搞就不太行</p>
+<p>这里有详细的讨论</p>
+<p>原因大概是因为<code>rev</code>不会处理<code>\n</code>,需要我们手动输入<code>ctrl+D</code>发生<code>EOF</code>信号</p>
+<p>这样就解决了</p>
+<h3 id="level42"><a class="markdownIt-Anchor" href="#level42"></a> level42</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">./embryoio_level42 <span class="token operator">|</span> <span class="token function">cat</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>然后<code>bash 1.sh</code>执行这个脚本,又是一遍轮回</p>
+<h3 id="level43"><a class="markdownIt-Anchor" href="#level43"></a> level43</h3>
+<pre class="line-numbers language-none"><code class="language-none">.&#x2F;embryoio_level43 | grep &quot;pwn&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level44"><a class="markdownIt-Anchor" href="#level44"></a> level44</h3>
+<pre class="line-numbers language-none"><code class="language-none">.&#x2F;embryoio_level44 | sed &quot;p&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level45"><a class="markdownIt-Anchor" href="#level45"></a> level45</h3>
+<pre class="line-numbers language-none"><code class="language-none">.&#x2F;embryoio_level45 | rev | rev<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level46"><a class="markdownIt-Anchor" href="#level46"></a> level46</h3>
+<pre class="line-numbers language-none"><code class="language-none">cat | .&#x2F;embryoio_level46<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="level47"><a class="markdownIt-Anchor" href="#level47"></a> level47</h3>
+<pre class="line-numbers language-none"><code class="language-none">rev|rev | .&#x2F;embryoio_level47<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>记得输入<code>ctrl + D</code></p>
+<h3 id="level48"><a class="markdownIt-Anchor" href="#level48"></a> level48</h3>
+<p>根据提示，可以使用<code>subprocess</code>也可以使用<code>pwntools</code></p>
+<p><code>subprocess</code>只能使用<code>popen</code>因为<code>run</code>的区别在于</p>
+<p><code>subprocess.Popen</code> 和 <code>subprocess.run</code> 都是 Python 中用于执行外部命令的模块。它们之间的主要区别在于：</p>
+<ol>
+<li><strong>返回值</strong>：
+<ul>
+<li><code>subprocess.Popen</code> 返回一个 Popen 对象，该对象表示正在运行的子进程。你可以使用该对象的方法来与子进程进行交互，例如等待其完成或发送输入。</li>
+<li><code>subprocess.run</code> 返回一个 CompletedProcess 对象，该对象包含有关运行命令的信息，如返回码、标准输出和标准错误</li>
+</ul>
+</li>
+</ol>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> subprocess
+
+p1 <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"/challenge/embryoio_level48"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+p2 <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"cat"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> stdin<span class="token operator">=</span>p1<span class="token punctuation">.</span>stdout<span class="token punctuation">,</span> stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>p2<span class="token punctuation">.</span>communicate<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>异或??</p>
+<p>我阅读了<code>pwntools</code>的文档，我认为</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
+
+<span class="token comment"># 启动一个子进程执行命令，并将输出重定向到一个管道</span>
+p1 <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token string">"/challenge/embryoio_level48"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 使用cat命令读取子进程的输出</span>
+p2 <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"cat"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> stdin<span class="token operator">=</span>p1<span class="token punctuation">.</span>stdout<span class="token punctuation">)</span>
+
+<span class="token comment"># 读取cat命令的输出</span>
+output <span class="token operator">=</span> p2<span class="token punctuation">.</span>recvall<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 打印输出</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>output<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>为什么不行呢</p>
+<p><s>心态爆炸了</s></p>
+<p>研究一波<code>pwntools</code></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/kelxLZ/article/details/123152529">Pwntools 2022简明手册_pwntools手册-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://gist.github.com/anvbis/64907e4f90974c4bdd930baeb705dedf">pwntools-cheatsheet.md (github.com)</a></p>
+<h3 id="level49"><a class="markdownIt-Anchor" href="#level49"></a> level49</h3>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> subprocess
+
+p1 <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"/challenge/embryoio_level49"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+p2 <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"grep"</span><span class="token punctuation">,</span><span class="token string">"pwn"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> stdin<span class="token operator">=</span>p1<span class="token punctuation">.</span>stdout<span class="token punctuation">,</span> stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>p2<span class="token punctuation">.</span>communicate<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="level50"><a class="markdownIt-Anchor" href="#level50"></a> level50</h3>
+<p>在Ipython中运行</p>
+<h3 id="level51"><a class="markdownIt-Anchor" href="#level51"></a> level51</h3>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> subprocess
+
+p1 <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"/challenge/embryoio_level51"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+p2 <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"rev"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> stdin<span class="token operator">=</span>p1<span class="token punctuation">.</span>stdout<span class="token punctuation">,</span> stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+p2 <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"rev"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> stdin<span class="token operator">=</span>p2<span class="token punctuation">.</span>stdout<span class="token punctuation">,</span> stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>p2<span class="token punctuation">.</span>communicate<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="level52"><a class="markdownIt-Anchor" href="#level52"></a> level52</h3>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> subprocess
+p1 <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"cat"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+p2 <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"/challenge/embryoio_level52"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdin<span class="token operator">=</span>p1<span class="token punctuation">.</span>stdout<span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>p2<span class="token punctuation">.</span>communicate<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">'utf8'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="level53"><a class="markdownIt-Anchor" href="#level53"></a> level53</h3>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> subprocess
+p1 <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"rev"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+p1 <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"rev"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> stdin<span class="token operator">=</span>p1<span class="token punctuation">.</span>stdout<span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+p2 <span class="token operator">=</span> subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"/challenge/embryoio_level53"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdin<span class="token operator">=</span>p1<span class="token punctuation">.</span>stdout<span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span> shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>p2<span class="token punctuation">.</span>communicate<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">'utf8'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输入密码后记得<code>ctrl+D</code>发生<code>fd</code>标识</p>
+<h3 id="level54"><a class="markdownIt-Anchor" href="#level54"></a> level54</h3>
+<p>用python执行刚才的脚本又是一遍轮回 我觉得可以精简一下</p>
+ <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> subprocess
+p1<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"/challenge/embryoio_level54"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span>shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+p2<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"cat"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdin<span class="token operator">=</span>p1<span class="token punctuation">.</span>stdout<span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span>shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>p2<span class="token punctuation">.</span>communicate<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="level55"><a class="markdownIt-Anchor" href="#level55"></a> level55</h3>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> subprocess
+p1<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"/challenge/embryoio_level55"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span>shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+p2<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"grep"</span><span class="token punctuation">,</span><span class="token string">"pwn"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdin<span class="token operator">=</span>p1<span class="token punctuation">.</span>stdout<span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span>shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>p2<span class="token punctuation">.</span>communicate<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="level56"><a class="markdownIt-Anchor" href="#level56"></a> level56</h3>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> subprocess
+p1<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"/challenge/embryoio_level56"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span>shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+p2<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"sed"</span><span class="token punctuation">,</span><span class="token string">"p"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdin<span class="token operator">=</span>p1<span class="token punctuation">.</span>stdout<span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span>shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>p2<span class="token punctuation">.</span>communicate<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="level57"><a class="markdownIt-Anchor" href="#level57"></a> level57</h3>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> subprocess
+p1<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"/challenge/embryoio_level57"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span>shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+p2<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"rev"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdin<span class="token operator">=</span>p1<span class="token punctuation">.</span>stdout<span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span>shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+p2<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"rev"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdin<span class="token operator">=</span>p2<span class="token punctuation">.</span>stdout<span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span>shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>p2<span class="token punctuation">.</span>communicate<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="level58"><a class="markdownIt-Anchor" href="#level58"></a> level58</h3>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> subprocess
+
+p1<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"cat"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span>shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">,</span>close_fds<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+p2<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"/challenge/embryoio_level58"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdin<span class="token operator">=</span>p1<span class="token punctuation">.</span>stdout<span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>p2<span class="token punctuation">.</span>communicate<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="level59"><a class="markdownIt-Anchor" href="#level59"></a> level59</h3>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> subprocess
+p2<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"rev"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span>shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+p2<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"rev"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdin<span class="token operator">=</span>p2<span class="token punctuation">.</span>stdout<span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span>shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+p1<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>Popen<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"/challenge/embryoio_level59"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stdin<span class="token operator">=</span>p2<span class="token punctuation">.</span>stdout<span class="token punctuation">,</span>stdout<span class="token operator">=</span>subprocess<span class="token punctuation">.</span>PIPE<span class="token punctuation">,</span>shell<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>p1<span class="token punctuation">.</span>communicate<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="level60"><a class="markdownIt-Anchor" href="#level60"></a> level60</h3>
+<p>用C语言编程实现以上过程，又是一遍轮回<s>关于我9次轮回这件事</s></p>
+<p>这里需要深入了解<code>Linux</code>的<code>pipe</code>机制，不能老当<code>调包侠</code></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/58489873">Linux 的进程间通信：管道 - 知乎 (zhihu.com)</a></p>
+<p><code>管道的设计也是遵循UNIX的“一切皆文件”设计原则的</code></p>
+<p><code>实现形态上是文件，但是管道本身并不占用磁盘或者其他外部存储的空间</code></p>
+<p>mad我不会写，滚去补基础了<s>呜呜呜</s></p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/05/09/PwnCollege1-ProgramMiuse/" rel="prev" title="pwnCollege-1-ProgramMisuse"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">pwnCollege-1-ProgramMisuse</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/05/04/web-practices/" rel="next" title="web-practices"><span class="post-nav-text">web-practices</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/05/09/PwnCollege2-ProgramInteraction/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div></body></html>

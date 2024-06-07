@@ -1,0 +1,780 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>re4b阅读笔记 | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css"><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"onelastchick.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"auto","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="Part.1 前言 阅读这种书籍，如果我不做笔记，我可能就会走马观花的粗略看一遍，结果什么都没学会，眼睛会了，脑子不会，所以我准备边做笔记边学，争取把基础打扎实 对于逆向工程权威指南关键部分的摘录,整理以及个人的理解 逆向工程权威指南是入门逆向必读的一本书籍 由于我是初学者，所以我目前只学习re4b x86汇编部分（不能贪多），对于ARM以及MIPS架构待以后进阶后再进行学习  Part.2 指">
+<meta property="og:type" content="article">
+<meta property="og:title" content="re4b阅读笔记">
+<meta property="og:url" content="http://onelastchick.github.io/2024/05/23/re4b%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="Part.1 前言 阅读这种书籍，如果我不做笔记，我可能就会走马观花的粗略看一遍，结果什么都没学会，眼睛会了，脑子不会，所以我准备边做笔记边学，争取把基础打扎实 对于逆向工程权威指南关键部分的摘录,整理以及个人的理解 逆向工程权威指南是入门逆向必读的一本书籍 由于我是初学者，所以我目前只学习re4b x86汇编部分（不能贪多），对于ARM以及MIPS架构待以后进阶后再进行学习  Part.2 指">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-05-23T08:25:47.000Z">
+<meta property="article:modified_time" content="2024-05-29T15:32:21.671Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">24</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">8</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">11</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/OneLastChick" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div><br><a class="links-item hty-icon-button" id="toggle-mode-btn" href="javascript:;" title="Mode" style="color: #f1cb64"><span class="icon iconify" data-icon="ri:contrast-2-line"></span></a></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#part1-%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> Part.1 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#part2-%E6%8C%87%E4%BB%A4%E8%AE%B2%E8%A7%A3"><span class="toc-number">2.</span> <span class="toc-text"> Part.2 指令讲解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#chapter1-cpu"><span class="toc-number">2.1.</span> <span class="toc-text"> Chapter1 CPU</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chap2-%E6%9C%80%E7%AE%80%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text"> Chap2 最简函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chap3-helloworld"><span class="toc-number">2.3.</span> <span class="toc-text"> Chap3 Hello,World!</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#msvs"><span class="toc-number">2.3.1.</span> <span class="toc-text"> msvs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gcc"><span class="toc-number">2.3.2.</span> <span class="toc-text"> gcc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#msvs-x86-64"><span class="toc-number">2.3.3.</span> <span class="toc-text"> msvs x86-64</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gcc-x86-64"><span class="toc-number">2.3.4.</span> <span class="toc-text"> gcc x86-64</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#problems"><span class="toc-number">2.3.5.</span> <span class="toc-text"> Problems</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chap4-%E5%87%BD%E6%95%B0%E5%BA%8F%E8%A8%80%E5%92%8C%E5%87%BD%E6%95%B0%E5%B0%BE%E5%A3%B0"><span class="toc-number">2.4.</span> <span class="toc-text"> Chap4 函数序言和函数尾声</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chap5-%E6%A0%88"><span class="toc-number">2.5.</span> <span class="toc-text"> Chap5 栈</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88%E7%9A%84%E7%94%A8%E9%80%94"><span class="toc-number">2.5.1.</span> <span class="toc-text"> 栈的用途</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88%E7%9A%84%E5%99%AA%E9%9F%B3"><span class="toc-number">2.5.2.</span> <span class="toc-text"> 栈的噪音</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#problems-2"><span class="toc-number">2.5.3.</span> <span class="toc-text"> Problems</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#51"><span class="toc-number">2.5.3.1.</span> <span class="toc-text"> 5.1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#52"><span class="toc-number">2.5.3.2.</span> <span class="toc-text"> 5.2</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chap6-printf%E5%87%BD%E6%95%B0%E4%B8%8E%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92"><span class="toc-number">2.6.</span> <span class="toc-text"> Chap6 printf()函数与参数传递</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#x86"><span class="toc-number">2.6.1.</span> <span class="toc-text"> x86</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chap7-scanf"><span class="toc-number">2.7.</span> <span class="toc-text"> Chap7 scanf()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#x86-2"><span class="toc-number">2.7.1.</span> <span class="toc-text"> x86</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-number">2.7.2.</span> <span class="toc-text"> 全局变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#problem"><span class="toc-number">2.7.3.</span> <span class="toc-text"> Problem</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chap8-%E5%8F%82%E6%95%B0%E8%8E%B7%E5%8F%96"><span class="toc-number">2.8.</span> <span class="toc-text"> Chap8 参数获取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chap9-%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">2.9.</span> <span class="toc-text"> Chap9 返回值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#void%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">2.9.1.</span> <span class="toc-text"> void类型的返回值</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC%E4%B8%BA%E7%BB%93%E6%9E%84%E4%BD%93%E5%9E%8B%E6%95%B0%E6%8D%AE"><span class="toc-number">2.9.1.1.</span> <span class="toc-text"> 返回值为结构体型数据</span></a></li></ol></li></ol></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://onelastchick.github.io/2024/05/23/re4b%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">re4b阅读笔记</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-05-23 16:25:47" itemprop="dateCreated datePublished" datetime="2024-05-23T16:25:47+08:00">2024-05-23</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-05-29 23:32:21" itemprop="dateModified" datetime="2024-05-29T23:32:21+08:00">2024-05-29</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">7.3k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">28m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Reverse/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Reverse</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">学习笔记</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h1 id="part1-前言"><a class="markdownIt-Anchor" href="#part1-前言"></a> Part.1 前言</h1>
+<p>阅读这种书籍，如果我不做笔记，我可能就会走马观花的粗略看一遍，结果什么都没学会，眼睛会了，脑子不会，所以我准备边做笔记边学，争取把基础打扎实</p>
+<p>对于逆向工程权威指南关键部分的摘录,整理以及个人的理解</p>
+<p>逆向工程权威指南是入门逆向必读的一本书籍</p>
+<p>由于我是初学者，所以我目前只学习re4b x86汇编部分（不能贪多），对于ARM以及MIPS架构待以后进阶后再进行学习</p>
+<h1 id="part2-指令讲解"><a class="markdownIt-Anchor" href="#part2-指令讲解"></a> Part.2 指令讲解</h1>
+<h2 id="chapter1-cpu"><a class="markdownIt-Anchor" href="#chapter1-cpu"></a> Chapter1 CPU</h2>
+<p>**指令码：**CPU受理的底层命令。典型的底层命令有：将数据在寄存器间转移、操作内存、计算运算等指令。每类CPU都有自己的指令集架构（Instruction Set Architecture，ISA）。</p>
+<p>**机器码：**发送给CPU的程序代码。一条指令通常被封装为若干字节。</p>
+<p>**汇编语言：**为了让程序员少长白头发而创造出来的、易读易记的代码，它有很多类似宏的扩展功能。</p>
+<p>**CPU寄存器：**每种CPU都有其固定的通用寄存器（GPR）。x86 CPU里一般有8个GPR，x64里往往有16个GPR，而ARM里则通常有16个GPR。您可以认为CPU寄存器是一种存储单元，它能够无差别地存储所有类型的临时变量。假如您使用一种高级的编程语言，且仅会使用到8个32位变量，那么光CPU自带的寄存器就能完成不少任务了！</p>
+<p><strong>指令集架构</strong></p>
+<p>最常见的三种</p>
+<ul>
+<li>
+<p>ARM指令集分为3类：ARM模式指令集、Thumb模式指令集（包括Thumb-2）和ARM64的指令集。需要强调的是：不同的指令集分别</p>
+<p>属于不同的指令集架构；一个指令集绝非另一个指令集的变种。</p>
+</li>
+<li>
+<p>x86指令集 各opcode（汇编指令对应的机器码）的长度不尽相同</p>
+</li>
+<li>
+<p>MIPS指令集 多数都使用了固定长度的32位opcode</p>
+</li>
+</ul>
+<p><strong>汇编语言</strong>存在两种主流语体，即<strong>Intel语体</strong>和<strong>AT&amp;T语体</strong></p>
+<h2 id="chap2-最简函数"><a class="markdownIt-Anchor" href="#chap2-最简函数"></a> Chap2 最简函数</h2>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token number">123</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">f:
+	mov eax,123
+	ret<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>这个函数仅由两条指令构成：第一条指令把数值123存放在EAX寄存器里；根据函数调用约定,后面一条指令会把EAX的值当作返回值传递给调用者函数，而调用者函数（caller）会从EAX寄存器里取值，把它当作返回结果。</p>
+<h2 id="chap3-helloworld"><a class="markdownIt-Anchor" href="#chap3-helloworld"></a> Chap3 Hello,World!</h2>
+<h3 id="msvs"><a class="markdownIt-Anchor" href="#msvs"></a> msvs</h3>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"hello,world!\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>用MSVS<code>cl 1.cpp /Fa1.asm</code>生成<code>1.asm</code></p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">CONST   SEGMENT
+$SG3830 DB       &#39;hello, world&#39;, 0AH, 00H
+CONST   ENDS
+PUBLIC  _main
+EXTRN   _printf:PROC
+; Function compile flags: &#x2F;Odtp
+_TEXT   SEGMENT
+_main   PROC
+        push    ebp
+        mov     ebp, esp
+        push    OFFSET $SG3830
+        call    _printf
+        add     esp, 4
+        xor     eax, eax
+        pop     ebp
+        ret     0
+_main   ENDP
+_TEXT   ENDS<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>生成<code>1.asm</code>后，编译器会生成<code>1.obj</code>然后再链接为<code>1.exe</code></p>
+<p>对这段汇编的解读</p>
+<ul>
+<li>
+<p>文件分为两个代码段，即CONST和_TEXT段，它们分别代表数据段和代码段。</p>
+</li>
+<li>
+<p>字符串常量“hello，world”分配了一个指针（const char[]），只是在代码中这个指针的名称并不明显</p>
+</li>
+<li>
+<p>编译器进行了自己的处理，并在内部把字符串常量命名为$SG3830,<code>0AH</code>是换行符</p>
+<p>可以发现在字符串常量尾部添加了<code>00H</code>这个是字符串常量的结束标志,编译器添加的</p>
+</li>
+<li>
+<p>在代码段<code>_TEXT</code>只有一个函数，即<code>main()</code>,其中<code>PROC</code>是<code>Procdure</code>的缩写，表示程序的开始,与<code>ENDP</code>配对使用</p>
+</li>
+<li>
+<p>主函数的函数体有标志性的函数序言（function prologue）</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">push ebp        ; 保存调用者的栈帧指针
+mov ebp, esp    ; 建立当前函数的栈帧指针
+sub esp, N      ; 为局部变量分配空间（N 是需要分配的字节数）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>以及函数尾声（function epilogue）</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">mov esp, ebp    ; 恢复栈指针
+pop ebp         ; 恢复调用者的栈帧指针
+ret             ; 返回到调用者<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>实际上所有的函数都有这样的序言和尾声。</p>
+</li>
+<li>
+<p>在函数序言之后，看到调用<code>printf()</code>的指令<code>CALL _printf</code></p>
+<p>通过<code>PUSH</code>指令，程序把字符串的指针推送入栈。这样，<code>printf()</code>函数就可以调用栈里的指针，即字符串<code>“hello, world!”</code>的地址。</p>
+</li>
+<li>
+<p>在<code>printf()</code>函数结束以后，程序的控制流会返回到<code>main()</code>函数之中。此时，字符串地址（即指针）仍残留在数据栈之中。这个时候就需要调整栈指针（ESP寄存器里的值）来释放这个指针。</p>
+</li>
+<li>
+<p>下一条语句是<code>“add ESP，4”</code>，把ESP寄存器（栈指针/Stack Pointer）里的数值加4。(在32位系统中，指针的大小占4字节，同理在64位中，就要+8)</p>
+<p>这条指令可以理解为“POP某寄存器”。只是本例的指令直接舍弃了栈里的数据而POP指令还要把寄存器里的值存储到既定寄存器</p>
+<p>某些编译器（如Intel C<ins>编辑器）不会使用ADD指令来释放数据栈，<strong>它们可能会用POP ECX指令</strong>。例如，Oracle RDBMS（由Intel C</ins>编译器编译）就会用POP ECX指令，而不会用ADD指令。虽然POP ECX命令确实会修改ECX寄存器的值，但是它也同样释放了栈空间。</p>
+<p>Intel C++编译器使用POP ECX指令的另外一个理由就是，<strong>POP ECX对应的OPCODE（1字节）比ADD ESP的OPCODE（3字节）要短。</strong></p>
+</li>
+<li>
+<p>在上述程序中printf()函数结束之后，main()函数会返回0（函数正常退出的返回码）。即main()函数的运算结果是0。这个返回值是由<strong>指令<code>“XOR EAX, EAX”</code>计算出来的</strong>。编译器通常采用异或运算指令，而不会使用“MOV EAX，0”指令。主要是因为<strong>异或运算的opcode较短</strong>（2字节:5字节）</p>
+</li>
+<li>
+<p>汇编列表中最后的操作指令是RET，将控制权交给调用程序。通常它起到的作用就是将控制权交给操作系统，这部分功能由C/C++的<code>CRT</code>实现。（C RUNTIME LIBRARY)</p>
+</li>
+</ul>
+<h3 id="gcc"><a class="markdownIt-Anchor" href="#gcc"></a> gcc</h3>
+<p>利用<code>gcc</code>编译器编译<code>gcc 1.c -o 1</code>采用<code>-S -masm=intel</code>生成intel语法的汇编列表文件</p>
+<p>生成后用IDA打开</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">Main         proc near
+var_10       &#x3D; dword ptr -10h
+
+             push    ebp
+             mov     ebp, esp
+             and     esp, 0FFFFFFF0h
+             sub     esp, 10h
+             mov     eax, offset aHelloWorld ; &quot;hello, world\n&quot;
+             mov     [esp+10h+var_10], eax
+             call    _printf
+             mov     eax, 0
+             leave
+             retn
+main         endp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>汇编解读</p>
+<ul>
+<li>与MSVC生成的结果基本相同。它首先把“hello, world”字符串在数据段的地址（指针）存储到EAX寄存器里，然后再把它存储在数据栈里。</li>
+<li>开头的<code>and esp,0FFFFFFF0h</code>向16字节边界对齐（成为16的整数倍），属于初始化的指令。如果地址位没有对齐，那么CPU可能需要访问两次内存才能获得栈内数据。虽然在8字节边界处对齐就可以满足32位x86 CPU和64位x64 CPU的要求，但是主流编译器的编译规则规定“程序访问的地址必须向16字节对齐（被16整除）,目的是为了提高效率</li>
+<li><code>“SUB ESP，10h”</code>将在栈中分配0x10 bytes，即16字节。我们在后文看到，程序只会用到4字节空间。但是因为编译器对栈地址（ESP）进行了16字节对齐，所以每次都会分配16字节的空间。</li>
+<li>而后，程序将字符串地址（指针的值）直接写入到数据栈。此处，GCC使用的是MOV指令；而MSVC生成的是PUSH指令。其中var_10是局部变量，用来向后面的printf()函数传递参数。</li>
+<li>GCC和MSVC不同，除非人工指定优化选项，否则它会生成与源代码直接对应的“MOV EAX, 0”指令。但是，我们已经知道MOV指令的opcode肯定要比XOR指令的opcode长。</li>
+<li>LEAVE指令，简化函数尾声，等效于<code>“MOV ESP, EBP”</code>和“<code>POP EBP”</code>两条指令。可见，这个指令调整了数据栈指针ESP，并将EBP的数值恢复到调用这个函数之前的初始状态。</li>
+</ul>
+<h3 id="msvs-x86-64"><a class="markdownIt-Anchor" href="#msvs-x86-64"></a> msvs x86-64</h3>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">$SG2989  DB      &#39;hello, world&#39;, 0AH 00H
+
+main     PROC
+         sub     rsp, 40
+         lea     rcx, OFFSET FLAT:$SG2989
+         call    printf
+         xor     eax, eax
+         add     rsp, 40
+         ret     0
+main     ENDP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在x86-64框架的CPU里，所有的物理寄存器都被扩展为64位寄存器。寄存器变为r字开头</p>
+<p>为了尽可能充分地利用寄存器、减少访问内存数据的次数，编译器会充分利用寄存器传递函数参数（请参见64.3节的fastcall约定）。也就是说，编译器会优先使用寄存器传递部分参数，再利用内存（数据栈）传递其余的参数。<code>Win64的程序</code>还会使用<code>RCX、RDX、R8、R9</code>这4个寄存器来存放函数参数。我们稍后就会看到这种情况：printf()使用RCX寄存器传递参数，而没有像32位程序那样使用栈传递数据。</p>
+<p>main()函数的返回值是整数类型的零，但是出于兼容性和可移植性的考虑，C语言的编译器仍将使用<code>32位的零</code>。换而言之，即使是64位的应用程序，在程序结束时EAX的值是零，而R<code>AX的值不一定会是零。</code></p>
+<p>数据栈的对应空间里仍留有40字节的数据。这部分数据空间有个专用的名词，即<code>阴影空间</code>（shadow space）</p>
+<h3 id="gcc-x86-64"><a class="markdownIt-Anchor" href="#gcc-x86-64"></a> gcc x86-64</h3>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">.string &quot;hello, world\n&quot;
+main:
+         sub      rsp, 8
+         mov      edi, OFFSET FLAT:.LC0 ; &quot;hello, world&quot;
+         xor      eax, eax  ; number of vector registers passed
+         call     printf
+         xor      eax, eax
+         add      rsp, 8
+         ret<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>Linux、BSD和Mac OS X系统中的应用程序</strong>，会优先使用<code>RDI、RSI、RDX、RCX、R8、R9这6个寄存器传递函数所需的头6个参数</code>，然后使用数据栈传递其余的参数。</p>
+<p>使用了<code>EDI</code>寄存器来传递字符串指针，为什么不用<code>RDI</code></p>
+<p>需要注意的是，64位汇编指令MOV在写入R-寄存器的低32位地址位的时候，即对E-寄存器进行写操作的时候，会同时清除R-寄存器中的高32位地址位。所以, “MOV EAX, 011223344h”能够对RAX寄存器进行正确的赋值操作，因为该指令会清除（置零）高地址位的内容。</p>
+<p>使用<code>EDI</code>是因为可以使<code>opcode</code>由7个字节减少到5个字节,gcc优化</p>
+<p><code>gcc</code>的优化有很多特性，例如:它可能会把字符串拆出来单独使用。以节省内存</p>
+<h3 id="problems"><a class="markdownIt-Anchor" href="#problems"></a> Problems</h3>
+<p>1.答:调用了<code>MessagBeep</code>这个函数，参数为0xFFFFFFFF</p>
+<h2 id="chap4-函数序言和函数尾声"><a class="markdownIt-Anchor" href="#chap4-函数序言和函数尾声"></a> Chap4 函数序言和函数尾声</h2>
+<p>略</p>
+<h2 id="chap5-栈"><a class="markdownIt-Anchor" href="#chap5-栈"></a> Chap5 栈</h2>
+<ul>
+<li>
+<p>栈就是CPU寄存器里的某个指针所指向的一片内存区域。这里所说的“某个指针”通常位于x86/x64平台的ESP寄存器/RSP寄存器，以及ARM平台的SP寄存器。</p>
+</li>
+<li>
+<p>操作栈的最常见的指令是PUSH和POP，<code>PUSH</code>指令会对ESP/RSP/SP寄存器的值进行减法运算，使之减去4（32位）或8（64位），然后将操作数写到上述寄存器里的指针所指向的内存中。<code>POP</code>指令是PUSH指令的逆操作：它先从栈指针（Stack Pointer，上面三个寄存器之一）指向的内存中读取数据，用以备用（通常是写到其他寄存器里），然后再将栈指针的数值加上4或8。</p>
+</li>
+<li>
+<p>栈是逆增长的，即从高地址向低地址增长</p>
+</li>
+</ul>
+<hr />
+<h3 id="栈的用途"><a class="markdownIt-Anchor" href="#栈的用途"></a> 栈的用途</h3>
+<ul>
+<li>
+<p>保存函数的返回地址</p>
+<p><code>call</code>指令等价于<code>push 返回地址</code>与<code>jmp 函数地址</code></p>
+<p><code>ret</code>指令从栈中读取返回地址，然后跳转到这个地址，等价于<code>pop 返回地址</code>与<code>jmp 返回地址</code></p>
+<p>由此可实现函数的递归调用</p>
+</li>
+<li>
+<p>参数传递</p>
+<p>最常用的参数传递约定是<code>cdecl</code></p>
+<p>以下为其主要规则</p>
+<ol>
+<li><strong>参数从右到左压入栈</strong></li>
+<li><strong>调用者负责清理栈</strong>：函数调用结束后，调用者需要负责从栈中弹出传递给函数的所有参数。这意味着编译器会在调用函数之后生成相应的代码来调整堆栈指针，恢复调用前的状态。</li>
+<li><strong>可变参数列表支持</strong>：cdecl 支持函数具有可变数量的参数（如 printf 函数），这是通过在参数列表中使用省略号（…）来表示的。</li>
+<li><strong>返回值通常在EAX寄存器中</strong>（对于x86架构）：大多数情况下，函数的返回值如果大小适当（比如整数、指针），会通过EAX寄存器返回。对于更大的返回类型，可能会通过其他方式，如通过指针传递。</li>
+</ol>
+<p>例如</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">push arg3
+push arg2
+push arg1
+call f
+add esp.12;4*3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>被调用的函数可以通过栈指针获取所需参数</p>
+<table>
+<thead>
+<tr>
+<th>ESP</th>
+<th>返回地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ESP+4</td>
+<td>arg1, 它在IDA里记为arg_0</td>
+</tr>
+<tr>
+<td>ESP+8</td>
+<td>arg2, 它在IDA里记为arg_4</td>
+</tr>
+<tr>
+<td>ESP+0xC</td>
+<td>arg3, 它在IDA里记为arg_8</td>
+</tr>
+</tbody>
+</table>
+<p>需要注意的是，程序员可以使用栈来传递参数，也可以不使用栈传递参数。参数处理方面并没有相关的硬性规定。例如也可以用寄存器或者堆上开辟内存进行传参，不过在x86这种约定已是习惯</p>
+<p>如果函数可处理的参数数量可变，就需要用说明符如%d进行格式化说明，明确参数信息</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d %d %d"</span><span class="token punctuation">,</span> <span class="token number">1234</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这个命令不仅会让printf()显示1234，而且还会让它显示数据栈内1234之后的两个地址的随机数。</p>
+<p>由此可知，声明main()函数的方法并不是那么重要。我们可以将之声明为<code>main(),main(int argc, char *argv[])或main(int argc, char *argv[], char *envp[])</code>,CRT中调用<code>main()</code>指令如下:</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">push envp
+push argv
+push argc
+call main<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li>
+<p>存储局部变量</p>
+</li>
+<li>
+<p>x86.alloca()函数</p>
+<p><code>malloc()</code>是在堆上分配内存，而<code>alloc()</code>直接使用栈来分配内存</p>
+<p>由于函数尾声的代码会还原<code>ESP</code>的值，不需要特地使用<code>free()</code>来释放内存</p>
+</li>
+<li>
+<p>(Win)SEH结构化异常处理</p>
+<p>如果程序里存在<code>SEH</code>记录，那么记录会保存在栈中</p>
+</li>
+<li>
+<p>缓冲区溢出保护</p>
+</li>
+<li>
+<p>典型的栈的内存存储格式</p>
+<p>在32位系统中，在程序调用函数之后、执行它的第一条指令之前，栈在内存中的存储格式一般如下表所示。</p>
+<table>
+<thead>
+<tr>
+<th>…</th>
+<th>……</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ESP-0xC</td>
+<td>第2个局部变量，在IDA里记为var_8</td>
+</tr>
+<tr>
+<td>ESP-8</td>
+<td>第1个局部变量，在IDA里记为var_4</td>
+</tr>
+<tr>
+<td>ESP-4</td>
+<td>保存的EBP值</td>
+</tr>
+<tr>
+<td>ESP</td>
+<td>返回地址</td>
+</tr>
+<tr>
+<td>ESP+4</td>
+<td>arg1, 在IDA里记为arg_0</td>
+</tr>
+<tr>
+<td>ESP+8</td>
+<td>arg2, 在IDA里记为arg_4</td>
+</tr>
+<tr>
+<td>ESP+0xC</td>
+<td>arg3, 在IDA里记为arg_8</td>
+</tr>
+<tr>
+<td>…</td>
+<td>……</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<hr />
+<h3 id="栈的噪音"><a class="markdownIt-Anchor" href="#栈的噪音"></a> 栈的噪音</h3>
+<p>函数退出以后,原有栈的空间里的局部变量不会被自动清除，仍然保留就成了栈中的脏数据</p>
+<p>例如</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+
+<span class="token keyword">void</span> <span class="token function">f1</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+<span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> a<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> b<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span> c<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">f2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+<span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c<span class="token punctuation">;</span>
+        <span class="token function">printf</span> <span class="token punctuation">(</span><span class="token string">"%d, %d, %d\n"</span><span class="token punctuation">,</span> a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+<span class="token punctuation">&#123;</span>
+        <span class="token function">f1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">f2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>我们会发现，没有对f2的变量初始化，仍然打印的是 1 2 3</p>
+<p>可以研究一下汇编代码,利用MSVS编译的代码如下</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">$SG2752 DB      &#39;%d, %d, %d&#39;, 0aH, 00H
+
+_c$ &#x3D; -12       ; size &#x3D; 4
+_b$ &#x3D; -8        ; size &#x3D; 4
+_a$ &#x3D; -4        ; size &#x3D; 4
+_f1    PROC
+       push     ebp
+       mov      ebp, esp
+       sub      esp, 12
+       mov      DWORD PTR _a$[ebp], 1
+       mov      DWORD PTR _b$[ebp], 2
+       mov      DWORD PTR _c$[ebp], 3
+       mov      esp, ebp
+       pop      ebp
+       ret      0
+_f1    ENDP
+
+_c$ &#x3D; -12       ; size &#x3D; 4
+_b$ &#x3D; -8        ; size &#x3D; 4
+_a$ &#x3D; -4        ; size &#x3D; 4
+_f2    PROC
+       push     ebp
+       mov      ebp, esp
+       sub      esp, 12
+       mov      eax, DWORD PTR _c$[ebp]
+       push     eax
+       mov      ecx, DWORD PTR _b$[ebp]
+       push     ecx
+       mov      edx, DWORD PTR _a$[ebp]
+       push     edx
+       push     OFFSET $SG2752 ; ’%d, %d, %d’
+       call     DWORD PTR __imp__printf
+       add      esp, 16
+       mov      esp, ebp
+       pop      ebp
+       ret      0
+_f2    ENDP
+
+main   PROC
+       push     ebp
+       mov      ebp, esp
+       call     _f1
+       call     _f2
+       xor      eax, eax
+       pop      ebp
+       ret      0
+_main  ENDP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在这个特例里，第二个函数在第一个函数之后执行，而第二个函数变量的地址和SP的值又与第一个函数的情况相同。所以，相同地址的变量获得的值相同。</p>
+<p>总而言之，在运行第二个函数时，栈中的所有值（即内存中的单元）受前一个函数的影响，而获得了前一个函数的变量的值。严格地说，这些地址的值不是随机值，而是可预测的伪随机值。</p>
+<h3 id="problems-2"><a class="markdownIt-Anchor" href="#problems-2"></a> Problems</h3>
+<h4 id="51"><a class="markdownIt-Anchor" href="#51"></a> 5.1</h4>
+<p>如果使用MSVC编译、运行下列程序，将会打印出3个整数。这些数值来自哪里？如果使用MSVC的优化选项“/Ox”，程序又会在屏幕上输出什么？为什么GCC的情况完全不同？</p>
+<pre class="line-numbers language-none"><code class="language-none">#include &lt;stdio.h&gt;
+
+int main() 
+&#123;
+         printf (&quot;%d, %d, %d\n&quot;);
+
+         return 0;
+&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如果未启用MSVC的优化编译功能，程序显示的数字分别是EBP的值、RA和argc。在命令行中执行相应的程序即可进行验证。</p>
+<p>如果启用了MSVC的优化编译功能，程序显示的数字分别来自：返回地址RA、argc和数组argv［］。</p>
+<p>GCC会给main() 函数的入口分配16字节的地址空间，所以输出内容会有不同。</p>
+<h4 id="52"><a class="markdownIt-Anchor" href="#52"></a> 5.2</h4>
+<p>答：打印时间</p>
+<h2 id="chap6-printf函数与参数传递"><a class="markdownIt-Anchor" href="#chap6-printf函数与参数传递"></a> Chap6 printf()函数与参数传递</h2>
+<p>演示程序</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"a=%d,b=%d,c=%d"</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span> 
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>用<code> g++ -m32 -o 1 1.c</code>进行编译或者使用<code>MSVS</code>工具链进行编译，跟随本书的节奏，配置一下<code>MSVS</code>的环境</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/cpp/build/building-on-the-command-line?view=msvc-170#download-and-install-the-tools">通过命令行使用 Microsoft C++ 工具集 | Microsoft Learn</a></p>
+<p>首先将<code>Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build</code>加入环境变量</p>
+<p>命令行输入<code>vcvarsall.bat x86</code></p>
+<p>然后<code>cl 1.cpp</code></p>
+<hr />
+<p>MSVS工具链一些常用的指令</p>
+<p><code>cl /Fa 1.c</code>生成不带注释的汇编代码</p>
+<p><code>cl /FAs 1.c</code>生成带注释的汇编代码,生成1.asm</p>
+<p><code>dumpbin /all example.obj</code>显示目标文件中的所有信息，包括段内容、符号表和重定位信息。</p>
+<p>/c 代表只编译不链接。</p>
+<p>/I 指定头文件的目录</p>
+<p>/C 在编译期间保留代码注释，这里和/I连在一起使用，/IC</p>
+<p>首先介绍一个概念，VC中有个PDB文件，全称是Program Database，用来存放程序信息的小的<a target="_blank" rel="noopener" href="http://lib.csdn.net/base/14">数据库</a>文件。</p>
+<p>编译Debug版本时，调试信息需要保留，我们可以选择直接将调试信息写到.obj文件中，或者存到.pdb文件中。</p>
+<p>/Z7 不产生.pdb文件，将所有调试信息存入.obj文件中</p>
+<p>/Zi和/ZI 都产生.pdb文件，不过/ZI支持&quot;编辑继续调试&quot;功能, (the edit and continue feature), 看上去更酷，但是我从来没有用过这个功能。</p>
+<p>/ZI有一些边际效应，会禁止#pragma optmize 指令，也不能和/clr一起用。</p>
+<p>/nologo- 已经无效，自己生成命令行的时候，没必要用了。</p>
+<p>/W3 也中警告级别，VC提供了很多警告级别，参考<a target="_blank" rel="noopener" href="http://msdn.microsoft.com/en-us/library/vstudio/thxezb7y.aspx">http://msdn.microsoft.com/en-us/library/vstudio/thxezb7y.aspx</a></p>
+<p>自己编译的话，直接用/Wall最好。</p>
+<p>/WX- 不太明白为什么有 - 号，（估计是和:NO的意思相同，也就是不启用该功能）， /WX的意思是将warning转变成error，这样强迫消除所有的warning，如果和/Wall一起使用，那是最好的。</p>
+<p>/sdl 是对代码进行安全检查，如果发现相关警告，转变成错误输出</p>
+<p>/Od 禁止优化</p>
+<p>/Oy- 禁止该选项，该选项如果没有 - 号，则会在x86上编译时忽略frame-pointer，起到加速程序的作用。 frame-pointer，我暂时不知道是啥。</p>
+<p>/D 预处理定义，后面可以跟不同的参数都是宏啊，比如<br />
+/Gm 启用最小化重新编译, VC用.idb保留了上次编译的缓存信息，包括文件依赖关系。下次编译时可以使用.idb文件用来检查，跳过不需要重新编译的文件。</p>
+<p>具体参见:</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/cpp/build/reference/compiler-options?view=msvc-170&amp;redirectedfrom=MSDN">MSVC Compiler Options | Microsoft Learn</a></p>
+<h3 id="x86"><a class="markdownIt-Anchor" href="#x86"></a> x86</h3>
+<p>MSVS编译得到的汇编指令如下</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">_TEXT	SEGMENT
+_main	PROC
+
+; 3    : &#123;
+
+	push	ebp
+	mov	ebp, esp
+
+; 4    :     printf(&quot;a&#x3D;%d,b&#x3D;%d,c&#x3D;%d&quot;,1,2,3);
+
+	push	3
+	push	2
+	push	1
+	push	OFFSET $SG9695
+	call	_printf
+	add	esp, 16					; 00000010H
+
+; 5    :     return 0; 
+
+	xor	eax, eax
+
+; 6    : &#125;
+
+	pop	ebp
+	ret	0
+_main	ENDP
+_TEXT	ENDS<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以看到<code>printf()</code>函数的参数是逆序存入栈中，第一个参数在最后入栈</p>
+<p>在<code>32</code>位下，32位地址指针和int类型数据都占据<code>32位</code>即<code>4字节</code>的空间，因此4个参数总共占用<code>16</code>字节的存储空间</p>
+<p>因此在调用函数之后，“ADD ESP, X”指令修正ESP寄存器中的栈指针。通常情况下，我们可以通过call之后的这条指令判断参数的数量：<code>变量总数＝*X*÷4。</code>(仅适用于调用约定为<code>cdecl</code>的程序)</p>
+<p>如果某个程序连续地调用多个函数，且调用函数的指令之间不夹杂其他指令，那么编译器可能把释放参数存储空间的“ADD ESP,X”指令进行合并，一次性地释放所有空间</p>
+<hr />
+<p>体验用<code>onlydbg</code>加载这个程序</p>
+<p>这里需要用到debug版本的编译命令</p>
+<p><code>cl /Z7 /EHsc 1.exe 1.c</code>便于跟踪程序</p>
+<p>找到<code>main</code>函数的方法:方法很多，不细说了</p>
+<p>具体操作按书上来</p>
+<h2 id="chap7-scanf"><a class="markdownIt-Anchor" href="#chap7-scanf"></a> Chap7 scanf()</h2>
+<p>演示程序</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> x<span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Enter X:\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"You Entered: %d\n"</span><span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="x86-2"><a class="markdownIt-Anchor" href="#x86-2"></a> x86</h3>
+<p><code>cl /FAs /Z7 2 2.c</code></p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">_DATA	SEGMENT
+$SG9696	DB	&#39;Enter X:&#39;, 0aH, 00H
+	ORG $+2
+$SG9697	DB	&#39;%d&#39;, 00H
+	ORG $+1
+$SG9698	DB	&#39;You Entered: %d&#39;, 0aH, 00H
+_DATA	ENDS
+_TEXT	SEGMENT
+_x$ &#x3D; -4						; size &#x3D; 4
+_main	PROC
+
+; 3    : &#123;
+
+	push	ebp
+	mov	ebp, esp
+	push	ecx
+
+; 4    :     int x;
+; 5    :     printf(&quot;Enter X:\n&quot;);
+
+	push	OFFSET $SG9696
+	call	_printf
+	add	esp, 4
+
+; 6    :     scanf(&quot;%d&quot;, &amp;x);
+
+	lea	eax, DWORD PTR _x$[ebp]
+	push	eax
+	push	OFFSET $SG9697
+	call	_scanf
+	add	esp, 8
+
+; 7    : 
+; 8    :     printf(&quot;You Entered: %d\n&quot;, x);
+
+	mov	ecx, DWORD PTR _x$[ebp]
+	push	ecx
+	push	OFFSET $SG9698
+	call	_printf
+	add	esp, 8
+
+; 9    :     return 0;
+
+	xor	eax, eax
+
+; 10   : &#125;
+
+	mov	esp, ebp
+	pop	ebp
+	ret	0
+_main	ENDP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>汇编解读:</p>
+<ul>
+<li>
+<p>可以看到，<code>scanf()</code>传递的第二个参数(eax)是一个指向栈中的指针，x是局部变量，存储在栈中。在栈中分配了4字节空间，存储局部变量x</p>
+</li>
+<li>
+<p>**汇编宏_x$ （其值为−4）**用于访问局部变量<em>x</em>，而EBP寄存器用来存储栈当前帧的指针。</p>
+<p>在函数运行的期间，EBP一直指向当前的栈帧（stack frame）。这样，函数即可通过<strong>EBP+offset的方式访问本地变量、以及外部传入的函数参数</strong>。</p>
+<p>ESP也可以用来访问本地变量，获取函数所需的运行参数。不过<strong>ESP的值经常发生变化，用起来并不方便</strong>。函数在启动之初就会利用EBP寄存器保存ESP寄存器的值。这就是为了确保在函数运行期间保证EBP寄存器存储的原始ESP值固定不变。</p>
+<p>在32位系统里，典型的栈帧（stack frame）结构如下表所示。</p>
+<table>
+<thead>
+<tr>
+<th>……</th>
+<th>……</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EBP-8</td>
+<td>局部变量＃2，IDA标记为var_8</td>
+</tr>
+<tr>
+<td>EBP-4</td>
+<td>局部变量＃1，IDA标记为var_4</td>
+</tr>
+<tr>
+<td>EBP</td>
+<td>EBP的值</td>
+</tr>
+<tr>
+<td>EBP+4</td>
+<td>返回地址Return address</td>
+</tr>
+<tr>
+<td>EBP+8</td>
+<td>函数参数＃1，IDA标记为arg_0</td>
+</tr>
+<tr>
+<td>EBP+0xC</td>
+<td>函数参数＃2，IDA标记为arg_4</td>
+</tr>
+<tr>
+<td>EBP+0x10</td>
+<td>函数参数＃3，IDA标记为arg_8</td>
+</tr>
+<tr>
+<td>……</td>
+<td>……</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><code>scanf()</code>在此例中有两个参数,第一个参数是一个指针，指向含有&quot;%d&quot;的格式化字符串，第二个参数是局部变量<code>x</code>的地址</p>
+<p>“lea eax, DWORD PTR _x$[ebp]”指令将变量<em>x</em>的地址放入EAX寄存器。</p>
+<p>在此处<code>LEA</code>会将<code>EBP</code>寄存器值与宏_x$求和,然后将这个结果存储到<code>EAX</code>，然后把<code>EAX</code>寄存器的值送入栈中(就是把x的地址送入EAX寄存器)</p>
+</li>
+<li>
+<p>而后调用<code>printf()</code>函数，第一个参数即格式化字符串的指针</p>
+<p>第二个参数是<code>mov ecx,[ebp-4]</code>间接取值，传递给ecx的值是<code>ebp-4</code>指向的地址的值，即变量x的值</p>
+</li>
+</ul>
+<hr />
+<p>用<code>onlydbg</code>动态跟踪这个过程，具体书上有</p>
+<ul>
+<li>调试可以发现，执行完<code>scanf()</code>函数,<code>EAX</code>存储有函数的返回值，其值是<code>scanf()</code>读取参数的个数</li>
+<li>我们可以在栈中找到局部变量的地址，进而跟踪其值</li>
+</ul>
+<h3 id="全局变量"><a class="markdownIt-Anchor" href="#全局变量"></a> 全局变量</h3>
+<p>如果上文的<code>x</code>是全局变量,会有什么样的变化</p>
+<p>将<code>x</code>改成全局变量</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">_DATA	SEGMENT
+$SG9696	DB	&#39;Enter X:&#39;, 0aH, 00H
+	ORG $+2
+$SG9697	DB	&#39;%d&#39;, 00H
+	ORG $+1
+$SG9698	DB	&#39;You Entered: %d&#39;, 0aH, 00H
+_DATA	ENDS
+_TEXT	SEGMENT
+_main	PROC
+
+; 4    : &#123;
+
+	push	ebp
+	mov	ebp, esp
+
+; 5    :    
+; 6    :     printf(&quot;Enter X:\n&quot;);
+
+	push	OFFSET $SG9696
+	call	_printf
+	add	esp, 4
+
+; 7    :     scanf(&quot;%d&quot;, &amp;x);
+
+	push	OFFSET _x
+	push	OFFSET $SG9697
+	call	_scanf
+	add	esp, 8
+
+; 8    : 
+; 9    :     printf(&quot;You Entered: %d\n&quot;, x);
+
+	mov	eax, DWORD PTR _x
+	push	eax
+	push	OFFSET $SG9698
+	call	_printf
+	add	esp, 8
+
+; 10   :     return 0;
+
+	xor	eax, eax
+
+; 11   : &#125;
+
+	pop	ebp
+	ret	0
+_main	ENDP
+_TEXT	ENDS<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>
+<p>可以发现<code>x</code>的存储空间不再由栈中存储,而是在数据段(由于没给x赋值，编译器自动优化为bss段(不占据空间))</p>
+</li>
+<li>
+<p>如果对上述源代码稍做改动，加上变量初始化的指令：</p>
+<pre class="line-numbers language-none"><code class="language-none">int x&#x3D;10; &#x2F;&#x2F;设置默认值<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>那么对应的代码会变为：</p>
+<pre class="line-numbers language-none"><code class="language-none">_DATA   SEGMENT
+_x      DD      0aH
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>上述指令将初始化x。其中DD代表DWORD，表示<em>x</em>是32位的数据。</p>
+<p>若在IDA里打开对x进行初始化的可执行文件，我们将会看到在数据段的开头部分看到初始化变量<em>x</em>。紧随其后的空间用于存储本例中的字符串。</p>
+<p>用IDA打开7.2节里那个不初始化变量<em>x</em>的例子，那么将会看</p>
+<p>有很多带“？”标记的变量，这是未初始化的<em>x</em>变量的标记。这意味着在程序加载到内存之后，操作系统将为这些变量分配空间、并填入数字零。但是在可执行文件里，这些未初始化的变量不占用内存空间。为了方便使用巨型数组之类的大型数据，人们刻意做了这种设定。</p>
+</li>
+</ul>
+<h3 id="problem"><a class="markdownIt-Anchor" href="#problem"></a> Problem</h3>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+
+<span class="token keyword">void</span> <span class="token function">alter_string</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span>s<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+        <span class="token function">strcpy</span> <span class="token punctuation">(</span>s<span class="token punctuation">,</span> <span class="token string">"Goodbye!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span> <span class="token punctuation">(</span><span class="token string">"Result: %s\n"</span><span class="token punctuation">,</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+        <span class="token function">alter_string</span> <span class="token punctuation">(</span><span class="token string">"Hello, world!\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在<code>win</code>可运行，因为s是在data段</p>
+<p>而在<code>linux</code>不可运行，s存储在<code>rodata</code>段，不可写</p>
+<h2 id="chap8-参数获取"><a class="markdownIt-Anchor" href="#chap8-参数获取"></a> Chap8 参数获取</h2>
+<p>main()函数把3个数字推送入栈，然后调用了f(int, int, int)。被调用方函数f()通过_a<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>8</mn><mtext>一类的汇编宏访问所需参数以及函数自定义的局部变量。只不过从被调用方函数的数据栈的角度来看，外部参考的偏移量是正值，而局部变量的偏移量是负值。可见，当需要访问栈帧（</mtext><mi>s</mi><mi>t</mi><mi>a</mi><mi>c</mi><mi>k</mi><mi>f</mi><mi>r</mi><mi>a</mi><mi>m</mi><mi>e</mi><mtext>）以外的数据时，被调用方函数可把汇编宏（例</mtext><msub><mtext>如</mtext><mi>a</mi></msub></mrow><annotation encoding="application/x-tex">=8一类的汇编宏访问所需参数以及函数自定义的局部变量。只不过从被调用方函数的数据栈的角度来看，外部参考的偏移量是正值，而局部变量的偏移量是负值。可见，当需要访问栈帧（stack frame）以外的数据时，被调用方函数可把汇编宏（例如_a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord">8</span><span class="mord cjk_fallback">一</span><span class="mord cjk_fallback">类</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">汇</span><span class="mord cjk_fallback">编</span><span class="mord cjk_fallback">宏</span><span class="mord cjk_fallback">访</span><span class="mord cjk_fallback">问</span><span class="mord cjk_fallback">所</span><span class="mord cjk_fallback">需</span><span class="mord cjk_fallback">参</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">以</span><span class="mord cjk_fallback">及</span><span class="mord cjk_fallback">函</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">自</span><span class="mord cjk_fallback">定</span><span class="mord cjk_fallback">义</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">局</span><span class="mord cjk_fallback">部</span><span class="mord cjk_fallback">变</span><span class="mord cjk_fallback">量</span><span class="mord cjk_fallback">。</span><span class="mord cjk_fallback">只</span><span class="mord cjk_fallback">不</span><span class="mord cjk_fallback">过</span><span class="mord cjk_fallback">从</span><span class="mord cjk_fallback">被</span><span class="mord cjk_fallback">调</span><span class="mord cjk_fallback">用</span><span class="mord cjk_fallback">方</span><span class="mord cjk_fallback">函</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">据</span><span class="mord cjk_fallback">栈</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">角</span><span class="mord cjk_fallback">度</span><span class="mord cjk_fallback">来</span><span class="mord cjk_fallback">看</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">外</span><span class="mord cjk_fallback">部</span><span class="mord cjk_fallback">参</span><span class="mord cjk_fallback">考</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">偏</span><span class="mord cjk_fallback">移</span><span class="mord cjk_fallback">量</span><span class="mord cjk_fallback">是</span><span class="mord cjk_fallback">正</span><span class="mord cjk_fallback">值</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">而</span><span class="mord cjk_fallback">局</span><span class="mord cjk_fallback">部</span><span class="mord cjk_fallback">变</span><span class="mord cjk_fallback">量</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">偏</span><span class="mord cjk_fallback">移</span><span class="mord cjk_fallback">量</span><span class="mord cjk_fallback">是</span><span class="mord cjk_fallback">负</span><span class="mord cjk_fallback">值</span><span class="mord cjk_fallback">。</span><span class="mord cjk_fallback">可</span><span class="mord cjk_fallback">见</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">当</span><span class="mord cjk_fallback">需</span><span class="mord cjk_fallback">要</span><span class="mord cjk_fallback">访</span><span class="mord cjk_fallback">问</span><span class="mord cjk_fallback">栈</span><span class="mord cjk_fallback">帧</span><span class="mord cjk_fallback">（</span><span class="mord mathnormal">s</span><span class="mord mathnormal">t</span><span class="mord mathnormal">a</span><span class="mord mathnormal">c</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">a</span><span class="mord mathnormal">m</span><span class="mord mathnormal">e</span><span class="mord cjk_fallback">）</span><span class="mord cjk_fallback">以</span><span class="mord cjk_fallback">外</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">据</span><span class="mord cjk_fallback">时</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">被</span><span class="mord cjk_fallback">调</span><span class="mord cjk_fallback">用</span><span class="mord cjk_fallback">方</span><span class="mord cjk_fallback">函</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">可</span><span class="mord cjk_fallback">把</span><span class="mord cjk_fallback">汇</span><span class="mord cjk_fallback">编</span><span class="mord cjk_fallback">宏</span><span class="mord cjk_fallback">（</span><span class="mord cjk_fallback">例</span><span class="mord"><span class="mord cjk_fallback">如</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>）与EBP寄存器的值相加，从而求得所需地址。</p>
+<p>当变量<em>a</em>的值存入EAX寄存器之后，f()函数通过各参数的地址依次进行乘法和加法运算，运算结果一直存储于EAX寄存器。此后EAX的值就可以直接作为返回值传递给调用方函数。调用方函数main()再把EAX的值当作参数传递给printf()函数。</p>
+<h2 id="chap9-返回值"><a class="markdownIt-Anchor" href="#chap9-返回值"></a> Chap9 返回值</h2>
+<p>在<strong>x86系</strong>统里，被调用方函数通常通过EA<strong>X寄存器返回运算结果</strong>。若返回值属于byte或char类型数据，返回值将<strong>存储于EAX寄存器的低8位——AL寄存器存储返回值</strong>。如果<strong>返回值是浮点float型数据，那么返回值将存储在FPU的ST(0)寄存器</strong>里。ARM系统的情况相对简单一些，它通常使用R0寄存器回传返回值。</p>
+<h3 id="void类型的返回值"><a class="markdownIt-Anchor" href="#void类型的返回值"></a> void类型的返回值</h3>
+<p>调用<code>main</code></p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">push envp
+push argv
+push argc
+call main
+push eax
+call exit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>也就是<code>exit(main(argc,argv,envp));</code></p>
+<p>如果声明main()的数据类型是void，则main()函数不会明确返回任何值（没有return指令）。不过在main()函数退出时，EAX寄存器还会存有数据，EAX寄存器保存的数据会被传递给exit()函数、成为后者的输入参数。通常EAX寄存器的值会是被调用方函数残留的确定数据，所以void类型函数的返回值、也就是主函数退出代码往往属于伪随机数（pseudorandom）</p>
+<h4 id="返回值为结构体型数据"><a class="markdownIt-Anchor" href="#返回值为结构体型数据"></a> 返回值为结构体型数据</h4>
+<p>调用方函数（caller）创建了数据结构、分配了数据空间，被调用的函数仅向结构体填充数据。其效果等同于返回结构体。</p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/05/27/%E6%9C%9F%E6%9C%AB%E5%91%A8%E5%88%B7%E8%AF%BE%E6%8C%87%E5%8D%97/" rel="prev" title="期末周刷课指南"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">期末周刷课指南</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/05/09/PwnCollege1-ProgramMiuse/" rel="next" title="pwnCollege-1-ProgramMisuse"><span class="post-nav-text">pwnCollege-1-ProgramMisuse</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/05/23/re4b%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div></body></html>
