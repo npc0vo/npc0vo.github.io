@@ -31,11 +31,14 @@ document.addEventListener("pjax:success", initScrollReveal);
 <meta property="og:site_name" content="Npc | Blog">
 <meta property="og:description" content="Part.1 前言 阅读这种书籍，如果我不做笔记，我可能就会走马观花的粗略看一遍，结果什么都没学会，眼睛会了，脑子不会，所以我准备边做笔记边学，争取把基础打扎实 对于逆向工程权威指南关键部分的摘录,整理以及个人的理解 逆向工程权威指南是入门逆向必读的一本书籍 由于我是初学者，所以我目前只学习re4b x86汇编部分（不能贪多），对于ARM以及MIPS架构待以后进阶后再进行学习  Part.2 指">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://npc0vo.github.io/2024/05/23/re4b%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/image-20240609142026432.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/05/23/re4b%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/image-20240609153017613.png">
 <meta property="article:published_time" content="2024-05-23T08:25:47.000Z">
-<meta property="article:modified_time" content="2024-06-08T13:52:15.046Z">
+<meta property="article:modified_time" content="2024-06-09T08:24:19.006Z">
 <meta property="article:author" content="Npc">
 <meta property="article:tag" content="学习笔记">
-<meta name="twitter:card" content="summary"><script>(function() {
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://npc0vo.github.io/2024/05/23/re4b%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/image-20240609142026432.png"><script>(function() {
   if (CONFIG.mode !== 'auto') return
   const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
   const setting = localStorage.getItem('darken-mode') || 'auto'
@@ -52,7 +55,7 @@ IconifyProviders = {
     // Wait for 1 second before switching API hosts
     rotate: 1000,
   },
-};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">24</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">8</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">11</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#part1-%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> Part.1 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#part2-%E6%8C%87%E4%BB%A4%E8%AE%B2%E8%A7%A3"><span class="toc-number">2.</span> <span class="toc-text"> Part.2 指令讲解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#chapter1-cpu"><span class="toc-number">2.1.</span> <span class="toc-text"> Chapter1 CPU</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap2-%E6%9C%80%E7%AE%80%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text"> Chap2 最简函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap3-helloworld"><span class="toc-number">2.3.</span> <span class="toc-text"> Chap3 Hello,World!</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#msvs"><span class="toc-number">2.3.1.</span> <span class="toc-text"> msvs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gcc"><span class="toc-number">2.3.2.</span> <span class="toc-text"> gcc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#msvs-x86-64"><span class="toc-number">2.3.3.</span> <span class="toc-text"> msvs x86-64</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gcc-x86-64"><span class="toc-number">2.3.4.</span> <span class="toc-text"> gcc x86-64</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#problems"><span class="toc-number">2.3.5.</span> <span class="toc-text"> Problems</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap4-%E5%87%BD%E6%95%B0%E5%BA%8F%E8%A8%80%E5%92%8C%E5%87%BD%E6%95%B0%E5%B0%BE%E5%A3%B0"><span class="toc-number">2.4.</span> <span class="toc-text"> Chap4 函数序言和函数尾声</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap5-%E6%A0%88"><span class="toc-number">2.5.</span> <span class="toc-text"> Chap5 栈</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%88%E7%9A%84%E7%94%A8%E9%80%94"><span class="toc-number">2.5.1.</span> <span class="toc-text"> 栈的用途</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%88%E7%9A%84%E5%99%AA%E9%9F%B3"><span class="toc-number">2.5.2.</span> <span class="toc-text"> 栈的噪音</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#problems-2"><span class="toc-number">2.5.3.</span> <span class="toc-text"> Problems</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#51"><span class="toc-number">2.5.3.1.</span> <span class="toc-text"> 5.1</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#52"><span class="toc-number">2.5.3.2.</span> <span class="toc-text"> 5.2</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap6-printf%E5%87%BD%E6%95%B0%E4%B8%8E%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92"><span class="toc-number">2.6.</span> <span class="toc-text"> Chap6 printf()函数与参数传递</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#x86"><span class="toc-number">2.6.1.</span> <span class="toc-text"> x86</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap7-scanf"><span class="toc-number">2.7.</span> <span class="toc-text"> Chap7 scanf()</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#x86-2"><span class="toc-number">2.7.1.</span> <span class="toc-text"> x86</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-number">2.7.2.</span> <span class="toc-text"> 全局变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#problem"><span class="toc-number">2.7.3.</span> <span class="toc-text"> Problem</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap8-%E5%8F%82%E6%95%B0%E8%8E%B7%E5%8F%96"><span class="toc-number">2.8.</span> <span class="toc-text"> Chap8 参数获取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap9-%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">2.9.</span> <span class="toc-text"> Chap9 返回值</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#void%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">2.9.1.</span> <span class="toc-text"> void类型的返回值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC%E4%B8%BA%E7%BB%93%E6%9E%84%E4%BD%93%E5%9E%8B%E6%95%B0%E6%8D%AE"><span class="toc-number">2.9.2.</span> <span class="toc-text"> 返回值为结构体型数据</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap10-%E6%8C%87%E9%92%88"><span class="toc-number">2.10.</span> <span class="toc-text"> Chap10 指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap12-%E6%9D%A1%E4%BB%B6%E8%BD%AC%E7%A7%BB"><span class="toc-number">2.11.</span> <span class="toc-text"> Chap12 条件转移</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E5%80%BC%E6%AF%94%E8%BE%83"><span class="toc-number">2.11.1.</span> <span class="toc-text"> 数值比较</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E7%BB%9D%E5%AF%B9%E5%80%BC"><span class="toc-number">2.11.2.</span> <span class="toc-text"> 计算绝对值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">2.11.3.</span> <span class="toc-text"> 条件运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AF%94%E8%BE%83%E5%A4%A7%E5%B0%8F"><span class="toc-number">2.11.4.</span> <span class="toc-text"> 比较大小</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap13-switch"><span class="toc-number">2.12.</span> <span class="toc-text"> Chap13 Switch</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#case%E8%BE%83%E5%B0%91%E7%9A%84%E6%83%85%E5%BD%A2"><span class="toc-number">2.12.1.</span> <span class="toc-text"> case较少的情形</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#case%E8%BE%83%E5%A4%9A%E7%9A%84%E6%83%85%E5%BD%A2"><span class="toc-number">2.12.2.</span> <span class="toc-text"> case较多的情形</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#case%E4%BB%8E%E5%8F%A5%E5%A4%9A%E5%AF%B9%E4%B8%80"><span class="toc-number">2.12.3.</span> <span class="toc-text"> case从句多对一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fall-through"><span class="toc-number">2.12.4.</span> <span class="toc-text"> fall-through</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap14-%E5%BE%AA%E7%8E%AF"><span class="toc-number">2.13.</span> <span class="toc-text"> Chap14 循环</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#for"><span class="toc-number">2.13.1.</span> <span class="toc-text"> for</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%9D%97%E5%A4%8D%E5%88%B6"><span class="toc-number">2.13.2.</span> <span class="toc-text"> 内存块复制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.13.3.</span> <span class="toc-text"> 总结</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#problem-2"><span class="toc-number">2.13.4.</span> <span class="toc-text"> Problem</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap15-c%E8%AF%AD%E8%A8%80%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%87%BD%E6%95%B0"><span class="toc-number">2.14.</span> <span class="toc-text"> Chap15 C语言字符串的函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#strlen"><span class="toc-number">2.14.1.</span> <span class="toc-text"> strlen()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap16-%E6%95%B0%E5%AD%A6%E8%AE%A1%E7%AE%97%E6%8C%87%E4%BB%A4%E7%9A%84%E6%9B%BF%E6%8D%A2"><span class="toc-number">2.15.</span> <span class="toc-text"> Chap16 数学计算指令的替换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B9%98%E6%B3%95"><span class="toc-number">2.15.1.</span> <span class="toc-text"> 乘法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9B%BF%E6%8D%A2%E4%B8%BA%E5%8A%A0%E6%B3%95%E8%BF%90%E7%AE%97"><span class="toc-number">2.15.1.1.</span> <span class="toc-text"> 替换为加法运算</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9B%BF%E6%8D%A2%E4%B8%BA%E7%A7%BB%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="toc-number">2.15.1.2.</span> <span class="toc-text"> 替换为移位运算</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9B%BF%E6%8D%A2%E4%B8%BA%E7%A7%BB%E4%BD%8D%E5%8A%A0%E5%87%8F%E6%B3%95%E7%9A%84%E6%B7%B7%E5%90%88%E8%BF%90%E7%AE%97"><span class="toc-number">2.15.1.3.</span> <span class="toc-text"> 替换为移位,加减法的混合运算</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%99%A4%E6%B3%95%E8%BF%90%E7%AE%97"><span class="toc-number">2.15.2.</span> <span class="toc-text"> 除法运算</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9B%BF%E6%8D%A2%E4%B8%BA%E4%BD%8D%E7%A7%BB%E8%BF%90%E7%AE%97"><span class="toc-number">2.15.2.1.</span> <span class="toc-text"> 替换为位移运算</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#problem-3"><span class="toc-number">2.15.3.</span> <span class="toc-text"> Problem</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap17-fpu"><span class="toc-number">2.16.</span> <span class="toc-text"> Chap17 FPU</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92%E6%B5%AE%E7%82%B9%E5%9E%8B"><span class="toc-number">2.16.1.</span> <span class="toc-text"> 利用参数传递浮点型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AF%94%E8%BE%83%E8%AF%B4%E6%98%8E"><span class="toc-number">2.16.2.</span> <span class="toc-text"> 比较说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap18-%E6%95%B0%E7%BB%84"><span class="toc-number">2.17.</span> <span class="toc-text"> Chap18 数组</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA"><span class="toc-number">2.17.1.</span> <span class="toc-text"> 缓冲区溢出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">2.17.2.</span> <span class="toc-text"> 其他</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8C%87%E9%92%88"><span class="toc-number">2.17.3.</span> <span class="toc-text"> 字符串指针</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84"><span class="toc-number">2.17.4.</span> <span class="toc-text"> 多维数组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E7%BB%B4%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%95%B0%E7%BB%84%E7%9A%84%E5%B0%81%E8%A3%85%E6%A0%BC%E5%BC%8F"><span class="toc-number">2.17.5.</span> <span class="toc-text"> 二维字符串数组的封装格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#problem-4"><span class="toc-number">2.17.6.</span> <span class="toc-text"> Problem</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap19-%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="toc-number">2.18.</span> <span class="toc-text"> Chap19 位运算</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/05/23/re4b%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">re4b阅读笔记</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-05-23 16:25:47" itemprop="dateCreated datePublished" datetime="2024-05-23T16:25:47+08:00">2024-05-23</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-06-08 21:52:15" itemprop="dateModified" datetime="2024-06-08T21:52:15+08:00">2024-06-08</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">25.4k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">110m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Reverse/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Reverse</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">学习笔记</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="part1-前言"><a class="markdownIt-Anchor" href="#part1-前言"></a> Part.1 前言</h2>
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">24</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">8</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">11</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#part1-%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> Part.1 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#part2-%E6%8C%87%E4%BB%A4%E8%AE%B2%E8%A7%A3"><span class="toc-number">2.</span> <span class="toc-text"> Part.2 指令讲解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#chapter1-cpu"><span class="toc-number">2.1.</span> <span class="toc-text"> Chapter1 CPU</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap2-%E6%9C%80%E7%AE%80%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text"> Chap2 最简函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap3-helloworld"><span class="toc-number">2.3.</span> <span class="toc-text"> Chap3 Hello,World!</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#msvs"><span class="toc-number">2.3.1.</span> <span class="toc-text"> msvs</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gcc"><span class="toc-number">2.3.2.</span> <span class="toc-text"> gcc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#msvs-x86-64"><span class="toc-number">2.3.3.</span> <span class="toc-text"> msvs x86-64</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gcc-x86-64"><span class="toc-number">2.3.4.</span> <span class="toc-text"> gcc x86-64</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#problems"><span class="toc-number">2.3.5.</span> <span class="toc-text"> Problems</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap4-%E5%87%BD%E6%95%B0%E5%BA%8F%E8%A8%80%E5%92%8C%E5%87%BD%E6%95%B0%E5%B0%BE%E5%A3%B0"><span class="toc-number">2.4.</span> <span class="toc-text"> Chap4 函数序言和函数尾声</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap5-%E6%A0%88"><span class="toc-number">2.5.</span> <span class="toc-text"> Chap5 栈</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%88%E7%9A%84%E7%94%A8%E9%80%94"><span class="toc-number">2.5.1.</span> <span class="toc-text"> 栈的用途</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%88%E7%9A%84%E5%99%AA%E9%9F%B3"><span class="toc-number">2.5.2.</span> <span class="toc-text"> 栈的噪音</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#problems-2"><span class="toc-number">2.5.3.</span> <span class="toc-text"> Problems</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#51"><span class="toc-number">2.5.3.1.</span> <span class="toc-text"> 5.1</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#52"><span class="toc-number">2.5.3.2.</span> <span class="toc-text"> 5.2</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap6-printf%E5%87%BD%E6%95%B0%E4%B8%8E%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92"><span class="toc-number">2.6.</span> <span class="toc-text"> Chap6 printf()函数与参数传递</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#x86"><span class="toc-number">2.6.1.</span> <span class="toc-text"> x86</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap7-scanf"><span class="toc-number">2.7.</span> <span class="toc-text"> Chap7 scanf()</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#x86-2"><span class="toc-number">2.7.1.</span> <span class="toc-text"> x86</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-number">2.7.2.</span> <span class="toc-text"> 全局变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#problem"><span class="toc-number">2.7.3.</span> <span class="toc-text"> Problem</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap8-%E5%8F%82%E6%95%B0%E8%8E%B7%E5%8F%96"><span class="toc-number">2.8.</span> <span class="toc-text"> Chap8 参数获取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap9-%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">2.9.</span> <span class="toc-text"> Chap9 返回值</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#void%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">2.9.1.</span> <span class="toc-text"> void类型的返回值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC%E4%B8%BA%E7%BB%93%E6%9E%84%E4%BD%93%E5%9E%8B%E6%95%B0%E6%8D%AE"><span class="toc-number">2.9.2.</span> <span class="toc-text"> 返回值为结构体型数据</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap10-%E6%8C%87%E9%92%88"><span class="toc-number">2.10.</span> <span class="toc-text"> Chap10 指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap12-%E6%9D%A1%E4%BB%B6%E8%BD%AC%E7%A7%BB"><span class="toc-number">2.11.</span> <span class="toc-text"> Chap12 条件转移</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E5%80%BC%E6%AF%94%E8%BE%83"><span class="toc-number">2.11.1.</span> <span class="toc-text"> 数值比较</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E7%BB%9D%E5%AF%B9%E5%80%BC"><span class="toc-number">2.11.2.</span> <span class="toc-text"> 计算绝对值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">2.11.3.</span> <span class="toc-text"> 条件运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AF%94%E8%BE%83%E5%A4%A7%E5%B0%8F"><span class="toc-number">2.11.4.</span> <span class="toc-text"> 比较大小</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap13-switch"><span class="toc-number">2.12.</span> <span class="toc-text"> Chap13 Switch</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#case%E8%BE%83%E5%B0%91%E7%9A%84%E6%83%85%E5%BD%A2"><span class="toc-number">2.12.1.</span> <span class="toc-text"> case较少的情形</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#case%E8%BE%83%E5%A4%9A%E7%9A%84%E6%83%85%E5%BD%A2"><span class="toc-number">2.12.2.</span> <span class="toc-text"> case较多的情形</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#case%E4%BB%8E%E5%8F%A5%E5%A4%9A%E5%AF%B9%E4%B8%80"><span class="toc-number">2.12.3.</span> <span class="toc-text"> case从句多对一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fall-through"><span class="toc-number">2.12.4.</span> <span class="toc-text"> fall-through</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap14-%E5%BE%AA%E7%8E%AF"><span class="toc-number">2.13.</span> <span class="toc-text"> Chap14 循环</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#for"><span class="toc-number">2.13.1.</span> <span class="toc-text"> for</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%9D%97%E5%A4%8D%E5%88%B6"><span class="toc-number">2.13.2.</span> <span class="toc-text"> 内存块复制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">2.13.3.</span> <span class="toc-text"> 总结</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#problem-2"><span class="toc-number">2.13.4.</span> <span class="toc-text"> Problem</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap15-c%E8%AF%AD%E8%A8%80%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%87%BD%E6%95%B0"><span class="toc-number">2.14.</span> <span class="toc-text"> Chap15 C语言字符串的函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#strlen"><span class="toc-number">2.14.1.</span> <span class="toc-text"> strlen()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap16-%E6%95%B0%E5%AD%A6%E8%AE%A1%E7%AE%97%E6%8C%87%E4%BB%A4%E7%9A%84%E6%9B%BF%E6%8D%A2"><span class="toc-number">2.15.</span> <span class="toc-text"> Chap16 数学计算指令的替换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B9%98%E6%B3%95"><span class="toc-number">2.15.1.</span> <span class="toc-text"> 乘法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9B%BF%E6%8D%A2%E4%B8%BA%E5%8A%A0%E6%B3%95%E8%BF%90%E7%AE%97"><span class="toc-number">2.15.1.1.</span> <span class="toc-text"> 替换为加法运算</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9B%BF%E6%8D%A2%E4%B8%BA%E7%A7%BB%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="toc-number">2.15.1.2.</span> <span class="toc-text"> 替换为移位运算</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9B%BF%E6%8D%A2%E4%B8%BA%E7%A7%BB%E4%BD%8D%E5%8A%A0%E5%87%8F%E6%B3%95%E7%9A%84%E6%B7%B7%E5%90%88%E8%BF%90%E7%AE%97"><span class="toc-number">2.15.1.3.</span> <span class="toc-text"> 替换为移位,加减法的混合运算</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%99%A4%E6%B3%95%E8%BF%90%E7%AE%97"><span class="toc-number">2.15.2.</span> <span class="toc-text"> 除法运算</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9B%BF%E6%8D%A2%E4%B8%BA%E4%BD%8D%E7%A7%BB%E8%BF%90%E7%AE%97"><span class="toc-number">2.15.2.1.</span> <span class="toc-text"> 替换为位移运算</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#problem-3"><span class="toc-number">2.15.3.</span> <span class="toc-text"> Problem</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap17-fpu"><span class="toc-number">2.16.</span> <span class="toc-text"> Chap17 FPU</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92%E6%B5%AE%E7%82%B9%E5%9E%8B"><span class="toc-number">2.16.1.</span> <span class="toc-text"> 利用参数传递浮点型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AF%94%E8%BE%83%E8%AF%B4%E6%98%8E"><span class="toc-number">2.16.2.</span> <span class="toc-text"> 比较说明</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap18-%E6%95%B0%E7%BB%84"><span class="toc-number">2.17.</span> <span class="toc-text"> Chap18 数组</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA"><span class="toc-number">2.17.1.</span> <span class="toc-text"> 缓冲区溢出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">2.17.2.</span> <span class="toc-text"> 其他</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8C%87%E9%92%88"><span class="toc-number">2.17.3.</span> <span class="toc-text"> 字符串指针</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E7%BB%B4%E6%95%B0%E7%BB%84"><span class="toc-number">2.17.4.</span> <span class="toc-text"> 多维数组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E7%BB%B4%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%95%B0%E7%BB%84%E7%9A%84%E5%B0%81%E8%A3%85%E6%A0%BC%E5%BC%8F"><span class="toc-number">2.17.5.</span> <span class="toc-text"> 二维字符串数组的封装格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#problem-4"><span class="toc-number">2.17.6.</span> <span class="toc-text"> Problem</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chap19-%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="toc-number">2.18.</span> <span class="toc-text"> Chap19 位运算</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E5%AE%9A%E4%BD%8D"><span class="toc-number">2.18.1.</span> <span class="toc-text"> 特定位</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#x86-3"><span class="toc-number">2.18.1.1.</span> <span class="toc-text"> x86</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B8%85%E9%99%A4%E4%BD%8D"><span class="toc-number">2.18.2.</span> <span class="toc-text"> 清除位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%8D%E7%A7%BB"><span class="toc-number">2.18.3.</span> <span class="toc-text"> 位移</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8fpu%E4%B8%8A%E8%AE%BE%E7%BD%AE%E7%89%B9%E5%AE%9A%E4%BD%8D"><span class="toc-number">2.18.4.</span> <span class="toc-text"> 在FPU上设置特定位</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%8D%E6%A0%A1%E9%AA%8C"><span class="toc-number">2.18.4.1.</span> <span class="toc-text"> 位校验</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#promblem"><span class="toc-number">2.18.5.</span> <span class="toc-text"> Promblem</span></a></li></ol></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/05/23/re4b%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">re4b阅读笔记</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-05-23 16:25:47" itemprop="dateCreated datePublished" datetime="2024-05-23T16:25:47+08:00">2024-05-23</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-06-09 16:24:19" itemprop="dateModified" datetime="2024-06-09T16:24:19+08:00">2024-06-09</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">31.1k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">138m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Reverse/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Reverse</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">学习笔记</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="part1-前言"><a class="markdownIt-Anchor" href="#part1-前言"></a> Part.1 前言</h2>
 <p>阅读这种书籍，如果我不做笔记，我可能就会走马观花的粗略看一遍，结果什么都没学会，眼睛会了，脑子不会，所以我准备边做笔记边学，争取把基础打扎实</p>
 <p>对于逆向工程权威指南关键部分的摘录,整理以及个人的理解</p>
 <p>逆向工程权威指南是入门逆向必读的一本书籍</p>
@@ -3072,18 +3075,1069 @@ _f      PROC
         shl     <span class="token register variable">ecx</span>, <span class="token number">4</span><span class="token comment">;x*2^4;</span>
         sub     <span class="token register variable">ecx</span>, <span class="token register variable">eax</span><span class="token comment">;ecx=15x</span>
         lea     <span class="token register variable">eax</span>, DWORD PTR <span class="token operator">[</span><span class="token register variable">edx</span><span class="token operator">+</span><span class="token register variable">ecx</span><span class="token operator">*</span><span class="token number">8</span><span class="token operator">]</span><span class="token comment">;eax=y+120x</span>
-        mov     <span class="token register variable">ecx</span>, DWORD PTR _array<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">]</span><span class="token comment">;ecx=8</span>
-        fld     QWORD PTR <span class="token operator">[</span><span class="token register variable">ecx</span><span class="token operator">+</span><span class="token register variable">eax</span><span class="token operator">*</span><span class="token number">8</span><span class="token operator">]</span>
-        ret     <span class="token number">0</span>
+        mov     <span class="token register variable">ecx</span>, DWORD PTR _array<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">]</span><span class="token comment">;ecx=_array</span>
+        fld     QWORD PTR <span class="token operator">[</span><span class="token register variable">ecx</span><span class="token operator">+</span><span class="token register variable">eax</span><span class="token operator">*</span><span class="token number">8</span><span class="token operator">]</span><span class="token comment">;显然是8位浮点数，double类型</span>
+        ret     <span class="token number">0</span><span class="token comment">;返回的是_array[y+120x]</span>
 _f      ENDP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">double</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token keyword">double</span> array<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">120</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span>
 <span class="token punctuation">&#123;</span>
          <span class="token keyword">return</span> array<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span class="token comment">//理论上50是看不出来的，只能反汇编成一维的数组_array[y+120x]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <ol start="4">
 <li></li>
 </ol>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm">_array<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>
+_x<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">12</span>
+_y<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">16</span>
+_z<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">20</span>
+_f      PROC
+        mov     <span class="token register variable">eax</span>, DWORD PTR _x<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">]</span><span class="token comment">;eax=x</span>
+        mov     <span class="token register variable">edx</span>, DWORD PTR _y<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">]</span><span class="token comment">;edx=y</span>
+        mov     <span class="token register variable">ecx</span>, <span class="token register variable">eax</span><span class="token comment">;ecx=x</span>
+        shl     <span class="token register variable">ecx</span>, <span class="token number">4</span><span class="token comment">;ecx=x*16</span>
+        sub     <span class="token register variable">ecx</span>, <span class="token register variable">eax</span><span class="token comment">;ecx=15x</span>
+        lea     <span class="token register variable">eax</span>, DWORD PTR <span class="token operator">[</span><span class="token register variable">edx</span><span class="token operator">+</span><span class="token register variable">ecx</span><span class="token operator">*</span><span class="token number">4</span><span class="token operator">]</span><span class="token comment">;eax=y+60x</span>
+        mov     <span class="token register variable">ecx</span>, DWORD PTR _array<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">]</span><span class="token comment">;ecx=ptr(array)</span>
+        lea     <span class="token register variable">eax</span>, DWORD PTR <span class="token operator">[</span><span class="token register variable">eax</span><span class="token operator">+</span><span class="token register variable">eax</span><span class="token operator">*</span><span class="token number">4</span><span class="token operator">]</span><span class="token comment">;eax=5*(y+60x)</span>
+        shl     <span class="token register variable">eax</span>, <span class="token number">4</span><span class="token comment">;eax=80*(y+60x)</span>
+        add     <span class="token register variable">eax</span>, DWORD PTR _z<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">]</span><span class="token comment">;eax=80y+4800x+z</span>
+        mov     <span class="token register variable">eax</span>, DWORD PTR <span class="token operator">[</span><span class="token register variable">ecx</span><span class="token operator">+</span><span class="token register variable">eax</span><span class="token operator">*</span><span class="token number">4</span><span class="token operator">]</span><span class="token comment">;eax=array[80y+4800x+z];array为int类型</span>
+        ret     <span class="token number">0</span>
+_f      ENDP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>显然是三维数组<code>int array[][60][80];return array[x][y][z];</code></p>
+<p>*5.(太难了)</p>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm"><span class="token comment">; 初始化段定义了一个名为_tbl的数据段，大小为64字节，用于存放DWORD（双字）类型的数据</span>
+COMM    _tbl:DWORD:<span class="token number">064H</span>
+
+<span class="token comment">; 定义本地变量tv759，初始化值为-4，占用4字节</span>
+tv759 <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">4</span>      <span class="token comment">;size= 4</span>
+
+_main   PROC
+    <span class="token comment">; 保存调用者保存的寄存器</span>
+    push    <span class="token register variable">ecx</span>
+    push    <span class="token register variable">ebx</span>
+    push    <span class="token register variable">ebp</span>
+    push    <span class="token register variable">esi</span>
+    
+    <span class="token comment">; 初始化寄存器</span>
+    xor     <span class="token register variable">edx</span>, <span class="token register variable">edx</span>          <span class="token comment">; EDX = 0</span>
+    push    <span class="token register variable">edi</span>               <span class="token comment">; 保存EDI</span>
+    xor     <span class="token register variable">esi</span>, <span class="token register variable">esi</span>          <span class="token comment">; ESI = 0</span>
+    xor     <span class="token register variable">edi</span>, <span class="token register variable">edi</span>          <span class="token comment">; EDI = 0</span>
+    xor     <span class="token register variable">ebx</span>, <span class="token register variable">ebx</span>          <span class="token comment">; EBX = 0</span>
+    xor     <span class="token register variable">ebp</span>, <span class="token register variable">ebp</span>          <span class="token comment">; EBP = 0</span>
+    
+    <span class="token comment">; 将EDX（当前为0）的值存入局部变量tv759的内存位置，偏移esp+20</span>
+    mov     DWORD PTR tv759<span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">+</span><span class="token number">20</span><span class="token operator">]</span>, <span class="token register variable">edx</span><span class="token comment">;t=0</span>
+    
+    <span class="token comment">; 设置EAX为_tbl的地址偏移4字节，即指向_tbl的第一个有效元素</span>
+    mov     <span class="token register variable">eax</span>, OFFSET _tbl<span class="token operator">+</span><span class="token number">4</span><span class="token comment">;eax=tbl[1]</span>
+    
+    <span class="token comment">; 对齐指令，确保下一条标签正确对齐</span>
+    npad    <span class="token number">8</span> 
+    
+<span class="token label function">$LL6@main:</span>
+    <span class="token comment">; 计算ECX = EDX * 2，用于后续赋值</span>
+    lea     <span class="token register variable">ecx</span>, DWORD PTR <span class="token operator">[</span><span class="token register variable">edx</span><span class="token operator">+</span><span class="token register variable">edx</span><span class="token operator">]</span><span class="token comment">;ecx=2*edx</span>
+    
+    <span class="token comment">; 将ECX的值放入当前_EAX指向的位置+4，即初始化tbl的第二个DWORD</span>
+    mov     DWORD PTR <span class="token operator">[</span><span class="token register variable">eax</span><span class="token operator">+</span><span class="token number">4</span><span class="token operator">]</span>, <span class="token register variable">ecx</span><span class="token comment">;tbl[i+1]=2*edx</span>
+    
+    <span class="token comment">; 从堆栈中读取tv759的值并增加3，然后存回tv759的位置</span>
+    mov     <span class="token register variable">ecx</span>, DWORD PTR tv759<span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">+</span><span class="token number">20</span><span class="token operator">]</span><span class="token comment">;ecx=t;</span>
+    add     DWORD PTR tv759<span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">+</span><span class="token number">20</span><span class="token operator">]</span>, <span class="token number">3</span><span class="token comment">;t+=3;</span>
+    
+    <span class="token comment">; 将更新后的tv759值放入当前_EAX指向的位置+8</span>
+    mov     DWORD PTR <span class="token operator">[</span><span class="token register variable">eax</span><span class="token operator">+</span><span class="token number">8</span><span class="token operator">]</span>, <span class="token register variable">ecx</span><span class="token comment">;ecx[i+2]=t</span>
+    
+    <span class="token comment">; 计算ECX = EDX * 4，并存入当前_EAX指向的位置+12</span>
+    lea     <span class="token register variable">ecx</span>, DWORD PTR <span class="token operator">[</span><span class="token register variable">edx</span><span class="token operator">*</span><span class="token number">4</span><span class="token operator">]</span>
+    mov     DWORD PTR <span class="token operator">[</span><span class="token register variable">eax</span><span class="token operator">+</span><span class="token number">12</span><span class="token operator">]</span>, <span class="token register variable">ecx</span>
+    
+    <span class="token comment">; 计算ECX = EDX * 8，并存入当前_EAX指向的位置</span>
+    lea     <span class="token register variable">ecx</span>, DWORD PTR <span class="token operator">[</span><span class="token register variable">edx</span><span class="token operator">*</span><span class="token number">8</span><span class="token operator">]</span>
+    mov     DWORD PTR <span class="token operator">[</span><span class="token register variable">eax</span><span class="token operator">]</span>, <span class="token register variable">edx</span>
+    
+    <span class="token comment">; 初始化表的其他部分，使用固定的值</span>
+    mov     DWORD PTR <span class="token operator">[</span><span class="token register variable">eax</span><span class="token operator">+</span><span class="token number">16</span><span class="token operator">]</span>, <span class="token register variable">ebp</span>  <span class="token comment">; ebp的当前值（0）</span>
+    mov     DWORD PTR <span class="token operator">[</span><span class="token register variable">eax</span><span class="token operator">+</span><span class="token number">20</span><span class="token operator">]</span>, <span class="token register variable">ebx</span>  <span class="token comment">; ebx的当前值（0）</span>
+    mov     DWORD PTR <span class="token operator">[</span><span class="token register variable">eax</span><span class="token operator">+</span><span class="token number">24</span><span class="token operator">]</span>, <span class="token register variable">edi</span>  <span class="token comment">; edi的当前值（0）</span>
+    mov     DWORD PTR <span class="token operator">[</span><span class="token register variable">eax</span><span class="token operator">+</span><span class="token number">32</span><span class="token operator">]</span>, <span class="token register variable">esi</span>  <span class="token comment">; esi的当前值（0）</span>
+    
+    <span class="token comment">; 在当前_EAX指针前一个DWORD的位置置0</span>
+    mov     DWORD PTR <span class="token operator">[</span><span class="token register variable">eax</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">]</span>, <span class="token number">0</span>
+    
+    <span class="token comment">; 将ECX（即EDX*8）存入当前_EAX指向的位置+28</span>
+    mov     DWORD PTR <span class="token operator">[</span><span class="token register variable">eax</span><span class="token operator">+</span><span class="token number">28</span><span class="token operator">]</span>, <span class="token register variable">ecx</span>
+    
+    <span class="token comment">; 更新_EAX指针，前进到下一个要初始化的表项</span>
+    add     <span class="token register variable">eax</span>, <span class="token number">40</span>
+    
+    <span class="token comment">; 增加循环计数器</span>
+    inc     <span class="token register variable">edx</span>
+    
+    <span class="token comment">; 其他循环内增量，看似与某种模式或算法相关</span>
+    add     <span class="token register variable">ebp</span>, <span class="token number">5</span>
+    add     <span class="token register variable">ebx</span>, <span class="token number">6</span>
+    add     <span class="token register variable">edi</span>, <span class="token number">7</span>
+    add     <span class="token register variable">esi</span>, <span class="token number">9</span>
+    
+    <span class="token comment">; 检查是否已处理完整个表</span>
+    cmp     <span class="token register variable">eax</span>, OFFSET _tbl<span class="token operator">+</span><span class="token number">404</span><span class="token comment">;400/4=100个int值</span>
+    jl      SHORT <span class="token operator">$</span>LL6@main      <span class="token comment">; 若未处理完，跳转回循环开始处继续</span>
+    
+    <span class="token comment">; 循环结束，恢复之前保存的寄存器</span>
+    pop     <span class="token register variable">edi</span>
+    pop     <span class="token register variable">esi</span>
+    pop     <span class="token register variable">ebp</span>
+    
+    <span class="token comment">; 函数返回值清零</span>
+    xor     <span class="token register variable">eax</span>, <span class="token register variable">eax</span>
+    
+    <span class="token comment">; 恢复EBX和ECX，准备返回</span>
+    pop     <span class="token register variable">ebx</span>
+    pop     <span class="token register variable">ecx</span>
+    
+    <span class="token comment">; 函数返回，不带参数</span>
+    ret     <span class="token number">0</span>
+_main   ENDP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这段代码已经面目全非了，感觉真的很难看懂,</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> tbl<span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> x<span class="token punctuation">,</span> y<span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>x<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> x<span class="token operator">&lt;</span><span class="token number">10</span><span class="token punctuation">;</span> x<span class="token operator">++</span><span class="token punctuation">)</span>
+             <span class="token keyword">for</span> <span class="token punctuation">(</span>y<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> y<span class="token operator">&lt;</span><span class="token number">10</span><span class="token punctuation">;</span> y<span class="token operator">++</span><span class="token punctuation">)</span>
+                    tbl<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token operator">=</span>x<span class="token operator">*</span>y<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><em>柯佬‘sTips:遇到这种很难看懂的汇编，如果给的是二进制文件，能运行的直接运行完dump，不能运行的把片段抠下来，或者照着汇编写一遍，然后跑一遍进行猜测，搞逆向首先有大胆的猜测和想象</em></p>
 <h3 id="chap19-位运算"><a class="markdownIt-Anchor" href="#chap19-位运算"></a> Chap19 位运算</h3>
+<p><em>有很多程序都把输入参数的某些比特位当作标识位处理。</em></p>
+<h4 id="特定位"><a class="markdownIt-Anchor" href="#特定位"></a> 特定位</h4>
+<h5 id="x86-3"><a class="markdownIt-Anchor" href="#x86-3"></a> x86</h5>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">HANDLE fh<span class="token punctuation">;</span>
+   fh<span class="token operator">=</span><span class="token function">CreateFile</span> <span class="token punctuation">(</span><span class="token string">"file"</span><span class="token punctuation">,</span> GENERIC_WRITE <span class="token operator">|</span> GENERIC_READ<span class="token punctuation">,</span> FILE_SHARE_READ<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> OPEN_ALWAYS <span class="token punctuation">,</span>FILE_ATTRIBUTE_NORMAL<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><code>msvs 2010编译后</code></p>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm">push    <span class="token number">0</span>	<span class="token comment">;NULL</span>
+   push    <span class="token number">128</span>                            <span class="token comment">; 00000080H</span>
+   push    <span class="token number">4</span>	<span class="token comment">;OPEN_ALWAYS</span>
+   push    <span class="token number">0</span>	<span class="token comment">;NULL</span>
+   push    <span class="token number">1</span>	<span class="token comment">;FILE_SHARE_READ</span>
+   push    <span class="token operator">-</span><span class="token number">1073741824</span>                    <span class="token comment">; c0000000H</span>
+   push    OFFSET <span class="token operator">$</span>SG78813	<span class="token comment">;ptr(file)</span>
+   call    DWORD PTR __imp__CreateFileA@<span class="token number">28</span>
+   mov     DWORD PTR _fh<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>, <span class="token register variable">eax</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>库文件<code>WinNT.h</code>对相关位域进行了定义</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">GENERIC_READ</span>           <span class="token expression"><span class="token punctuation">(</span><span class="token number">0x80000000L</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">GENERIC_WRITE</span>          <span class="token expression"><span class="token punctuation">(</span><span class="token number">0x40000000L</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">GENERIC_EXECUTE</span>        <span class="token expression"><span class="token punctuation">(</span><span class="token number">0x20000000L</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">GENERIC_ALL</span>            <span class="token expression"><span class="token punctuation">(</span><span class="token number">0x10000000L</span><span class="token punctuation">)</span></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在API声明里，<code>CreateFile()</code>函数的第二个参数为<code>GENERIC_WRITE|GENERIC_READ</code>即<code>0x0x80000000 | 0x40000000 = 0xC0000000</code>,CreateFile()函数如何检测标志位呢</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">.text:7C83D429  test       byte ptr [ebp+dwDesiredAccess+3], 40h
+.text:7C83D42   Dmov       [ebp+var_8], 1
+.text:7C83D434  jz         short loc_7C83D417
+.text:7C83D436  jmp        loc_7C810817<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>byte ptr [ebp+dwDesiredAccess+3],即0xC0000000的头一个字节(这里是小端表示),实际上就是0xC0进行与运算</p>
+<p><code>TEST</code>与<code>AND</code>指令的唯一区别是前者不保存运算结果</p>
+<p>即，上述可执行的程序源代码逻辑是：</p>
+<pre class="line-numbers language-none"><code class="language-none">if ((dwDesiredAccess&amp;0x40000000) &#x3D;&#x3D; 0) goto loc_7C83D417<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>从而达到了检测标志位的效果</p>
+<hr />
+<p>看看linux的</p>
+<p>用<code>gcc 4.4.1编译</code></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;fcntl.h></span></span>
+
+<span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+<span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> handle<span class="token punctuation">;</span>
+        handle<span class="token operator">=</span><span class="token function">open</span> <span class="token punctuation">(</span><span class="token string">"file"</span><span class="token punctuation">,</span> O_RDWR <span class="token operator">|</span> O_CREAT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm">           public main
+main       proc near
+
+var_20     <span class="token operator">=</span> dword ptr <span class="token operator">-</span><span class="token number">20h</span>
+var_1C     <span class="token operator">=</span> dword ptr <span class="token operator">-</span><span class="token number">1Ch</span>
+var_4      <span class="token operator">=</span> dword ptr <span class="token operator">-</span><span class="token number">4</span>
+
+           push    <span class="token register variable">ebp</span>
+           mov     <span class="token register variable">ebp</span>, <span class="token register variable">esp</span>
+           and     <span class="token register variable">esp</span>, <span class="token number">0FFFFFFF0h</span>
+           sub     <span class="token register variable">esp</span>, <span class="token number">20h</span>
+           mov     <span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">+</span><span class="token number">20h</span><span class="token operator">+</span>var_1C<span class="token operator">]</span>, <span class="token number">42h</span>
+           mov     <span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">+</span><span class="token number">20h</span><span class="token operator">+</span>var_20<span class="token operator">]</span>, offset aFile <span class="token comment">; "file"</span>
+           call    _open
+           mov     <span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">+</span><span class="token number">20h</span><span class="token operator">+</span>var_4<span class="token operator">]</span>, <span class="token register variable">eax</span>
+           leave
+           retn
+main       endp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在<code>libc.so.6</code>里,<code>open()</code>函数调用的是<code>syscall_sys_open</code></p>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm"><span class="token label function">.text:</span>000BE69B            mov  <span class="token register variable">edx</span>, <span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">+</span><span class="token number">4</span><span class="token operator">+</span>mode<span class="token operator">]</span> <span class="token comment">; mode</span>
+<span class="token label function">.text:</span>000BE69F            mov  <span class="token register variable">ecx</span>, <span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">+</span><span class="token number">4</span><span class="token operator">+</span>flags<span class="token operator">]</span> <span class="token comment">; flags</span>
+<span class="token label function">.text:</span>000BE6A3            mov  <span class="token register variable">ebx</span>, <span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">+</span><span class="token number">4</span><span class="token operator">+</span>filename<span class="token operator">]</span> <span class="token comment">; filename</span>
+<span class="token label function">.text:</span>000BE6A7            mov  <span class="token register variable">eax</span>, <span class="token number">5</span>
+<span class="token label function">.text:</span>000BE6AC            int  <span class="token number">80h</span>       <span class="token comment">; LINUX - sys_open</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在执行<code>open()</code>函数时，<code>linux</code>内核会检测某些标识位</p>
+<p>在Linux 2.6中，当程序通过<code>syscall</code>调用 <code>sys_open</code>的时候，它调用的函数实际上是内核函数 <code>do_sys_open()</code>。在执行函数<code>do_sys_open()</code>的时候，系统又会调用<code>do_filp_open() </code>函数。<em>可以在Linux内核源代码里的fs/namei.c里找到这部分内容。</em></p>
+<p>LINUX中编译器不仅会使用栈来传递参数，它还会使用寄存器传递部分参数。编译器最常采用的函数调用约定是<code>fastcall</code>（参见6.4.3节）。这个规范<code>优先使用寄存器来传递参数</code>。这使得<code>CPU不必每次都要访问内存里的数据栈</code>，大大提升了程序的运行效率。此外，我们可以通过GCC的regparm选项[<a href="#anchor191">1]</a>，设置传递参数的寄存器数量。</p>
+<p>在Linux 2.6内核的编译选项中，设定了寄存器选项“-mregparm=3”</p>
+<p>这个选项决定，编译器首先通过<code>EAX,EDX和ECX寄存器</code>传递函数所需的头三个参数,再通过栈传递其余的参数，如果参数的总数不足3个，只会用到部分寄存器</p>
+<p><code>在Ubuntu里下载Linux Kernel 2.6.31，并用“make vmlinux”指令编译，然后使用IDA打开程序，寻找函数do_filp_open()</code></p>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm">do_filp_open    proc near
+...... 
+                push    <span class="token register variable">ebp</span>
+                mov     <span class="token register variable">ebp</span>, <span class="token register variable">esp</span>
+                push    <span class="token register variable">edi</span>
+                push    <span class="token register variable">esi</span>
+                push    <span class="token register variable">ebx</span>
+                mov     <span class="token register variable">ebx</span>, <span class="token register variable">ecx</span>
+                add     <span class="token register variable">ebx</span>, <span class="token number">1</span>
+                sub     <span class="token register variable">esp</span>, <span class="token number">98h</span>
+                mov     <span class="token register variable">esi</span>, <span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">+</span>arg_4<span class="token operator">]</span>  <span class="token comment">; acc_mode (5th arg)</span>
+                test    <span class="token register variable">bl</span>, <span class="token number">3</span>
+                mov     <span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">+</span>var_80<span class="token operator">]</span>, <span class="token register variable">eax</span> <span class="token comment">; dfd (1th arg)</span>
+                mov     <span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">+</span>var_7C<span class="token operator">]</span>, <span class="token register variable">edx</span> <span class="token comment">; pathname (2th arg)</span>
+                mov     <span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">+</span>var_78<span class="token operator">]</span>, <span class="token register variable">ecx</span> <span class="token comment">; open_flag (3th arg)</span>
+                jnz     short loc_C01EF684
+                mov     <span class="token register variable">ebx</span>, <span class="token register variable">ecx</span>          <span class="token comment">; ebx &lt;- open_flag</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm"><span class="token label function">loc_C01EF6B4:</span>                       <span class="token comment">; CODE XREF: do_filp_open+4F</span>
+                test    <span class="token register variable">bl</span>, <span class="token number">40h</span>     <span class="token comment">; O_CREAT</span>
+                jnz     loc_C01EF810
+                mov     <span class="token register variable">edi</span>, <span class="token register variable">ebx</span>
+                shr     <span class="token register variable">edi</span>, <span class="token number">11h</span>
+                xor     <span class="token register variable">edi</span>, <span class="token number">1</span>
+                and     <span class="token register variable">edi</span>, <span class="token number">1</span>
+                test    <span class="token register variable">ebx</span>, <span class="token number">10000h</span>
+                jz      short loc_C01EF6D3
+                or      <span class="token register variable">edi</span>, <span class="token number">2</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>40h,实际上是汇编宏<code>O_CREAT</code>的值.这里的<code>test</code>指令检查<code>open_flag</code>里是否存在0x40的标志位，如果这个位是1，就会触发下一条<code>JNZ</code>指令</p>
+<h4 id="清除位"><a class="markdownIt-Anchor" href="#清除位"></a> 清除位</h4>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">IS_SET</span><span class="token expression"><span class="token punctuation">(</span>flag<span class="token punctuation">,</span> bit<span class="token punctuation">)</span>       <span class="token punctuation">(</span><span class="token punctuation">(</span>flag<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token punctuation">(</span>bit<span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">SET_BIT</span><span class="token expression"><span class="token punctuation">(</span>var<span class="token punctuation">,</span> bit<span class="token punctuation">)</span>       <span class="token punctuation">(</span><span class="token punctuation">(</span>var<span class="token punctuation">)</span> <span class="token operator">|=</span> <span class="token punctuation">(</span>bit<span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">REMOVE_BIT</span><span class="token expression"><span class="token punctuation">(</span>var<span class="token punctuation">,</span> bit<span class="token punctuation">)</span>    <span class="token punctuation">(</span><span class="token punctuation">(</span>var<span class="token punctuation">)</span> <span class="token operator">&amp;=</span> <span class="token operator">~</span><span class="token punctuation">(</span>bit<span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
+
+<span class="token keyword">int</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token keyword">int</span> a<span class="token punctuation">)</span> 
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> rt<span class="token operator">=</span>a<span class="token punctuation">;</span>
+    <span class="token function">SET_BIT</span> <span class="token punctuation">(</span>rt<span class="token punctuation">,</span> <span class="token number">0x4000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">REMOVE_BIT</span> <span class="token punctuation">(</span>rt<span class="token punctuation">,</span> <span class="token number">0x200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> rt<span class="token punctuation">;</span> 
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+<span class="token punctuation">&#123;</span>
+    <span class="token function">f</span><span class="token punctuation">(</span><span class="token number">0x12340678</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<hr />
+<p><code>Non-optimizing MSVS</code></p>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm">_rt<span class="token operator">$</span> <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">4</span>             <span class="token comment">; size = 4</span>
+_a<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>               <span class="token comment">; size = 4</span>
+
+_f  PROC
+    push   <span class="token register variable">ebp</span>
+    mov    <span class="token register variable">ebp</span>, <span class="token register variable">esp</span>
+    push   <span class="token register variable">ecx</span>
+    mov    <span class="token register variable">eax</span>, DWORD PTR _a<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>
+    mov    DWORD PTR _rt<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>, <span class="token register variable">eax</span>
+    mov    <span class="token register variable">ecx</span>, DWORD PTR _rt<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>
+    or     <span class="token register variable">ecx</span>, <span class="token number">16384</span>               <span class="token comment">; 00004000H;set bit</span>
+    mov    DWORD PTR _rt<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>, <span class="token register variable">ecx</span>
+    mov    <span class="token register variable">edx</span>, DWORD PTR _rt<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>
+    and    <span class="token register variable">edx</span>, <span class="token operator">-</span><span class="token number">513</span>                <span class="token comment">; fffffdffH;remove bit</span>
+    mov    DWORD PTR _rt<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>, <span class="token register variable">edx</span>
+    mov    <span class="token register variable">eax</span>, DWORD PTR _rt<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>
+    mov    <span class="token register variable">esp</span>, <span class="token register variable">ebp</span>
+    pop    <span class="token register variable">ebp</span>
+    ret    <span class="token number">0</span>
+_f  ENDP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>#define IS_SET(flag, bit)       ((flag) &amp; (bit)) #define SET_BIT(var, bit)       ((var) |= (bit)) #define REMOVE_BIT(var, bit)    ((var) &amp;= ~(bit))</code></p>
+<p>以上为核心</p>
+<p>在汇编中，<code>OR</code>指令是逐位进行或运算的指令，用来将指定位置置1</p>
+<p><code>AND</code>指令的作用是重置<code>bit</code>位，如果立即数的某个<code>bit</code>位为1,<code>AND</code>指令将会保留寄存器的这个bit位，否则置0</p>
+<hr />
+<p><code>Optimizing MSVS</code></p>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm">_a<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>                      <span class="token comment">; size = 4</span>
+_f     PROC
+    mov    <span class="token register variable">eax</span>, DWORD PTR _a<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">]</span>
+    and    <span class="token register variable">eax</span>, <span class="token operator">-</span><span class="token number">513</span>         <span class="token comment">; fffffdffH</span>
+    or     <span class="token register variable">eax</span>, <span class="token number">16384</span>        <span class="token comment">; 00004000H</span>
+    ret    <span class="token number">0</span> 
+_f     ENDP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这里互换了顺序，其实没影响，因为对位操作是针对不同位的</p>
+<hr />
+<p><code>Optimizing GCC</code></p>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm">           public f
+f          proc near
+
+arg_0      <span class="token operator">=</span> dword ptr  <span class="token number">8</span>
+
+           push     <span class="token register variable">ebp</span>
+           mov      <span class="token register variable">ebp</span>, <span class="token register variable">esp</span>
+           mov      <span class="token register variable">eax</span>, <span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">+</span>arg_0<span class="token operator">]</span>
+           pop      <span class="token register variable">ebp</span>
+           or       <span class="token register variable">ah</span>, <span class="token number">40h</span>
+           and      <span class="token register variable">ah</span>, <span class="token number">0FDh</span>
+           retn
+f          endp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这里的第一个参数原本就在eax里面，函数序言和函数尾声其实可以省略</p>
+<h4 id="位移"><a class="markdownIt-Anchor" href="#位移"></a> 位移</h4>
+<p><code>&lt;&lt;</code>与<code>&gt;&gt;</code>是位移运算符</p>
+<p>对应的x86指令集为<code>SHL</code>和<code>SHR</code></p>
+<p>位移指令可用来对特定位进行取值或隔离，用途十分广泛。</p>
+<h4 id="在fpu上设置特定位"><a class="markdownIt-Anchor" href="#在fpu上设置特定位"></a> 在FPU上设置特定位</h4>
+<img src="/2024/05/23/re4b%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/image-20240609142026432.png" class="" alt="image-20240609142026432" loading="lazy">
+<p>可以在不使用FPU指令的前提变更S符号位</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+
+<span class="token keyword">float</span> <span class="token function">my_abs</span> <span class="token punctuation">(</span><span class="token keyword">float</span> i<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+        <span class="token keyword">unsigned</span> <span class="token keyword">int</span> tmp<span class="token operator">=</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>i<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0x7FFFFFFF</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">float</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>tmp<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">float</span> <span class="token function">set_sign</span> <span class="token punctuation">(</span><span class="token keyword">float</span> i<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+        <span class="token keyword">unsigned</span> <span class="token keyword">int</span> tmp<span class="token operator">=</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>i<span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token number">0x80000000</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">float</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>tmp<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">float</span> <span class="token function">negate</span> <span class="token punctuation">(</span><span class="token keyword">float</span> i<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+        <span class="token keyword">unsigned</span> <span class="token keyword">int</span> tmp<span class="token operator">=</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>i<span class="token punctuation">)</span> <span class="token operator">^</span> <span class="token number">0x80000000</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">float</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>tmp<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+<span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span> <span class="token punctuation">(</span><span class="token string">"my_abs():\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span> <span class="token punctuation">(</span><span class="token string">"%f\n"</span><span class="token punctuation">,</span> <span class="token function">my_abs</span> <span class="token punctuation">(</span><span class="token number">123.456</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span> <span class="token punctuation">(</span><span class="token string">"%f\n"</span><span class="token punctuation">,</span> <span class="token function">my_abs</span> <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">456.123</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span> <span class="token punctuation">(</span><span class="token string">"set_sign():\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span> <span class="token punctuation">(</span><span class="token string">"%f\n"</span><span class="token punctuation">,</span> <span class="token function">set_sign</span> <span class="token punctuation">(</span><span class="token number">123.456</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span> <span class="token punctuation">(</span><span class="token string">"%f\n"</span><span class="token punctuation">,</span> <span class="token function">set_sign</span> <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">456.123</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span> <span class="token punctuation">(</span><span class="token string">"negate():\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span> <span class="token punctuation">(</span><span class="token string">"%f\n"</span><span class="token punctuation">,</span> <span class="token function">negate</span> <span class="token punctuation">(</span><span class="token number">123.456</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span> <span class="token punctuation">(</span><span class="token string">"%f\n"</span><span class="token punctuation">,</span> <span class="token function">negate</span> <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">456.123</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>用位操作C/C++指令之后，我们不必在CPU和FPU的寄存器之间传递数据、再进行数学运算了。本节列举了三个位操作函数：<code>清除MSB符号位的my_abs()函数、设置符号位的set_sign()函数及求负函数negate()。</code></p>
+<hr />
+<p>x86</p>
+<hr />
+<p><code>Optimizing MSVS</code></p>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm">_tmp<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>
+_i<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>
+_my_abs PROC
+        and     DWORD PTR _i<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">]</span>, <span class="token number">2147483647</span>    <span class="token comment">; 7fffffffH</span>
+        fld     DWORD PTR _tmp<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">]</span>
+        ret     <span class="token number">0</span>
+_my_abs ENDP<span class="token comment">;set S=0</span>
+
+_tmp<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>
+_i<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>
+_set_sign PROC
+        or      DWORD PTR _i<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">]</span>, <span class="token operator">-</span><span class="token number">2147483648</span>   <span class="token comment">; 80000000H</span>
+        fld     DWORD PTR _tmp<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">]</span>
+        ret     <span class="token number">0</span>
+_set_sign ENDP<span class="token comment">;set S=1</span>
+
+_tmp<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>
+_i<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>
+_negate PROC
+        xor     DWORD PTR _i<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">]</span>, <span class="token operator">-</span><span class="token number">2147483648</span>   <span class="token comment">; 80000000H</span>
+        fld     DWORD PTR _tmp<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">]</span>
+        ret     <span class="token number">0</span>
+_negate ENDP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>函数从栈中提取一个浮点类型的数据，但是把它当作整数类型数据进行处理。</p>
+<p>AND和OR设置相应的比特位，而XOR用来设置相反的符号位。</p>
+<p>因为要把浮点数还给FPU，所以最后把修改后的处理结果保存到ST0寄存器。</p>
+<hr />
+<p>x64</p>
+<hr />
+<p><code>optimizing msvs</code></p>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm">tmp<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>
+i<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>
+my_abs  PROC
+        movss   DWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span><span class="token operator">+</span><span class="token number">8</span><span class="token operator">]</span>, <span class="token register variable">xmm0</span>
+        mov     <span class="token register variable">eax</span>, DWORD PTR i<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">rsp</span><span class="token operator">]</span>
+        btr     <span class="token register variable">eax</span>, <span class="token number">31</span>
+        mov     DWORD PTR tmp<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">rsp</span><span class="token operator">]</span>, <span class="token register variable">eax</span>
+        movss   <span class="token register variable">xmm0</span>, DWORD PTR tmp<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">rsp</span><span class="token operator">]</span>
+        ret     <span class="token number">0</span>
+my_abs  ENDP
+_TEXT   ENDS
+
+tmp<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>
+i<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>
+set_sign PROC
+        movss   DWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span><span class="token operator">+</span><span class="token number">8</span><span class="token operator">]</span>, <span class="token register variable">xmm0</span>
+        mov     <span class="token register variable">eax</span>, DWORD PTR i<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">rsp</span><span class="token operator">]</span>
+        bts     <span class="token register variable">eax</span>, <span class="token number">31</span>
+        mov     DWORD PTR tmp<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">rsp</span><span class="token operator">]</span>, <span class="token register variable">eax</span>
+        movss   <span class="token register variable">xmm0</span>, DWORD PTR tmp<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">rsp</span><span class="token operator">]</span>
+        ret     <span class="token number">0</span>
+set_sign ENDP
+
+tmp<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>
+i<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>
+negate  PROC
+        movss   DWORD PTR <span class="token operator">[</span><span class="token register variable">rsp</span><span class="token operator">+</span><span class="token number">8</span><span class="token operator">]</span>, <span class="token register variable">xmm0</span>
+        mov     <span class="token register variable">eax</span>, DWORD PTR i<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">rsp</span><span class="token operator">]</span>
+        btc     <span class="token register variable">eax</span>, <span class="token number">31</span>
+        mov     DWORD PTR tmp<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">rsp</span><span class="token operator">]</span>, <span class="token register variable">eax</span>
+        movss   <span class="token register variable">xmm0</span>, DWORD PTR tmp<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">rsp</span><span class="token operator">]</span>
+        ret     <span class="token number">0</span>
+negate  END<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ol>
+<li>
+<p><strong>BTR (Bit Test and Reset)</strong>：</p>
+<ul>
+<li><strong>功能</strong>：测试并复位（清零）指定位置的位。</li>
+<li><strong>语法</strong>：<code>BTR destination, source</code></li>
+<li><strong>操作</strong>：首先将 destination 操作数的 source 指定的位值存储在 CF（Carry Flag）标志中，然后将该位复位（即清零）。</li>
+<li><strong>例子</strong>：<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">BTR EAX, 5 ; 测试 EAX 寄存器中第 5 位的值，将其存储在 CF 中，然后清零这个位<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>BTS (Bit Test and Set)</strong>：</p>
+<ul>
+<li><strong>功能</strong>：测试并设置（置位）指定位置的位。</li>
+<li><strong>语法</strong>：<code>BTS destination, source</code></li>
+<li><strong>操作</strong>：首先将 destination 操作数的 source 指定的位值存储在 CF 标志中，然后将该位置位（即设为 1）。</li>
+<li><strong>例子</strong>：<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">BTS EAX, 5 ; 测试 EAX 寄存器中第 5 位的值，将其存储在 CF 中，然后将这位设为 1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>BTC (Bit Test and Complement)</strong>：</p>
+<ul>
+<li>
+<p><strong>功能</strong>：测试并取反（翻转）指定位置的位。</p>
+</li>
+<li>
+<p><strong>语法</strong>：<code>BTC destination, source</code></p>
+</li>
+<li>
+<p><strong>操作</strong>：首先将 destination 操作数的 source 指定的位值存储在 CF 标志中，然后将该位取反（如果是 1 则变为 0，如果是 0 则变为 1）。</p>
+</li>
+<li>
+<p><strong>例子</strong>：</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">BTC EAX, 5 ; 测试 EAX 寄存器中第 5 位的值，将其存储在 CF 中，然后将这位置位翻转<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>
+<p>这些指令在进行位操作时会修改 CF（进位标志）以反映被测试的位值，可以用于实现复杂的位操作和逻辑判断。</p>
+</li>
+<li>
+<p><code>movss</code> 用于在 SSE（Streaming SIMD Extensions）寄存器或内存之间传输单精度浮点数。它的全称是 “Move Scalar Single-Precision Floating-Point Value”。</p>
+</li>
+<li>
+<p>输入值会<code>经XMM0寄存器存储到局部数据栈</code>，然后通过BTR、BTS、BTC等指令进行处理。这些指令用于重置（BTR）、置位（BTS）和翻转（BTC）特定比特位。如果从0开始数的话，浮点数的第31位才是MSB。</p>
+</li>
+<li>
+<p>最终，运算结果被复制到XMM0寄存器。在Win64系统中，浮点型返回值要保存在这个寄存器里。</p>
+</li>
+</ul>
+<h5 id="位校验"><a class="markdownIt-Anchor" href="#位校验"></a> 位校验</h5>
+<p><em>介绍一个测算输入变量的2进制数里有多少个1的函数。这种函数叫作“population count/点数”函数。在支持SSE4的x86 CPU的指令集里，甚至有直接对应的POPCNT指令。</em></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">IS_SET</span><span class="token expression"><span class="token punctuation">(</span>flag<span class="token punctuation">,</span> bit<span class="token punctuation">)</span>    <span class="token punctuation">(</span><span class="token punctuation">(</span>flag<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token punctuation">(</span>bit<span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
+
+<span class="token keyword">int</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span> a<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> rt<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">32</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">IS_SET</span> <span class="token punctuation">(</span>a<span class="token punctuation">,</span> <span class="token number">1</span><span class="token operator">&lt;&lt;</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        rt<span class="token operator">++</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> rt<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token function">f</span><span class="token punctuation">(</span><span class="token number">0x12345678</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// test</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>1&lt;&lt;i</code>会逐一遍历32位数字的每一位，同时使其他位置零，从而计算二进制的1</p>
+<p>这段程序里，1&lt;&lt;<em>i</em>可能产生的值有：</p>
+<table>
+<thead>
+<tr>
+<th>C/C++表达式</th>
+<th>2的指数</th>
+<th>十进制数</th>
+<th>十六进制数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1&lt;&lt;0</td>
+<td>20</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1&lt;&lt;1</td>
+<td>21</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>1&lt;&lt;2</td>
+<td>22</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>1&lt;&lt;3</td>
+<td>23</td>
+<td>8</td>
+<td>8</td>
+</tr>
+<tr>
+<td>1&lt;&lt;4</td>
+<td>24</td>
+<td>16</td>
+<td>0x10</td>
+</tr>
+<tr>
+<td>1&lt;&lt;5</td>
+<td>25</td>
+<td>32</td>
+<td>0x20</td>
+</tr>
+<tr>
+<td>1&lt;&lt;6</td>
+<td>26</td>
+<td>64</td>
+<td>0x40</td>
+</tr>
+<tr>
+<td>1&lt;&lt;7</td>
+<td>27</td>
+<td>128</td>
+<td>0x80</td>
+</tr>
+<tr>
+<td>1&lt;&lt;8</td>
+<td>28</td>
+<td>256</td>
+<td>0x100</td>
+</tr>
+<tr>
+<td>1&lt;&lt;9</td>
+<td>29</td>
+<td>512</td>
+<td>0x200</td>
+</tr>
+<tr>
+<td>1&lt;&lt;10</td>
+<td>210</td>
+<td>1024</td>
+<td>0x400</td>
+</tr>
+<tr>
+<td>1&lt;&lt;11</td>
+<td>211</td>
+<td>2048</td>
+<td>0x800</td>
+</tr>
+<tr>
+<td>1&lt;&lt;12</td>
+<td>212</td>
+<td>4096</td>
+<td>0x1000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;13</td>
+<td>213</td>
+<td>8192</td>
+<td>0x2000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;14</td>
+<td>214</td>
+<td>16384</td>
+<td>0x4000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;15</td>
+<td>215</td>
+<td>32768</td>
+<td>0x8000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;16</td>
+<td>216</td>
+<td>65536</td>
+<td>0x10000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;17</td>
+<td>217</td>
+<td>131072</td>
+<td>0x20000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;18</td>
+<td>218</td>
+<td>262144</td>
+<td>0x40000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;19</td>
+<td>219</td>
+<td>524288</td>
+<td>0x80000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;20</td>
+<td>220</td>
+<td>1048576</td>
+<td>0x100000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;21</td>
+<td>221</td>
+<td>2097152</td>
+<td>0x200000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;22</td>
+<td>222</td>
+<td>4194304</td>
+<td>0x400000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;23</td>
+<td>223</td>
+<td>8388608</td>
+<td>0x800000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;24</td>
+<td>224</td>
+<td>16777216</td>
+<td>0x1000000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;25</td>
+<td>225</td>
+<td>33554432</td>
+<td>0x2000000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;26</td>
+<td>226</td>
+<td>67108864</td>
+<td>0x4000000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;27</td>
+<td>227</td>
+<td>134217728</td>
+<td>0x8000000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;28</td>
+<td>228</td>
+<td>268435456</td>
+<td>0x10000000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;29</td>
+<td>229</td>
+<td>536870912</td>
+<td>0x20000000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;30</td>
+<td>230</td>
+<td>1073741824</td>
+<td>0x40000000</td>
+</tr>
+<tr>
+<td>1&lt;&lt;31</td>
+<td>231</td>
+<td>2147483648</td>
+<td>0x80000000</td>
+</tr>
+</tbody>
+</table>
+<p>逆向工程的实际工作中经常出现这些常数（bit mask）。逆向工程人员应当常备这个表格。背下十六进制数并不太困难。</p>
+<hr />
+<p>x86 msvs nasm</p>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm">_rt<span class="token operator">$</span> <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">8</span>             <span class="token comment">;size=4</span>
+_i<span class="token operator">$</span> <span class="token operator">=</span><span class="token operator">-</span><span class="token number">4</span>               <span class="token comment">;size=4</span>
+_a<span class="token operator">$</span> <span class="token operator">=</span><span class="token number">8</span>                <span class="token comment">;size=4</span>
+
+_f PROC
+    push   <span class="token register variable">ebp</span>
+    mov    <span class="token register variable">ebp</span>, <span class="token register variable">esp</span>
+    sub    <span class="token register variable">esp</span>, <span class="token number">8</span>
+    mov    WORD PTR _rt<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>, <span class="token number">0</span>
+    mov    DWORD PTR _i<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>, <span class="token number">0</span>
+    jmp    SHORT <span class="token operator">$</span>LN4@f
+<span class="token label function">$LN3@f:</span>
+    mov    <span class="token register variable">ax</span>, DWORD PTR _i<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>    <span class="token comment">; 递增</span>
+    add    x, <span class="token number">1</span>
+    mov    WORD PTR _i<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>, <span class="token register variable">eax</span>
+<span class="token label function">$LN4@f:</span>
+    cmp    DWORD PTR _i<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>, <span class="token number">32</span>    <span class="token comment">; 00000020H</span>
+    jge    SHORT <span class="token operator">$</span>LN2@f              <span class="token comment">; 循环结束？</span>
+    mov    <span class="token register variable">edx</span>, <span class="token number">1</span>
+    mov    <span class="token register variable">ecx</span>, DWORD PTR _i<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>
+    shl    <span class="token register variable">edx</span>, <span class="token register variable">cl</span>                   <span class="token comment">; EDX=EDX&lt;&lt;CL</span>
+    and    <span class="token register variable">edx</span>, DWORD PTR _a<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>
+    je     SHORT <span class="token operator">$</span>LN1@f              <span class="token comment">; result of AND instruction was 0?</span>
+                                     <span class="token comment">; then skip next instructions</span>
+    mov    <span class="token register variable">eax</span>, DWORD PTR _rt<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>  <span class="token comment">; no, not zero</span>
+    add    <span class="token register variable">eax</span>, <span class="token number">1</span>                    <span class="token comment">; increment rt</span>
+    mov    DWORD PTR _rt<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>, <span class="token register variable">eax</span><span class="token comment">;rt+=1</span>
+<span class="token label function">$LN1@f:</span>
+    jmp    SHORT <span class="token operator">$</span>LN3@f
+    <span class="token label function">$LN2@f:</span>
+    mov    <span class="token register variable">eax</span>, DWORD PTR _rt<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">]</span>
+    mov    <span class="token register variable">esp</span>, <span class="token register variable">ebp</span>
+    pop    <span class="token register variable">ebp</span>
+    ret    <span class="token number">0</span>
+_f    ENDP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>比较简单，不难看懂，，，</p>
+<hr />
+<p><code>gcc</code></p>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm">             public f
+f            proc near
+
+rt           <span class="token operator">=</span> dword ptr <span class="token operator">-</span><span class="token number">0Ch</span>
+i            <span class="token operator">=</span> dword ptr <span class="token operator">-</span><span class="token number">8</span>
+arg_0        <span class="token operator">=</span> dword ptr  <span class="token number">8</span>
+
+             push    <span class="token register variable">ebp</span>
+             mov     <span class="token register variable">ebp</span>, <span class="token register variable">esp</span>
+             push    <span class="token register variable">ebx</span>
+             sub     <span class="token register variable">esp</span>, <span class="token number">10h</span>
+             mov     <span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">+</span>rt<span class="token operator">]</span>, <span class="token number">0</span><span class="token comment">;rt=0</span>
+             mov     <span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">+</span>i<span class="token operator">]</span>, <span class="token number">0</span><span class="token comment">;i=0</span>
+             jmp     short loc_80483EF
+<span class="token label function">loc_80483D0:</span>
+             mov     <span class="token register variable">eax</span>, <span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">+</span>i<span class="token operator">]</span><span class="token comment">;eax=i</span>
+             mov     <span class="token register variable">edx</span>, <span class="token number">1</span><span class="token comment">;edx=1</span>
+             mov     <span class="token register variable">ebx</span>, <span class="token register variable">edx</span><span class="token comment">;ebx=edx=1</span>
+             mov     <span class="token register variable">ecx</span>, <span class="token register variable">eax</span><span class="token comment">;ecx=i</span>
+             shl     <span class="token register variable">ebx</span>, <span class="token register variable">cl</span><span class="token comment">;ebx&lt;&lt;=cl;1&lt;&lt;cl</span>
+             mov     <span class="token register variable">eax</span>, <span class="token register variable">ebx</span><span class="token comment">;eax=ebx</span>
+             and     <span class="token register variable">eax</span>, <span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">+</span>arg_0<span class="token operator">]</span><span class="token comment">;eax&amp;=arg_0</span>
+             test    <span class="token register variable">eax</span>, <span class="token register variable">eax</span>
+             jz      short loc_80483EB<span class="token comment">;&amp;=0,no ++l&amp;=1,++</span>
+             add     <span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">+</span>rt<span class="token operator">]</span>, <span class="token number">1</span><span class="token comment">;rt+=1</span>
+<span class="token label function">loc_80483EB:</span>
+             add     <span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">+</span>i<span class="token operator">]</span>, <span class="token number">1</span>
+<span class="token label function">loc_80483EF:</span><span class="token comment">;main loop</span>
+             cmp     <span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">+</span>i<span class="token operator">]</span>, <span class="token number">1Fh</span><span class="token comment">;i ?=31</span>
+             jle     short loc_80483D0<span class="token comment">;y,continue;no,jmp</span>
+             mov     <span class="token register variable">eax</span>, <span class="token operator">[</span><span class="token register variable">ebp</span><span class="token operator">+</span>rt<span class="token operator">]</span><span class="token comment">;eax=rt</span>
+             add     <span class="token register variable">esp</span>, <span class="token number">10h</span>
+             pop     <span class="token register variable">ebx</span>
+             pop     <span class="token register variable">ebp</span>
+             retn
+f            endp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<hr />
+<p>x64</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdint.h></span></span>
+
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name function">IS_SET</span><span class="token expression"><span class="token punctuation">(</span>flag<span class="token punctuation">,</span> bit<span class="token punctuation">)</span>   <span class="token punctuation">(</span><span class="token punctuation">(</span>flag<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token punctuation">(</span>bit<span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
+
+<span class="token keyword">int</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token class-name">uint64_t</span> a<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">uint64_t</span> i<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> rt<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">64</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">IS_SET</span> <span class="token punctuation">(</span>a<span class="token punctuation">,</span> <span class="token number">1ULL</span><span class="token operator">&lt;&lt;</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            rt<span class="token operator">++</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> rt<span class="token punctuation">;</span> 
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>Non-optimizing GCC 4.8.2</code></p>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm"><span class="token label function">f:</span>
+        push    <span class="token register variable">rbp</span>
+        mov     <span class="token register variable">rbp</span>, <span class="token register variable">rsp</span>
+        mov     QWORD PTR <span class="token operator">[</span><span class="token register variable">rbp</span><span class="token operator">-</span><span class="token number">24</span><span class="token operator">]</span>, <span class="token register variable">rdi</span>   <span class="token comment">; a</span>
+        mov     DWORD PTR <span class="token operator">[</span><span class="token register variable">rbp</span><span class="token operator">-</span><span class="token number">12</span><span class="token operator">]</span>, <span class="token number">0</span>     <span class="token comment">; rt=0</span>
+        mov     QWORD PTR <span class="token operator">[</span><span class="token register variable">rbp</span><span class="token operator">-</span><span class="token number">8</span><span class="token operator">]</span>, <span class="token number">0</span>      <span class="token comment">; i=0</span>
+        jmp     .L2
+<span class="token label function">.L4:</span>
+        mov     <span class="token register variable">rax</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rbp</span><span class="token operator">-</span><span class="token number">8</span><span class="token operator">]</span>
+        mov     <span class="token register variable">rdx</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rbp</span><span class="token operator">-</span><span class="token number">24</span><span class="token operator">]</span>
+<span class="token comment">; RAX = i, RDX = a</span>
+        mov     <span class="token register variable">ecx</span>, <span class="token register variable">eax</span>
+<span class="token comment">; ECX = i</span>
+        shr     <span class="token register variable">rdx</span>, <span class="token register variable">cl</span>
+<span class="token comment">; RDX = RDX>>CL = a>>i</span>
+        mov     <span class="token register variable">rax</span>, <span class="token register variable">rdx</span>
+<span class="token comment">; RAX = RDX = a>>i</span>
+        and     <span class="token register variable">eax</span>, <span class="token number">1</span>
+<span class="token comment">; EAX = EAX&amp;1 = (a>>i)&amp;1</span>
+        test    <span class="token register variable">rax</span>, <span class="token register variable">rax</span>
+<span class="token comment">; the last bit is zero?</span>
+<span class="token comment">; skip the next ADD instruction, if it was so.</span>
+        je      .L3
+        add     DWORD PTR <span class="token operator">[</span><span class="token register variable">rbp</span><span class="token operator">-</span><span class="token number">12</span><span class="token operator">]</span>, <span class="token number">1</span>     <span class="token comment">; rt++</span>
+<span class="token label function">.L3:</span>
+        add     QWORD PTR <span class="token operator">[</span><span class="token register variable">rbp</span><span class="token operator">-</span><span class="token number">8</span><span class="token operator">]</span>, <span class="token number">1</span>      <span class="token comment">; i++</span>
+<span class="token label function">.L2:</span>
+        cmp     QWORD PTR <span class="token operator">[</span><span class="token register variable">rbp</span><span class="token operator">-</span><span class="token number">8</span><span class="token operator">]</span>, <span class="token number">63</span>     <span class="token comment">; i&lt; 63?</span>
+        jbe     .L4                       <span class="token comment">; jump to the loop boday begin, if so</span>
+        mov     <span class="token register variable">eax</span>, DWORD PTR <span class="token operator">[</span><span class="token register variable">rbp</span><span class="token operator">-</span><span class="token number">12</span><span class="token operator">]</span>   <span class="token comment">; return rt</span>
+        pop     <span class="token register variable">rbp</span>
+        ret<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>与x86几乎一样</p>
+<hr />
+<p><code>Optimizing GCC</code></p>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm"><span class="token number">1</span> f:
+ <span class="token number">2</span>      xor     <span class="token register variable">eax</span>, <span class="token register variable">eax</span>             <span class="token comment">; rt variable will be in EAX register</span>
+ <span class="token number">3</span>      xor     <span class="token register variable">ecx</span>, <span class="token register variable">ecx</span>             <span class="token comment">; i variable will be in ECX register</span>
+ <span class="token number">4</span> .L3:
+ <span class="token number">5</span>      mov     <span class="token register variable">rsi</span>, <span class="token register variable">rdi</span>             <span class="token comment">; load input value</span>
+ <span class="token number">6</span>      lea     <span class="token register variable">edx</span>, <span class="token operator">[</span><span class="token register variable">rax</span><span class="token operator">+</span><span class="token number">1</span><span class="token operator">]</span>         <span class="token comment">; EDX=EAX+1</span>
+ <span class="token number">7</span> <span class="token comment">; EDX here is a "new version of rt", which will be written into rt variable, if the last bit is 1</span>
+ <span class="token number">8</span>      shr     <span class="token register variable">rsi</span>, <span class="token register variable">cl</span>              <span class="token comment">; RSI=RSI>>CL</span>
+ <span class="token number">9</span>      and     <span class="token register variable">esi</span>, <span class="token number">1</span>               <span class="token comment">; ESI=ESI&amp;1</span>
+<span class="token number">10</span> <span class="token comment">; the last bit is 1? If so, write "new version of rt" into EAX</span>
+<span class="token number">11</span>      cmovne  <span class="token register variable">eax</span>, <span class="token register variable">edx</span>
+<span class="token number">12</span>      add     <span class="token register variable">rcx</span>, <span class="token number">1</span>               <span class="token comment">; RCX++</span>
+<span class="token number">13</span>      cmp     <span class="token register variable">rcx</span>, <span class="token number">64</span>
+<span class="token number">14</span>      jne     .L3
+<span class="token number">15</span>      rep ret                      <span class="token comment">; AKA fatret</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>
+<p>先前的程序都是先比较特定位，再<code>rt++</code>，而这段程序的顺序有所不同，是先递增<code>rt</code>再写入<code>EDX</code>寄存器</p>
+</li>
+<li>
+<p><code>line 11</code>如果最后的比特位是1，那么程序将使用CMOVNE指令（等同于CMOVNZ）把EDX寄存器（rt的候选值）传递给EAX寄存器（当前的rt值，也是函数的返回值），从而完成rt的更新。</p>
+</li>
+<li>
+<p>迭代64次</p>
+</li>
+<li>
+<p>优点：因为它只含有一个条件转移指令（在循环的尾部），所以这种编译方法独具优势。如果编译的方式过于机械化，那么程序要在递增rt和循环尾部进行两次条件转移。现在的CPU都具有分支预测的功能（请参加本书33.1节）。在性能方面，本例这类程序的效率更高。</p>
+</li>
+<li>
+<p><code>line 15</code>的指令<code>rep ret</code>相当于<code>MSVS</code>的<code>FATRET</code>，是由ret衍生出来的向优化指令</p>
+<p><em>AMD建议：如果RET指令的前一条指令是条件转移指令，那么在函数最后的返回指令最好使用REP RET指令。</em></p>
+</li>
+</ul>
+<hr />
+<p><code>optimizing msvs</code></p>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm">a<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>
+f       PROC
+<span class="token comment">; RCX = input value</span>
+        xor     <span class="token register variable">eax</span>, <span class="token register variable">eax</span>
+        mov     <span class="token register variable">edx</span>, <span class="token number">1</span>
+        lea     <span class="token register variable">r8d</span>, QWORD PTR <span class="token operator">[</span><span class="token register variable">rax</span><span class="token operator">+</span><span class="token number">64</span><span class="token operator">]</span>
+<span class="token comment">; R8D=64</span>
+        npad    <span class="token number">5</span><span class="token comment">;align</span>
+<span class="token label function">$LL4@f:</span>
+        test    <span class="token register variable">rdx</span>, <span class="token register variable">rcx</span>
+<span class="token comment">; there are no such bit in input value?</span>
+<span class="token comment">; skip the next INC instruction then.</span>
+        je      SHORT <span class="token operator">$</span>LN3@f
+        inc     <span class="token register variable">eax</span>     <span class="token comment">; rt++</span>
+<span class="token label function">$LN3@f:</span>
+        rol     <span class="token register variable">rdx</span>, <span class="token number">1</span>  <span class="token comment">; RDX=RDX&lt;&lt;1</span>
+        dec     <span class="token register variable">r8</span>      <span class="token comment">; R8--</span>
+        jne     SHORT <span class="token operator">$</span>LL4@f
+        fatret  <span class="token number">0</span>
+f       ENDP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>ROL</code> 和 <code>SHL</code> 是 x86 汇编语言中的两种不同的移位指令，它们虽然都涉及位操作，但功能和效果不同。以下是它们的详细解释：</p>
+<p>ROL（Rotate Left）</p>
+<p><strong>功能</strong>：循环左移位</p>
+<ul>
+<li><strong>语法</strong>：<code>ROL destination, count</code></li>
+<li><strong>操作</strong>：将目的操作数中的所有位向左移动指定的次数（<code>count</code>），高位左移后重新进入最低位，这个过程是循环的。</li>
+<li><strong>效果</strong>：不会丢失任何位，原本被移出的高位将会重新进入低位。</li>
+<li><strong>例子</strong>：<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">ROL EAX, 1 ; 将 EAX 寄存器的值循环左移 1 位，例如：0b1011 -&gt; 0b0111<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+</ul>
+<p>SHL（Shift Logical Left）</p>
+<p><strong>功能</strong>：逻辑左移位</p>
+<ul>
+<li><strong>语法</strong>：<code>SHL destination, count</code></li>
+<li><strong>操作</strong>：将目的操作数的所有位向左移动指定的次数（<code>count</code>），高位移出后丢弃，低位用 0 填补。</li>
+<li><strong>效果</strong>：在左移过程中高位丢失，低位用0填充。</li>
+<li><strong>例子</strong>：<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">SHL EAX, 1 ; 将 EAX 寄存器的值左移 1 位，低位用 0 填充，例如：0b1011 -&gt; 0b0110（低位为0）<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+</ul>
+<p><code>ROL</code>指令替代了<code>SHL</code>，<code>ROL</code>是<code>rotate left</code>，与<code>SHL</code>在本例中效果一样</p>
+<p><code>R8</code>从64递减为0,循环64次</p>
+<h4 id="promblem"><a class="markdownIt-Anchor" href="#promblem"></a> Promblem</h4>
+<ol>
+<li></li>
+</ol>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm">_a<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>
+_f      PROC
+        mov     <span class="token register variable">ecx</span>, DWORD PTR _a<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">]</span><span class="token comment">;ecx=a</span>
+        mov     <span class="token register variable">eax</span>, <span class="token register variable">ecx</span><span class="token comment">;eax=a</span>
+        mov     <span class="token register variable">edx</span>, <span class="token register variable">ecx</span><span class="token comment">;edx=a</span>
+        shl     <span class="token register variable">edx</span>, <span class="token number">16</span>         <span class="token comment">; 00000010H;edx=a&lt;&lt;16</span>
+        and     <span class="token register variable">eax</span>, <span class="token number">65280</span>      <span class="token comment">; 0000ff00H;eax=a&amp;0xff00</span>
+        or      <span class="token register variable">eax</span>, <span class="token register variable">edx</span><span class="token comment">;eax|a&lt;&lt;16;eax=a&amp;0xff00|a&lt;&lt;16</span>
+        mov     <span class="token register variable">edx</span>, <span class="token register variable">ecx</span><span class="token comment">;edx=ecx=a</span>
+        and     <span class="token register variable">edx</span>, <span class="token number">16711680</span>   <span class="token comment">; 00ff0000H;edx=a&amp;0xff0000</span>
+        shr     <span class="token register variable">ecx</span>, <span class="token number">16</span>         <span class="token comment">; 00000010H;ecx=a>>16</span>
+        or      <span class="token register variable">edx</span>, <span class="token register variable">ecx</span><span class="token comment">;;edx=a&amp;0xff0000|a>>16</span>
+        shl     <span class="token register variable">eax</span>, <span class="token number">8</span><span class="token comment">;eax&lt;&lt;8;eax=(a&amp;0xff00|a&lt;&lt;16)&lt;&lt;8</span>
+        shr     <span class="token register variable">edx</span>, <span class="token number">8</span><span class="token comment">;;eax>>8;edx=(a&amp;0xff0000|a>>16)>>8</span>
+        or      <span class="token register variable">eax</span>, <span class="token register variable">edx</span><span class="token comment">;eax|edx;((a&amp;0xff00|a&lt;&lt;16)&lt;&lt;8)|((a&amp;0xff0000|a>>16)>>8)</span>
+        ret     <span class="token number">0</span>
+_f      ENDP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>逆向得到的逻辑是<code>return ((a&amp;0xff00|a&lt;&lt;16)&lt;&lt;8)|((a&amp;0xff0000|a&gt;&gt;16)&gt;&gt;8)</code></p>
+<p>事实上化简结果与源码是等价的,编译器对这一系列操作进行了优化</p>
+<img src="/2024/05/23/re4b%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/image-20240609153017613.png" class="" alt="image-20240609153017613" loading="lazy">
+<ol start="2">
+<li></li>
+</ol>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm">_a<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>                                    <span class="token comment">; size = 4</span>
+_f      PROC
+        push   <span class="token register variable">esi</span>
+        mov    <span class="token register variable">esi</span>, DWORD PTR _a<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">]</span><span class="token comment">;esi=a</span>
+        xor    <span class="token register variable">ecx</span>, <span class="token register variable">ecx</span><span class="token comment">;ecx=0</span>
+        push   <span class="token register variable">edi</span><span class="token comment">;save edi</span>
+        lea    <span class="token register variable">edx</span>, DWORD PTR <span class="token operator">[</span><span class="token register variable">ecx</span><span class="token operator">+</span><span class="token number">1</span><span class="token operator">]</span><span class="token comment">;edx=1</span>
+        xor    <span class="token register variable">eax</span>, <span class="token register variable">eax</span><span class="token comment">;eax=0</span>
+        npad   <span class="token number">3</span> <span class="token comment">; align next label</span>
+        <span class="token comment">;loop0:edx=1;ecx=counter=i=0</span>
+<span class="token label function">$LL3@f:</span>
+        mov    <span class="token register variable">edi</span>, <span class="token register variable">esi</span><span class="token comment">;edi=a</span>
+        shr    <span class="token register variable">edi</span>, <span class="token register variable">cl</span><span class="token comment">;edi=(a>>cl)&amp;0xff(ecx,low,i的低8位)</span>
+        add    <span class="token register variable">ecx</span>, <span class="token number">4</span><span class="token comment">;ecx=i+4</span>
+        and    <span class="token register variable">edi</span>, <span class="token number">15</span><span class="token comment">;edi=a>>cl&amp;15</span>
+        imul   <span class="token register variable">edi</span>, <span class="token register variable">edx</span><span class="token comment">;edi*edx;edi=(a>>cl)*edx</span>
+        lea    <span class="token register variable">edx</span>, DWORD PTR <span class="token operator">[</span><span class="token register variable">edx</span><span class="token operator">+</span><span class="token register variable">edx</span><span class="token operator">*</span><span class="token number">4</span><span class="token operator">]</span><span class="token comment">;edx=edx*5</span>
+        add    <span class="token register variable">eax</span>, <span class="token register variable">edi</span><span class="token comment">;eax=eax+(a>>cl)*edx</span>
+        add    <span class="token register variable">edx</span>, <span class="token register variable">edx</span><span class="token comment">;edx=edx*2=edx*10</span>
+        cmp    <span class="token register variable">ecx</span>, <span class="token number">28</span><span class="token comment">;ecx=28?</span>
+        jle    SHORT <span class="token operator">$</span>LL3@f
+        pop    <span class="token register variable">edi</span>
+        pop    <span class="token register variable">esi</span>
+        ret    <span class="token number">0</span>
+_f      ENDP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">function <span class="token function">f</span><span class="token punctuation">(</span><span class="token keyword">int</span> a<span class="token punctuation">)</span><span class="token comment">//这里应该是unsigned int</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> eax<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> temp<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;=</span><span class="token number">28</span><span class="token punctuation">;</span>i<span class="token operator">+=</span><span class="token number">4</span><span class="token punctuation">,</span>temp<span class="token operator">*=</span><span class="token number">10</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        eax<span class="token operator">+=</span><span class="token punctuation">(</span><span class="token punctuation">(</span>a<span class="token operator">>></span>i<span class="token punctuation">)</span><span class="token operator">&amp;</span><span class="token number">0xf</span><span class="token punctuation">)</span><span class="token operator">*</span>j<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> eax<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>逆向得到的源码,<code>这是一个把BCD封装的32位二进制值转换为常规格式的10进制的函数</code></p>
+<p><em>BCD（Binary-Coded Decimal，二进制编码的十进制）表示法是一种表达十进制数字的方法，每个十进制数字（0-9）都用一个固定长度的二进制数表示。</em></p>
+<p>源码如下</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+
+<span class="token keyword">unsigned</span> <span class="token keyword">int</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span> a<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+       <span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+       <span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+       <span class="token keyword">unsigned</span> <span class="token keyword">int</span> rt<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+       <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span>i<span class="token operator">&lt;=</span><span class="token number">28</span><span class="token punctuation">;</span> i<span class="token operator">+=</span><span class="token number">4</span><span class="token punctuation">,</span> j<span class="token operator">*=</span><span class="token number">10</span><span class="token punctuation">)</span>
+          rt<span class="token operator">+=</span><span class="token punctuation">(</span><span class="token punctuation">(</span>a<span class="token operator">>></span>i<span class="token punctuation">)</span><span class="token operator">&amp;</span><span class="token number">0xF</span><span class="token punctuation">)</span> <span class="token operator">*</span> j<span class="token punctuation">;</span>
+       <span class="token keyword">return</span> rt<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>例如34代表0011 0100</p>
+<ol start="3">
+<li></li>
+</ol>
+<p>请查阅MSDN资料，找到MessageBox()函数使用了哪些标志位。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;windows.h></span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+         <span class="token function">MessageBox</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token string">"hello, world!"</span><span class="token punctuation">,</span> <span class="token string">"caption"</span><span class="token punctuation">,</span>
+                     MB_TOPMOST <span class="token operator">|</span> MB_ICONINFORMATION <span class="token operator">|</span> MB_HELP <span class="token operator">|</span> MB_YESNOCANCEL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ol start="4">
+<li></li>
+</ol>
+<pre class="line-numbers language-nasm" data-language="nasm"><code class="language-nasm">_m<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">8</span>         <span class="token comment">; size = 4</span>
+_n<span class="token operator">$</span> <span class="token operator">=</span> <span class="token number">12</span>        <span class="token comment">; size = 4</span>
+_f      PROC
+        <span class="token comment">; 将 ecx 设置为变量 n 的值；ecx=12</span>
+        mov     <span class="token register variable">ecx</span>, DWORD PTR _n<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">-</span><span class="token number">4</span><span class="token operator">]</span>
+        <span class="token comment">; 将 eax 和 edx 清零</span>
+        xor     <span class="token register variable">eax</span>, <span class="token register variable">eax</span><span class="token comment">;eax=0</span>
+        xor     <span class="token register variable">edx</span>, <span class="token register variable">edx</span><span class="token comment">;edx=0</span>
+        <span class="token comment">; 测试 ecx 是否为零，如果为零则跳转到 $LN2@f 位置</span>
+        test    <span class="token register variable">ecx</span>, <span class="token register variable">ecx</span>
+        je      SHORT <span class="token operator">$</span>LN2@f<span class="token comment">;loop exit？</span>
+        <span class="token comment">; 保存 esi 寄存器原值到栈</span>
+        push    <span class="token register variable">esi</span>
+        <span class="token comment">; 将变量 m 的值赋给 esi</span>
+        mov     <span class="token register variable">esi</span>, DWORD PTR _m<span class="token operator">$</span><span class="token operator">[</span><span class="token register variable">esp</span><span class="token operator">]</span><span class="token comment">;esi=m</span>
+<span class="token label function">$LL3@f:</span>
+        <span class="token comment">; 测试 ecx 的最低位（即 cl 的最低位）</span>
+        test    <span class="token register variable">cl</span>, <span class="token number">1</span>
+        <span class="token comment">; 如果最低位为 0 则跳转到 $LN1@f 位置</span>
+        je      SHORT <span class="token operator">$</span>LN1@f
+        <span class="token comment">; 如果最低位为 1，则将 esi 加到 eax 中，并考虑进位加到 edx 中</span>
+        add     <span class="token register variable">eax</span>, <span class="token register variable">esi</span><span class="token comment">;eax=eax+m</span>
+        adc     <span class="token register variable">edx</span>, <span class="token number">0</span>
+<span class="token label function">$LN1@f:</span>
+        <span class="token comment">; 将 esi 左移一位（即乘 2）</span>
+        add     <span class="token register variable">esi</span>, <span class="token register variable">esi</span><span class="token comment">;m*2</span>
+        <span class="token comment">; 将 ecx 右移一位（即除 2）</span>
+        shr     <span class="token register variable">ecx</span>, <span class="token number">1</span><span class="token comment">;n/=2</span>
+        <span class="token comment">; 如果 ecx 不为零，则继续循环</span>
+        jne     SHORT <span class="token operator">$</span>LL3@f
+        <span class="token comment">; 恢复被保存的 esi 寄存器值</span>
+        pop     <span class="token register variable">esi</span>
+<span class="token label function">$LN2@f:</span>
+        <span class="token comment">; 返回到调用者</span>
+        ret     <span class="token number">0</span>
+_f      ENDP<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">m<span class="token operator">=</span><span class="token number">8</span><span class="token punctuation">;</span>
+n<span class="token operator">=</span><span class="token number">12</span><span class="token punctuation">;</span>
+function <span class="token function">f</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> eax<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token punctuation">;</span>n<span class="token operator">!=</span><span class="token number">0</span><span class="token punctuation">;</span>n<span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">,</span>m<span class="token operator">*</span><span class="token number">2</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span>n<span class="token operator">&amp;</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">==</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>相当于是<span class="token punctuation">(</span>m<span class="token operator">*</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token operator">^</span><span class="token number">3</span><span class="token operator">*</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">==</span><span class="token punctuation">(</span>m<span class="token operator">*</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token operator">^</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            eax<span class="token operator">+=</span>m<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> eax<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>逻辑还原了，但是还是没看出来是干嘛的</p>
+<p>看源码的功能是把32位数相乘(这个是乘法优化的算法)，返回64位的积</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdint.h></span></span>
+
+<span class="token comment">// source code taken from</span>
+<span class="token comment">//http://www4.wittenberg.edu/academics/mathcomp/shelburne/comp255/notes/binarymultiplication.pdf</span>
+
+<span class="token class-name">uint64_t</span> <span class="token function">mult</span> <span class="token punctuation">(</span><span class="token class-name">uint32_t</span> m<span class="token punctuation">,</span> <span class="token class-name">uint32_t</span> n<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">uint64_t</span> p <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// initialize product p to 0</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>n <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token comment">// while multiplier n is not 0</span>
+    <span class="token punctuation">&#123;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment">// test LSB of multiplier</span>
+            p <span class="token operator">=</span> p <span class="token operator">+</span> m<span class="token punctuation">;</span> <span class="token comment">// if 1 then add multiplicand m</span>
+        m <span class="token operator">=</span> m <span class="token operator">&lt;&lt;</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">// left shift multiplicand</span>
+        n <span class="token operator">=</span> n <span class="token operator">>></span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">// right shift multiplier</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> p<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/05/27/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A4%8D%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="prev" title="数据结构复习笔记"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">数据结构复习笔记</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/05/09/PwnCollege1-ProgramMiuse/" rel="next" title="pwnCollege1-ProgramMiuse"><span class="post-nav-text">pwnCollege1-ProgramMiuse</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/05/23/re4b%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
   // Handle and trigger popup window
   document.querySelector(".popup-trigger").addEventListener("click", () => {
