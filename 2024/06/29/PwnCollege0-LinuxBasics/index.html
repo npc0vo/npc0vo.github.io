@@ -1,0 +1,373 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>PwnCollege0-LinuxBasics | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="ssh 在官网设置自己的key，然后 ssh hacker@dojo.pwn.college  Paths  1 &#x2F;pwn  2 &#x2F;challenge&#x2F;run  3 cd &#x2F;var&#x2F;lib&#x2F;apt&#x2F;lists&#x2F; &amp;&amp; &#x2F;challenge&#x2F;run  4 cd &#x2F;proc&#x2F;452&#x2F;fd &amp;&amp; &#x2F;challenge&#x2F;run  5 cd &#x2F;var&#x2F;lib&#x2F;apt&#x2F;lis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PwnCollege0-LinuxBasics">
+<meta property="og:url" content="http://npc0vo.github.io/2024/06/29/PwnCollege0-LinuxBasics/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="ssh 在官网设置自己的key，然后 ssh hacker@dojo.pwn.college  Paths  1 &#x2F;pwn  2 &#x2F;challenge&#x2F;run  3 cd &#x2F;var&#x2F;lib&#x2F;apt&#x2F;lists&#x2F; &amp;&amp; &#x2F;challenge&#x2F;run  4 cd &#x2F;proc&#x2F;452&#x2F;fd &amp;&amp; &#x2F;challenge&#x2F;run  5 cd &#x2F;var&#x2F;lib&#x2F;apt&#x2F;lis">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-06-29T07:53:28.000Z">
+<meta property="article:modified_time" content="2024-06-29T07:54:06.881Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="PwnCollege">
+<meta name="twitter:card" content="summary"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">25</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">8</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ssh"><span class="toc-number">1.</span> <span class="toc-text"> ssh</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#paths"><span class="toc-number">2.</span> <span class="toc-text"> Paths</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1"><span class="toc-number">2.1.</span> <span class="toc-text"> 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2"><span class="toc-number">2.2.</span> <span class="toc-text"> 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3"><span class="toc-number">2.3.</span> <span class="toc-text"> 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4"><span class="toc-number">2.4.</span> <span class="toc-text"> 4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5"><span class="toc-number">2.5.</span> <span class="toc-text"> 5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6"><span class="toc-number">2.6.</span> <span class="toc-text"> 6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7"><span class="toc-number">2.7.</span> <span class="toc-text"> 7</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8"><span class="toc-number">2.8.</span> <span class="toc-text"> 8</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9"><span class="toc-number">2.9.</span> <span class="toc-text"> 9</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#commands"><span class="toc-number">3.</span> <span class="toc-text"> Commands</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2"><span class="toc-number">3.1.</span> <span class="toc-text"> 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2"><span class="toc-number">3.2.</span> <span class="toc-text"> 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2"><span class="toc-number">3.3.</span> <span class="toc-text"> 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2"><span class="toc-number">3.4.</span> <span class="toc-text"> 4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2"><span class="toc-number">3.5.</span> <span class="toc-text"> 5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2"><span class="toc-number">3.6.</span> <span class="toc-text"> 6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2"><span class="toc-number">3.7.</span> <span class="toc-text"> 7</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2"><span class="toc-number">3.8.</span> <span class="toc-text"> 8</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2"><span class="toc-number">3.9.</span> <span class="toc-text"> 9</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10"><span class="toc-number">3.10.</span> <span class="toc-text"> 10</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11"><span class="toc-number">3.11.</span> <span class="toc-text"> 11</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reading-documents"><span class="toc-number">3.12.</span> <span class="toc-text"> Reading Documents</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3"><span class="toc-number">3.13.</span> <span class="toc-text"> 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3"><span class="toc-number">3.14.</span> <span class="toc-text"> 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3"><span class="toc-number">3.15.</span> <span class="toc-text"> 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3"><span class="toc-number">3.16.</span> <span class="toc-text"> 4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3"><span class="toc-number">3.17.</span> <span class="toc-text"> 5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3"><span class="toc-number">3.18.</span> <span class="toc-text"> 6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3"><span class="toc-number">3.19.</span> <span class="toc-text"> 7</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fileglobbing"><span class="toc-number">4.</span> <span class="toc-text"> FileGlobbing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4"><span class="toc-number">4.1.</span> <span class="toc-text"> 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4"><span class="toc-number">4.2.</span> <span class="toc-text"> 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4"><span class="toc-number">4.3.</span> <span class="toc-text"> 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4"><span class="toc-number">4.4.</span> <span class="toc-text"> 4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4"><span class="toc-number">4.5.</span> <span class="toc-text"> 5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-4"><span class="toc-number">4.6.</span> <span class="toc-text"> 6</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#piping"><span class="toc-number">5.</span> <span class="toc-text"> Piping</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5"><span class="toc-number">5.1.</span> <span class="toc-text"> 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5"><span class="toc-number">5.2.</span> <span class="toc-text"> 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5"><span class="toc-number">5.3.</span> <span class="toc-text"> 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5"><span class="toc-number">5.4.</span> <span class="toc-text"> 4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5"><span class="toc-number">5.5.</span> <span class="toc-text"> 5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-5"><span class="toc-number">5.6.</span> <span class="toc-text"> 6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4"><span class="toc-number">5.7.</span> <span class="toc-text"> 7</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3"><span class="toc-number">5.8.</span> <span class="toc-text"> 8</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3"><span class="toc-number">5.9.</span> <span class="toc-text"> 9*</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shell-variables"><span class="toc-number">6.</span> <span class="toc-text"> Shell Variables</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6"><span class="toc-number">6.1.</span> <span class="toc-text"> 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6"><span class="toc-number">6.2.</span> <span class="toc-text"> 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6"><span class="toc-number">6.3.</span> <span class="toc-text"> 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6"><span class="toc-number">6.4.</span> <span class="toc-text"> 4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-6"><span class="toc-number">6.5.</span> <span class="toc-text"> 5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-6"><span class="toc-number">6.6.</span> <span class="toc-text"> 6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-5"><span class="toc-number">6.7.</span> <span class="toc-text"> 7</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#path"><span class="toc-number">7.</span> <span class="toc-text"> Path</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chainingcommands"><span class="toc-number">8.</span> <span class="toc-text"> ChainingCommands</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-7"><span class="toc-number">8.1.</span> <span class="toc-text"> 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7"><span class="toc-number">8.2.</span> <span class="toc-text"> 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-7"><span class="toc-number">8.3.</span> <span class="toc-text"> 3</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#processesandjobs"><span class="toc-number">9.</span> <span class="toc-text"> ProcessesAndJobs</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-8"><span class="toc-number">9.1.</span> <span class="toc-text"> 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8"><span class="toc-number">9.2.</span> <span class="toc-text"> 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-8"><span class="toc-number">9.3.</span> <span class="toc-text"> 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-7"><span class="toc-number">9.4.</span> <span class="toc-text"> 4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-7"><span class="toc-number">9.5.</span> <span class="toc-text"> 5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-7"><span class="toc-number">9.6.</span> <span class="toc-text"> 6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-6"><span class="toc-number">9.7.</span> <span class="toc-text"> 7</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-4"><span class="toc-number">9.8.</span> <span class="toc-text"> 8</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#understandingpermissions"><span class="toc-number">9.9.</span> <span class="toc-text"> UnderstandingPermissions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-9"><span class="toc-number">9.10.</span> <span class="toc-text"> 1</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-9"><span class="toc-number">10.</span> <span class="toc-text"> 2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-9"><span class="toc-number">10.1.</span> <span class="toc-text"> 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-8"><span class="toc-number">10.2.</span> <span class="toc-text"> 4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-8"><span class="toc-number">10.3.</span> <span class="toc-text"> 5</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/06/29/PwnCollege0-LinuxBasics/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">PwnCollege0-LinuxBasics</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-06-29 15:53:28" itemprop="dateCreated datePublished" datetime="2024-06-29T15:53:28+08:00">2024-06-29</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">1.9k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">10m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/PwnCollege/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">PwnCollege</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/PwnCollege/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">PwnCollege</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="ssh"><a class="markdownIt-Anchor" href="#ssh"></a> ssh</h2>
+<p>在官网设置自己的key，然后</p>
+<p><code>ssh hacker@dojo.pwn.college</code></p>
+<h2 id="paths"><a class="markdownIt-Anchor" href="#paths"></a> Paths</h2>
+<h3 id="1"><a class="markdownIt-Anchor" href="#1"></a> 1</h3>
+<p><code>/pwn</code></p>
+<h3 id="2"><a class="markdownIt-Anchor" href="#2"></a> 2</h3>
+<p><code>/challenge/run</code></p>
+<h3 id="3"><a class="markdownIt-Anchor" href="#3"></a> 3</h3>
+<p><code>cd /var/lib/apt/lists/ &amp;&amp; /challenge/run</code></p>
+<h3 id="4"><a class="markdownIt-Anchor" href="#4"></a> 4</h3>
+<p><code>cd /proc/452/fd &amp;&amp; /challenge/run</code></p>
+<h3 id="5"><a class="markdownIt-Anchor" href="#5"></a> 5</h3>
+<p><code>cd /var/lib/apt/lists/ &amp;&amp; /challenge/run</code></p>
+<h3 id="6"><a class="markdownIt-Anchor" href="#6"></a> 6</h3>
+<p>如果您当前在 &quot; <code>/var</code> &quot; 目录中，并且您的相对路径是 &quot; <code>asdf</code> &quot;，则完整的解析路径是 &quot; <code>/var/asdf</code> &quot;。 如果您的相对路径是 &quot; <code>asdf/fdsa</code> &quot;，则完整的解析路径将是 &quot; <code>/var/asdf/fdsa</code> &quot;.</p>
+<p><code>challenge/run</code></p>
+<h3 id="7"><a class="markdownIt-Anchor" href="#7"></a> 7</h3>
+<p><code>cd /&amp;&amp;./challenge/run</code></p>
+<h3 id="8"><a class="markdownIt-Anchor" href="#8"></a> 8</h3>
+<p><code>cd /challenge/ &amp;&amp; ./run</code></p>
+<h3 id="9"><a class="markdownIt-Anchor" href="#9"></a> 9</h3>
+<p>Note that the expansion of <code>~</code> is an <em>absolute</em> path, and only the leading <code>~</code> is expanded. This means, for example, that <code>~/~</code> will be expanded to <code>/home/hacker/~</code> rather than <code>/home/hacker/home/hacker</code>.</p>
+<p><code>/challenge/run ~/1</code></p>
+<h2 id="commands"><a class="markdownIt-Anchor" href="#commands"></a> Commands</h2>
+<h3 id="1-2"><a class="markdownIt-Anchor" href="#1-2"></a> 1</h3>
+<p><code>cat ~/flag</code></p>
+<h3 id="2-2"><a class="markdownIt-Anchor" href="#2-2"></a> 2</h3>
+<p><code>cat /flag</code></p>
+<h3 id="3-2"><a class="markdownIt-Anchor" href="#3-2"></a> 3</h3>
+<p><code>cat /opt/ghidra/licenses/flag</code></p>
+<h3 id="4-2"><a class="markdownIt-Anchor" href="#4-2"></a> 4</h3>
+<p><code>grep pwn.college /challenge/data.txt </code></p>
+<h3 id="5-2"><a class="markdownIt-Anchor" href="#5-2"></a> 5</h3>
+<p><code>ls /challenge/</code></p>
+<p><code>/challenge/1825-renamed-run-13223</code></p>
+<h3 id="6-2"><a class="markdownIt-Anchor" href="#6-2"></a> 6</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hacker@commands~touching-files:/tmp$ <span class="token function">touch</span> pwn
+hacker@commands~touching-files:/tmp$ <span class="token function">touch</span> college
+hacker@commands~touching-files:/tmp$ /challenge/run
+Success<span class="token operator">!</span> Here is your flag:
+pwn.college<span class="token punctuation">&#123;</span>gZpu52mRTVRUxRkSGNgXWjvx1P9.dBzM4QDLzczN0UzW<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="7-2"><a class="markdownIt-Anchor" href="#7-2"></a> 7</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hacker@commands~removing-files:~$ <span class="token function">rm</span> <span class="token parameter variable">-r</span> delete_me 
+hacker@commands~removing-files:~$ /challenge/check
+Excellent removal. Here is your reward:
+pwn.college<span class="token punctuation">&#123;</span>UWyesy1u8GvKr8dpKjublERInEl.dZTOwUDLzczN0UzW<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="8-2"><a class="markdownIt-Anchor" href="#8-2"></a> 8</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hacker@commands~hidden-files:~$ <span class="token function">ls</span> <span class="token parameter variable">-a</span> /
+<span class="token builtin class-name">.</span>           .dockerenv           boot       etc   lib32   media  proc  sbin  tmp
+<span class="token punctuation">..</span>          .flag-3082426613879  challenge  home  lib64   mnt    root  srv   usr
+.authtoken  bin                  dev        lib   libx32  opt    run   sys   var
+hacker@commands~hidden-files:~$ <span class="token function">cat</span> /.flag-3082426613879 
+pwn.college<span class="token punctuation">&#123;</span>Y_rf3YmA6SzXv9ytn-gmGN8Opiu.dBTN4QDLzczN0UzW<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="9-2"><a class="markdownIt-Anchor" href="#9-2"></a> 9</h3>
+<p>略</p>
+<h3 id="10"><a class="markdownIt-Anchor" href="#10"></a> 10</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hacker@commands~making-directories:~$ <span class="token builtin class-name">cd</span> /tmp/
+hacker@commands~making-directories:/tmp$ <span class="token function">ls</span>
+bin  hsperfdata_root  tmp.03myKcqN5v
+hacker@commands~making-directories:/tmp$ <span class="token function">mkdir</span> pwn
+hacker@commands~making-directories:/tmp$ <span class="token builtin class-name">cd</span> pwn/
+hacker@commands~making-directories:/tmp/pwn$ <span class="token function">touch</span> college
+hacker@commands~making-directories:/tmp/pwn$ /challenge/
+ssh-entrypoint: /challenge/: Is a directory
+hacker@commands~making-directories:/tmp/pwn$ /challenge/
+DESCRIPTION.md  run             
+hacker@commands~making-directories:/tmp/pwn$ /challenge/run
+Success<span class="token operator">!</span> Here is your flag:
+pwn.college<span class="token punctuation">&#123;</span>4lR-V9bos1PNk42SrgrI-WCTJtH.dFzM4QDLzczN0UzW<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="11"><a class="markdownIt-Anchor" href="#11"></a> 11</h3>
+<p><code>find / -name flag</code></p>
+<h3 id="reading-documents"><a class="markdownIt-Anchor" href="#reading-documents"></a> Reading Documents</h3>
+<h3 id="1-3"><a class="markdownIt-Anchor" href="#1-3"></a> 1</h3>
+<p><code>/challenge/challenge  --giveflag</code></p>
+<h3 id="2-3"><a class="markdownIt-Anchor" href="#2-3"></a> 2</h3>
+<p><code>/challenge/challenge --printfile /flag</code></p>
+<h3 id="3-3"><a class="markdownIt-Anchor" href="#3-3"></a> 3</h3>
+<p><code>man challenge</code></p>
+<p><code>/challenge/challenge --aqzhdf 478</code></p>
+<h3 id="4-3"><a class="markdownIt-Anchor" href="#4-3"></a> 4</h3>
+<p><code>man challenge</code></p>
+<p><code>/flag</code></p>
+<p><code>/challenge/challenge --nijsi</code></p>
+<h3 id="5-3"><a class="markdownIt-Anchor" href="#5-3"></a> 5</h3>
+<p><code>man -K challenge</code></p>
+<p>发现隐藏的文档<code>mnyntphfjl</code></p>
+<p><code>/challenge/challenge --mnyntp 647</code></p>
+<h3 id="6-3"><a class="markdownIt-Anchor" href="#6-3"></a> 6</h3>
+<p><code>/challenge/challenge -h</code></p>
+<p><code>/challenge/challenge -p</code></p>
+<p><code>challenge/challenge -g 166</code></p>
+<h3 id="7-3"><a class="markdownIt-Anchor" href="#7-3"></a> 7</h3>
+<p><code>help challenge</code></p>
+<p><code>challenge --secret kjNOquF6</code></p>
+<h2 id="fileglobbing"><a class="markdownIt-Anchor" href="#fileglobbing"></a> FileGlobbing</h2>
+<h3 id="1-4"><a class="markdownIt-Anchor" href="#1-4"></a> 1</h3>
+<p>The <code>*</code> matches any part of the filename except for <code>/</code> or a leading <code>.</code> character.</p>
+<p><code>cd /c*/</code></p>
+<p><code>./run</code></p>
+<h3 id="2-4"><a class="markdownIt-Anchor" href="#2-4"></a> 2</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hacker@globbing~matching-with-:~$ <span class="token builtin class-name">cd</span> /?ha??enge/
+hacker@globbing~matching-with-:/challenge$ ./run
+You ran me with the working directory of /challenge<span class="token operator">!</span> Here is your flag:
+pwn.college<span class="token punctuation">&#123;</span>IDd0kPG_4DvQsbxxK7n9GALuLdn.dJjM4QDLzczN0UzW<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="3-4"><a class="markdownIt-Anchor" href="#3-4"></a> 3</h3>
+<p><code>/challenge/files$ /challenge/run file_[abhs]</code></p>
+<h3 id="4-4"><a class="markdownIt-Anchor" href="#4-4"></a> 4</h3>
+<p><code>/challenge/run /challenge/files/file_[bash]</code></p>
+<h3 id="5-4"><a class="markdownIt-Anchor" href="#5-4"></a> 5</h3>
+<p><code>/challenge/run [cep]*</code></p>
+<h3 id="6-4"><a class="markdownIt-Anchor" href="#6-4"></a> 6</h3>
+<p><code>/challenge/files /challenge/run [^pwn]*</code></p>
+<h2 id="piping"><a class="markdownIt-Anchor" href="#piping"></a> Piping</h2>
+<h3 id="1-5"><a class="markdownIt-Anchor" href="#1-5"></a> 1</h3>
+<p><code>echo PWN &gt; COLLEGE</code></p>
+<h3 id="2-5"><a class="markdownIt-Anchor" href="#2-5"></a> 2</h3>
+<p><code>/challenge/run &gt; myflag</code></p>
+<p><code>cat myflag</code></p>
+<h3 id="3-5"><a class="markdownIt-Anchor" href="#3-5"></a> 3</h3>
+<p><code>&gt;&gt;</code>追加模式</p>
+<p><code>/challenge/run &gt;&gt; ~/the-flag</code></p>
+<h3 id="4-5"><a class="markdownIt-Anchor" href="#4-5"></a> 4</h3>
+<pre class="line-numbers language-none"><code class="language-none">FD 0: Standard Input FD 0： 标准输入
+FD 1: Standard Output FD1：标准输出
+FD 2: Standard Error FD 2：标准误差<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><code>/challenge/run 1&gt; myflag 2&gt; instructions</code></p>
+<p><code>cat myflag</code></p>
+<h3 id="5-5"><a class="markdownIt-Anchor" href="#5-5"></a> 5</h3>
+<p><code>echo COLLEGE &gt; PWN&amp;&amp;/challenge/run &lt; PWN</code></p>
+<h3 id="6-5"><a class="markdownIt-Anchor" href="#6-5"></a> 6</h3>
+<p><code>/challenge/run &gt; /tmp/data.txt</code></p>
+<p><code>grep pwn /tmp/data.txt</code></p>
+<h3 id="7-4"><a class="markdownIt-Anchor" href="#7-4"></a> 7</h3>
+<p><code>/challenge/run | grep pwn</code></p>
+<h3 id="8-3"><a class="markdownIt-Anchor" href="#8-3"></a> 8</h3>
+<p>由于没有<code>2|</code>这种形式的运算符<br />
+shell中的<code>&gt;&amp;</code>的操作符(就是将文件描述符重定向到另一个文件描述符中)，那么就可以用<code>2&gt;&amp;1</code>把标准错误重定向到标准输出，然后再进行管道操作</p>
+<p><code>/challenge/run 2&gt;&amp;1|grep pwn</code></p>
+<p>有趣的是<code>&amp;&gt;</code>也存在</p>
+<p>功能是<code>STDOUT</code>与<code>STDERR</code>都重定向导同一个文件</p>
+<h3 id="9-3"><a class="markdownIt-Anchor" href="#9-3"></a> 9*</h3>
+<p>不理解为什么使用</p>
+<p><code>challenge/pwn | tee &gt; /dev/stdout |/c hallenge/college</code></p>
+<p>会打印不出来输出</p>
+<p>只能输出到文件之后再读取，疑惑捏</p>
+<p><code>/challenge/pwn | tee output.txt |/challenge/college</code></p>
+<p><code>cat output.txt</code></p>
+<p><code>/challenge/pwn --secret IV2arjPS | tee output.txt |/challenge/college</code></p>
+<h2 id="shell-variables"><a class="markdownIt-Anchor" href="#shell-variables"></a> Shell Variables</h2>
+<h3 id="1-6"><a class="markdownIt-Anchor" href="#1-6"></a> 1</h3>
+<p><code>echo $FLAG</code></p>
+<h3 id="2-6"><a class="markdownIt-Anchor" href="#2-6"></a> 2</h3>
+<p><code>env | grep pwn</code></p>
+<h3 id="3-6"><a class="markdownIt-Anchor" href="#3-6"></a> 3</h3>
+<p><code>PWN=COLLEGE</code></p>
+<h3 id="4-6"><a class="markdownIt-Anchor" href="#4-6"></a> 4</h3>
+<p><code>PWN=&quot;COLLEGE YEAH&quot;</code></p>
+<h3 id="5-6"><a class="markdownIt-Anchor" href="#5-6"></a> 5</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hacker@variables~learn-to-export-variables-into-child-processes:~$ <span class="token assign-left variable">PWN</span><span class="token operator">=</span>COLLEGE
+You<span class="token string">'ve set the PWN variable to the proper value!
+hacker@variables~learn-to-export-variables-into-child-processes:~$ COLLEGE=PWN
+You'</span>ve <span class="token builtin class-name">set</span> the PWN variable to the proper value<span class="token operator">!</span>
+You<span class="token string">'ve set the COLLEGE variable to the proper value!
+hacker@variables~learn-to-export-variables-into-child-processes:~$ export PWN
+You'</span>ve <span class="token builtin class-name">set</span> the PWN variable to the proper value<span class="token operator">!</span>
+You've <span class="token builtin class-name">set</span> the COLLEGE variable to the proper value<span class="token operator">!</span>
+hacker@variables~learn-to-export-variables-into-child-processes:~$ <span class="token function">sh</span>
+$ /challenge/run<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="6-6"><a class="markdownIt-Anchor" href="#6-6"></a> 6</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hacker@variables~setting-variables-with-read:~$ <span class="token builtin class-name">read</span> PWN
+COLLEGE
+You've <span class="token builtin class-name">set</span> the PWN variable properly<span class="token operator">!</span> As promised, here is the flag:
+pwn.college<span class="token punctuation">&#123;</span>EXb5qH9D76ozx34IIM6XLHbdP1n.dhzN1QDLzczN0UzW<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="7-5"><a class="markdownIt-Anchor" href="#7-5"></a> 7</h3>
+<p><code>read PWN &lt; /challenge/read_me</code></p>
+<h2 id="path"><a class="markdownIt-Anchor" href="#path"></a> Path</h2>
+<p><code>ls</code>是依靠<code>shell variable</code>中的<code>PATH</code>变量来工作的</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hacker@path~the-path-variable:~$ <span class="token assign-left variable"><span class="token environment constant">PATH</span></span><span class="token operator">=</span><span class="token string">""</span>
+hacker@path~the-path-variable:~$ <span class="token builtin class-name">export</span> <span class="token environment constant">PATH</span>
+hacker@path~the-path-variable:~$ /challenge/run
+Trying to remove /flag<span class="token punctuation">..</span>.
+/challenge/run: line <span class="token number">4</span>: rm: No such <span class="token function">file</span> or directory<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="chainingcommands"><a class="markdownIt-Anchor" href="#chainingcommands"></a> ChainingCommands</h2>
+<h3 id="1-7"><a class="markdownIt-Anchor" href="#1-7"></a> 1</h3>
+<p><code>;</code>与<code>enter</code>类似</p>
+<p><code>/challenge/pwn;/challenge/college</code></p>
+<h3 id="2-7"><a class="markdownIt-Anchor" href="#2-7"></a> 2</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">/challenge/pwn
+/challenge/college<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><code>bash 1.sh</code></p>
+<h3 id="3-7"><a class="markdownIt-Anchor" href="#3-7"></a> 3</h3>
+<p><code>bash 1.sh|/challenge/solve</code></p>
+<h2 id="processesandjobs"><a class="markdownIt-Anchor" href="#processesandjobs"></a> ProcessesAndJobs</h2>
+<h3 id="1-8"><a class="markdownIt-Anchor" href="#1-8"></a> 1</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hacker@processes~listing-processes:~$ <span class="token function">ps</span> aux <span class="token operator">></span> <span class="token number">1</span>.txt <span class="token operator">|</span><span class="token function">grep</span> challenge
+hacker@processes~listing-processes:~$ <span class="token function">cat</span> <span class="token number">1</span>.txt <span class="token operator">|</span><span class="token function">grep</span> challenge
+root          <span class="token number">49</span>  <span class="token number">0.0</span>  <span class="token number">0.0</span>   <span class="token number">4204</span>  <span class="token number">3092</span> ?        S    06:43   <span class="token number">0</span>:00 /challenge/18695-run-32181
+hacker@processes~listing-processes:~$ /challenge/18695-run-32181
+Yahaha, you found me<span class="token operator">!</span> Here is your flag:
+pwn.college<span class="token punctuation">&#123;</span>M1kT70o6bkYNmepttaKvpQ-Wm4g.dhzM4QDLzczN0UzW<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-8"><a class="markdownIt-Anchor" href="#2-8"></a> 2</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hacker@processes~killing-processes:~$ <span class="token function">ps</span> <span class="token parameter variable">-ef</span> <span class="token operator">|</span><span class="token function">grep</span> dont_run
+hacker        <span class="token number">49</span>      <span class="token number">47</span>  <span class="token number">0</span> 06:47 ?        00:00:00 /challenge/dont_run
+hacker       <span class="token number">118</span>      <span class="token number">51</span>  <span class="token number">0</span> 06:52 pts/0    00:00:00 <span class="token function">grep</span> <span class="token parameter variable">--color</span><span class="token operator">=</span>auto dont_run
+hacker@processes~killing-processes:~$ <span class="token function">kill</span> <span class="token number">49</span><span class="token punctuation">;</span>/challenge/run
+Great job<span class="token operator">!</span> Here is your payment:
+pwn.college<span class="token punctuation">&#123;</span>swbWgYKpeas_fR7iYsYwJV1OD2c.dJDN4QDLzczN0UzW<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="3-8"><a class="markdownIt-Anchor" href="#3-8"></a> 3</h3>
+<p><code>/challenge/run</code></p>
+<p><code>ctrl +c</code></p>
+<h3 id="4-7"><a class="markdownIt-Anchor" href="#4-7"></a> 4</h3>
+<p>unix中<code>ctrl+z</code>是暂停程序</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">/challenge/run
+ctrl+z
+/challenge/run<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="5-7"><a class="markdownIt-Anchor" href="#5-7"></a> 5</h3>
+<p><code>fg</code>用于恢复暂停的进程</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;challenge&#x2F;run
+ctrl+z
+fg<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="6-7"><a class="markdownIt-Anchor" href="#6-7"></a> 6</h3>
+<p>See that <code>T</code>? That means that the process is suspended due to our <code>Ctrl-Z</code>. The <code>S</code> in <code>bash</code>’s <code>STAT</code> column means that <code>bash</code> is sleeping while waiting for input. the <code>R</code> in <code>ps</code>’s column means that it’s actively running, and the <code>+</code> means that it’s in the foreground!</p>
+<p><code>ps -o user,pip,stat,cmd</code></p>
+<p><code>/challenge/run</code></p>
+<p><code>ctrl+z</code></p>
+<p><code>bg</code></p>
+<p><code>/challenge/run</code></p>
+<h3 id="7-6"><a class="markdownIt-Anchor" href="#7-6"></a> 7</h3>
+<p><code>/challenge/run</code></p>
+<p><code>bg</code></p>
+<p><code>fg</code></p>
+<h3 id="8-4"><a class="markdownIt-Anchor" href="#8-4"></a> 8</h3>
+<p>不需要暂停程序化然后再用<code>bg</code>放到后台运行</p>
+<p>可以直接<code>/challenge &amp;</code>直接放到后台运行</p>
+<p><code>/challenge/run &amp;</code></p>
+<h3 id="understandingpermissions"><a class="markdownIt-Anchor" href="#understandingpermissions"></a> UnderstandingPermissions</h3>
+<pre class="line-numbers language-none"><code class="language-none">hacker@processes~starting-backgrounded-processes:~$ ls -l
+total 52
+-rw-r--r-- 1 root   hacker   58 Jun 28 10:25 1
+-rw-r--r-- 1 hacker hacker   34 Jun 29 06:35 1.sh
+-rw-r--r-- 1 hacker hacker 1198 Jun 29 06:45 1.txt
+-rw-r--r-- 1 hacker hacker    4 Jun 29 05:11 COLLEGE
+drwxr-xr-x 2 hacker hacker 4096 May  9 11:00 Desktop
+-rw-r--r-- 1 hacker hacker    8 Jun 29 05:33 PWN
+-rw-r--r-- 1 root   hacker   58 Jun 28 10:25 a
+drwxr-xr-x 2 hacker hacker 4096 May 10 14:00 demo
+-rw-r--r-- 1 hacker hacker  829 Jun 29 05:28 instructions
+drwxr-xr-x 2 hacker hacker 4096 May 13 09:44 leap
+-rw-r--r-- 1 hacker hacker   93 Jun 29 05:28 myflag
+-rw-r--r-- 1 root   hacker   17 Jun 29 06:07 output.txt
+-rw-r--r-- 1 hacker hacker  435 Jun 29 05:30 the-flag<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>d</code>表示是一个<code>directory</code></p>
+<p><code>-</code>表示是一个<code>normalfile</code></p>
+<p>接下来的9个字符是文件或目录的实际访问权限，分为3个字符，表示文件的所有者</p>
+<p>每三个字符为一组，表示文件的<code>owner</code>对文件的权限；</p>
+<p>表示<code>user</code>对当前文件的权限</p>
+<p>以及<code>others</code>对当前文件的权限</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">r - user can <span class="token builtin class-name">read</span> the <span class="token function">file</span> <span class="token punctuation">(</span>or list the directory<span class="token punctuation">)</span>
+w - user can modify the files <span class="token punctuation">(</span>or create/delete files <span class="token keyword">in</span> the directory<span class="token punctuation">)</span>
+x - user can execute the <span class="token function">file</span> as a program <span class="token punctuation">(</span>or can enter the directory, e.g., using <span class="token variable"><span class="token variable">`</span><span class="token builtin class-name">cd</span><span class="token variable">`</span></span><span class="token punctuation">)</span>
+- - nothing <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="1-9"><a class="markdownIt-Anchor" href="#1-9"></a> 1</h3>
+<p>略</p>
+<h2 id="2-9"><a class="markdownIt-Anchor" href="#2-9"></a> 2</h2>
+<p><code>chmod</code>可以用<code>=</code>来直接设置权限</p>
+<p><code>a=-</code>直接取消世界组的权限</p>
+<p>略</p>
+<h3 id="3-9"><a class="markdownIt-Anchor" href="#3-9"></a> 3</h3>
+<pre class="line-numbers language-none"><code class="language-none">chown [username] [file]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><code>chown</code> will give the ownership of that file to the specified user它会将该文件的所有权授予指定的用户。</p>
+<p>Additionally, you can edit the group ownership by using chgrp:此外，您还可以使用 chgrp 命令来编辑组的所有权：</p>
+<pre class="line-numbers language-none"><code class="language-none">chgrp [groupname] [file]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hacker@permissions~my-dentist-said-i-need-to-chown:~$ <span class="token function">chown</span> hacker /flag
+hacker@permissions~my-dentist-said-i-need-to-chown:~$ <span class="token function">cat</span> /flag
+pwn.college<span class="token punctuation">&#123;</span>stoZ4X4fMlGzLueu7fS0UsENrKf.dFTM2QDLzczN0UzW<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="4-8"><a class="markdownIt-Anchor" href="#4-8"></a> 4</h3>
+<p>直接看源程序<code>发现flag在/etc/ctfconfg</code></p>
+<p><code>chmod +x getflag</code></p>
+<p><code>./getflag</code></p>
+<h3 id="5-8"><a class="markdownIt-Anchor" href="#5-8"></a> 5</h3>
+<p>he permission of a file with SUID list look like this:带有SUID权限的文件的权限设置如下所示：</p>
+<pre class="line-numbers language-none"><code class="language-none">-rwsr-xr-x 1 root root 232416 Dec 1 11:45 &#x2F;usr&#x2F;bin&#x2F;sudo<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>The <code>s</code> part in place of the executable bit means that the program is executable <em>with SUID</em>. It means that the user can essentially execute this program as the owner (in this case, the <code>root</code> user).代码中的 <code> </code>s<code> </code> 部分代表可执行权限位，这意味着该程序具有 SUID 权限。这意味着用户实际上可以以所有者（本例中为 <code> </code>root<code> </code> 用户）的身份运行此程序。</p>
+<p>As the owner of a file, you can set a file’s SUID bit by using chmod:作为文件的所有者，您可以通过 chmod 命令设置文件的 SUID 位：</p>
+<p><code>chmod u+s [**program**]</code></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hacker@permissions~i-tried-to-tell-a-setuid-joke-but-it-escalated-too-q:~$ <span class="token function">chmod</span> u+s /challenge/getroot
+hacker@permissions~i-tried-to-tell-a-setuid-joke-but-it-escalated-too-q:~$ /challenge/getroot
+Now you are root<span class="token operator">!</span>
+<span class="token operator">&lt;</span>ll-a-setuid-joke-but-it-escalated-too-q:/home/hacker<span class="token comment"># cat /flag</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</div></section></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/05/29/latex%E6%89%8B%E5%86%8C/" rel="next" title="latex公式手册"><span class="post-nav-text">latex公式手册</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/06/29/PwnCollege0-LinuxBasics/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>
