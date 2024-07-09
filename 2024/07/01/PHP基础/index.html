@@ -1,0 +1,386 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>PHP基础 | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="（1）类型转换 之前提到过的是字符串转为整型。其实php手册里面提到了各种类型的转换。先把他放在这里。 https:&#x2F;&#x2F;www.php.net&#x2F;manual&#x2F;zh&#x2F;language.types.type-juggling.php#language.types.typecasting 我们按照php手册上的顺序来介绍，只介绍几个比较常用的。  ①转化为bool   ②转化为整型int  0x01：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP基础">
+<meta property="og:url" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="（1）类型转换 之前提到过的是字符串转为整型。其实php手册里面提到了各种类型的转换。先把他放在这里。 https:&#x2F;&#x2F;www.php.net&#x2F;manual&#x2F;zh&#x2F;language.types.type-juggling.php#language.types.typecasting 我们按照php手册上的顺序来介绍，只介绍几个比较常用的。  ①转化为bool   ②转化为整型int  0x01：">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701220431198.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701220606060.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701220651503.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701220718985.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701220814608.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701221229593.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701222401648.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701222456713.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701222530985.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701222655924.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701222730924.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701222750628.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701222804805.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701223139262.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701223342064.png">
+<meta property="article:published_time" content="2024-07-01T14:03:19.000Z">
+<meta property="article:modified_time" content="2024-07-01T14:36:39.349Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701220431198.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">45</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.</span> <span class="toc-text"> （1）类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E8%BD%AC%E5%8C%96%E4%B8%BAbool"><span class="toc-number">1.1.</span> <span class="toc-text"> ①转化为bool</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E8%BD%AC%E5%8C%96%E4%B8%BA%E6%95%B4%E5%9E%8Bint"><span class="toc-number">1.2.</span> <span class="toc-text"> ②转化为整型int</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x01%E4%BB%8Ebool%E8%BD%AC%E6%8D%A2%E4%B8%BAint"><span class="toc-number">1.2.1.</span> <span class="toc-text"> 0x01：从bool转换为int</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x02%E4%BB%8Efloat%E8%BD%AC%E6%8D%A2%E4%B8%BAint"><span class="toc-number">1.2.2.</span> <span class="toc-text"> 0x02：从float转换为int</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x03%E4%BB%8Estring%E8%BD%AC%E6%8D%A2%E4%B8%BAint"><span class="toc-number">1.2.3.</span> <span class="toc-text"> 0x03：从string转换为int</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x04%E4%BB%8Enull%E8%BD%AC%E6%8D%A2%E4%B8%BAint"><span class="toc-number">1.2.4.</span> <span class="toc-text"> 0x04：从null转换为int</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E8%BD%AC%E6%8D%A2%E4%B8%BAfloat"><span class="toc-number">1.3.</span> <span class="toc-text"> ③转换为float</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E4%B8%8E"><span class="toc-number">2.</span> <span class="toc-text"> （2）&#x3D;&#x3D;与&#x3D;&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3intval%E5%87%BD%E6%95%B0%E7%BB%95%E8%BF%87"><span class="toc-number">3.</span> <span class="toc-text"> （3）intval（）函数绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E7%89%B9%E6%80%A7%E4%B8%80%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.1.</span> <span class="toc-text"> ①特性一：返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E7%89%B9%E6%80%A7%E4%BA%8Cbase%E8%BD%AC%E5%8C%96%E7%9A%84%E8%BF%9B%E5%88%B6"><span class="toc-number">3.2.</span> <span class="toc-text"> ②特性二：base转化的进制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E7%89%B9%E6%80%A7%E4%B8%89%E5%BC%B1%E7%B1%BB%E5%9E%8B%E6%AF%94%E8%BE%83%E4%B8%8B%E7%9A%84base%E8%BD%AC%E6%8D%A2%E5%BC%80%E5%A7%8B%E5%92%8C%E7%BB%93%E6%9D%9F"><span class="toc-number">3.3.</span> <span class="toc-text"> ③特性三：弱类型比较下的base转换开始和结束</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%E4%B8%8D%E5%BD%B1%E5%93%8D%E7%BB%93%E6%9E%9C%E7%9A%84%E5%9C%A8%E5%BC%80%E5%A4%B4%E7%9A%84%E5%85%83%E7%B4%A0"><span class="toc-number">3.4.</span> <span class="toc-text"> ④不影响结果的在开头的元素</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4preg_match%E5%87%BD%E6%95%B0%E7%BB%95%E8%BF%87"><span class="toc-number">4.</span> <span class="toc-text"> （4）preg_match()函数绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E7%89%B9%E6%80%A7%E4%B8%80%E4%BC%A0%E9%80%92%E6%95%B0%E7%BB%84"><span class="toc-number">4.1.</span> <span class="toc-text"> ①特性一：传递数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E7%89%B9%E6%80%A7%E4%BA%8C%E6%8D%A2%E8%A1%8C%E7%AC%A6%E7%BB%95%E8%BF%87"><span class="toc-number">4.2.</span> <span class="toc-text"> ②特性二：换行符绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1m"><span class="toc-number">4.2.1.</span> <span class="toc-text"> 1）&#x2F;m</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2"><span class="toc-number">4.2.2.</span> <span class="toc-text"> 2）.</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3s"><span class="toc-number">4.2.3.</span> <span class="toc-text"> 3）&#x2F;s</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E5%9B%9E%E6%BA%AF%E7%BB%95%E8%BF%87"><span class="toc-number">4.3.</span> <span class="toc-text"> ③回溯绕过*</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x01"><span class="toc-number">4.3.1.</span> <span class="toc-text"> 0X01：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5strpos%E7%BB%95%E8%BF%87"><span class="toc-number">5.</span> <span class="toc-text"> （5）strpos绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E7%89%B9%E6%80%A7%E4%B8%80%E5%85%AB%E8%BF%9B%E5%88%B6%E9%A6%96%E4%BD%8D%E7%BB%95%E8%BF%87"><span class="toc-number">5.1.</span> <span class="toc-text"> ①特性一：八进制首位绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E7%89%B9%E6%80%A7%E4%BA%8C%E4%BC%A0%E9%80%92%E6%95%B0%E7%BB%84"><span class="toc-number">5.2.</span> <span class="toc-text"> ②特性二：传递数组</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6is_numeric%E5%87%BD%E6%95%B0%E7%BB%95%E8%BF%87"><span class="toc-number">6.</span> <span class="toc-text"> （6）is_numeric()函数绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E7%89%B9%E6%80%A7%E4%B8%80%E7%A7%91%E5%AD%A6%E8%AE%A1%E6%95%B0%E6%B3%95%E7%BB%95%E8%BF%87"><span class="toc-number">6.1.</span> <span class="toc-text"> ①特性一：科学计数法绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E7%89%B9%E6%80%A7%E4%BA%8C%E5%BC%80%E5%A4%B4%E5%8A%A0%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6"><span class="toc-number">6.2.</span> <span class="toc-text"> ②特性二：开头加特殊字符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7in_array%E5%87%BD%E6%95%B0"><span class="toc-number">7.</span> <span class="toc-text"> （7）in_array()函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E7%89%B9%E6%80%A7%E4%B8%80%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%8D%A2"><span class="toc-number">7.1.</span> <span class="toc-text"> ①特性一：自动转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8trim%E5%87%BD%E6%95%B0"><span class="toc-number">8.</span> <span class="toc-text"> （8）trim（）函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E7%89%B9%E6%80%A7%E4%B8%80%E4%B8%8D%E8%BF%87%E6%BB%A4f"><span class="toc-number">8.1.</span> <span class="toc-text"> ①特性一：不过滤&#x2F;f</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9md5%E5%92%8Csha1"><span class="toc-number">9.</span> <span class="toc-text"> （9）md5（）和sha1（）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E7%89%B9%E6%80%A7%E4%B8%80%E6%AF%94%E8%BE%83%E7%BC%BA%E9%99%B7%E6%88%96%E8%80%85%E8%AF%B40e%E6%BC%8F%E6%B4%9E"><span class="toc-number">9.1.</span> <span class="toc-text"> ①特性一：比较缺陷（或者说0e漏洞）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E7%89%B9%E6%80%A7%E4%BA%8C%E6%95%B0%E7%BB%84%E7%BB%95%E8%BF%87"><span class="toc-number">9.2.</span> <span class="toc-text"> ②特性二：数组绕过</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A"><span class="toc-number">10.</span> <span class="toc-text"> （10）路径穿越</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E7%89%B9%E6%80%A7%E4%B8%80%E5%88%A9%E7%94%A8%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%E5%92%8C%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="toc-number">10.1.</span> <span class="toc-text"> ①特性一：利用绝对路径和相对路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E7%89%B9%E6%80%A7%E4%BA%8C%E5%88%A9%E7%94%A8linux%E4%B8%8B%E7%9A%84%E8%BD%AF%E9%93%BE%E6%8E%A5%E7%BB%95%E8%BF%87"><span class="toc-number">10.2.</span> <span class="toc-text"> ②特性二：利用linux下的软链接绕过</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11%E8%BF%90%E7%AE%97%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">11.</span> <span class="toc-text"> （11）运算优先级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12%E4%B8%89%E7%9B%AE%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">12.</span> <span class="toc-text"> （12）三目运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13%E5%87%BD%E6%95%B0%E4%B8%8E%E6%95%B0%E5%AD%97%E8%BF%90%E7%AE%97"><span class="toc-number">13.</span> <span class="toc-text"> （13）函数与数字运算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14php%E4%BC%AA%E9%9A%8F%E6%9C%BA%E6%95%B0%E6%BC%8F%E6%B4%9E"><span class="toc-number">14.</span> <span class="toc-text"> （14）php伪随机数漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1php%E7%9A%84%E4%BC%AA%E9%9A%8F%E6%9C%BA%E6%95%B0%E6%9C%89%E5%85%B3%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%87%BD%E6%95%B0"><span class="toc-number">14.1.</span> <span class="toc-text"> ①PHP的伪随机数有关的两个函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#imt_rand"><span class="toc-number">14.1.1.</span> <span class="toc-text"> Ⅰ.mt_rand()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#iimt_srand"><span class="toc-number">14.1.2.</span> <span class="toc-text"> Ⅱ.mt_srand()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2php%E8%87%AA%E5%8A%A8%E6%92%AD%E7%A7%8D"><span class="toc-number">14.2.</span> <span class="toc-text"> ②PHP自动播种</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3php_mt_rand"><span class="toc-number">14.3.</span> <span class="toc-text"> ③php_mt_rand</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4php_mt_rand%E7%94%A8%E6%B3%95"><span class="toc-number">14.4.</span> <span class="toc-text"> ④php_mt_rand用法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#i%E9%A6%96%E5%85%88%E5%AF%B9%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2"><span class="toc-number">14.4.1.</span> <span class="toc-text"> Ⅰ首先对数据进行格式转换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ii%E5%9C%A8php_mt_rand%E7%9B%AE%E5%BD%95%E4%B8%8B%E5%B0%86%E5%BE%97%E5%88%B0%E7%9A%84%E6%95%B0%E5%88%97%E5%B8%A6%E5%85%A5%E7%88%86%E7%A0%B4%E8%84%9A%E6%9C%AC%E6%89%BE%E5%88%B0%E7%A7%8D%E5%AD%90%E5%86%8D%E5%B0%86%E7%A7%8D%E5%AD%90%E8%BD%AC%E6%8D%A2%E4%B8%BA%E9%9A%8F%E6%9C%BA%E6%95%B0"><span class="toc-number">14.4.2.</span> <span class="toc-text"> Ⅱ在php_mt_rand目录下将得到的数列带入爆破脚本，找到种子，再将种子转换为随机数</span></a></li></ol></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/01/PHP%E5%9F%BA%E7%A1%80/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">PHP基础</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-01 22:03:19" itemprop="dateCreated datePublished" datetime="2024-07-01T22:03:19+08:00">2024-07-01</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">3.4k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">13m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Web/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Web</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Web/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Web</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="1类型转换"><a class="markdownIt-Anchor" href="#1类型转换"></a> （1）类型转换</h2>
+<p>之前提到过的是字符串转为整型。其实php手册里面提到了各种类型的转换。先把他放在这里。</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.types.type-juggling.php#language.types.typecasting">https://www.php.net/manual/zh/language.types.type-juggling.php#language.types.typecasting</a></p>
+<p>我们按照php手册上的顺序来介绍，只介绍几个比较常用的。</p>
+<h3 id="1转化为bool"><a class="markdownIt-Anchor" href="#1转化为bool"></a> ①转化为bool</h3>
+<img src="/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701220431198.png" class="" alt="image-20240701220431198" loading="lazy">
+<h3 id="2转化为整型int"><a class="markdownIt-Anchor" href="#2转化为整型int"></a> ②转化为整型int</h3>
+<h4 id="0x01从bool转换为int"><a class="markdownIt-Anchor" href="#0x01从bool转换为int"></a> 0x01：从bool转换为int</h4>
+<p>false为0，true为1</p>
+<h4 id="0x02从float转换为int"><a class="markdownIt-Anchor" href="#0x02从float转换为int"></a> 0x02：从float转换为int</h4>
+<p>向下取整（直接舍去小数位）</p>
+<h4 id="0x03从string转换为int"><a class="markdownIt-Anchor" href="#0x03从string转换为int"></a> 0x03：从string转换为int</h4>
+<p>如果 string 是 numeric（数字字符串） 或者前导数字， 则将它解析为相应的 int 值，否则将转换为零（<code>0</code>）</p>
+<blockquote>
+<p>数字字符串： 这只是一个字符串，其开头类似于数字字符串，后跟任何字符。但是如果含 e 的字符串转换成 int 类型时会被当做科学计数法处理, <code>123e456</code> 表示 123 的 456 次方。</p>
+</blockquote>
+<h4 id="0x04从null转换为int"><a class="markdownIt-Anchor" href="#0x04从null转换为int"></a> 0x04：从null转换为int</h4>
+<p>为0</p>
+<h3 id="3转换为float"><a class="markdownIt-Anchor" href="#3转换为float"></a> ③转换为float</h3>
+<p>0x01：从string转换为float</p>
+<p>如果 string 是 numeric（数字字符串） 或者前导数字， 则将它解析为相应的 int 值，否则将转换为零（<code>0</code>）</p>
+<p>0x02：其他类型转换为float</p>
+<p>先将其他类型转换为int，再由int转换为float。（而其他类型转换为float，就在上面的②）</p>
+<hr />
+<h2 id="2与"><a class="markdownIt-Anchor" href="#2与"></a> （2）<code>==</code>与<code>===</code></h2>
+<p>== 弱类型比较, 仅要求两边变量类型转换后的值相等</p>
+<p>=== 强类型比较, 不仅要求两个变量的值相等, 还要求变量的类型相同</p>
+<p>同理 != 是弱类型比较, 而 !== 是强类型比较</p>
+<hr />
+<h2 id="3intval函数绕过"><a class="markdownIt-Anchor" href="#3intval函数绕过"></a> （3）intval（）函数绕过</h2>
+<p>首先我们去php手册了解这是什么东西。</p>
+<blockquote>
+<p>intval（）</p>
+<p>获取变量的整数值。下面的base是转换的进制，默认是0</p>
+<p>复制</p>
+<pre class="line-numbers language-none"><code class="language-none">intval(mixed $value, int $base &#x3D; 10): int<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</blockquote>
+<p>intval主要利用有三个。</p>
+<h3 id="1特性一返回值"><a class="markdownIt-Anchor" href="#1特性一返回值"></a> ①特性一：返回值</h3>
+<img src="/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701220606060.png" class="" alt="image-20240701220606060" loading="lazy">
+<p>这个重点在非空的数组会返回1。</p>
+<p><code>['']</code>这个不是数组为空，这个数组有一个元素，元素为空元素。要是<code>[]</code>才是空数组</p>
+<h3 id="2特性二base转化的进制"><a class="markdownIt-Anchor" href="#2特性二base转化的进制"></a> ②特性二：base转化的进制</h3>
+<img src="/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701220651503.png" class="" alt="image-20240701220651503" loading="lazy">
+<p>前提是base是0的时候，由value来决定</p>
+<img src="/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701220718985.png" class="" alt="image-20240701220718985" loading="lazy">
+<h3 id="3特性三弱类型比较下的base转换开始和结束"><a class="markdownIt-Anchor" href="#3特性三弱类型比较下的base转换开始和结束"></a> ③特性三：弱类型比较下的base转换开始和结束</h3>
+<p>这个是说在弱类型比较的前提下，本来在base=0的情况下，要看value的结果来判断，这个判断是从数字或者正负号开始才做转换，直到遇到非数字，或者字符串的结束符（\0）结束转。这句话的意思是比如我们要得到带4476的字符串，应该是4476abc这种。不然以abc4476是被转换为0的。</p>
+<h3 id="4不影响结果的在开头的元素"><a class="markdownIt-Anchor" href="#4不影响结果的在开头的元素"></a> ④不影响结果的在开头的元素</h3>
+<p><strong>空格</strong>和<strong>＋（表示正号）</strong></p>
+<hr />
+<h2 id="4preg_match函数绕过"><a class="markdownIt-Anchor" href="#4preg_match函数绕过"></a> （4）preg_match()函数绕过</h2>
+<blockquote>
+<p>preg_match(): 执行匹配正则表达式</p>
+<p>复制</p>
+<pre class="line-numbers language-none"><code class="language-none">preg_match(
+    string $pattern,
+    string $subject,
+    array &amp;$matches &#x3D; null,
+    int $flags &#x3D; 0,
+    int $offset &#x3D; 0
+): int|false<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</blockquote>
+<h3 id="1特性一传递数组"><a class="markdownIt-Anchor" href="#1特性一传递数组"></a> ①特性一：传递数组</h3>
+<img src="/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701220814608.png" class="" alt="image-20240701220814608" loading="lazy">
+<p>上面显示subject得是字符串，也就是说如果是数组，会返回false。</p>
+<h3 id="2特性二换行符绕过"><a class="markdownIt-Anchor" href="#2特性二换行符绕过"></a> ②特性二：换行符绕过</h3>
+<p>换行符这个大部分都只有一个，但是其实在做题之类的看到了两个。</p>
+<h4 id="1m"><a class="markdownIt-Anchor" href="#1m"></a> 1）/m</h4>
+<p>首先我们需要知道这个/m是什么</p>
+<blockquote>
+<p>手册上太复杂了，所以我直接用自己的理解来理解吧。就是m代表multiline mode，是多行模式。这个多行模式是什么意思呢。我们在正则表达式里面有说过<code>^</code>代表匹配开头，<code>$</code>代表匹配结尾。但是如果没有/m就是单纯的单行的匹配，如果我们开启了<code>/m</code>就是可以多行的匹配。就是每一行都可以匹配由<code>^</code>开头，以<code>$</code>结尾的。</p>
+</blockquote>
+<p>我们接下来继续举例理解。比如我们有字符串</p>
+<pre class="line-numbers language-none"><code class="language-none">line1
+line2
+line3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>我们如果用正则表达式/^line/m，如果开启了多行，就每一行都可以匹配，就是能匹配到line1，line2，line3，如果我们没开就是只能匹配搭配line1。</p>
+<p>但是我们可以截断这个m的作用。利用%0a</p>
+<p>当出现%0a的时候它会被认为是一个换行符，是什么意思呢，就是从字符串的开头到%0a作为了第一行，从%0a到字符串末尾变成了第二行。就是说我们如果第一行匹配不了，但是第二行匹配成功了也行。</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token variable">$a</span><span class="token operator">=</span><span class="token global">$_GET</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'a'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'/^php$/im'</span><span class="token punctuation">,</span><span class="token variable">$a</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">echo</span> <span class="token string double-quoted-string">"hacking attempt ....."</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">else</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">echo</span> <span class="token string double-quoted-string">"success"</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<img src="/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701221229593.png" class="" alt="image-20240701221229593" loading="lazy">
+<h4 id="2"><a class="markdownIt-Anchor" href="#2"></a> 2）.</h4>
+<p>.也是截断输入，这个输入的原理是因为。.可以匹配除换行符（\n）之外的任意单个字符。举个例子，我们比如我们有一个字符串/hello\nworld这个字符串，然后我们正则表达式/h.llo/会得到的是hello，这个.匹配到了一个e。但是他不能匹配\n。这个\n我们要用%0a来表示。</p>
+<h4 id="3s"><a class="markdownIt-Anchor" href="#3s"></a> 3）/s</h4>
+<p>%0a即换行符的url编码，在preg_match没启动/s模式（单行匹配模式）时，正则表达式是无法匹配换行符(%0a,\n)的,且会自动忽略末尾的换行符。但是我们可以用这个去绕过一些限制</p>
+<h3 id="3回溯绕过"><a class="markdownIt-Anchor" href="#3回溯绕过"></a> ③回溯绕过*</h3>
+<h4 id="0x01"><a class="markdownIt-Anchor" href="#0x01"></a> 0X01：</h4>
+<p>这里推荐一个工具<a target="_blank" rel="noopener" href="https://blog.robertelder.org/regular-expression-visualizer/">https://blog.robertelder.org/regular-expression-visualizer/</a></p>
+<p>这个工具可以展示正则表达式的详细匹配过程。我们就用这个工具来理解p神的回溯过程也不失为一种高效的办法。</p>
+<p>所以回溯绕过就是利用的PHP的PCRE库也是利用的NFA为正则引擎，这样就要回溯找到其他状态。</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token keyword">function</span> <span class="token function-definition function">is_php</span><span class="token punctuation">(</span><span class="token variable">$data</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>  
+    <span class="token keyword">return</span> <span class="token function">preg_match</span><span class="token punctuation">(</span><span class="token string single-quoted-string">'/&lt;\?.*[(`;?>].*/is'</span><span class="token punctuation">,</span> <span class="token variable">$data</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">is_php</span><span class="token punctuation">(</span><span class="token variable">$input</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// fwrite($f, $input); ...</span>
+<span class="token punctuation">&#125;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>详细原理-&gt;</p>
+<p><a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/use-pcre-backtrack-limit-to-bypass-restrict.html">PHP利用PCRE回溯次数限制绕过某些安全限制 | 离别歌 (leavesongs.com)</a></p>
+<hr />
+<h2 id="5strpos绕过"><a class="markdownIt-Anchor" href="#5strpos绕过"></a> （5）strpos绕过</h2>
+<img src="/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701222401648.png" class="" alt="image-20240701222401648" loading="lazy">
+<p>需要特别注意的是，顺序是从0开始的。如果找到了就返回位置。如果没有找到就是返回false。</p>
+<h3 id="1特性一八进制首位绕过"><a class="markdownIt-Anchor" href="#1特性一八进制首位绕过"></a> ①特性一：八进制首位绕过</h3>
+<p>如果对八进制（首位是0）遇到了if（!strpos($string,0))进行过滤，我们想让八进制还能成功通过的话，需要在首位想想办法。一般是在前面加空格和加号。我们可以进行实验</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span> 
+<span class="token variable">$string</span><span class="token operator">=</span><span class="token global">$_GET</span><span class="token punctuation">[</span><span class="token string double-quoted-string">"string"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">strpos</span><span class="token punctuation">(</span><span class="token variable">$string</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">echo</span> <span class="token string double-quoted-string">"hello,world"</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">else</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">echo</span> <span class="token string double-quoted-string">"success"</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>并且空格还可以用%20，%0a，%09来代替，加号可以用%2b代替。</p>
+<h3 id="2特性二传递数组"><a class="markdownIt-Anchor" href="#2特性二传递数组"></a> ②特性二：传递数组</h3>
+<p>对于如果strpos传递的不是字符串，而是数组的话，返回值为null。</p>
+<p>结论对<code>strrpos() stripos() strripos() </code>同理</p>
+<hr />
+<h2 id="6is_numeric函数绕过"><a class="markdownIt-Anchor" href="#6is_numeric函数绕过"></a> （6）is_numeric()函数绕过</h2>
+<img src="/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701222456713.png" class="" alt="image-20240701222456713" loading="lazy">
+<h3 id="1特性一科学计数法绕过"><a class="markdownIt-Anchor" href="#1特性一科学计数法绕过"></a> ①特性一：科学计数法绕过</h3>
+<p>我们知道科学计数法是含有e的数字字符串，对于is_numeric来说，他是能识别科学计数法的，并且能返回true。试验一下</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span> 
+<span class="token variable">$string</span><span class="token operator">=</span> <span class="token number">11e11</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">is_numeric</span><span class="token punctuation">(</span><span class="token variable">$string</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">echo</span> <span class="token string double-quoted-string">"hello,world"</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">else</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">echo</span> <span class="token string double-quoted-string">"failure"</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<img src="/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701222530985.png" class="" alt="image-20240701222530985" loading="lazy">
+<p>所以，对于某些字符串，我们可以尝试利用 base64 + bin2hex 找到一些只含 e 和数字的 payload</p>
+<h3 id="2特性二开头加特殊字符"><a class="markdownIt-Anchor" href="#2特性二开头加特殊字符"></a> ②特性二：开头加特殊字符</h3>
+<p>在数字前面加上/n，/t等这种特殊字符仍然可以返回true，但是放在数字后面就不行了。</p>
+<hr />
+<h2 id="7in_array函数"><a class="markdownIt-Anchor" href="#7in_array函数"></a> （7）in_array()函数</h2>
+<img src="/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701222655924.png" class="" alt="image-20240701222655924" loading="lazy">
+<p>如果找到了返回true，没找到返回false。</p>
+<h3 id="1特性一自动转换"><a class="markdownIt-Anchor" href="#1特性一自动转换"></a> ①特性一：自动转换</h3>
+<p>函数在作用时会将needle的值自动转化为和array一个类型。</p>
+<p>其实这个实验在我的环境下失败了，这结论也不在成立。后面我看了手册，发现了还是版本问题。</p>
+<hr />
+<h2 id="8trim函数"><a class="markdownIt-Anchor" href="#8trim函数"></a> （8）trim（）函数</h2>
+<img src="/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701222730924.png" class="" alt="image-20240701222730924" loading="lazy">
+<p>返回值是过滤后的字符串。</p>
+<h3 id="1特性一不过滤f"><a class="markdownIt-Anchor" href="#1特性一不过滤f"></a> ①特性一：不过滤/f</h3>
+<p>我们可以看到，上面写了去除\t,\n,\r,\0,\v但是他没有过滤\f(换页符），他的url编码是%0c36</p>
+<hr />
+<h2 id="9md5和sha1"><a class="markdownIt-Anchor" href="#9md5和sha1"></a> （9）md5（）和sha1（）</h2>
+<img src="/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701222750628.png" class="" alt="image-20240701222750628" loading="lazy">
+<p>返回值sha1的散列值的字符串形式。</p>
+<img src="/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701222804805.png" class="" alt="image-20240701222804805" loading="lazy">
+<p>以 32 字符的十六进制数形式返回散列值。</p>
+<p>两函数的性质啥的都是一样的。所以我们直接一起说了，有些情况只列举了一个，但是对两个函数都是一样的。</p>
+<h3 id="1特性一比较缺陷或者说0e漏洞"><a class="markdownIt-Anchor" href="#1特性一比较缺陷或者说0e漏洞"></a> ①特性一：比较缺陷（或者说0e漏洞）</h3>
+<pre class="line-numbers language-none"><code class="language-none">PHP&#96;在处理哈希字符串时，通过&#96;!&#x3D;&#96;或&#96;&#x3D;&#x3D;&#96;来对哈希值进行比较，它把每一个以&#96;0e&#96;开头的哈希值都解释为&#96;0&#96;，所以如果两个不同的密码经过哈希以后，其哈希值都是以&#96;0e&#96;开头的，那么&#96;PHP&#96;将会认为他们相同，都是&#96;0。这个通常是对于科学计数法的时候会遇到0e漏洞。<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>可以实验一下。</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span> 
+<span class="token variable">$a</span><span class="token operator">=</span><span class="token string double-quoted-string">"0e123"</span><span class="token punctuation">;</span>
+<span class="token variable">$b</span><span class="token operator">=</span><span class="token string double-quoted-string">"0e456"</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token variable">$a</span><span class="token operator">==</span><span class="token variable">$b</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">echo</span> <span class="token string double-quoted-string">"equal"</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">else</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">echo</span> <span class="token string double-quoted-string">"wrong"</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token delimiter important">?></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>所以我们如果如果我们要绕过if(md5($a)==md5($b))这个条件的话。我们可以选择一些md5编码后都为0e的a，b字符串。</p>
+<p>所以这里介绍一些。</p>
+<ul>
+<li><em><strong>md5加密后以0e开头的字符串</strong></em></li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">1.   QNKCDZO             ----------0e830400451993494058024219903391
+2.   s878926199a         ----------0e545993274517709034328855841020
+3.   s155964671a         ----------0e342768416822451524974117254469
+4.   s214587387a         ----------0e848240448830537924465865611904
+5.   s214587387a         ----------0e848240448830537924465865611904
+6.   s878926199a         ----------0e545993274517709034328855841020
+7.   s1091221200a        ----------0e940624217856561557816327384675<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><em><strong>sha1加密后以0e开头的字符串</strong></em></li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">1.   aaroZmOk            ----------0e66507019969427134894567494305185566735
+2.   aaK1STfY            ----------0e76658526655756207688271159624026011393
+3.   aaO8zKZF            ----------0e89257456677279068558073954252716165668
+4.   aa3OFF9m            ----------0e36977786278517984959260394024281014729
+5.   0e1290633704        ----------0e19985187802402577070739524195726831799
+6.   10932435112         ----------0e07766915004133176347055865026311692244<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>注意这个特性是在<strong>弱类型的条件</strong>下。</p>
+<h3 id="2特性二数组绕过"><a class="markdownIt-Anchor" href="#2特性二数组绕过"></a> ②特性二：数组绕过</h3>
+<p>在强类型的条件下，我们特性一就失效了，这时候我们可以用数组绕过。我们知道md5和sha1是对字符串起的作用，如果我们传入的是数组：</p>
+<ul>
+<li><code>md5()</code>函数获取不到数组的值，默认数组为0</li>
+<li><code>sha1()</code>函数无法处理数组类型，将报错并返回false</li>
+</ul>
+<p>所以我们可以对于if(md5($a)===md5($b))，可以用<code>**取a，b为数组**</code>来绕过。</p>
+<p>这个对于强类型和弱类型比较都可以成功。</p>
+<p>应该是有版本要求</p>
+<p>在8.3的版本实验的时候发现全部都是报错，无法执行最后预期的结果。</p>
+<hr />
+<h2 id="10路径穿越"><a class="markdownIt-Anchor" href="#10路径穿越"></a> （10）路径穿越</h2>
+<h3 id="1特性一利用绝对路径和相对路径"><a class="markdownIt-Anchor" href="#1特性一利用绝对路径和相对路径"></a> ①特性一：利用绝对路径和相对路径</h3>
+<p>路径绕过就是通过绝对路径或者相对路径去绕过正则对文件名的检测。比如<code>preg_match('/flag.php/', $str)</code></p>
+<p>（关于路径的知识忘记的，可以去看我们当时在讲file：//协议中讲过的。</p>
+<p>我们可以写</p>
+<pre class="line-numbers language-none"><code class="language-none">.&#x2F;flag.php
+&#x2F;var&#x2F;www&#x2F;html&#x2F;flag.php
+.&#x2F;ctfshow&#x2F;..&#x2F;flag.php<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="2特性二利用linux下的软链接绕过"><a class="markdownIt-Anchor" href="#2特性二利用linux下的软链接绕过"></a> ②特性二：利用linux下的软链接绕过</h3>
+<p>我们首先介绍一下什么叫软链接。</p>
+<blockquote>
+<p>软链接：软链接文件有类似于 Windows 的快捷方式。它实际上是一个特殊的文件。在符号连接中，文件实际上是一个文本文件，其中包含的有另一文件的位置信息。其实我的理解是他很像c语言的指针的作用，软链接是一个指向某个特定文件的指针，指针的数据块内包含的是文件的位置信息。如果文件被删除了，但是指针还存在，只是指向的位置是个无效的罢了。</p>
+</blockquote>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;p
+roc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;pro
+c&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;
+self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;proc&#x2F;se
+lf&#x2F;root&#x2F;proc&#x2F;self&#x2F;root&#x2F;var&#x2F;www&#x2F;html&#x2F;flag.php<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<hr />
+<h2 id="11运算优先级"><a class="markdownIt-Anchor" href="#11运算优先级"></a> （11）运算优先级</h2>
+<img src="/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701223139262.png" class="" alt="image-20240701223139262" loading="lazy">
+<hr />
+<h2 id="12三目运算符"><a class="markdownIt-Anchor" href="#12三目运算符"></a> （12）三目运算符</h2>
+<p>构造不带分号的payload需要用到</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token keyword">return</span> <span class="token number">1</span><span class="token operator">?</span><span class="token function">phpinfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这样就永远都会执行phpinfo（），这个phpinfo可以替换为其他的代码。</p>
+<hr />
+<h2 id="13函数与数字运算"><a class="markdownIt-Anchor" href="#13函数与数字运算"></a> （13）函数与数字运算</h2>
+<p>在php中，函数和数字一起运算，函数能被正常执行。比如</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token number">1</span><span class="token operator">+</span><span class="token function">phpinfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>phpinfo（）能被正常执行。以下符号都能够正常执行。</p>
+<p>复制</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token operator">+</span> <span class="token operator">-</span> <span class="token operator">*</span> <span class="token operator">/</span> <span class="token operator">&amp;&amp;</span> <span class="token operator">||</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<hr />
+<h2 id="14php伪随机数漏洞"><a class="markdownIt-Anchor" href="#14php伪随机数漏洞"></a> （14）php伪随机数漏洞</h2>
+<p>其实这个是做题目的时候，其实知道是伪随机数，但是自己爆破根本爆破不动。</p>
+<p>其实就是爆破出种子的具体值，这里主要是用一个php_mt_seed的脚本。</p>
+<p>学c语言的时候就已经学过真随机数，伪随机数，这里就不赘述了。</p>
+<h3 id="1php的伪随机数有关的两个函数"><a class="markdownIt-Anchor" href="#1php的伪随机数有关的两个函数"></a> ①PHP的伪随机数有关的两个函数</h3>
+<h4 id="imt_rand"><a class="markdownIt-Anchor" href="#imt_rand"></a> Ⅰ.mt_rand()</h4>
+<p>产生随机数的发生器</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token function">mt_rand</span><span class="token punctuation">(</span>min<span class="token punctuation">,</span>max<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="iimt_srand"><a class="markdownIt-Anchor" href="#iimt_srand"></a> Ⅱ.mt_srand()</h4>
+<p>产生种子的发生器</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token function">mt_srand</span><span class="token punctuation">(</span>seed<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="2php自动播种"><a class="markdownIt-Anchor" href="#2php自动播种"></a> ②PHP自动播种</h3>
+<p>php每次调用mt_rand()函数时，都会先检查是否已经播种，如果已经播种，就直接产生随机数，否则调用php_mt_srand来播种，也就是说每个php cgi进程期间，只有第一次调用mt_rand()自动播种，接下来都会根据这个第一次播种的种子来生成随机数。</p>
+<h3 id="3php_mt_rand"><a class="markdownIt-Anchor" href="#3php_mt_rand"></a> ③php_mt_rand</h3>
+<p>其实就是一个穷举脚本，只不过这个比我们自己写的要快很多。这里就讲解它的用法，下载在linux里面，其实windows也是可以的。</p>
+<h3 id="4php_mt_rand用法"><a class="markdownIt-Anchor" href="#4php_mt_rand用法"></a> ④php_mt_rand用法</h3>
+<h4 id="i首先对数据进行格式转换"><a class="markdownIt-Anchor" href="#i首先对数据进行格式转换"></a> Ⅰ首先对数据进行格式转换</h4>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php">str1<span class="token operator">=</span><span class="token string single-quoted-string">'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'</span>
+str2<span class="token operator">=</span><span class="token string single-quoted-string">'8D2SWQCXgH'</span>
+length <span class="token operator">=</span> <span class="token function">len</span><span class="token punctuation">(</span>str2<span class="token punctuation">)</span>
+res<span class="token operator">=</span><span class="token string single-quoted-string">''</span>
+<span class="token keyword">for</span> i in <span class="token function">range</span><span class="token punctuation">(</span><span class="token function">len</span><span class="token punctuation">(</span>str2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> j in <span class="token function">range</span><span class="token punctuation">(</span><span class="token function">len</span><span class="token punctuation">(</span>str1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> str2<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> str1<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">:</span>
+            res<span class="token operator">+=</span><span class="token function">str</span><span class="token punctuation">(</span>j<span class="token punctuation">)</span><span class="token operator">+</span><span class="token string single-quoted-string">' '</span><span class="token operator">+</span><span class="token function">str</span><span class="token punctuation">(</span>j<span class="token punctuation">)</span><span class="token operator">+</span><span class="token string single-quoted-string">' '</span><span class="token operator">+</span><span class="token string single-quoted-string">'0'</span><span class="token operator">+</span><span class="token string single-quoted-string">' '</span><span class="token operator">+</span><span class="token function">str</span><span class="token punctuation">(</span><span class="token function">len</span><span class="token punctuation">(</span>str1<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string single-quoted-string">' '</span>
+            <span class="token keyword">break</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="ii在php_mt_rand目录下将得到的数列带入爆破脚本找到种子再将种子转换为随机数"><a class="markdownIt-Anchor" href="#ii在php_mt_rand目录下将得到的数列带入爆破脚本找到种子再将种子转换为随机数"></a> Ⅱ在php_mt_rand目录下将得到的数列带入爆破脚本，找到种子，再将种子转换为随机数</h4>
+<p>输入指令</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token operator">.</span><span class="token operator">/</span>php_mt_seed <span class="token number">34</span> <span class="token number">34</span> <span class="token number">0</span> <span class="token number">61</span> <span class="token number">39</span> <span class="token number">39</span> <span class="token number">0</span> <span class="token number">61</span> <span class="token number">28</span> <span class="token number">28</span> <span class="token number">0</span> <span class="token number">61</span> <span class="token number">54</span> <span class="token number">54</span> <span class="token number">0</span> <span class="token number">61</span> <span class="token number">58</span> <span class="token number">58</span> <span class="token number">0</span> <span class="token number">61</span> <span class="token number">52</span> <span class="token number">52</span> <span class="token number">0</span> <span class="token number">61</span> <span class="token number">38</span> <span class="token number">38</span> <span class="token number">0</span> <span class="token number">61</span> <span class="token number">59</span> <span class="token number">59</span> <span class="token number">0</span> <span class="token number">61</span> <span class="token number">6</span> <span class="token number">6</span> <span class="token number">0</span> <span class="token number">61</span> <span class="token number">43</span> <span class="token number">43</span> <span class="token number">0</span> <span class="token number">61</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>后面是得到的数列。</p>
+<p>然后得到结果</p>
+<img src="/2024/07/01/PHP%E5%9F%BA%E7%A1%80/image-20240701223342064.png" class="" alt="image-20240701223342064" loading="lazy">
+<p>所以我们的种子是880310233</p>
+<hr />
+<p>未完待续，待补充</p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/07/01/%E5%88%9D%E8%AF%86PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="prev" title="初识PHP反序列化"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">初识PHP反序列化</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/06/30/%E5%88%9D%E8%AF%86%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" rel="next" title="初识文件上传漏洞"><span class="post-nav-text">初识文件上传漏洞</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/07/01/PHP%E5%9F%BA%E7%A1%80/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>

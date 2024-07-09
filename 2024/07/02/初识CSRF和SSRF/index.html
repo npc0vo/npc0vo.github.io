@@ -1,0 +1,188 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>初识CSRF和SSRF | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="Reference CSRF及SSRF - FreeBuf网络安全行业门户  CSRF  定义 CSRF（Cross-site Request Forgery，跨站请求伪造）是一种针对网站的恶意利用。 CSRF攻击可以利用用户已经登陆或已经授权的状态，伪造合法用户发出请求给受信任的网点，从而实现在未授权的情况下执行一些特权操作。  攻击流程  用户登录网站，产生cookie 用户未登录出网站，访">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识CSRF和SSRF">
+<meta property="og:url" content="http://npc0vo.github.io/2024/07/02/%E5%88%9D%E8%AF%86CSRF%E5%92%8CSSRF/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="Reference CSRF及SSRF - FreeBuf网络安全行业门户  CSRF  定义 CSRF（Cross-site Request Forgery，跨站请求伪造）是一种针对网站的恶意利用。 CSRF攻击可以利用用户已经登陆或已经授权的状态，伪造合法用户发出请求给受信任的网点，从而实现在未授权的情况下执行一些特权操作。  攻击流程  用户登录网站，产生cookie 用户未登录出网站，访">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-07-02T05:47:18.000Z">
+<meta property="article:modified_time" content="2024-07-03T07:32:42.443Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">45</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#reference"><span class="toc-number">1.</span> <span class="toc-text"> Reference</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#csrf"><span class="toc-number">2.</span> <span class="toc-text"> CSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">2.1.</span> <span class="toc-text"> 定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E6%B5%81%E7%A8%8B"><span class="toc-number">2.2.</span> <span class="toc-text"> 攻击流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6"><span class="toc-number">2.3.</span> <span class="toc-text"> 利用条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%B1%E5%AE%B3"><span class="toc-number">2.4.</span> <span class="toc-text"> 危害</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%B1%BB"><span class="toc-number">2.5.</span> <span class="toc-text"> 分类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#get%E5%9E%8B"><span class="toc-number">2.5.1.</span> <span class="toc-text"> GET型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#post%E5%9E%8B"><span class="toc-number">2.5.2.</span> <span class="toc-text"> POST型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B2%E5%BE%A1"><span class="toc-number">2.6.</span> <span class="toc-text"> 防御</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81http-referer-%E5%AD%97%E6%AE%B5"><span class="toc-number">2.6.1.</span> <span class="toc-text"> 验证HTTP Referer 字段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8%E8%AF%B7%E6%B1%82%E5%9C%B0%E5%9D%80%E4%B8%AD%E6%B7%BB%E5%8A%A0token%E5%B9%B6%E9%AA%8C%E8%AF%81"><span class="toc-number">2.6.2.</span> <span class="toc-text"> 在请求地址中添加token并验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8http%E5%A4%B4%E4%B8%AD%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7%E5%B9%B6%E9%AA%8C%E8%AF%81"><span class="toc-number">2.6.3.</span> <span class="toc-text"> 在HTTP头中自定义属性并验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98"><span class="toc-number">2.6.4.</span> <span class="toc-text"> 漏洞挖掘</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssrf"><span class="toc-number">3.</span> <span class="toc-text"> SSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89-2"><span class="toc-number">3.1.</span> <span class="toc-text"> 定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E6%B5%81%E7%A8%8B-2"><span class="toc-number">3.2.</span> <span class="toc-text"> 攻击流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%B1%E5%AE%B3-2"><span class="toc-number">3.3.</span> <span class="toc-text"> 危害</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6-2"><span class="toc-number">3.4.</span> <span class="toc-text"> 利用条件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#web%E6%8C%96%E6%8E%98"><span class="toc-number">3.4.1.</span> <span class="toc-text"> web挖掘</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#url%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">3.4.2.</span> <span class="toc-text"> url关键字</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="toc-number">3.5.</span> <span class="toc-text"> 伪协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%BB%95%E8%BF%87"><span class="toc-number">3.6.</span> <span class="toc-text"> 常见绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B2%E5%BE%A1-2"><span class="toc-number">3.7.</span> <span class="toc-text"> 防御</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/02/%E5%88%9D%E8%AF%86CSRF%E5%92%8CSSRF/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">初识CSRF和SSRF</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-02 13:47:18" itemprop="dateCreated datePublished" datetime="2024-07-02T13:47:18+08:00">2024-07-02</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-07-03 15:32:42" itemprop="dateModified" datetime="2024-07-03T15:32:42+08:00">2024-07-03</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">2.2k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">7m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Web/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Web</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Web/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Web</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="reference"><a class="markdownIt-Anchor" href="#reference"></a> Reference</h2>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/361338.html">CSRF及SSRF - FreeBuf网络安全行业门户</a></p>
+<h2 id="csrf"><a class="markdownIt-Anchor" href="#csrf"></a> CSRF</h2>
+<h3 id="定义"><a class="markdownIt-Anchor" href="#定义"></a> 定义</h3>
+<p>CSRF（Cross-site Request Forgery，跨站请求伪造）是一种针对网站的恶意利用。</p>
+<p>CSRF攻击可以利用用户已经登陆或已经授权的状态，伪造合法用户发出请求给受信任的网点，从而实现在未授权的情况下执行一些特权操作。</p>
+<h3 id="攻击流程"><a class="markdownIt-Anchor" href="#攻击流程"></a> 攻击流程</h3>
+<ol>
+<li>用户登录网站，产生<code>cookie</code></li>
+<li>用户未登录出网站，访问攻击者构建的恶意网站，攻击者获取<code>cookie</code></li>
+<li>攻击者利用<code>cookie</code>获得授权</li>
+</ol>
+<h3 id="利用条件"><a class="markdownIt-Anchor" href="#利用条件"></a> 利用条件</h3>
+<ul>
+<li>用户成功登录相关的网站系统，同时能够执行相应的授权功能。</li>
+<li>诱导目标用户访问了攻击者构建的恶意URL。</li>
+<li>新的请求提交无需重新验证身份。</li>
+</ul>
+<h3 id="危害"><a class="markdownIt-Anchor" href="#危害"></a> 危害</h3>
+<p>CSRF攻击的危害主要来自攻击者以受害者的名义发送邮件、信息、盗取账号密码、购买物品等造成受害者的个人隐私泄露、重要资料泄露等，一句话概述就是CSRF的危害取决于受害者，受害者能够做的内容，那么攻击者同样也可以做，但是攻击者是以受害者的身份去做。</p>
+<h3 id="分类"><a class="markdownIt-Anchor" href="#分类"></a> 分类</h3>
+<h4 id="get型"><a class="markdownIt-Anchor" href="#get型"></a> GET型</h4>
+<p>get型主要是通过URL恶意链接诱导用户点击，当用户处于访问网站的过程中，同时用户又点击了这个链接，那么就会触发修改。</p>
+<p>比如当用户正在修改密码，比如修改的URL:/user.php?id=1&amp;password=11111，意思就是用户把密码修改为1111，若攻击者把URL修改为URL:/user.php?id=1&amp;password=123456789，然后通过社工手段进行诱导点击我们修改后的链接，那么当用户访问这个链接后就会把密码修改为123456789。</p>
+<h4 id="post型"><a class="markdownIt-Anchor" href="#post型"></a> POST型</h4>
+<p>同样是修改密码但是这次在URL中不会显示密码，而且是在post中，那么当攻击者对该网站进行抓包分析整个数据包的构造，然后把相关的内容修改为其他用户的相关参数，然后同样是诱导用户去点击我们精心准备的WEB界面，那么当点击的时候就会自动进行提交，使其密码再次修改。</p>
+<h3 id="防御"><a class="markdownIt-Anchor" href="#防御"></a> 防御</h3>
+<h4 id="验证http-referer-字段"><a class="markdownIt-Anchor" href="#验证http-referer-字段"></a> <strong>验证HTTP</strong> <strong>Referer 字段</strong></h4>
+<p>在http中存在referer字段，它是用来记录http请求的来源地址，通常情况下访问一个网站请求是来自同一个网站的，但是如果攻击者想要实施CSRF攻击，那么攻击者只能在他自己的网站构建请求，当用户访问的时候访问的referer是指向黑客自己的网站地址。</p>
+<p>所以若想要防范CSRF攻击，网站只需要对每一次的操作都进行referer验证，若以bank.example 开头的域名，说明是自己的请求，若是其他的域名则可以判断可能存在CSRF攻击。</p>
+<h4 id="在请求地址中添加token并验证"><a class="markdownIt-Anchor" href="#在请求地址中添加token并验证"></a> 在请求地址中添加<code>token</code>并验证</h4>
+<p>CSRF 攻击之所以能够成功，是因为黑客可以完全伪造用户的请求，该请求中所有的用户验证信息都是存在于 cookie 中，因此黑客可以在不知道这些验证信息的情况下直接利用用户自己的 cookie 来通过安全验证。</p>
+<p>要抵御 CSRF，关键在于在请求中放入黑客所不能伪造的信息，并且该信息不存在于 cookie 之中。可以在 HTTP 请求中以参数的形式加入一个随机产生的 token，并在服务器端建立一个拦截器来验证这个 token，如果请求中没有 token 或者 token 内容不正确，则认为可能是 CSRF 攻击而拒绝该请求。</p>
+<h4 id="在http头中自定义属性并验证"><a class="markdownIt-Anchor" href="#在http头中自定义属性并验证"></a> 在HTTP头中自定义属性并验证</h4>
+<p>这种方法也是使用 token 并进行验证，和上一种方法不同的是，这里并不是把 token 以参数的形式置于 HTTP 请求之中，而是把它放到 HTTP 头中自定义的属性里。通过 XMLHttpRequest 这个类，可以一次性给所有该类请求加上 csrftoken 这个 HTTP 头属性，并把 token 值放入其中。</p>
+<p>这样解决了上种方法在请求中加入 token 的不便，同时，通过 XMLHttpRequest 请求的地址不会被记录到浏览器的地址栏，也不用担心 token 会透过 Referer 泄露到其他网站中去。</p>
+<p>然而这种方法的局限性非常大。XMLHttpRequest 请求通常用于 Ajax 方法中对于页面局部的异步刷新，并非所有的请求都适合用这个类来发起，而且通过该类请求得到的页面不能被浏览器所记录下，从而进行前进，后退，刷新，收藏等操作，给用户带来不便。</p>
+<p>另外，对于没有进行 CSRF 防护的遗留系统来说，要采用这种方法来进行防护，要把所有请求都改为 XMLHttpRequest 请求，这样几乎是要重写整个网站，这代价无疑是不能接受的。</p>
+<h4 id="漏洞挖掘"><a class="markdownIt-Anchor" href="#漏洞挖掘"></a> 漏洞挖掘</h4>
+<p>1）最简单的方法就是抓取一个正常请求的数据包，如果没有Referer字段和token，那么极有可能存在CSRF漏洞</p>
+<p>2）如果有Referer字段，但是去掉Referer字段后再重新提交，如果该提交还有效，那么基本上可以确定存在CSRF漏洞。</p>
+<p>3）随着对CSRF漏洞研究的不断深入，不断涌现出一些专门针对CSRF漏洞进行检测的工具，如CSRFTester，CSRF Request Builder等</p>
+<h2 id="ssrf"><a class="markdownIt-Anchor" href="#ssrf"></a> SSRF</h2>
+<h3 id="定义-2"><a class="markdownIt-Anchor" href="#定义-2"></a> 定义</h3>
+<p>SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。</p>
+<p>并且SSRF攻击的目标是外网无法访问到的内部系统，同时请求都是又服务端发起的，所以服务端能够请求到与其自身相连接的与外网隔离的内部系统。类似于当作跳板进行攻击。</p>
+<h3 id="攻击流程-2"><a class="markdownIt-Anchor" href="#攻击流程-2"></a> 攻击流程</h3>
+<ol>
+<li>攻击者与服务器构建请求</li>
+<li>服务器想客户端发送构建的请求</li>
+<li>客户端响应服务器发送的请求</li>
+<li>服务器向攻击者返回客户端的请求</li>
+</ol>
+<h3 id="危害-2"><a class="markdownIt-Anchor" href="#危害-2"></a> 危害</h3>
+<p>1）可以对外网、服务器所在内网、本地进行端口扫描，获取一些服务的banner信息。</p>
+<p>2）攻击运行在内网或本地的应用程序（比如溢出）。</p>
+<p>3）对内网web应用进行指纹识别，通过访问默认文件实现。</p>
+<p>4）攻击内外网的web应用，主要是使用get参数就可以实现的攻击（比如struts2，sqli等）。</p>
+<p>5）利用file协议读取本地文件等。</p>
+<h3 id="利用条件-2"><a class="markdownIt-Anchor" href="#利用条件-2"></a> 利用条件</h3>
+<h4 id="web挖掘"><a class="markdownIt-Anchor" href="#web挖掘"></a> web挖掘</h4>
+<p>1）分享：通过url地址分享网页内容。</p>
+<p>2）转码服务：通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览。</p>
+<p>3）在线翻译：通过URL地址翻译对应文本的内容。</p>
+<p>4）图片的下载与加载：通过URL地址加载或下载图片，图片加载远程图片地址此功能。</p>
+<p>5）图片、文章收藏功能：通过URL记录图片的地址，或者通过收藏文章的地址。</p>
+<p>6）未公开的API实现及调用URL的功能：有些网站通过api获取远程地址xml文件来加载内容。</p>
+<h4 id="url关键字"><a class="markdownIt-Anchor" href="#url关键字"></a> url关键字</h4>
+<pre class="line-numbers language-none"><code class="language-none">share、wap、url、link、src、source、target、u、display、sourceURl、imageURL、domain<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="伪协议"><a class="markdownIt-Anchor" href="#伪协议"></a> 伪协议</h3>
+<p>file:/// 从文件系统中获取文件内容，如，file:///etc/passwd</p>
+<p>dict:// 字典服务器协议，访问字典资源，如，dict:///ip:6739/info：</p>
+<p>sftp:// SSH文件传输协议或安全文件传输协议</p>
+<p>ldap:// 轻量级目录访问协议</p>
+<p>tftp:// 简单文件传输协议</p>
+<p>gopher:// 分布式文档传递服务，可使用gopherus生成payload</p>
+<p>…etc</p>
+<p>eg.</p>
+<p><code>http://baidu.com/?url=file:///etc/passwd</code></p>
+<h3 id="常见绕过"><a class="markdownIt-Anchor" href="#常见绕过"></a> 常见绕过</h3>
+<ul>
+<li>限制域名时添加@进行绕过。</li>
+</ul>
+<p>如：<code>http://baidu.com/?url=http://baidue.com@google.com/</code></p>
+<ul>
+<li>添加端口绕过。</li>
+</ul>
+<p>如：<code>http://baidu.com/?url=http://google.com:443</code></p>
+<ul>
+<li>利用[::]绕过。</li>
+</ul>
+<p>如：<code>http://baidu.com/?url=http://[::192.168.10.150]</code></p>
+<ul>
+<li>利用句号绕过。</li>
+</ul>
+<p>如：<code>http://baidu.com/?url=http://192。168。10。150</code></p>
+<ul>
+<li>编码绕过。</li>
+</ul>
+<p>如：<code>十六进制http://baidu.com/?url=http://c0.a8.6d.96</code></p>
+<h3 id="防御-2"><a class="markdownIt-Anchor" href="#防御-2"></a> 防御</h3>
+<p>1）限制请求的端口，并且只允许访问http和https的请求。</p>
+<p>2）过滤返回的信息，并验证返回的消息是否符合标准，若不是标准的信息，那么直接进行过滤。</p>
+<p>3）从服务器限制访问的端口，禁用不需要的端口。</p>
+<p>4）限制内网访问的ip，一些没必要交互的服务器之间禁止访问。</p>
+<p>5）禁止不必要的协议，例如FTP不要随便设置匿名访问。</p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/07/02/%E5%88%9D%E8%AF%86XML/" rel="prev" title="初识XML"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">初识XML</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/07/01/%E5%88%9D%E8%AF%86PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="next" title="初识PHP反序列化"><span class="post-nav-text">初识PHP反序列化</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/07/02/%E5%88%9D%E8%AF%86CSRF%E5%92%8CSSRF/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>

@@ -1,0 +1,2483 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>javascript基础 | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="基于菜鸟教程，对javascript的关键知识的记录  基础语法   注释: &#x2F;&#x2F;我是注释   数据类型 var length&#x3D;16;   &#x2F;&#x2F;Number var points&#x3D;x*10;&#x2F;&#x2F;Number var lastname&#x3D;&quot;Johnson&quot;;&#x2F;&#x2F;String var cars&#x3D;[&quot;SAAB&quot;,&quot;Volvo&quot;,&quot;BMW&quot;];&#x2F;&#x2F;Array var person&#x3D;&amp;#1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript基础">
+<meta property="og:url" content="http://npc0vo.github.io/2024/07/08/javascript%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="基于菜鸟教程，对javascript的关键知识的记录  基础语法   注释: &#x2F;&#x2F;我是注释   数据类型 var length&#x3D;16;   &#x2F;&#x2F;Number var points&#x3D;x*10;&#x2F;&#x2F;Number var lastname&#x3D;&quot;Johnson&quot;;&#x2F;&#x2F;String var cars&#x3D;[&quot;SAAB&quot;,&quot;Volvo&quot;,&quot;BMW&quot;];&#x2F;&#x2F;Array var person&#x3D;&amp;#1">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/08/javascript%E5%9F%BA%E7%A1%80/lamp.gif">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/08/javascript%E5%9F%BA%E7%A1%80/lamp-1720335202453-3.gif">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/08/javascript%E5%9F%BA%E7%A1%80/lamp-1720335234123-6.gif">
+<meta property="article:published_time" content="2024-07-08T06:30:56.000Z">
+<meta property="article:modified_time" content="2024-07-09T03:54:28.245Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://npc0vo.github.io/2024/07/08/javascript%E5%9F%BA%E7%A1%80/lamp.gif"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">45</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text"> 基础语法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#browser%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.</span> <span class="toc-text"> Browser对象</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#window-%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7"><span class="toc-number">2.1.</span> <span class="toc-text"> Window 对象属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#window%E5%AF%B9%E8%B1%A1%E6%96%B9%E6%B3%95"><span class="toc-number">2.2.</span> <span class="toc-text"> Window对象方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#navigator%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.3.</span> <span class="toc-text"> Navigator对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#navigator-%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7"><span class="toc-number">2.3.1.</span> <span class="toc-text"> Navigator 对象属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#navigator-%E5%AF%B9%E8%B1%A1%E6%96%B9%E6%B3%95"><span class="toc-number">2.3.2.</span> <span class="toc-text"> Navigator 对象方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#screen-%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.4.</span> <span class="toc-text"> Screen 对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#screen-%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7"><span class="toc-number">2.4.1.</span> <span class="toc-text"> Screen 对象属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#history-%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.5.</span> <span class="toc-text"> History 对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#history-%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7"><span class="toc-number">2.5.1.</span> <span class="toc-text"> History 对象属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#history-%E5%AF%B9%E8%B1%A1%E6%96%B9%E6%B3%95"><span class="toc-number">2.5.2.</span> <span class="toc-text"> History 对象方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#location-%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.6.</span> <span class="toc-text"> Location 对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#location-%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7"><span class="toc-number">2.6.1.</span> <span class="toc-text"> Location 对象属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.6.2.</span> <span class="toc-text"> 实例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.7.</span> <span class="toc-text"> 存储对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7"><span class="toc-number">2.7.1.</span> <span class="toc-text"> 存储对象属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%AF%B9%E8%B1%A1%E6%96%B9%E6%B3%95"><span class="toc-number">2.7.2.</span> <span class="toc-text"> 存储对象方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web-%E5%AD%98%E5%82%A8-api"><span class="toc-number">2.7.3.</span> <span class="toc-text"> Web 存储 API</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#dom%E5%AF%B9%E8%B1%A1"><span class="toc-number">3.</span> <span class="toc-text"> DOM对象</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#document-%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text"> Document 对象属性和方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#element-%E5%AF%B9%E8%B1%A1"><span class="toc-number">3.2.</span> <span class="toc-text"> Element 对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#attr%E5%AF%B9%E8%B1%A1"><span class="toc-number">3.3.</span> <span class="toc-text"> attr对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#html-dom%E4%BA%8B%E4%BB%B6"><span class="toc-number">3.4.</span> <span class="toc-text"> HTML DOM事件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6"><span class="toc-number">3.4.1.</span> <span class="toc-text"> 鼠标事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6"><span class="toc-number">3.4.2.</span> <span class="toc-text"> 键盘事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6%E5%AF%B9%E8%B1%A1frameobject%E4%BA%8B%E4%BB%B6"><span class="toc-number">3.4.3.</span> <span class="toc-text"> 框架&#x2F;对象（Frame&#x2F;Object）事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E5%8D%95%E4%BA%8B%E4%BB%B6"><span class="toc-number">3.4.4.</span> <span class="toc-text"> 表单事件</span></a></li></ol></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/08/javascript%E5%9F%BA%E7%A1%80/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">javascript基础</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-08 14:30:56" itemprop="dateCreated datePublished" datetime="2024-07-08T14:30:56+08:00">2024-07-08</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-07-09 11:54:28" itemprop="dateModified" datetime="2024-07-09T11:54:28+08:00">2024-07-09</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">8k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">30m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Web/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Web</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Web/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Web</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><p>基于菜鸟教程，对javascript的关键知识的记录</p>
+<h1 id="基础语法"><a class="markdownIt-Anchor" href="#基础语法"></a> 基础语法</h1>
+<ul>
+<li>
+<p>注释:</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;我是注释<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li>
+<p>数据类型</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> length<span class="token operator">=</span><span class="token number">16</span><span class="token punctuation">;</span>   <span class="token comment">//Number</span>
+<span class="token keyword">var</span> points<span class="token operator">=</span>x<span class="token operator">*</span><span class="token number">10</span><span class="token punctuation">;</span><span class="token comment">//Number</span>
+<span class="token keyword">var</span> lastname<span class="token operator">=</span><span class="token string">"Johnson"</span><span class="token punctuation">;</span><span class="token comment">//String</span>
+<span class="token keyword">var</span> cars<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">"SAAB"</span><span class="token punctuation">,</span><span class="token string">"Volvo"</span><span class="token punctuation">,</span><span class="token string">"BMW"</span><span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment">//Array</span>
+<span class="token keyword">var</span> person<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token literal-property property">firstName</span><span class="token operator">:</span><span class="token string">"John"</span><span class="token punctuation">,</span><span class="token literal-property property">lastName</span><span class="token operator">:</span><span class="token string">"Doe"</span><span class="token punctuation">&#125;</span><span class="token comment">//Object</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li>
+<p>语句标识符</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">语句</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">break</td>
+<td style="text-align:left">用于跳出循环。</td>
+</tr>
+<tr>
+<td style="text-align:left">catch</td>
+<td style="text-align:left">语句块，在 try 语句块执行出错时执行 catch 语句块。</td>
+</tr>
+<tr>
+<td style="text-align:left">continue</td>
+<td style="text-align:left">跳过循环中的一个迭代。</td>
+</tr>
+<tr>
+<td style="text-align:left">do … while</td>
+<td style="text-align:left">执行一个语句块，在条件语句为 true 时继续执行该语句块。</td>
+</tr>
+<tr>
+<td style="text-align:left">for</td>
+<td style="text-align:left">在条件语句为 true 时，可以将代码块执行指定的次数。</td>
+</tr>
+<tr>
+<td style="text-align:left">for … in</td>
+<td style="text-align:left">用于遍历数组或者对象的属性（对数组或者对象的属性进行循环操作）。</td>
+</tr>
+<tr>
+<td style="text-align:left">function</td>
+<td style="text-align:left">定义一个函数</td>
+</tr>
+<tr>
+<td style="text-align:left">if … else</td>
+<td style="text-align:left">用于基于不同的条件来执行不同的动作。</td>
+</tr>
+<tr>
+<td style="text-align:left">return</td>
+<td style="text-align:left">退出函数</td>
+</tr>
+<tr>
+<td style="text-align:left">switch</td>
+<td style="text-align:left">用于基于不同的条件来执行不同的动作。</td>
+</tr>
+<tr>
+<td style="text-align:left">throw</td>
+<td style="text-align:left">抛出（生成）错误 。</td>
+</tr>
+<tr>
+<td style="text-align:left">try</td>
+<td style="text-align:left">实现错误处理，与 catch 一同使用。</td>
+</tr>
+<tr>
+<td style="text-align:left">var</td>
+<td style="text-align:left">声明一个变量。</td>
+</tr>
+<tr>
+<td style="text-align:left">while</td>
+<td style="text-align:left">当条件语句为 true 时，执行语句块。</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>undefined</p>
+<p>Undefined 这个值表示变量不含有值。</p>
+<p>可以通过将变量的值设置为 null 来清空变量。</p>
+</li>
+<li>
+<p>声明变量类型</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">当您声明新变量时，可以使用关键词 <span class="token string">"new"</span> 来声明其类型：
+
+<span class="token keyword">var</span> carname<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> x<span class="token operator">=</span>      <span class="token keyword">new</span> <span class="token class-name">Number</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> y<span class="token operator">=</span>      <span class="token keyword">new</span> <span class="token class-name">Boolean</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> cars<span class="token operator">=</span>   <span class="token keyword">new</span> <span class="token class-name">Array</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> person<span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li>
+<p>字符串方法</p>
+<p>更多方法实例可以参见：<a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-obj-string.html">JavaScript String 对象</a>。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-charat.html">charAt()</a></td>
+<td style="text-align:left">返回在指定位置的字符。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-charcodeat.html">charCodeAt()</a></td>
+<td style="text-align:left">返回在指定的位置的字符的 Unicode 编码。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-concat-string.html">concat()</a></td>
+<td style="text-align:left">连接两个或更多字符串，并返回新的字符串。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-endswith.html">endsWith()</a></td>
+<td style="text-align:left">判断当前字符串是否是以指定的子字符串结尾的（区分大小写）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-fromcharcode.html">fromCharCode()</a></td>
+<td style="text-align:left">将 Unicode 编码转为字符。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-indexof.html">indexOf()</a></td>
+<td style="text-align:left">返回某个指定的字符串值在字符串中首次出现的位置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-string-includes.html">includes()</a></td>
+<td style="text-align:left">查找字符串中是否包含指定的子字符串。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-lastindexof.html">lastIndexOf()</a></td>
+<td style="text-align:left">从后向前搜索字符串，并从起始位置（0）开始计算返回字符串最后出现的位置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-match.html">match()</a></td>
+<td style="text-align:left">查找找到一个或多个正则表达式的匹配。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-repeat.html">repeat()</a></td>
+<td style="text-align:left">复制字符串指定次数，并将它们连接在一起返回。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-replace.html">replace()</a></td>
+<td style="text-align:left">在字符串中查找匹配的子串，并替换与正则表达式匹配的子串。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-replaceall.html">replaceAll()</a></td>
+<td style="text-align:left">在字符串中查找匹配的子串，并替换与正则表达式匹配的所有子串。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-search.html">search()</a></td>
+<td style="text-align:left">查找与正则表达式相匹配的值。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-slice-string.html">slice()</a></td>
+<td style="text-align:left">提取字符串的片断，并在新的字符串中返回被提取的部分。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-split.html">split()</a></td>
+<td style="text-align:left">把字符串分割为字符串数组。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-startswith.html">startsWith()</a></td>
+<td style="text-align:left">查看字符串是否以指定的子字符串开头。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-substr.html">substr()</a></td>
+<td style="text-align:left">从起始索引号提取字符串中指定数目的字符。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-substring.html">substring()</a></td>
+<td style="text-align:left">提取字符串中两个指定的索引号之间的字符。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-tolowercase.html">toLowerCase()</a></td>
+<td style="text-align:left">把字符串转换为小写。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-touppercase.html">toUpperCase()</a></td>
+<td style="text-align:left">把字符串转换为大写。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-trim.html">trim()</a></td>
+<td style="text-align:left">去除字符串两边的空白。</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<h1 id="browser对象"><a class="markdownIt-Anchor" href="#browser对象"></a> Browser对象</h1>
+<h2 id="window-对象属性"><a class="markdownIt-Anchor" href="#window-对象属性"></a> Window 对象属性</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-closed.html">closed</a></td>
+<td style="text-align:left">返回窗口是否已被关闭。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-defaultstatus.html">defaultStatus</a></td>
+<td style="text-align:left">设置或返回窗口状态栏中的默认文本。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/dom-obj-document.html">document</a></td>
+<td style="text-align:left">对 Document 对象的只读引用。(请参阅<a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/dom-obj-document.html">对象</a>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-frames.html">frames</a></td>
+<td style="text-align:left">返回窗口中所有命名的框架。该集合是 Window 对象的数组，每个 Window 对象在窗口中含有一个框架。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/obj-history.html">history</a></td>
+<td style="text-align:left">对 History 对象的只读引用。请参数 <a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/obj-history.html">History 对象</a>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-innerheight.html">innerHeight</a></td>
+<td style="text-align:left">返回窗口的文档显示区的高度。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-innerheight.html">innerWidth</a></td>
+<td style="text-align:left">返回窗口的文档显示区的宽度。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-localstorage.html">localStorage</a></td>
+<td style="text-align:left">在浏览器中存储 key/value 对。没有过期时间。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-length.html">length</a></td>
+<td style="text-align:left">设置或返回窗口中的框架数量。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/obj-location.html">location</a></td>
+<td style="text-align:left">用于窗口或框架的 Location 对象。请参阅 <a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/obj-location.html">Location 对象</a>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-name.html">name</a></td>
+<td style="text-align:left">设置或返回窗口的名称。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/obj-navigator.html">navigator</a></td>
+<td style="text-align:left">对 Navigator 对象的只读引用。请参数 <a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/obj-navigator.html">Navigator 对象</a>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-opener.html">opener</a></td>
+<td style="text-align:left">返回对创建此窗口的窗口的引用。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-outerheight.html">outerHeight</a></td>
+<td style="text-align:left">返回窗口的外部高度，包含工具条与滚动条。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-outerheight.html">outerWidth</a></td>
+<td style="text-align:left">返回窗口的外部宽度，包含工具条与滚动条。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-pagexoffset.html">pageXOffset</a></td>
+<td style="text-align:left">设置或返回当前页面相对于窗口显示区左上角的 X 位置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-pagexoffset.html">pageYOffset</a></td>
+<td style="text-align:left">设置或返回当前页面相对于窗口显示区左上角的 Y 位置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-parent.html">parent</a></td>
+<td style="text-align:left">返回父窗口。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/obj-screen.html">screen</a></td>
+<td style="text-align:left">对 Screen 对象的只读引用。请参数 <a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/obj-screen.html">Screen 对象</a>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-screenleft.html">screenLeft</a></td>
+<td style="text-align:left">返回相对于屏幕窗口的x坐标</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-screenleft.html">screenTop</a></td>
+<td style="text-align:left">返回相对于屏幕窗口的y坐标</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-screenx.html">screenX</a></td>
+<td style="text-align:left">返回相对于屏幕窗口的x坐标</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-sessionstorage.html">sessionStorage</a></td>
+<td style="text-align:left">在浏览器中存储 key/value 对。 在关闭窗口或标签页之后将会删除这些数据。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-screenx.html">screenY</a></td>
+<td style="text-align:left">返回相对于屏幕窗口的y坐标</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-self.html">self</a></td>
+<td style="text-align:left">返回对当前窗口的引用。等价于 Window 属性。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-status.html">status</a></td>
+<td style="text-align:left">设置窗口状态栏的文本。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-top.html">top</a></td>
+<td style="text-align:left">返回最顶层的父窗口。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="window对象方法"><a class="markdownIt-Anchor" href="#window对象方法"></a> Window对象方法</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-alert.html">alert()</a></td>
+<td style="text-align:left">显示带有一段消息和一个确认按钮的警告框。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-atob.html">atob()</a></td>
+<td style="text-align:left">解码一个 base-64 编码的字符串。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-btoa.html">btoa()</a></td>
+<td style="text-align:left">创建一个 base-64 编码的字符串。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-blur.html">blur()</a></td>
+<td style="text-align:left">把键盘焦点从顶层窗口移开。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-clearinterval.html">clearInterval()</a></td>
+<td style="text-align:left">取消由 setInterval() 设置的 timeout。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-cleartimeout.html">clearTimeout()</a></td>
+<td style="text-align:left">取消由 setTimeout() 方法设置的 timeout。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-close.html">close()</a></td>
+<td style="text-align:left">关闭浏览器窗口。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-confirm.html">confirm()</a></td>
+<td style="text-align:left">显示带有一段消息以及确认按钮和取消按钮的对话框。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-createpopup.html">createPopup()</a></td>
+<td style="text-align:left">创建一个 pop-up 窗口。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-focus.html">focus()</a></td>
+<td style="text-align:left">把键盘焦点给予一个窗口。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-getselection.html">getSelection</a>()</td>
+<td style="text-align:left">返回一个 Selection 对象，表示用户选择的文本范围或光标的当前位置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/jsref-getcomputedstyle.html">getComputedStyle()</a></td>
+<td style="text-align:left">获取指定元素的 CSS 样式。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-matchmedia.html">matchMedia()</a></td>
+<td style="text-align:left">该方法用来检查 media query 语句，它返回一个 MediaQueryList对象。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-moveby.html">moveBy()</a></td>
+<td style="text-align:left">可相对窗口的当前坐标把它移动指定的像素。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-moveto.html">moveTo()</a></td>
+<td style="text-align:left">把窗口的左上角移动到一个指定的坐标。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-open.html">open()</a></td>
+<td style="text-align:left">打开一个新的浏览器窗口或查找一个已命名的窗口。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-print.html">print()</a></td>
+<td style="text-align:left">打印当前窗口的内容。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-prompt.html">prompt()</a></td>
+<td style="text-align:left">显示可提示用户输入的对话框。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-resizeby.html">resizeBy()</a></td>
+<td style="text-align:left">按照指定的像素调整窗口的大小。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-resizeto.html">resizeTo()</a></td>
+<td style="text-align:left">把窗口的大小调整到指定的宽度和高度。</td>
+</tr>
+<tr>
+<td style="text-align:left">scroll()</td>
+<td style="text-align:left">已废弃。 该方法已经使用了 <a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-scrollto.html">scrollTo()</a> 方法来替代。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-scrollby.html">scrollBy()</a></td>
+<td style="text-align:left">按照指定的像素值来滚动内容。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-scrollto.html">scrollTo()</a></td>
+<td style="text-align:left">把内容滚动到指定的坐标。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-setinterval.html">setInterval()</a></td>
+<td style="text-align:left">按照指定的周期（以毫秒计）来调用函数或计算表达式。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-settimeout.html">setTimeout()</a></td>
+<td style="text-align:left">在指定的毫秒数后调用函数或计算表达式。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-stop.html">stop()</a></td>
+<td style="text-align:left">停止页面载入。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-win-postmessage.html">postMessage()</a></td>
+<td style="text-align:left">安全地实现跨源通信。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="navigator对象"><a class="markdownIt-Anchor" href="#navigator对象"></a> Navigator对象</h2>
+<h3 id="navigator-对象属性"><a class="markdownIt-Anchor" href="#navigator-对象属性"></a> Navigator 对象属性</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-nav-appcodename.html">appCodeName</a></td>
+<td style="text-align:left">返回浏览器的代码名</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-nav-appname.html">appName</a></td>
+<td style="text-align:left">返回浏览器的名称</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-nav-appversion.html">appVersion</a></td>
+<td style="text-align:left">返回浏览器的平台和版本信息</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-nav-cookieenabled.html">cookieEnabled</a></td>
+<td style="text-align:left">返回指明浏览器中是否启用 cookie 的布尔值</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-nav-platform.html">platform</a></td>
+<td style="text-align:left">返回运行浏览器的操作系统平台</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-nav-useragent.html">userAgent</a></td>
+<td style="text-align:left">返回由客户机发送服务器的user-agent 头部的值</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-nav-geolocation.html">geolocation</a></td>
+<td style="text-align:left">返回浏览器的地理位置信息</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-nav-language.html">language</a></td>
+<td style="text-align:left">返回浏览器使用的语言</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-nav-online.html">onLine</a></td>
+<td style="text-align:left">返回浏览器是否在线，在线返回 ture，否则返回 false</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-nav-product.html">product</a></td>
+<td style="text-align:left">返回浏览器使用的引擎（产品）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="navigator-对象方法"><a class="markdownIt-Anchor" href="#navigator-对象方法"></a> Navigator 对象方法</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-nav-javaenabled.html">javaEnabled()</a></td>
+<td style="text-align:left">指定是否在浏览器中启用Java</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-nav-taintenabled.html">taintEnabled()</a></td>
+<td style="text-align:left">规定浏览器是否启用数据污点(data tainting)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="screen-对象"><a class="markdownIt-Anchor" href="#screen-对象"></a> Screen 对象</h2>
+<p>Screen 对象包含有关客户端显示屏幕的信息。</p>
+<img src="/2024/07/08/javascript%E5%9F%BA%E7%A1%80/lamp.gif" class="" alt="Note" loading="lazy">**注意：** 没有应用于 screen 对象的公开标准，不过所有浏览器都支持该对象。
+<hr />
+<h3 id="screen-对象属性"><a class="markdownIt-Anchor" href="#screen-对象属性"></a> Screen 对象属性</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-screen-availheight.html">availHeight</a></td>
+<td style="text-align:left">返回屏幕的高度（不包括Windows任务栏）</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-screen-availwidth.html">availWidth</a></td>
+<td style="text-align:left">返回屏幕的宽度（不包括Windows任务栏）</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-screen-colordepth.html">colorDepth</a></td>
+<td style="text-align:left">返回目标设备或缓冲器上的调色板的比特深度</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-screen-height.html">height</a></td>
+<td style="text-align:left">返回屏幕的总高度</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-screen-pixeldepth.html">pixelDepth</a></td>
+<td style="text-align:left">返回屏幕的颜色分辨率（每象素的位数）</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-screen-width.html">width</a></td>
+<td style="text-align:left">返回屏幕的总宽度</td>
+</tr>
+</tbody>
+</table>
+<h2 id="history-对象"><a class="markdownIt-Anchor" href="#history-对象"></a> History 对象</h2>
+<p>History 对象包含用户（在浏览器窗口中）访问过的 URL。</p>
+<p>History 对象是 window 对象的一部分，可通过 window.history 属性对其进行访问。</p>
+<img src="/2024/07/08/javascript%E5%9F%BA%E7%A1%80/lamp-1720335202453-3.gif" class="" alt="Note" loading="lazy">**注意：** 没有应用于History对象的公开标准，不过所有浏览器都支持该对象。
+<hr />
+<h3 id="history-对象属性"><a class="markdownIt-Anchor" href="#history-对象属性"></a> History 对象属性</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-his-length.html">length</a></td>
+<td style="text-align:left">返回历史列表中的网址数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="history-对象方法"><a class="markdownIt-Anchor" href="#history-对象方法"></a> History 对象方法</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-his-back.html">back()</a></td>
+<td style="text-align:left">加载 history 列表中的前一个 URL</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-his-forward.html">forward()</a></td>
+<td style="text-align:left">加载 history 列表中的下一个 URL</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-his-go.html">go()</a></td>
+<td style="text-align:left">加载 history 列表中的某个具体页面</td>
+</tr>
+</tbody>
+</table>
+<h2 id="location-对象"><a class="markdownIt-Anchor" href="#location-对象"></a> Location 对象</h2>
+<p>Location 对象包含有关当前 URL 的信息。</p>
+<p>Location 对象是 window 对象的一部分，可通过 **window.location.**<strong>xxx</strong> 格式的相关属性对其进行访问。</p>
+<img src="/2024/07/08/javascript%E5%9F%BA%E7%A1%80/lamp-1720335234123-6.gif" class="" alt="Note" loading="lazy">**注意：** 没有应用于Location对象的公开标准，不过所有浏览器都支持该对象。
+<hr />
+<h3 id="location-对象属性"><a class="markdownIt-Anchor" href="#location-对象属性"></a> Location 对象属性</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-loc-hash.html">hash</a></td>
+<td style="text-align:left">返回一个URL的锚部分</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-loc-host.html">host</a></td>
+<td style="text-align:left">返回一个URL的主机名和端口</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-loc-hostname.html">hostname</a></td>
+<td style="text-align:left">返回URL的主机名</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-loc-href.html">href</a></td>
+<td style="text-align:left">返回完整的URL</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-loc-pathname.html">pathname</a></td>
+<td style="text-align:left">返回的URL路径名。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-loc-port.html">port</a></td>
+<td style="text-align:left">返回一个URL服务器使用的端口号</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-loc-protocol.html">protocol</a></td>
+<td style="text-align:left">返回一个URL协议</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-loc-search.html">search</a></td>
+<td style="text-align:left">返回一个URL的查询部分</td>
+</tr>
+</tbody>
+</table>
+<h3 id="实例"><a class="markdownIt-Anchor" href="#实例"></a> 实例</h3>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">*</span><span class="token comment">// 创建 a 标签并设置 href 属性*</span>
+<span class="token operator">**</span><span class="token keyword">var</span><span class="token operator">**</span> url <span class="token operator">=</span> <span class="token dom variable">document</span><span class="token punctuation">.</span><span class="token method function property-access">createElement</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+url<span class="token punctuation">.</span><span class="token property-access">href</span> <span class="token operator">=</span> <span class="token string">'https://www.runoob.com/?s=python#test'</span><span class="token punctuation">;</span>
+<span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span>url<span class="token punctuation">.</span><span class="token property-access">href</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token operator">*</span><span class="token comment">// https://www.runoob.com/?s=python*</span>
+<span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span>url<span class="token punctuation">.</span><span class="token property-access">protocol</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token operator">*</span><span class="token comment">// https:*</span>
+<span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span>url<span class="token punctuation">.</span><span class="token property-access">host</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token operator">*</span><span class="token comment">// www.runoob.com*</span>
+<span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span>url<span class="token punctuation">.</span><span class="token property-access">hostname</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token operator">*</span><span class="token comment">// www.runoob.com*</span>
+<span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span>url<span class="token punctuation">.</span><span class="token property-access">port</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token operator">*</span><span class="token comment">// (输出为空 - https 默认端口为 443)*</span>
+<span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span>url<span class="token punctuation">.</span><span class="token property-access">pathname</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token operator">*</span><span class="token comment">// /*</span>
+<span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span>url<span class="token punctuation">.</span><span class="token property-access">search</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token operator">*</span><span class="token comment">// en-US/search*</span>
+<span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span>url<span class="token punctuation">.</span><span class="token property-access">hash</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token operator">*</span><span class="token comment">// #test*</span>
+<span class="token console class-name">console</span><span class="token punctuation">.</span><span class="token method function property-access">log</span><span class="token punctuation">(</span>url<span class="token punctuation">.</span><span class="token property-access">origin</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token operator">*</span><span class="token comment">// https://www.runoob.com*</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="存储对象"><a class="markdownIt-Anchor" href="#存储对象"></a> 存储对象</h2>
+<p>Web 存储 API 提供了 sessionStorage （会话存储） 和 localStorage（本地存储）两个存储对象来对网页的数据进行添加、删除、修改、查询操作。</p>
+<ul>
+<li>localStorage 用于长久保存整个网站的数据，保存的数据没有过期时间，直到手动去除。</li>
+<li>sessionStorage 用于临时保存同一窗口(或标签页)的数据，在关闭窗口或标签页之后将会删除这些数据。</li>
+</ul>
+<h3 id="存储对象属性"><a class="markdownIt-Anchor" href="#存储对象属性"></a> 存储对象属性</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">length</td>
+<td style="text-align:left">返回存储对象中包含多少条数据。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="存储对象方法"><a class="markdownIt-Anchor" href="#存储对象方法"></a> 存储对象方法</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">key(<em>n</em>)</td>
+<td style="text-align:left">返回存储对象中第 <em>n</em> 个键的名称</td>
+</tr>
+<tr>
+<td style="text-align:left">getItem(<em>keyname</em>)</td>
+<td style="text-align:left">返回指定键的值</td>
+</tr>
+<tr>
+<td style="text-align:left">setItem(<em>keyname</em>, <em>value</em>)</td>
+<td style="text-align:left">添加键和值，如果对应的值存在，则更新该键对应的值。</td>
+</tr>
+<tr>
+<td style="text-align:left">removeItem(<em>keyname</em>)</td>
+<td style="text-align:left">移除键</td>
+</tr>
+<tr>
+<td style="text-align:left">clear()</td>
+<td style="text-align:left">清除存储对象中所有的键</td>
+</tr>
+</tbody>
+</table>
+<h3 id="web-存储-api"><a class="markdownIt-Anchor" href="#web-存储-api"></a> Web 存储 API</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-localstorage.html">window.localStorage</a></td>
+<td style="text-align:left">在浏览器中存储 key/value 对。没有过期时间。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-win-sessionstorage.html">window.sessionStorage</a></td>
+<td style="text-align:left">在浏览器中存储 key/value 对。 在关闭窗口或标签页之后将会删除这些数据。</td>
+</tr>
+</tbody>
+</table>
+<h1 id="dom对象"><a class="markdownIt-Anchor" href="#dom对象"></a> DOM对象</h1>
+<h2 id="document-对象属性和方法"><a class="markdownIt-Anchor" href="#document-对象属性和方法"></a> Document 对象属性和方法</h2>
+<p>HTML文档中可以使用以下属性和方法:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性 / 方法</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-document-activeelement.html">document.activeElement</a></td>
+<td style="text-align:left">返回当前获取焦点元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-addeventlistener.html">document.addEventListener()</a></td>
+<td style="text-align:left">向文档添加句柄</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-adoptnode.html">document.adoptNode(node)</a></td>
+<td style="text-align:left">从另外一个文档返回 adapded 节点到当前文档。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/coll-doc-anchors.html">document.anchors</a></td>
+<td style="text-align:left">返回对文档中所有 Anchor 对象的引用。</td>
+</tr>
+<tr>
+<td style="text-align:left">document.applets</td>
+<td style="text-align:left">返回对文档中所有 Applet 对象的引用。<strong>注意:</strong> HTML5 已不支持 <code>&lt;applet&gt; </code>元素。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-doc-baseuri.html">document.baseURI</a></td>
+<td style="text-align:left">返回文档的绝对基础 URI</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-doc-body.html">document.body</a></td>
+<td style="text-align:left">返回文档的body元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-doc-close.html">document.close()</a></td>
+<td style="text-align:left">关闭用 document.open() 方法打开的输出流，并显示选定的数据。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-doc-cookie.html">document.cookie</a></td>
+<td style="text-align:left">设置或返回与当前文档有关的所有 cookie。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-createattribute.html">document.createAttribute()</a></td>
+<td style="text-align:left">创建一个属性节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-createcomment.html">document.createComment()</a></td>
+<td style="text-align:left">createComment() 方法可创建注释节点。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-createdocumentfragment.html">document.createDocumentFragment()</a></td>
+<td style="text-align:left">创建空的 DocumentFragment 对象，并返回此对象。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-createelement.html">document.createElement()</a></td>
+<td style="text-align:left">创建元素节点。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-createtextnode.html">document.createTextNode()</a></td>
+<td style="text-align:left">创建文本节点。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-document-doctype.html">document.doctype</a></td>
+<td style="text-align:left">返回与文档相关的文档类型声明 (DTD)。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-document-documentelement.html">document.documentElement</a></td>
+<td style="text-align:left">返回文档的根节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-doc-documentmode.html">document.documentMode</a></td>
+<td style="text-align:left">返回用于通过浏览器渲染文档的模式</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-document-documenturi.html">document.documentURI</a></td>
+<td style="text-align:left">设置或返回文档的位置</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-doc-domain.html">document.domain</a></td>
+<td style="text-align:left">返回当前文档的域名。</td>
+</tr>
+<tr>
+<td style="text-align:left">document.domConfig</td>
+<td style="text-align:left"><strong>已废弃</strong>。返回 normalizeDocument() 被调用时所使用的配置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/coll-doc-embeds.html">document.embeds</a></td>
+<td style="text-align:left">返回文档中所有嵌入的内容（embed）集合</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/coll-doc-forms.html">document.forms</a></td>
+<td style="text-align:left">返回对文档中所有 Form 对象引用。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-getelementsbyclassname.html">document.getElementsByClassName()</a></td>
+<td style="text-align:left">返回文档中所有指定类名的元素集合，作为 NodeList 对象。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-getelementbyid.html">document.getElementById()</a></td>
+<td style="text-align:left">返回对拥有指定 id 的第一个对象的引用。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-doc-getelementsbyname.html">document.getElementsByName()</a></td>
+<td style="text-align:left">返回带有指定名称的对象集合。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-getelementsbytagname.html">document.getElementsByTagName()</a></td>
+<td style="text-align:left">返回带有指定标签名的对象集合。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/coll-doc-images.html">document.images</a></td>
+<td style="text-align:left">返回对文档中所有 Image 对象引用。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-document-implementation.html">document.implementation</a></td>
+<td style="text-align:left">返回处理该文档的 DOMImplementation 对象。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-importnode.html">document.importNode()</a></td>
+<td style="text-align:left">把一个节点从另一个文档复制到该文档以便应用。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-document-inputencoding.html">document.inputEncoding</a></td>
+<td style="text-align:left">返回用于文档的编码方式（在解析时）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-doc-lastmodified.html">document.lastModified</a></td>
+<td style="text-align:left">返回文档被最后修改的日期和时间。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/coll-doc-links.html">document.links</a></td>
+<td style="text-align:left">返回对文档中所有 Area 和 Link 对象引用。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-normalize.html">document.normalize()</a></td>
+<td style="text-align:left">删除空文本节点，并连接相邻节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-normalizedocument.html">document.normalizeDocument()</a></td>
+<td style="text-align:left">删除空文本节点，并连接相邻节点的</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-doc-open.html">document.open()</a></td>
+<td style="text-align:left">打开一个流，以收集来自任何 document.write() 或 document.writeln() 方法的输出。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-queryselector.html">document.querySelector()</a></td>
+<td style="text-align:left">返回文档中匹配指定的CSS选择器的第一元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-queryselectorall.html">document.querySelectorAll()</a></td>
+<td style="text-align:left">document.querySelectorAll() 是 HTML5中引入的新方法，返回文档中匹配的CSS选择器的所有元素节点列表</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-doc-readystate.html">document.readyState</a></td>
+<td style="text-align:left">返回文档状态 (载入中……)</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-doc-referrer.html">document.referrer</a></td>
+<td style="text-align:left">返回载入当前文档的文档的 URL。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-removeeventlistener.html">document.removeEventListener()</a></td>
+<td style="text-align:left">移除文档中的事件句柄(由 addEventListener() 方法添加)</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-renamenode.html">document.renameNode()</a></td>
+<td style="text-align:left">重命名元素或者属性节点。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/coll-doc-scripts.html">document.scripts</a></td>
+<td style="text-align:left">返回页面中所有脚本的集合。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-document-stricterrorchecking.html">document.strictErrorChecking</a></td>
+<td style="text-align:left">设置或返回是否强制进行错误检查。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-doc-title.html">document.title</a></td>
+<td style="text-align:left">返回当前文档的标题。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-doc-url.html">document.URL</a></td>
+<td style="text-align:left">返回文档完整的URL</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-doc-write.html">document.write()</a></td>
+<td style="text-align:left">向文档写 HTML 表达式 或 JavaScript 代码。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-doc-writeln.html">document.writeln()</a></td>
+<td style="text-align:left">等同于 write() 方法，不同的是在每个表达式之后写一个换行符。</td>
+</tr>
+</tbody>
+</table>
+<p>在 W3C DOM核心，文档对象 继承节点对象的所有属性和方法。</p>
+<p>很多属性和方法在文档中是没有意义的。</p>
+<p><strong>HTML 文档对象可以避免使用这些节点对象和属性：</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性 / 方法</th>
+<th style="text-align:left">避免的原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">document.attributes</td>
+<td style="text-align:left">文档没有该属性</td>
+</tr>
+<tr>
+<td style="text-align:left">document.hasAttributes()</td>
+<td style="text-align:left">文档没有该属性</td>
+</tr>
+<tr>
+<td style="text-align:left">document.nextSibling</td>
+<td style="text-align:left">文档没有下一节点</td>
+</tr>
+<tr>
+<td style="text-align:left">document.nodeName</td>
+<td style="text-align:left">这个通常是 #document</td>
+</tr>
+<tr>
+<td style="text-align:left">document.nodeType</td>
+<td style="text-align:left">这个通常是 9(DOCUMENT_NODE)</td>
+</tr>
+<tr>
+<td style="text-align:left">document.nodeValue</td>
+<td style="text-align:left">文档没有一个节点值</td>
+</tr>
+<tr>
+<td style="text-align:left">document.ownerDocument</td>
+<td style="text-align:left">文档没有主文档</td>
+</tr>
+<tr>
+<td style="text-align:left">document.ownerElement</td>
+<td style="text-align:left">文档没有自己的节点</td>
+</tr>
+<tr>
+<td style="text-align:left">document.parentNode</td>
+<td style="text-align:left">文档没有父节点</td>
+</tr>
+<tr>
+<td style="text-align:left">document.previousSibling</td>
+<td style="text-align:left">文档没有兄弟节点</td>
+</tr>
+<tr>
+<td style="text-align:left">document.textContent</td>
+<td style="text-align:left">文档没有文本节点</td>
+</tr>
+</tbody>
+</table>
+<h2 id="element-对象"><a class="markdownIt-Anchor" href="#element-对象"></a> Element 对象</h2>
+<p>以上属性和方法可适用于所有 HTML 元素：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性 / 方法</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-html-accesskey.html"><em>element</em>.accessKey</a></td>
+<td style="text-align:left">设置或返回accesskey一个元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-element-addeventlistener.html"><em>element</em>.addEventListener()</a></td>
+<td style="text-align:left">向指定元素添加事件句柄</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-node-appendchild.html"><em>element</em>.appendChild()</a></td>
+<td style="text-align:left">为元素添加一个新的子元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-node-attributes.html"><em>element</em>.attributes</a></td>
+<td style="text-align:left">返回一个元素的属性数组</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-node-childnodes.html"><em>element</em>.childNodes</a></td>
+<td style="text-align:left">返回元素的一个子节点的数组</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-children.html"><em>element</em>.children</a></td>
+<td style="text-align:left">返回元素的子元素的集合</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-classList.html"><em>element</em>.classList</a></td>
+<td style="text-align:left">返回元素的类名，作为 DOMTokenList 对象。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-html-classname.html"><em>element</em>.className</a></td>
+<td style="text-align:left">设置或返回元素的class属性</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-clienttop.html"><em>element</em>.clientTop</a></td>
+<td style="text-align:left">表示一个元素的顶部边框的宽度，以像素表示。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-clientleft.html"><em>element</em>.clientLeft</a></td>
+<td style="text-align:left">表示一个元素的左边框的宽度，以像素表示。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-clientheight.html"><em>element</em>.clientHeight</a></td>
+<td style="text-align:left">在页面上返回内容的可视高度（高度包含内边距（padding），不包含边框（border），外边距（margin）和滚动条）</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-clientwidth.html"><em>element</em>.clientWidth</a></td>
+<td style="text-align:left">在页面上返回内容的可视宽度（宽度包含内边距（padding），不包含边框（border），外边距（margin）和滚动条）</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-node-clonenode.html"><em>element</em>.cloneNode()</a></td>
+<td style="text-align:left">克隆某个元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-node-comparedocumentposition.html"><em>element</em>.compareDocumentPosition()</a></td>
+<td style="text-align:left">比较两个元素的文档位置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-html-contenteditable.html"><em>element</em>.contentEditable</a></td>
+<td style="text-align:left">设置或返回元素的内容是否可编辑</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-html-dir.html"><em>element</em>.dir</a></td>
+<td style="text-align:left">设置或返回一个元素中的文本方向</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-firstelementchild.html"><em>element</em>.firstElementChild</a></td>
+<td style="text-align:left">返回元素的第一个子元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-node-firstchild.html"><em>element</em>.firstChild</a></td>
+<td style="text-align:left">返回元素的第一个子节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-html-focus.html"><em>element</em>.focus()</a></td>
+<td style="text-align:left">设置文档或元素获取焦点</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-element-getattribute.html"><em>element</em>.getAttribute()</a></td>
+<td style="text-align:left">返回指定元素的属性值</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-element-getattributenode.html"><em>element</em>.getAttributeNode()</a></td>
+<td style="text-align:left">返回指定属性节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-element-getelementsbytagname.html"><em>element</em>.getElementsByTagName()</a></td>
+<td style="text-align:left">返回指定标签名的所有子元素集合。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-element-getelementsbyclassname.html"><em>element</em>. getElementsByClassName()</a></td>
+<td style="text-align:left">返回文档中所有指定类名的元素集合，作为 NodeList 对象。</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>element</em>.getFeature()</td>
+<td style="text-align:left">返回指定特征的执行APIs对象。</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>element</em>.getUserData()</td>
+<td style="text-align:left">返回一个元素中关联键值的对象。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-element-hasattribute.html"><em>element</em>.hasAttribute()</a></td>
+<td style="text-align:left">如果元素中存在指定的属性返回 true，否则返回false。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-node-hasattributes.html"><em>element</em>.hasAttributes()</a></td>
+<td style="text-align:left">如果元素有任何属性返回true，否则返回false。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-node-haschildnodes.html"><em>element</em>.hasChildNodes()</a></td>
+<td style="text-align:left">返回一个元素是否具有任何子元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-hasfocus.html"><em>element</em>.hasFocus()</a></td>
+<td style="text-align:left">返回布尔值，检测文档或元素是否获取焦点</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-html-id.html"><em>element</em>.id</a></td>
+<td style="text-align:left">设置或者返回元素的 id。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-html-innerhtml.html"><em>element</em>.innerHTML</a></td>
+<td style="text-align:left">设置或者返回元素的内容。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-node-insertbefore.html"><em>element</em>.insertBefore()</a></td>
+<td style="text-align:left">现有的子元素之前插入一个新的子元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-html-iscontenteditable.html"><em>element</em>.isContentEditable</a></td>
+<td style="text-align:left">如果元素内容可编辑返回 true，否则返回false</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-node-isdefaultnamespace.html"><em>element</em>.isDefaultNamespace()</a></td>
+<td style="text-align:left">如果指定了namespaceURI 返回 true，否则返回 false。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-node-isequalnode.html"><em>element</em>.isEqualNode()</a></td>
+<td style="text-align:left">检查两个元素是否相等</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-node-issamenode.html"><em>element</em>.isSameNode()</a></td>
+<td style="text-align:left">检查两个元素所有有相同节点。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-node-issupported.html"><em>element</em>.isSupported()</a></td>
+<td style="text-align:left">如果在元素中支持指定特征返回 true。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-html-lang.html"><em>element</em>.lang</a></td>
+<td style="text-align:left">设置或者返回一个元素的语言。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-node-lastchild.html"><em>element</em>.lastChild</a></td>
+<td style="text-align:left">返回最后一个子节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-lastelementchild.html"><em>element</em>.lastElementChild</a></td>
+<td style="text-align:left">返回指定元素的最后一个子元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-element-matches.html"><em>element</em>.matches()</a></td>
+<td style="text-align:left">如果元素匹配指定的 CSS 选择器，matches() 方法就返回 true，否则返回 false。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-node-namespaceuri.html"><em>element</em>.namespaceURI</a></td>
+<td style="text-align:left">返回命名空间的 URI。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-node-nextsibling.html"><em>element</em>.nextSibling</a></td>
+<td style="text-align:left">返回该元素紧跟的一个节点</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-nextelementsibling.html"><em>element</em>.nextElementSibling</a></td>
+<td style="text-align:left">返回指定元素之后的下一个兄弟元素（相同节点树层中的下一个元素节点）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-node-nodename.html"><em>element</em>.nodeName</a></td>
+<td style="text-align:left">返回元素的标记名（大写）</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-node-nodetype.html"><em>element</em>.nodeType</a></td>
+<td style="text-align:left">返回元素的节点类型</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-node-nodevalue.html"><em>element</em>.nodeValue</a></td>
+<td style="text-align:left">返回元素的节点值</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-node-normalize.html"><em>element</em>.normalize()</a></td>
+<td style="text-align:left">使得此成为一个&quot;normal&quot;的形式，其中只有结构（如元素，注释，处理指令，CDATA节和实体引用）隔开Text节点，即元素（包括属性）下面的所有文本节点，既没有相邻的文本节点也没有空的文本节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-offsetheight.html"><em>element</em>.offsetHeight</a></td>
+<td style="text-align:left">返回任何一个元素的高度包括边框（border）和内边距（padding），但不包含外边距（margin）</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-offsetwidth.html"><em>element</em>.offsetWidth</a></td>
+<td style="text-align:left">返回元素的宽度，包括边框（border）和内边距（padding），但不包含外边距（margin）</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-offsetleft.html"><em>element</em>.offsetLeft</a></td>
+<td style="text-align:left">返回当前元素的相对水平偏移位置的偏移容器</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-offsetparent.html"><em>element</em>.offsetParent</a></td>
+<td style="text-align:left">返回元素的偏移容器</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-offsettop.html"><em>element</em>.offsetTop</a></td>
+<td style="text-align:left">返回当前元素的相对垂直偏移位置的偏移容器</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-node-ownerdocument.html"><em>element</em>.ownerDocument</a></td>
+<td style="text-align:left">返回元素的根元素（文档对象）</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-node-parentnode.html"><em>element</em>.parentNode</a></td>
+<td style="text-align:left">返回元素的父节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-node-previoussibling.html"><em>element</em>.previousSibling</a></td>
+<td style="text-align:left">返回某个元素紧接之前元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-previouselementsibling.html"><em>element</em>.previousElementSibling</a></td>
+<td style="text-align:left">返回指定元素的前一个兄弟元素（相同节点树层中的前一个元素节点）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-element-queryselector.html"><em>element</em>.querySelector()</a></td>
+<td style="text-align:left">返回匹配指定 CSS 选择器元素的第一个子元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-document-queryselectorall.html">document.querySelectorAll()</a></td>
+<td style="text-align:left">返回匹配指定 CSS 选择器元素的所有子元素节点列表</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-element-removeattribute.html"><em>element</em>.removeAttribute()</a></td>
+<td style="text-align:left">从元素中删除指定的属性</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-element-removeattributenode.html"><em>element</em>.removeAttributeNode()</a></td>
+<td style="text-align:left">删除指定属性节点并返回移除后的节点。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-node-removechild.html"><em>element</em>.removeChild()</a></td>
+<td style="text-align:left">删除一个子元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-element-removeeventlistener.html"><em>element</em>.removeEventListener()</a></td>
+<td style="text-align:left">移除由 addEventListener() 方法添加的事件句柄</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-node-replacechild.html"><em>element</em>.replaceChild()</a></td>
+<td style="text-align:left">替换一个子元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-scrollheight.html"><em>element</em>.scrollHeight</a></td>
+<td style="text-align:left">返回整个元素的高度（包括带滚动条的隐蔽的地方）</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-scrollleft.html"><em>element</em>.scrollLeft</a></td>
+<td style="text-align:left">返回当前视图中的实际元素的左边缘和左边缘之间的距离</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-scrolltop.html"><em>element</em>.scrollTop</a></td>
+<td style="text-align:left">返回当前视图中的实际元素的顶部边缘和顶部边缘之间的距离</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-scrollwidth.html"><em>element</em>.scrollWidth</a></td>
+<td style="text-align:left">返回元素的整个宽度（包括带滚动条的隐蔽的地方）</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-element-setattribute.html"><em>element</em>.setAttribute()</a></td>
+<td style="text-align:left">设置或者改变指定属性并指定值。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-element-setattributenode.html"><em>element</em>.setAttributeNode()</a></td>
+<td style="text-align:left">设置或者改变指定属性节点。</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>element</em>.setIdAttribute()</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><em>element</em>.setIdAttributeNode()</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><em>element</em>.setUserData()</td>
+<td style="text-align:left">在元素中为指定键值关联对象。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-style.html"><em>element</em>.style</a></td>
+<td style="text-align:left">设置或返回元素的样式属性</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-html-tabindex.html"><em>element</em>.tabIndex</a></td>
+<td style="text-align:left">设置或返回元素的标签顺序。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-element-tagname.html"><em>element</em>.tagName</a></td>
+<td style="text-align:left">作为一个字符串返回某个元素的标记名（大写）</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-node-textcontent.html"><em>element</em>.textContent</a></td>
+<td style="text-align:left">设置或返回一个节点和它的文本内容</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-html-title.html"><em>element</em>.title</a></td>
+<td style="text-align:left">设置或返回元素的title属性</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>element</em>.toString()</td>
+<td style="text-align:left">一个元素转换成字符串</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-nodelist-item.html"><em>nodelist</em>.item()</a></td>
+<td style="text-align:left">返回某个元素基于文档树的索引</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-nodelist-length.html"><em>nodelist</em>.length</a></td>
+<td style="text-align:left">返回节点列表的节点数目。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="attr对象"><a class="markdownIt-Anchor" href="#attr对象"></a> attr对象</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性 / 方法</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-attr-isid.html"><em>attr</em>.isId</a></td>
+<td style="text-align:left">如果属性是 ID 类型，则 isId 属性返回 true，否则返回 false。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-attr-name.html"><em>attr</em>.name</a></td>
+<td style="text-align:left">返回属性名称</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-attr-value.html"><em>attr</em>.value</a></td>
+<td style="text-align:left">设置或者返回属性值</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-attr-specified.html"><em>attr</em>.specified</a></td>
+<td style="text-align:left">如果属性被指定返回 true ，否则返回 false</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-namednodemap-getnameditem.html"><em>nodemap</em>.getNamedItem()</a></td>
+<td style="text-align:left">从节点列表中返回的指定属性节点。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-namednodemap-item.html"><em>nodemap</em>.item()</a></td>
+<td style="text-align:left">返回节点列表中处于指定索引号的节点。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-namednodemap-length.html"><em>nodemap</em>.length</a></td>
+<td style="text-align:left">返回节点列表的节点数目。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-namednodemap-removenameditem.html"><em>nodemap</em>.removeNamedItem()</a></td>
+<td style="text-align:left">删除指定属性节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-namednodemap-setnameditem.html"><em>nodemap</em>.setNamedItem()</a></td>
+<td style="text-align:left">设置指定属性节点(通过名称)</td>
+</tr>
+</tbody>
+</table>
+<p>在 W3C DOM 内核中, Attr (属性) 对象继承节点对象的所有属性和方法 。</p>
+<p>在 DOM 4 中, Attr (属性) 对象不再从节点对象中继承。</p>
+<p><strong>从长远的代码质量来考虑，在属性对象中你需要避免使用节点对象属性和方法:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性 / 方法</th>
+<th style="text-align:left">避免原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><em>attr</em>.appendChild()</td>
+<td style="text-align:left">属性没有子节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.attributes</td>
+<td style="text-align:left">属性没有属性</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.baseURI</td>
+<td style="text-align:left">使用 document.baseURI 替代</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.childNodes</td>
+<td style="text-align:left">属性没有子节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.cloneNode()</td>
+<td style="text-align:left">使用 attr.value 替代</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.firstChild</td>
+<td style="text-align:left">属性没有子节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.hasAttributes()</td>
+<td style="text-align:left">属性没有属性</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.hasChildNodes</td>
+<td style="text-align:left">属性没有子节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.insertBefore()</td>
+<td style="text-align:left">属性没有子节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.isEqualNode()</td>
+<td style="text-align:left">没有意义</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.isSameNode()</td>
+<td style="text-align:left">没有意义</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.isSupported()</td>
+<td style="text-align:left">通常为 true</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.lastChild</td>
+<td style="text-align:left">属性没有子节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.nextSibling</td>
+<td style="text-align:left">属性没有兄弟节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.nodeName</td>
+<td style="text-align:left">使用 <em>attr</em>.name 替代</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.nodeType</td>
+<td style="text-align:left">通常为 2 (ATTRIBUTE-NODE)</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.nodeValue</td>
+<td style="text-align:left">使用 <em>attr</em>.value 替代</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.normalize()</td>
+<td style="text-align:left">属性没有规范</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.ownerDocument</td>
+<td style="text-align:left">通常为你的 HTML 文档</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.ownerElement</td>
+<td style="text-align:left">你用来访问属性的 HTML 元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.parentNode</td>
+<td style="text-align:left">你用来访问属性的 HTML 元素</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.previousSibling</td>
+<td style="text-align:left">属性没有兄弟节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.removeChild</td>
+<td style="text-align:left">属性没有子节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.replaceChild</td>
+<td style="text-align:left">属性没有子节点</td>
+</tr>
+<tr>
+<td style="text-align:left"><em>attr</em>.textContent</td>
+<td style="text-align:left">使用 <em>attr</em>.value 替代</td>
+</tr>
+</tbody>
+</table>
+<h2 id="html-dom事件"><a class="markdownIt-Anchor" href="#html-dom事件"></a> HTML DOM事件</h2>
+<h3 id="鼠标事件"><a class="markdownIt-Anchor" href="#鼠标事件"></a> 鼠标事件</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onclick.html">onclick</a></td>
+<td style="text-align:left">当用户点击某个对象时调用的事件句柄。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-oncontextmenu.html">oncontextmenu</a></td>
+<td style="text-align:left">在用户点击鼠标右键打开上下文菜单时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-ondblclick.html">ondblclick</a></td>
+<td style="text-align:left">当用户双击某个对象时调用的事件句柄。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onmousedown.html">onmousedown</a></td>
+<td style="text-align:left">鼠标按钮被按下。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onmouseenter.html">onmouseenter</a></td>
+<td style="text-align:left">当鼠标指针移动到元素上时触发。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onmouseleave.html">onmouseleave</a></td>
+<td style="text-align:left">当鼠标指针移出元素时触发</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onmousemove.html">onmousemove</a></td>
+<td style="text-align:left">鼠标被移动。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onmouseover.html">onmouseover</a></td>
+<td style="text-align:left">鼠标移到某元素之上。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onmouseout.html">onmouseout</a></td>
+<td style="text-align:left">鼠标从某元素移开。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onmouseup.html">onmouseup</a></td>
+<td style="text-align:left">鼠标按键被松开。</td>
+<td style="text-align:left">2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="键盘事件"><a class="markdownIt-Anchor" href="#键盘事件"></a> 键盘事件</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onkeydown.html">onkeydown</a></td>
+<td style="text-align:left">某个键盘按键被按下。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onkeypress.html">onkeypress</a></td>
+<td style="text-align:left">某个键盘按键被按下并松开。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onkeyup.html">onkeyup</a></td>
+<td style="text-align:left">某个键盘按键被松开。</td>
+<td style="text-align:left">2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="框架对象frameobject事件"><a class="markdownIt-Anchor" href="#框架对象frameobject事件"></a> 框架/对象（Frame/Object）事件</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onabort.html">onabort</a></td>
+<td style="text-align:left">图像的加载被中断。 ( <object>)</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onbeforeunload.html">onbeforeunload</a></td>
+<td style="text-align:left">该事件在即将离开页面（刷新或关闭）时触发</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onerror.html">onerror</a></td>
+<td style="text-align:left">在加载文档或图像时发生错误。 ( <object>, <body>和 <frameset>)</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onhashchange.html">onhashchange</a></td>
+<td style="text-align:left">该事件在当前 URL 的锚部分发生修改时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onload.html">onload</a></td>
+<td style="text-align:left">一张页面或一幅图像完成加载。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onpageshow.html">onpageshow</a></td>
+<td style="text-align:left">该事件在用户访问页面时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onpagehide.html">onpagehide</a></td>
+<td style="text-align:left">该事件在用户离开当前网页跳转到另外一个页面时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onresize.html">onresize</a></td>
+<td style="text-align:left">窗口或框架被重新调整大小。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onscroll.html">onscroll</a></td>
+<td style="text-align:left">当文档被滚动时发生的事件。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onunload.html">onunload</a></td>
+<td style="text-align:left">用户退出页面。 ( <body> 和 <frameset>)</td>
+<td style="text-align:left">2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="表单事件"><a class="markdownIt-Anchor" href="#表单事件"></a> 表单事件</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onblur.html">onblur</a></td>
+<td style="text-align:left">元素失去焦点时触发</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onchange.html">onchange</a></td>
+<td style="text-align:left">该事件在表单元素的内容改变时触发( <input>, <keygen>, <select>, 和 <textarea>)</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onfocus.html">onfocus</a></td>
+<td style="text-align:left">元素获取焦点时触发</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onfocusin.html">onfocusin</a></td>
+<td style="text-align:left">元素即将获取焦点时触发</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onfocusout.html">onfocusout</a></td>
+<td style="text-align:left">元素即将失去焦点时触发</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-oninput.html">oninput</a></td>
+<td style="text-align:left">元素获取用户输入时触发</td>
+<td style="text-align:left">3</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onreset.html">onreset</a></td>
+<td style="text-align:left">表单重置时触发</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onsearch.html">onsearch</a></td>
+<td style="text-align:left">用户向搜索域输入文本时触发 ( &lt;input=“search”&gt;)</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onselect.html">onselect</a></td>
+<td style="text-align:left">用户选取文本时触发 ( <input> 和 <textarea>)</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onsubmit.html">onsubmit</a></td>
+<td style="text-align:left">表单提交时触发</td>
+<td style="text-align:left">2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="剪贴板事件"><a class="markdownIt-Anchor" href="#剪贴板事件"></a> 剪贴板事件</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-oncopy.html">oncopy</a></td>
+<td style="text-align:left">该事件在用户拷贝元素内容时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-oncut.html">oncut</a></td>
+<td style="text-align:left">该事件在用户剪切元素内容时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onpaste.html">onpaste</a></td>
+<td style="text-align:left">该事件在用户粘贴元素内容时触发</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="打印事件"><a class="markdownIt-Anchor" href="#打印事件"></a> 打印事件</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onafterprint.html">onafterprint</a></td>
+<td style="text-align:left">该事件在页面已经开始打印，或者打印窗口已经关闭时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onbeforeprint.html">onbeforeprint</a></td>
+<td style="text-align:left">该事件在页面即将开始打印时触发</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="拖动事件"><a class="markdownIt-Anchor" href="#拖动事件"></a> 拖动事件</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">事件</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-ondrag.html">ondrag</a></td>
+<td style="text-align:left">该事件在元素正在拖动时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-ondragend.html">ondragend</a></td>
+<td style="text-align:left">该事件在用户完成元素的拖动时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-ondragenter.html">ondragenter</a></td>
+<td style="text-align:left">该事件在拖动的元素进入放置目标时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-ondragleave.html">ondragleave</a></td>
+<td style="text-align:left">该事件在拖动元素离开放置目标时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-ondragover.html">ondragover</a></td>
+<td style="text-align:left">该事件在拖动元素在放置目标上时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-ondragstart.html">ondragstart</a></td>
+<td style="text-align:left">该事件在用户开始拖动元素时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-ondrop.html">ondrop</a></td>
+<td style="text-align:left">该事件在拖动元素放置在目标区域时触发</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="多媒体media事件"><a class="markdownIt-Anchor" href="#多媒体media事件"></a> 多媒体（Media）事件</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">事件</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onabort-media.html">onabort</a></td>
+<td style="text-align:left">事件在视频/音频（audio/video）终止加载时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-oncanplay.html">oncanplay</a></td>
+<td style="text-align:left">事件在用户可以开始播放视频/音频（audio/video）时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-oncanplaythrough.html">oncanplaythrough</a></td>
+<td style="text-align:left">事件在视频/音频（audio/video）可以正常播放且无需停顿和缓冲时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-ondurationchange.html">ondurationchange</a></td>
+<td style="text-align:left">事件在视频/音频（audio/video）的时长发生变化时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">onemptied</td>
+<td style="text-align:left">当期播放列表为空时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onended.html">onended</a></td>
+<td style="text-align:left">事件在视频/音频（audio/video）播放结束时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onerror-media.html">onerror</a></td>
+<td style="text-align:left">事件在视频/音频（audio/video）数据加载期间发生错误时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onloadeddata.html">onloadeddata</a></td>
+<td style="text-align:left">事件在浏览器加载视频/音频（audio/video）当前帧时触发触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onloadedmetadata.html">onloadedmetadata</a></td>
+<td style="text-align:left">事件在指定视频/音频（audio/video）的元数据加载后触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onloadstart.html">onloadstart</a></td>
+<td style="text-align:left">事件在浏览器开始寻找指定视频/音频（audio/video）触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onpause.html">onpause</a></td>
+<td style="text-align:left">事件在视频/音频（audio/video）暂停时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onplay.html">onplay</a></td>
+<td style="text-align:left">事件在视频/音频（audio/video）开始播放时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onplaying.html">onplaying</a></td>
+<td style="text-align:left">事件在视频/音频（audio/video）暂停或者在缓冲后准备重新开始播放时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onprogress.html">onprogress</a></td>
+<td style="text-align:left">事件在浏览器下载指定的视频/音频（audio/video）时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onratechange.html">onratechange</a></td>
+<td style="text-align:left">事件在视频/音频（audio/video）的播放速度发送改变时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onseeked.html">onseeked</a></td>
+<td style="text-align:left">事件在用户重新定位视频/音频（audio/video）的播放位置后触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onseeking.html">onseeking</a></td>
+<td style="text-align:left">事件在用户开始重新定位视频/音频（audio/video）时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onstalled.html">onstalled</a></td>
+<td style="text-align:left">事件在浏览器获取媒体数据，但媒体数据不可用时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onsuspend.html">onsuspend</a></td>
+<td style="text-align:left">事件在浏览器读取媒体数据中止时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-ontimeupdate.html">ontimeupdate</a></td>
+<td style="text-align:left">事件在当前的播放位置发送改变时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onvolumechange.html">onvolumechange</a></td>
+<td style="text-align:left">事件在音量发生改变时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onwaiting.html">onwaiting</a></td>
+<td style="text-align:left">事件在视频由于要播放下一帧而需要缓冲时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="动画事件"><a class="markdownIt-Anchor" href="#动画事件"></a> 动画事件</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">事件</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-animationend.html">animationend</a></td>
+<td style="text-align:left">该事件在 CSS 动画结束播放时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-animationiteration.html">animationiteration</a></td>
+<td style="text-align:left">该事件在 CSS 动画重复播放时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-animationstart.html">animationstart</a></td>
+<td style="text-align:left">该事件在 CSS 动画开始播放时触发</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="过渡事件"><a class="markdownIt-Anchor" href="#过渡事件"></a> 过渡事件</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">事件</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-transitionend.html">transitionend</a></td>
+<td style="text-align:left">该事件在 CSS 完成过渡后触发。</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="其他事件"><a class="markdownIt-Anchor" href="#其他事件"></a> 其他事件</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">事件</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">onmessage</td>
+<td style="text-align:left">该事件通过或者从对象(WebSocket, Web Worker, Event Source 或者子 frame 或父窗口)接收到消息时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">onmousewheel</td>
+<td style="text-align:left">已废弃。 使用 <a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onwheel.html">onwheel</a> 事件替代</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-ononline.html">ononline</a></td>
+<td style="text-align:left">该事件在浏览器开始在线工作时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onoffline.html">onoffline</a></td>
+<td style="text-align:left">该事件在浏览器开始离线工作时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">onpopstate</td>
+<td style="text-align:left">该事件在窗口的浏览历史（history 对象）发生改变时触发。</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onshow.html">onshow</a></td>
+<td style="text-align:left">该事件当 <menu> 元素在上下文菜单显示时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">onstorage</td>
+<td style="text-align:left">该事件在 Web Storage(HTML 5 Web 存储)更新时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-ontoggle.html">ontoggle</a></td>
+<td style="text-align:left">该事件在用户打开或关闭 <details> 元素时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-onwheel.html">onwheel</a></td>
+<td style="text-align:left">该事件在鼠标滚轮在元素上下滚动时触发</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-visibilitychange.html">visibilitychange</a></td>
+<td style="text-align:left">该事件用于检测当前页面的可见性状态是否发生变化。</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="事件对象"><a class="markdownIt-Anchor" href="#事件对象"></a> 事件对象</h3>
+<h4 id="常量"><a class="markdownIt-Anchor" href="#常量"></a> 常量</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">静态变量</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">CAPTURING-PHASE</td>
+<td style="text-align:left">当前事件阶段为捕获阶段(1)</td>
+<td style="text-align:left">1</td>
+</tr>
+<tr>
+<td style="text-align:left">AT-TARGET</td>
+<td style="text-align:left">当前事件是目标阶段,在评估目标事件(1)</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">BUBBLING-PHASE</td>
+<td style="text-align:left">当前的事件为冒泡阶段 (3)</td>
+<td style="text-align:left">3</td>
+</tr>
+</tbody>
+</table>
+<h4 id="属性"><a class="markdownIt-Anchor" href="#属性"></a> 属性</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-bubbles.html">bubbles</a></td>
+<td style="text-align:left">返回布尔值，指示事件是否是起泡事件类型。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-cancelable.html">cancelable</a></td>
+<td style="text-align:left">返回布尔值，指示事件是否可拥可取消的默认动作。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-currenttarget.html">currentTarget</a></td>
+<td style="text-align:left">返回其事件监听器触发该事件的元素。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">eventPhase</td>
+<td style="text-align:left">返回事件传播的当前阶段。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-target.html">target</a></td>
+<td style="text-align:left">返回触发此事件的元素（事件的目标节点）。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-timestamp.html">timeStamp</a></td>
+<td style="text-align:left">返回事件生成的日期和时间。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-type.html">type</a></td>
+<td style="text-align:left">返回当前 Event 对象表示的事件的名称。</td>
+<td style="text-align:left">2</td>
+</tr>
+</tbody>
+</table>
+<h4 id="方法"><a class="markdownIt-Anchor" href="#方法"></a> 方法</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">initEvent()</td>
+<td style="text-align:left">初始化新创建的 Event 对象的属性。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">preventDefault()</td>
+<td style="text-align:left">通知浏览器不要执行与事件关联的默认动作。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">stopPropagation()</td>
+<td style="text-align:left">不再派发事件。</td>
+<td style="text-align:left">2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="目标事件对象"><a class="markdownIt-Anchor" href="#目标事件对象"></a> 目标事件对象</h3>
+<h4 id="方法-2"><a class="markdownIt-Anchor" href="#方法-2"></a> 方法</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">addEventListener()</td>
+<td style="text-align:left">允许在目标事件中注册监听事件(IE8 = attachEvent())</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">dispatchEvent()</td>
+<td style="text-align:left">允许发送事件到监听器上 (IE8 = fireEvent())</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">removeEventListener()</td>
+<td style="text-align:left">运行一次注册在事件目标上的监听事件(IE8 = detachEvent())</td>
+<td style="text-align:left">2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="事件监听对象"><a class="markdownIt-Anchor" href="#事件监听对象"></a> 事件监听对象</h3>
+<h4 id="方法-3"><a class="markdownIt-Anchor" href="#方法-3"></a> 方法</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">handleEvent()</td>
+<td style="text-align:left">把任意对象注册为事件处理程序</td>
+<td style="text-align:left">2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="文档事件对象"><a class="markdownIt-Anchor" href="#文档事件对象"></a> 文档事件对象</h3>
+<h4 id="方法-4"><a class="markdownIt-Anchor" href="#方法-4"></a> 方法</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">createEvent()</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="鼠标键盘事件对象"><a class="markdownIt-Anchor" href="#鼠标键盘事件对象"></a> 鼠标/键盘事件对象</h3>
+<h4 id="属性-2"><a class="markdownIt-Anchor" href="#属性-2"></a> 属性</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">DOM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-altkey.html">altKey</a></td>
+<td style="text-align:left">返回当事件被触发时，“ALT” 是否被按下。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-button.html">button</a></td>
+<td style="text-align:left">返回当事件被触发时，哪个鼠标按钮被点击。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-clientx.html">clientX</a></td>
+<td style="text-align:left">返回当事件被触发时，鼠标指针的水平坐标。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-clienty.html">clientY</a></td>
+<td style="text-align:left">返回当事件被触发时，鼠标指针的垂直坐标。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-ctrlkey.html">ctrlKey</a></td>
+<td style="text-align:left">返回当事件被触发时，“CTRL” 键是否被按下。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-key-location.html">Location</a></td>
+<td style="text-align:left">返回按键在设备上的位置</td>
+<td style="text-align:left">3</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-key-charcode.html">charCode</a></td>
+<td style="text-align:left">返回onkeypress事件触发键值的字母代码。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-key-key.html">key</a></td>
+<td style="text-align:left">在按下按键时返回按键的标识符。</td>
+<td style="text-align:left">3</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-key-keycode.html">keyCode</a></td>
+<td style="text-align:left">返回onkeypress事件触发的键的值的字符代码，或者 onkeydown 或 onkeyup 事件的键的代码。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-key-which.html">which</a></td>
+<td style="text-align:left">返回onkeypress事件触发的键的值的字符代码，或者 onkeydown 或 onkeyup 事件的键的代码。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-metakey.html">metaKey</a></td>
+<td style="text-align:left">返回当事件被触发时，“meta” 键是否被按下。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-relatedtarget.html">relatedTarget</a></td>
+<td style="text-align:left">返回与事件的目标节点相关的节点。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-screenx.html">screenX</a></td>
+<td style="text-align:left">返回当某个事件被触发时，鼠标指针的水平坐标。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-screeny.html">screenY</a></td>
+<td style="text-align:left">返回当某个事件被触发时，鼠标指针的垂直坐标。</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/event-shiftkey.html">shiftKey</a></td>
+<td style="text-align:left">返回当事件被触发时，“SHIFT” 键是否被按下。</td>
+<td style="text-align:left">2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="方法-5"><a class="markdownIt-Anchor" href="#方法-5"></a> 方法</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">W3C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">initMouseEvent()</td>
+<td style="text-align:left">初始化鼠标事件对象的值</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">initKeyboardEvent()</td>
+<td style="text-align:left">初始化键盘事件对象的值</td>
+<td style="text-align:left">3</td>
+</tr>
+</tbody>
+</table>
+<h2 id="console-对象"><a class="markdownIt-Anchor" href="#console-对象"></a> Console 对象</h2>
+<p>Console 对象提供了访问浏览器调试模式的信息到控制台。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-console-assert.html">assert()</a></td>
+<td style="text-align:left">如果断言为 false，则在信息到控制台输出错误信息。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-console-clear.html">clear()</a></td>
+<td style="text-align:left">清除控制台上的信息。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-console-count.html">count()</a></td>
+<td style="text-align:left">记录 count() 调用次数，一般用于计数。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-console-error.html">error()</a></td>
+<td style="text-align:left">输出错误信息到控制台</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-console-group.html">group()</a></td>
+<td style="text-align:left">在控制台创建一个信息分组。 一个完整的信息分组以 console.group() 开始，console.groupEnd() 结束</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-console-groupcollapsed.html">groupCollapsed()</a></td>
+<td style="text-align:left">在控制台创建一个信息分组。 类似 console.group() ，但它默认是折叠的。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-console-groupend.html">groupEnd()</a></td>
+<td style="text-align:left">设置当前信息分组结束</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-console-info.html">info()</a></td>
+<td style="text-align:left">控制台输出一条信息</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-console-log.html">log()</a></td>
+<td style="text-align:left">控制台输出一条信息</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-console-table.html">table()</a></td>
+<td style="text-align:left">以表格形式显示数据</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-console-time.html">time()</a></td>
+<td style="text-align:left">计时器，开始计时间，与 timeEnd() 联合使用，用于算出一个操作所花费的准确时间。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-console-timeend.html">timeEnd()</a></td>
+<td style="text-align:left">计时结束</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-console-trace.html">trace()</a></td>
+<td style="text-align:left">显示当前执行的代码在堆栈中的调用路径。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-console-warn.html">warn()</a></td>
+<td style="text-align:left">输出警告信息，信息最前面加一个黄色三角，表示警告</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dom-htmlcollection"><a class="markdownIt-Anchor" href="#dom-htmlcollection"></a> DOM HTMLCollection</h2>
+<p>HTMLCollection 是 HTML 元素的集合。</p>
+<p>HTMLCollection 对象类似一个包含 HTML 元素的数组列表。</p>
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-element-getelementsbytagname.html">getElementsByTagName()</a> 方法返回的就是一个 HTMLCollection 对象。</p>
+<hr />
+<h3 id="属性和方法"><a class="markdownIt-Anchor" href="#属性和方法"></a> 属性和方法</h3>
+<p>下表列出了 HTMLCollection 对象中的属性和方法：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性 / 方法</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-htmlcollection-item.html">item()</a></td>
+<td style="text-align:left">返回 HTMLCollection 中指定索引的元素。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/prop-htmlcollection-length.html">length</a></td>
+<td style="text-align:left">返回 HTMLCollection 中元素的数量。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/jsref/met-htmlcollection-nameditem.html">namedItem()</a></td>
+<td style="text-align:left">返回 HTMLCollection 中指定 ID 或 name 属性的元素。</td>
+</tr>
+</tbody>
+</table>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/07/08/sqlilab%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/" rel="prev" title="sqlilab记录"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">sqlilab记录</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/07/07/css%E5%9F%BA%E7%A1%80/" rel="next" title="css基础"><span class="post-nav-text">css基础</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/07/08/javascript%E5%9F%BA%E7%A1%80/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>

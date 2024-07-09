@@ -1,0 +1,976 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>html基础 | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="基础  HTML 基本文档 &lt;!DOCTYPE html&gt; &lt;html&gt;     &lt;head&gt;         &lt;title&gt;文档标题&lt;&#x2F;title&gt;     &lt;&#x2F;head&gt;     &lt;body&gt;         可见文本..     &lt;&#x2F;body&gt; &lt;&#x2F;html&gt;  基本标签 &lt;h1&gt;最大的标题&lt;&#x2F;h1&gt; &lt;h2&gt;...&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="html基础">
+<meta property="og:url" content="http://npc0vo.github.io/2024/07/07/html%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="基础  HTML 基本文档 &lt;!DOCTYPE html&gt; &lt;html&gt;     &lt;head&gt;         &lt;title&gt;文档标题&lt;&#x2F;title&gt;     &lt;&#x2F;head&gt;     &lt;body&gt;         可见文本..     &lt;&#x2F;body&gt; &lt;&#x2F;html&gt;  基本标签 &lt;h1&gt;最大的标题&lt;&#x2F;h1&gt; &lt;h2&gt;...&amp;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-07-07T05:16:31.000Z">
+<meta property="article:modified_time" content="2024-07-07T05:33:46.586Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">45</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-number">1.</span> <span class="toc-text"> 基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#html-%E5%9F%BA%E6%9C%AC%E6%96%87%E6%A1%A3"><span class="toc-number">1.1.</span> <span class="toc-text"> HTML 基本文档</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A0%87%E7%AD%BE"><span class="toc-number">1.2.</span> <span class="toc-text"> 基本标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="toc-number">1.3.</span> <span class="toc-text"> 文本格式化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5"><span class="toc-number">1.4.</span> <span class="toc-text"> 链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%89%87"><span class="toc-number">1.5.</span> <span class="toc-text"> 图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stylessections"><span class="toc-number">1.6.</span> <span class="toc-text"> Styles&#x2F;Sections</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%97%E8%A1%A8"><span class="toc-number">1.7.</span> <span class="toc-text"> 列表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E5%BA%8F"><span class="toc-number">1.7.1.</span> <span class="toc-text"> 无序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F"><span class="toc-number">1.7.2.</span> <span class="toc-text"> 有序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">1.7.3.</span> <span class="toc-text"> 自定义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E6%A0%BC"><span class="toc-number">1.8.</span> <span class="toc-text"> 表格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6iframe"><span class="toc-number">1.9.</span> <span class="toc-text"> 框架(IFrame)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E5%8D%95"><span class="toc-number">1.10.</span> <span class="toc-text"> 表单</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E5%A4%A7%E5%85%A8"><span class="toc-number">2.</span> <span class="toc-text"> 标签大全</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%B1%9E%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text"> 事件属性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E4%BA%8B%E4%BB%B6%E5%B1%9E%E6%80%A7window-event-attributes"><span class="toc-number">3.1.</span> <span class="toc-text"> 窗口事件属性（Window Event Attributes）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E5%8D%95%E4%BA%8B%E4%BB%B6form-events"><span class="toc-number">3.2.</span> <span class="toc-text"> 表单事件(Form Events)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6keyboard-events"><span class="toc-number">3.3.</span> <span class="toc-text"> 键盘事件（Keyboard Events）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6mouse-events"><span class="toc-number">3.4.</span> <span class="toc-text"> 鼠标事件（Mouse Events）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E5%AA%92%E4%BD%93%E4%BA%8B%E4%BB%B6media-events"><span class="toc-number">3.5.</span> <span class="toc-text"> 多媒体事件(Media Events)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E4%BA%8B%E4%BB%B6"><span class="toc-number">3.6.</span> <span class="toc-text"> 其他事件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#emoji"><span class="toc-number">4.</span> <span class="toc-text"> emoji</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#emoji-%E8%A1%A8%E6%83%85%E7%AC%A6%E5%8F%B7"><span class="toc-number">4.1.</span> <span class="toc-text"> Emoji 表情符号</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/07/html%E5%9F%BA%E7%A1%80/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">html基础</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-07 13:16:31" itemprop="dateCreated datePublished" datetime="2024-07-07T13:16:31+08:00">2024-07-07</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">2.4k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">9m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Web/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Web</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Web/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Web</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h1 id="基础"><a class="markdownIt-Anchor" href="#基础"></a> 基础</h1>
+<h2 id="html-基本文档"><a class="markdownIt-Anchor" href="#html-基本文档"></a> HTML 基本文档</h2>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>文档标题<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+        可见文本..
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="基本标签"><a class="markdownIt-Anchor" href="#基本标签"></a> 基本标签</h2>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span>最大的标题<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span>...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
+...
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h6</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h6</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>这是一个段落。<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span><span class="token punctuation">></span></span> （换行）
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hr</span><span class="token punctuation">></span></span> （水平线）
+<span class="token comment">&lt;!-- 这是注释 --></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="文本格式化"><a class="markdownIt-Anchor" href="#文本格式化"></a> 文本格式化</h2>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>b</span><span class="token punctuation">></span></span>粗体文本<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>b</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>code</span><span class="token punctuation">></span></span>计算机代码<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>code</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>em</span><span class="token punctuation">></span></span>强调文本<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>em</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>i</span><span class="token punctuation">></span></span>斜体文本<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>i</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>kbd</span><span class="token punctuation">></span></span>键盘输入<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>kbd</span><span class="token punctuation">></span></span> 
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pre</span><span class="token punctuation">></span></span>预格式化文本<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>pre</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>small</span><span class="token punctuation">></span></span>更小的文本<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>small</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>strong</span><span class="token punctuation">></span></span>重要的文本<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>strong</span><span class="token punctuation">></span></span>
+ 
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>abbr</span><span class="token punctuation">></span></span> （缩写）
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>address</span><span class="token punctuation">></span></span> （联系信息）
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bdo</span><span class="token punctuation">></span></span> （文字方向）
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>blockquote</span><span class="token punctuation">></span></span> （从另一个源引用的部分）
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>cite</span><span class="token punctuation">></span></span> （工作的名称）
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>del</span><span class="token punctuation">></span></span> （删除的文本）
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ins</span><span class="token punctuation">></span></span> （插入的文本）
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sub</span><span class="token punctuation">></span></span> （下标文本）
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sup</span><span class="token punctuation">></span></span> （上标文本）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="链接"><a class="markdownIt-Anchor" href="#链接"></a> 链接</h2>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">普通的链接：<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://www.example.com/<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>链接文本<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span>
+图像链接： <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://www.example.com/<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>URL<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>替换文本<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span>
+邮件链接： <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>mailto:webmaster@example.com<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>发送e-mail<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span>
+书签：
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>tips<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>提示部分<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>#tips<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>跳到提示部分<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="图片"><a class="markdownIt-Anchor" href="#图片"></a> 图片</h2>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>url<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>替换文本<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>42<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>42<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="stylessections"><a class="markdownIt-Anchor" href="#stylessections"></a> Styles/Sections</h2>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text/css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css">
+    <span class="token selector">h1</span><span class="token punctuation">&#123;</span><span class="token property">color</span><span class="token punctuation">:</span><span class="token color">red</span><span class="token punctuation">;</span><span class="token punctuation">&#125;</span>
+    <span class="token selector">p</span><span class="token punctuation">&#123;</span><span class="token property">color</span><span class="token punctuation">:</span><span class="token color">blue</span><span class="token punctuation">;</span><span class="token punctuation">&#125;</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+    文档中的块级元素
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span>文档中的内联元素<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="列表"><a class="markdownIt-Anchor" href="#列表"></a> 列表</h2>
+<h3 id="无序"><a class="markdownIt-Anchor" href="#无序"></a> 无序</h3>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span>项目<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span>项目<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="有序"><a class="markdownIt-Anchor" href="#有序"></a> 有序</h3>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ol</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span>2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ol</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="自定义"><a class="markdownIt-Anchor" href="#自定义"></a> 自定义</h3>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dl</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dt</span><span class="token punctuation">></span></span>项目 1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dt</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dd</span><span class="token punctuation">></span></span>描述项目 1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dd</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dt</span><span class="token punctuation">></span></span>项目 2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dt</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dd</span><span class="token punctuation">></span></span>描述项目 2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dd</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dl</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="表格"><a class="markdownIt-Anchor" href="#表格"></a> 表格</h2>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token attr-name">border</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>表格标题<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>表格标题<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>表格数据<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>表格数据<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="框架iframe"><a class="markdownIt-Anchor" href="#框架iframe"></a> 框架(IFrame)</h2>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>iframe</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>demo_iframe.htm<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>iframe</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h2 id="表单"><a class="markdownIt-Anchor" href="#表单"></a> 表单</h2>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>demo_form.php<span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>post/get<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>email<span class="token punctuation">"</span></span> <span class="token attr-name">size</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>40<span class="token punctuation">"</span></span> <span class="token attr-name">maxlength</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>50<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>checkbox<span class="token punctuation">"</span></span> <span class="token attr-name">checked</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>checked<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>radio<span class="token punctuation">"</span></span> <span class="token attr-name">checked</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>checked<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Send<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>reset<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>hidden<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span><span class="token punctuation">></span></span>苹果<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">selected</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>selected<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>香蕉<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span><span class="token punctuation">></span></span>樱桃<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>textarea</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>comment<span class="token punctuation">"</span></span> <span class="token attr-name">rows</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>60<span class="token punctuation">"</span></span> <span class="token attr-name">cols</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>20<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>textarea</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="标签大全"><a class="markdownIt-Anchor" href="#标签大全"></a> 标签大全</h1>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">标签</th>
+<th style="text-align:left">英文全称</th>
+<th style="text-align:left">中文说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">a</td>
+<td style="text-align:left">Anchor</td>
+<td style="text-align:left">锚</td>
+</tr>
+<tr>
+<td style="text-align:left">abbr</td>
+<td style="text-align:left">Abbreviation</td>
+<td style="text-align:left">缩写词</td>
+</tr>
+<tr>
+<td style="text-align:left">acronym</td>
+<td style="text-align:left">Acronym</td>
+<td style="text-align:left">取首字母的缩写词</td>
+</tr>
+<tr>
+<td style="text-align:left">address</td>
+<td style="text-align:left">Address</td>
+<td style="text-align:left">地址</td>
+</tr>
+<tr>
+<td style="text-align:left">alt</td>
+<td style="text-align:left">alter</td>
+<td style="text-align:left">替用(一般是图片显示不出的提示)</td>
+</tr>
+<tr>
+<td style="text-align:left">b</td>
+<td style="text-align:left">Bold</td>
+<td style="text-align:left">粗体（文本）</td>
+</tr>
+<tr>
+<td style="text-align:left">bdo</td>
+<td style="text-align:left">Bi-Directional Override</td>
+<td style="text-align:left">文本显示方向</td>
+</tr>
+<tr>
+<td style="text-align:left">big</td>
+<td style="text-align:left">Big</td>
+<td style="text-align:left">变大（文本）</td>
+</tr>
+<tr>
+<td style="text-align:left">blockquote</td>
+<td style="text-align:left">Block Quotation</td>
+<td style="text-align:left">区块引用语</td>
+</tr>
+<tr>
+<td style="text-align:left">br</td>
+<td style="text-align:left">Break</td>
+<td style="text-align:left">换行</td>
+</tr>
+<tr>
+<td style="text-align:left">cell</td>
+<td style="text-align:left">cell</td>
+<td style="text-align:left">巢</td>
+</tr>
+<tr>
+<td style="text-align:left">cellpadding</td>
+<td style="text-align:left">cellpadding</td>
+<td style="text-align:left">巢补白</td>
+</tr>
+<tr>
+<td style="text-align:left">cellspacing</td>
+<td style="text-align:left">cellspacing</td>
+<td style="text-align:left">巢空间</td>
+</tr>
+<tr>
+<td style="text-align:left">center</td>
+<td style="text-align:left">Centered</td>
+<td style="text-align:left">居中（文本）</td>
+</tr>
+<tr>
+<td style="text-align:left">cite</td>
+<td style="text-align:left">Citation</td>
+<td style="text-align:left">引用</td>
+</tr>
+<tr>
+<td style="text-align:left">code</td>
+<td style="text-align:left">Code</td>
+<td style="text-align:left">源代码（文本）</td>
+</tr>
+<tr>
+<td style="text-align:left">dd</td>
+<td style="text-align:left">Definition Description</td>
+<td style="text-align:left">定义描述</td>
+</tr>
+<tr>
+<td style="text-align:left">del</td>
+<td style="text-align:left">Deleted</td>
+<td style="text-align:left">删除（的文本）</td>
+</tr>
+<tr>
+<td style="text-align:left">dfn</td>
+<td style="text-align:left">Defines a Definition Term</td>
+<td style="text-align:left">定义定义条目</td>
+</tr>
+<tr>
+<td style="text-align:left">div</td>
+<td style="text-align:left">Division</td>
+<td style="text-align:left">分隔</td>
+</tr>
+<tr>
+<td style="text-align:left">dl</td>
+<td style="text-align:left">Definition List</td>
+<td style="text-align:left">定义列表</td>
+</tr>
+<tr>
+<td style="text-align:left">dt</td>
+<td style="text-align:left">Definition Term</td>
+<td style="text-align:left">定义术语</td>
+</tr>
+<tr>
+<td style="text-align:left">em</td>
+<td style="text-align:left">Emphasized</td>
+<td style="text-align:left">加重（文本）</td>
+</tr>
+<tr>
+<td style="text-align:left">font</td>
+<td style="text-align:left">Font</td>
+<td style="text-align:left">字体</td>
+</tr>
+<tr>
+<td style="text-align:left">h1~h6</td>
+<td style="text-align:left">Header 1 to Header 6</td>
+<td style="text-align:left">标题1到标题6</td>
+</tr>
+<tr>
+<td style="text-align:left">hr</td>
+<td style="text-align:left">Horizontal Rule</td>
+<td style="text-align:left">水平尺</td>
+</tr>
+<tr>
+<td style="text-align:left">href</td>
+<td style="text-align:left">hypertext reference</td>
+<td style="text-align:left">超文本引用</td>
+</tr>
+<tr>
+<td style="text-align:left">i</td>
+<td style="text-align:left">Italic</td>
+<td style="text-align:left">斜体（文本）</td>
+</tr>
+<tr>
+<td style="text-align:left">iframe</td>
+<td style="text-align:left">Inline frame</td>
+<td style="text-align:left">定义内联框架</td>
+</tr>
+<tr>
+<td style="text-align:left">ins</td>
+<td style="text-align:left">Inserted</td>
+<td style="text-align:left">插入（的文本）</td>
+</tr>
+<tr>
+<td style="text-align:left">kbd</td>
+<td style="text-align:left">Keyboard</td>
+<td style="text-align:left">键盘（文本）</td>
+</tr>
+<tr>
+<td style="text-align:left">li</td>
+<td style="text-align:left">List Item</td>
+<td style="text-align:left">列表项目</td>
+</tr>
+<tr>
+<td style="text-align:left">nl</td>
+<td style="text-align:left">navigation lists</td>
+<td style="text-align:left">导航列表</td>
+</tr>
+<tr>
+<td style="text-align:left">ol</td>
+<td style="text-align:left">Ordered List</td>
+<td style="text-align:left">排序列表</td>
+</tr>
+<tr>
+<td style="text-align:left">optgroup</td>
+<td style="text-align:left">Option group</td>
+<td style="text-align:left">定义选项组</td>
+</tr>
+<tr>
+<td style="text-align:left">p</td>
+<td style="text-align:left">Paragraph</td>
+<td style="text-align:left">段落</td>
+</tr>
+<tr>
+<td style="text-align:left">pre</td>
+<td style="text-align:left">Preformatted</td>
+<td style="text-align:left">预定义格式（文本 ）</td>
+</tr>
+<tr>
+<td style="text-align:left">q</td>
+<td style="text-align:left">Quotation</td>
+<td style="text-align:left">引用语</td>
+</tr>
+<tr>
+<td style="text-align:left">rel</td>
+<td style="text-align:left">Reload</td>
+<td style="text-align:left">加载</td>
+</tr>
+<tr>
+<td style="text-align:left">s/ strike</td>
+<td style="text-align:left">Strikethrough</td>
+<td style="text-align:left">删除线</td>
+</tr>
+<tr>
+<td style="text-align:left">samp</td>
+<td style="text-align:left">Sample</td>
+<td style="text-align:left">示例（文本</td>
+</tr>
+<tr>
+<td style="text-align:left">small</td>
+<td style="text-align:left">Small</td>
+<td style="text-align:left">变小（文本）</td>
+</tr>
+<tr>
+<td style="text-align:left">span</td>
+<td style="text-align:left">Span</td>
+<td style="text-align:left">范围</td>
+</tr>
+<tr>
+<td style="text-align:left">src</td>
+<td style="text-align:left">Source</td>
+<td style="text-align:left">源文件链接</td>
+</tr>
+<tr>
+<td style="text-align:left">strong</td>
+<td style="text-align:left">Strong</td>
+<td style="text-align:left">加重（文本）</td>
+</tr>
+<tr>
+<td style="text-align:left">sub</td>
+<td style="text-align:left">Subscripted</td>
+<td style="text-align:left">下标（文本）</td>
+</tr>
+<tr>
+<td style="text-align:left">sup</td>
+<td style="text-align:left">Superscripted</td>
+<td style="text-align:left">上标（文本）</td>
+</tr>
+<tr>
+<td style="text-align:left">td</td>
+<td style="text-align:left">table data cell</td>
+<td style="text-align:left">表格中的一个单元格</td>
+</tr>
+<tr>
+<td style="text-align:left">th</td>
+<td style="text-align:left">table header cell</td>
+<td style="text-align:left">表格中的表头</td>
+</tr>
+<tr>
+<td style="text-align:left">tr</td>
+<td style="text-align:left">table row</td>
+<td style="text-align:left">表格中的一行</td>
+</tr>
+<tr>
+<td style="text-align:left">tt</td>
+<td style="text-align:left">Teletype</td>
+<td style="text-align:left">打印机（文本）</td>
+</tr>
+<tr>
+<td style="text-align:left">u</td>
+<td style="text-align:left">Underlined</td>
+<td style="text-align:left">下划线（文本）</td>
+</tr>
+<tr>
+<td style="text-align:left">ul</td>
+<td style="text-align:left">Unordered List</td>
+<td style="text-align:left">不排序列表</td>
+</tr>
+<tr>
+<td style="text-align:left">var</td>
+<td style="text-align:left">Variable</td>
+<td style="text-align:left">变量（文本）</td>
+</tr>
+</tbody>
+</table>
+<h1 id="事件属性"><a class="markdownIt-Anchor" href="#事件属性"></a> 事件属性</h1>
+<h2 id="窗口事件属性window-event-attributes"><a class="markdownIt-Anchor" href="#窗口事件属性window-event-attributes"></a> 窗口事件属性（Window Event Attributes）</h2>
+<p>由窗口触发该事件 (适用于 <code>&lt;body&gt;</code> 标签):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">值</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onafterprint.html">onafterprint</a><strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">在打印文档之后运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onbeforeprint.html">onbeforeprint</a><strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">在文档打印之前运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onbeforeonload<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">在文档加载之前运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onblur</td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当窗口失去焦点时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onerror<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当错误发生时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onfocus</td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当窗口获得焦点时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onhashchange<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当文档改变时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onload.html">onload</a></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当文档加载时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onmessage<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当触发消息时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onoffline<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当文档离线时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">ononline<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当文档上线时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onpagehide<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当窗口隐藏时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onpageshow<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当窗口可见时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onpopstate<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当窗口历史记录改变时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onredo<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当文档执行再执行操作（redo）时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onresize.html">onresize</a><strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当调整窗口大小时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onstorage<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当 Web Storage 区域更新时（存储空间中的数据发生变化时）运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onundo<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当文档执行撤销时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onunload.html">onunload</a><strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当用户离开文档时运行脚本</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="表单事件form-events"><a class="markdownIt-Anchor" href="#表单事件form-events"></a> 表单事件(Form Events)</h2>
+<p>表单事件在HTML表单中触发 (适用于所有 HTML 元素, 但该HTML元素需在form表单内):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">值</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onblur.html">onblur</a></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当元素失去焦点时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onchange.html">onchange</a></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当元素改变时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">oncontextmenu<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当触发上下文菜单时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onfocus.html">onfocus</a></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当元素获得焦点时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onformchange<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当表单改变时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onforminput<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当表单获得用户输入时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">oninput<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当元素获得用户输入时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">oninvalid<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当元素无效时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onreset</td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当表单重置时运行脚本。HTML 5 不支持。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onselect.html">onselect</a></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当选取元素时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onsubmit.html">onsubmit</a></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当提交表单时运行脚本</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="键盘事件keyboard-events"><a class="markdownIt-Anchor" href="#键盘事件keyboard-events"></a> 键盘事件（Keyboard Events）</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">值</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onkeydown.html">onkeydown</a></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当按下按键时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onkeypress.html">onkeypress</a></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当按下并松开按键时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onkeyup.html">onkeyup</a></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当松开按键时运行脚本</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="鼠标事件mouse-events"><a class="markdownIt-Anchor" href="#鼠标事件mouse-events"></a> 鼠标事件（Mouse Events）</h2>
+<p>通过鼠标触发事件, 类似用户的行为:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">值</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onclick.html">onclick</a></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当单击鼠标时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-ondblclick.html">ondblclick</a></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当双击鼠标时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">ondrag<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当拖动元素时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">ondragend<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当拖动操作结束时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">ondragenter<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当元素被拖动至有效的拖放目标时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">ondragleave<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当元素离开有效拖放目标时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">ondragover<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当元素被拖动至有效拖放目标上方时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">ondragstart<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当拖动操作开始时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">ondrop<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当被拖动元素正在被拖放时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onmousedown.html">onmousedown</a></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当按下鼠标按钮时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onmousemove.html">onmousemove</a></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当鼠标指针移动时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onmouseout.html">onmouseout</a></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当鼠标指针移出元素时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onmouseover.html">onmouseover</a></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当鼠标指针移至元素之上时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onmouseup.html">onmouseup</a></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当松开鼠标按钮时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onmousewheel<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当转动鼠标滚轮时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onscroll<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当滚动元素的滚动条时运行脚本</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="多媒体事件media-events"><a class="markdownIt-Anchor" href="#多媒体事件media-events"></a> 多媒体事件(Media Events)</h2>
+<p>通过视频（videos），图像（images）或者音频（audio） 触发该事件，多应用于 HTML 媒体元素比如 <code>&lt;audio&gt;, &lt;embed&gt;, &lt;img&gt;, &lt;object&gt;, 和&lt;video&gt;</code>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">值</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">onabort</td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当发生中止事件时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">oncanplay<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当媒介能够开始播放但可能因缓冲而需要停止时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">oncanplaythrough<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当媒介能够无需因缓冲而停止即可播放至结尾时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">ondurationchange<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当媒介长度改变时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onemptied<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当媒介资源元素突然为空时（网络错误、加载错误等）运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onended<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当媒介已抵达结尾时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onerror<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当在元素加载期间发生错误时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onloadeddata<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当加载媒介数据时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onloadedmetadata<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当媒介元素的持续时间以及其他媒介数据已加载时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onloadstart<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当浏览器开始加载媒介数据时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onpause<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当媒介数据暂停时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onplay<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当媒介数据将要开始播放时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onplaying<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当媒介数据已开始播放时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onprogress<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当浏览器正在取媒介数据时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onratechange<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当媒介数据的播放速率改变时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onreadystatechange<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当就绪状态（ready-state）改变时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onseeked<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当媒介元素的定位属性 [1] 不再为真且定位已结束时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onseeking<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当媒介元素的定位属性为真且定位已开始时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onstalled<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当取回媒介数据过程中（延迟）存在错误时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onsuspend<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当浏览器已在取媒介数据但在取回整个媒介文件之前停止时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">ontimeupdate<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当媒介改变其播放位置时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onvolumechange<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当媒介改变音量亦或当音量被设置为静音时运行脚本</td>
+</tr>
+<tr>
+<td style="text-align:left">onwaiting<strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当媒介已停止播放但打算继续播放时运行脚本</td>
+</tr>
+</tbody>
+</table>
+<h2 id="其他事件"><a class="markdownIt-Anchor" href="#其他事件"></a> 其他事件</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">值</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-onshow.html">onshow</a><strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当 <menu> 元素在上下文显示时触发</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/tags/ev-ontoggle.html">ontoggle</a><strong>New</strong></td>
+<td style="text-align:left"><em>script</em></td>
+<td style="text-align:left">当用户打开或关闭 <details> 元素时触发</td>
+</tr>
+</tbody>
+</table>
+<h1 id="emoji"><a class="markdownIt-Anchor" href="#emoji"></a> emoji</h1>
+<h2 id="emoji-表情符号"><a class="markdownIt-Anchor" href="#emoji-表情符号"></a> Emoji 表情符号</h2>
+<p>下表列出来一些 Emoji 表情符号：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Emoji</th>
+<th style="text-align:left">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">🗻</td>
+<td style="text-align:left"><code>&amp;#128507;</code></td>
+</tr>
+<tr>
+<td style="text-align:left">🗼</td>
+<td style="text-align:left"><code>&amp;#128508;</code></td>
+</tr>
+<tr>
+<td style="text-align:left">🗽</td>
+<td style="text-align:left"><code>&amp;#128509;</code></td>
+</tr>
+<tr>
+<td style="text-align:left">🗾</td>
+<td style="text-align:left"><code>&amp;#128510;</code></td>
+</tr>
+<tr>
+<td style="text-align:left">🗿</td>
+<td style="text-align:left"><code>&amp;#128511;</code></td>
+</tr>
+<tr>
+<td style="text-align:left">😀</td>
+<td style="text-align:left"><code>&amp;#128512;</code></td>
+</tr>
+<tr>
+<td style="text-align:left">😁</td>
+<td style="text-align:left"><code>&amp;#128513;</code></td>
+</tr>
+<tr>
+<td style="text-align:left">😂</td>
+<td style="text-align:left"><code>&amp;#128514;</code></td>
+</tr>
+<tr>
+<td style="text-align:left">😃</td>
+<td style="text-align:left"><code>&amp;#128515;</code></td>
+</tr>
+<tr>
+<td style="text-align:left">😄</td>
+<td style="text-align:left"><code>&amp;#128516;</code></td>
+</tr>
+<tr>
+<td style="text-align:left">😅</td>
+<td style="text-align:left"><code>&amp;#128517;</code></td>
+</tr>
+</tbody>
+</table>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/07/07/css%E5%9F%BA%E7%A1%80/" rel="prev" title="css基础"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">css基础</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/07/06/xss-labs%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/" rel="next" title="xss-labs通关记录"><span class="post-nav-text">xss-labs通关记录</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/07/07/html%E5%9F%BA%E7%A1%80/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>

