@@ -1,0 +1,426 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>初识WindowsPE | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="先简单了解一下，后期跟着&quot;PE权威指南&quot;详细学习 PE（Portable文件是Windows下使用的可执行文件格式 基于UNIX平台的COFF(Common Object File Format 通用对象文件格式)基础上制作而成  基础概念  文件格式    种类 主拓展名 种类 主拓展名     可执行 EXE,SCR 驱动程序 SYS,VXD   库系列 DLL,OCX,C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识WindowsPE">
+<meta property="og:url" content="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="先简单了解一下，后期跟着&quot;PE权威指南&quot;详细学习 PE（Portable文件是Windows下使用的可执行文件格式 基于UNIX平台的COFF(Common Object File Format 通用对象文件格式)基础上制作而成  基础概念  文件格式    种类 主拓展名 种类 主拓展名     可执行 EXE,SCR 驱动程序 SYS,VXD   库系列 DLL,OCX,C">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/8a74e7185d9f4d0e911e64800af9fba1.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/4c40b78e815349a3b42a12836a162426.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/43be0b18f2c845d2ab1d11cebde7a1e3.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/6005873b9fc2440989a720fe1e34700f.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/4a9dbb4f18724329aae2b2e23a77d709.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/8a74e7185d9f4d0e911e64800af9fba1.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/image-20240709221525439.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/image-20240709224937160.png">
+<meta property="article:published_time" content="2024-07-09T10:59:58.000Z">
+<meta property="article:modified_time" content="2024-07-09T14:50:19.801Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Reverse">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/8a74e7185d9f4d0e911e64800af9fba1.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">47</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text"> 基础概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text"> 文件格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pe%E8%A3%85%E8%BD%BD"><span class="toc-number">1.2.</span> <span class="toc-text"> PE装载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pe%E7%BB%84%E6%88%90"><span class="toc-number">1.3.</span> <span class="toc-text"> PE组成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#pe%E6%96%87%E4%BB%B6%E5%A4%B4"><span class="toc-number">1.3.1.</span> <span class="toc-text"> PE文件头</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#pe%E5%A4%B4-image_nt_headers"><span class="toc-number">1.3.1.1.</span> <span class="toc-text"> PE头 IMAGE_NT_HEADERS</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A9%E5%B1%95pe%E5%A4%B4%E5%8F%AF%E9%80%89%E5%A4%B4image_optional_header32"><span class="toc-number">1.3.2.</span> <span class="toc-text"> 扩展PE头／可选头(IMAGE_OPTIONAL_HEADER３２)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#image_data_directory"><span class="toc-number">1.3.2.1.</span> <span class="toc-text"> IMAGE_DATA_DIRECTORY</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.4.</span> <span class="toc-text"> 地址转换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98"><span class="toc-number">1.4.1.</span> <span class="toc-text"> 虚拟内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8A%82%E5%81%8F%E7%A7%BB"><span class="toc-number">1.4.2.</span> <span class="toc-text"> 节偏移</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A5%E5%8F%A3%E7%82%B9oep"><span class="toc-number">1.5.</span> <span class="toc-text"> 入口点（OEP）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%98%A0%E5%83%8F"><span class="toc-number">1.6.</span> <span class="toc-text"> 内存映像</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E7%BB%84%E6%88%90"><span class="toc-number">1.6.1.</span> <span class="toc-text"> 可执行程序在内存中的组成</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pe%E5%A4%B4"><span class="toc-number">2.</span> <span class="toc-text"> PE头</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#dos%E5%A4%B4"><span class="toc-number">2.1.</span> <span class="toc-text"> DOS头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dosstub"><span class="toc-number">2.2.</span> <span class="toc-text"> DOSstub</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nt%E5%A4%B4"><span class="toc-number">2.3.</span> <span class="toc-text"> NT头</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nt%E5%A4%B4file-header"><span class="toc-number">2.3.1.</span> <span class="toc-text"> NT头:FILE Header</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nt%E5%A4%B4%E5%8F%AF%E9%80%89%E5%A4%B4"><span class="toc-number">2.3.2.</span> <span class="toc-text"> NT头:可选头</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8A%82%E5%8C%BA%E5%A4%B4"><span class="toc-number">2.3.3.</span> <span class="toc-text"> 节区头</span></a></li></ol></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">初识WindowsPE</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-09 18:59:58" itemprop="dateCreated datePublished" datetime="2024-07-09T18:59:58+08:00">2024-07-09</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">3.1k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">12m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Reverse/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Reverse</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Reverse/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Reverse</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><p>先简单了解一下，后期跟着&quot;PE权威指南&quot;详细学习</p>
+<p><code>PE</code>（Portable文件是<code>Windows</code>下使用的可执行文件格式</p>
+<p>基于UNIX平台的<code>COFF</code>(Common Object File Format 通用对象文件格式)基础上制作而成</p>
+<h2 id="基础概念"><a class="markdownIt-Anchor" href="#基础概念"></a> 基础概念</h2>
+<h3 id="文件格式"><a class="markdownIt-Anchor" href="#文件格式"></a> 文件格式</h3>
+<table>
+<thead>
+<tr>
+<th>种类</th>
+<th>主拓展名</th>
+<th>种类</th>
+<th>主拓展名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>可执行</td>
+<td>EXE,SCR</td>
+<td>驱动程序</td>
+<td>SYS,VXD</td>
+</tr>
+<tr>
+<td>库系列</td>
+<td>DLL,OCX,CPL,DRV</td>
+<td>对象文件</td>
+<td>OBJ</td>
+</tr>
+</tbody>
+</table>
+<p>严格来说，除了<code>OBJ</code>的所有文件都可以执行，只是<code>DLL</code>,<code>SYS</code>等文件不能直接在<code>SHELL</code>(explorer.exe)中执行，但是可以在其他环境下(调试器，服务)等执行</p>
+<h3 id="pe装载"><a class="markdownIt-Anchor" href="#pe装载"></a> PE装载</h3>
+<ul>
+<li>当PE文件被执行，PE装载器检查<code>DOS MZ header</code>里的<code>PE header</code>偏移量，如果找到，则跳转到<code>PE header</code></li>
+<li><code>PE</code>装载器检查<code>PE header</code>的有效性，如果有效，则跳转到<code>PE header</code>的尾部</li>
+<li><code>PE header</code>后面是节表。PE装载器读取其中的节信息，并采用文件映射的方法，将这些节映射到内存，同时赋上节表里指定的节属性</li>
+<li>PE文件映射入内存后，<code>PE</code>装载器将处理<code>PE</code>文件中类似<code>import table</code>引入表逻辑部分</li>
+</ul>
+<h3 id="pe组成"><a class="markdownIt-Anchor" href="#pe组成"></a> PE组成</h3>
+<p>PE文件大体分为两部分：</p>
+<p>头 (包括下图中的DOS头，PE文件头，块表 Section Table)</p>
+<p>主体 ( 块Section)。</p>
+<img src="/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/8a74e7185d9f4d0e911e64800af9fba1.png" class="" alt="在这里插入图片描述" loading="lazy">
+<h4 id="pe文件头"><a class="markdownIt-Anchor" href="#pe文件头"></a> PE文件头</h4>
+<img src="/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/4c40b78e815349a3b42a12836a162426.png" class="" alt="在这里插入图片描述" loading="lazy">
+<h5 id="pe头-image_nt_headers"><a class="markdownIt-Anchor" href="#pe头-image_nt_headers"></a> PE头 IMAGE_NT_HEADERS</h5>
+<p>包含三部分</p>
+<ul>
+<li>“PE\0\0”</li>
+<li>IMAGE_FILE_HEADER</li>
+<li>IMAGE_OPTIONAL_HEADER32</li>
+</ul>
+<h4 id="扩展pe头可选头image_optional_header32"><a class="markdownIt-Anchor" href="#扩展pe头可选头image_optional_header32"></a> 扩展PE头／可选头(IMAGE_OPTIONAL_HEADER３２)</h4>
+<img src="/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/43be0b18f2c845d2ab1d11cebde7a1e3.png" class="" alt="在这里插入图片描述" loading="lazy">
+<h5 id="image_data_directory"><a class="markdownIt-Anchor" href="#image_data_directory"></a> IMAGE_DATA_DIRECTORY</h5>
+<p>数据目录项，组成有</p>
+<ul>
+<li>导出表、</li>
+<li>导入表、</li>
+<li>资源表、</li>
+<li>异常处理表、</li>
+<li>安全表、(Certificate Table)</li>
+<li>重定位表、</li>
+<li>调试表、</li>
+<li>版权、</li>
+<li>指针目录、</li>
+<li>TLS、</li>
+<li>载入配置、</li>
+<li>绑定输入目录、</li>
+<li>导入地址表、</li>
+<li>延迟载入、</li>
+<li>COM信息。</li>
+</ul>
+<h3 id="地址转换"><a class="markdownIt-Anchor" href="#地址转换"></a> 地址转换</h3>
+<h4 id="虚拟内存"><a class="markdownIt-Anchor" href="#虚拟内存"></a> 虚拟内存</h4>
+<p>文件偏移地址（File Offset Address） ：文件相对于文件开头的偏移</p>
+<p>装载基址（Image Base） ：PE装入内存时的基地址，EXE在内存中的基地址是0x00400000,DLL的基地址是0x10000000，这些位置可以通过修改编译选项更改</p>
+<p>虚拟内存地址 （Virtual Address， VA） ：PE文件中的指令被装入内存后的地址，在Windows系统中，PE文件被系统加载器映射到内存中。每个程序都有自己的虚拟空间，这个虚拟空间的内存地址称为虚拟地址（Virtual Address,VA）。</p>
+<p>相对虚拟地址（Relative Virtual Address，RVA） ：相对虚拟地址是内存地址相对于映射基地址偏移量</p>
+<p><mark>VA=ImageBase+RVA</mark></p>
+<h4 id="节偏移"><a class="markdownIt-Anchor" href="#节偏移"></a> 节偏移</h4>
+<p>节偏移 ：PE文件中的数据按照磁盘数据标准存放，以0x200字节为基本单位进行组织，当PE文件装载到内存时，将按照内存数据标准存放，以0x1000字节为基本单位，所以文件偏移地址和相对虚拟内存会有细微的差别，这种差别称为节偏移</p>
+<p>SectionAlignment : 内存当中的块对齐数，一般为0x1000。</p>
+<p>FileAlignment :磁盘当中块对齐数，一般为0x200。</p>
+<p><mark>文件偏移地址 = 虚拟内存地址（VA）- 装载基址（ImageBase）- 节偏移<br />
+= RVA –节偏移</mark></p>
+<h3 id="入口点oep"><a class="markdownIt-Anchor" href="#入口点oep"></a> 入口点（OEP）</h3>
+<p>入口点(Original Entry Point) ： 首先明确一个概念就是<strong>OEP是一个RVA</strong>，然后使用OEP +Imagebase ==入口点的VA，通常情况下，OEP指向的不是main函数。</p>
+<p>(往往是CRT)</p>
+<h3 id="内存映像"><a class="markdownIt-Anchor" href="#内存映像"></a> 内存映像</h3>
+<p>PE文件不是作为单一内存映射文件，被载入的内存是很重要的。Windows加载器（又称PE装载器）遍历PE文件并决定文件的哪一部分被映射，这种映射方式是将文件较高的偏移位置映射到较高的内存地址中。磁盘文件一旦被载入内存，磁盘上的数据结构布局和内存中的数据结构布局就是一致的。</p>
+<img src="/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/6005873b9fc2440989a720fe1e34700f.png" class="" alt="在这里插入图片描述" loading="lazy">
+<p>当PE文件通过<code>Windows</code>加载器载入内存后，PE在内存中的版本称为模块(Module)</p>
+<p>映射文件的起始地址称为模块句柄(hModule)</p>
+<p>可以通过模块句柄访问内存中的其他数据结构，这个初始内存地址也称为基地址ImageBase</p>
+<h4 id="可执行程序在内存中的组成"><a class="markdownIt-Anchor" href="#可执行程序在内存中的组成"></a> 可执行程序在内存中的组成</h4>
+<p>一般情况下，一个可执行C程序在内存中主要包含5个区域，分别是**代码段（text），数据段（data），BSS段，堆段（heap）和栈段（stack）。**其中前三个段（text，data，bss）是程序编译完成就存在的，此时程序并未载入内存进行执行。后两个段（heap，stack）是程序被加载到内存中时，才存在的。具体的样子可以如下图所示：</p>
+<img src="/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/4a9dbb4f18724329aae2b2e23a77d709.png" class="" alt="在这里插入图片描述" loading="lazy">
+<p>未初始化的全局变量和静态变量，存储在bss区， 未初始化的局部变量保存在栈区。</p>
+<p>代码段（text）：就是C程序编译后的机器指令，也就是我们常见的汇编代码。</p>
+<p>数据段（data）：用来存放显式初始化的全局变量或者静态（全局）变量，常量数据。</p>
+<p>BSS段（Block Started by Symbol): 存储未初始化的全局变量或者静态（全局）变量。编译器给处理成0；</p>
+<p>栈段(stack)：存放函数调用相关的参数、局部变量的值，以及在任务切换的上下文信息。栈区是由操作系统分配和管理的区域。</p>
+<p>堆段（heap): 动态内存分配的区域，也就是malloc申请的内存区，使用free()函数来释放内存，堆的申请释放工作由程序员控制，容易产生内存泄漏。</p>
+<p>包含data段和bss段的整个区段此时通常称为数据区。<br />
+<strong>auto</strong>存储类型：auto只能用来标识局部变量的存储类型，对于局部变量，auto是默认的存储类型，不需要显示的指定。因此，auto标识的变量存储在<strong>栈区</strong>中。</p>
+<p><strong>extern</strong>存储类型：extern用来声明在当前文件中引用在当前项目中的其它文件中定义的全局变量。如果全局变量<strong>未被初始化，那么将被存在BBS区中，且在编译时，自动将其值赋值为0，如果已经被初始化，那么就被存在数据区中。</strong></p>
+<p><strong>register</strong>存储类型：声明为register的变量在由内存调入到CPU寄存器后，则常驻在CPU的<strong>寄存器</strong>中，因此访问register变量将在很大程度上提高效率，因为省去了变量由内存调入到寄存器过程中的好几个指令周期。在C++中，例如 while(i–){}; 对变量 i 有频繁的操作，编译器会将其存储在寄存器中。</p>
+<p><strong>static</strong>存储类型：被声明为静态类型的变量，无论是全局的还是局部的，都存储在数据区中，其生命周期为整个程序，如果是静态局部变量，其作用域为一对{}内，如果是静态全局变量，其作用域为当前文件。静态变量如果没有被初始化，则自动初始化为0。静态变量只能够初始化一次。</p>
+<p><strong>字符串常量</strong>：字符串常量存储在数据区中，其生存期为整个程序运行时间，但作用域为当前文件。</p>
+<h2 id="pe头"><a class="markdownIt-Anchor" href="#pe头"></a> PE头</h2>
+<img src="/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/8a74e7185d9f4d0e911e64800af9fba1.png" class="" alt="在这里插入图片描述" loading="lazy">
+<h3 id="dos头"><a class="markdownIt-Anchor" href="#dos头"></a> DOS头</h3>
+<p>这是微软考虑PE文件对DOS文件的兼容性所加</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">_IMAGE_DOS_HEADER</span> <span class="token punctuation">&#123;</span>      <span class="token comment">// DOS .EXE header</span>
+    WORD   e_magic<span class="token punctuation">;</span>                     <span class="token comment">// Magic number</span>
+    WORD   e_cblp<span class="token punctuation">;</span>                      <span class="token comment">// Bytes on last page of file</span>
+    WORD   e_cp<span class="token punctuation">;</span>                        <span class="token comment">// Pages in file</span>
+    WORD   e_crlc<span class="token punctuation">;</span>                      <span class="token comment">// Relocations</span>
+    WORD   e_cparhdr<span class="token punctuation">;</span>                   <span class="token comment">// Size of header in paragraphs</span>
+    WORD   e_minalloc<span class="token punctuation">;</span>                  <span class="token comment">// Minimum extra paragraphs needed</span>
+    WORD   e_maxalloc<span class="token punctuation">;</span>                  <span class="token comment">// Maximum extra paragraphs needed</span>
+    WORD   e_ss<span class="token punctuation">;</span>                        <span class="token comment">// Initial (relative) SS value</span>
+    WORD   e_sp<span class="token punctuation">;</span>                        <span class="token comment">// Initial SP value</span>
+    WORD   e_csum<span class="token punctuation">;</span>                      <span class="token comment">// Checksum</span>
+    WORD   e_ip<span class="token punctuation">;</span>                        <span class="token comment">// Initial IP value</span>
+    WORD   e_cs<span class="token punctuation">;</span>                        <span class="token comment">// Initial (relative) CS value</span>
+    WORD   e_lfarlc<span class="token punctuation">;</span>                    <span class="token comment">// File address of relocation table</span>
+    WORD   e_ovno<span class="token punctuation">;</span>                      <span class="token comment">// Overlay number</span>
+    WORD   e_res<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>                    <span class="token comment">// Reserved words</span>
+    WORD   e_oemid<span class="token punctuation">;</span>                     <span class="token comment">// OEM identifier (for e_oeminfo)</span>
+    WORD   e_oeminfo<span class="token punctuation">;</span>                   <span class="token comment">// OEM information; e_oemid specific</span>
+    WORD   e_res2<span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">;</span>                  <span class="token comment">// Reserved words</span>
+    LONG   e_lfanew<span class="token punctuation">;</span>                    <span class="token comment">// File address of new exe header</span>
+  <span class="token punctuation">&#125;</span> IMAGE_DOS_HEADER<span class="token punctuation">,</span> <span class="token operator">*</span>PIMAGE_DOS_HEADER<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><mark>IMAGE_DOS_HEADER</mark>结构体的大小为<mark>40个字节</mark></p>
+<p>必须知道的两个重要成员</p>
+<ul>
+<li>
+<p><mark>e_magic</mark> DOS签名   4D5A - &gt;  “MZ”</p>
+</li>
+<li>
+<p><mark>e_lfanew</mark>指示NT头的偏移(不同文件值不同)</p>
+</li>
+</ul>
+<h3 id="dosstub"><a class="markdownIt-Anchor" href="#dosstub"></a> DOSstub</h3>
+<p>DOS存根(stub)在IAMGE_DOS_HEADER下方</p>
+<img src="/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/image-20240709221525439.png" class="" alt="image-20240709221525439" loading="lazy">
+<p>由代码与数据混合而成，即使没有DOS存根，文件也能正常运行</p>
+<h3 id="nt头"><a class="markdownIt-Anchor" href="#nt头"></a> NT头</h3>
+<p><mark>IMAGE_NT_HEADERS</mark>结构体的大小为<mark>F8</mark>，很大</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">_IMAGE_NT_HEADERS</span> <span class="token punctuation">&#123;</span>
+    DWORD Signature<span class="token punctuation">;</span>
+    IMAGE_FILE_HEADER FileHeader<span class="token punctuation">;</span>
+    IMAGE_OPTIONAL_HEADER32 OptionalHeader<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> IMAGE_NT_HEADERS32<span class="token punctuation">,</span> <span class="token operator">*</span>PIMAGE_NT_HEADERS32<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>Signature 值为0x50450000h 即PE00</li>
+<li>FILE Header 文件头</li>
+<li>OptionalHeader 可选头文件结构体</li>
+</ul>
+<h4 id="nt头file-header"><a class="markdownIt-Anchor" href="#nt头file-header"></a> NT头:FILE Header</h4>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">_IMAGE_FILE_HEADER</span> <span class="token punctuation">&#123;</span>
+    WORD    Machine<span class="token punctuation">;</span>
+    WORD    NumberOfSections<span class="token punctuation">;</span>
+    DWORD   TimeDateStamp<span class="token punctuation">;</span>
+    DWORD   PointerToSymbolTable<span class="token punctuation">;</span>
+    DWORD   NumberOfSymbols<span class="token punctuation">;</span>
+    WORD    SizeOfOptionalHeader<span class="token punctuation">;</span>
+    WORD    Characteristics<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> IMAGE_FILE_HEADER<span class="token punctuation">,</span> <span class="token operator">*</span>PIMAGE_FILE_HEADER<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>有4个比较重要的成员</p>
+<ol>
+<li>
+<p>Machine 每个不同种类的CPU都有唯一的<code>Machine</code>码</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_I386</span>              <span class="token expression"><span class="token number">0x014c</span>  </span><span class="token comment">// Intel 386.</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_R3000</span>             <span class="token expression"><span class="token number">0x0162</span>  </span><span class="token comment">// MIPS little-endian, 0x160 big-endian</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_R4000</span>             <span class="token expression"><span class="token number">0x0166</span>  </span><span class="token comment">// MIPS little-endian</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_R10000</span>            <span class="token expression"><span class="token number">0x0168</span>  </span><span class="token comment">// MIPS little-endian</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_WCEMIPSV2</span>         <span class="token expression"><span class="token number">0x0169</span>  </span><span class="token comment">// MIPS little-endian WCE v2</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_ALPHA</span>             <span class="token expression"><span class="token number">0x0184</span>  </span><span class="token comment">// Alpha_AXP</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_SH3</span>               <span class="token expression"><span class="token number">0x01a2</span>  </span><span class="token comment">// SH3 little-endian</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_SH3DSP</span>            <span class="token expression"><span class="token number">0x01a3</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_SH3E</span>              <span class="token expression"><span class="token number">0x01a4</span>  </span><span class="token comment">// SH3E little-endian</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_SH4</span>               <span class="token expression"><span class="token number">0x01a6</span>  </span><span class="token comment">// SH4 little-endian</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_SH5</span>               <span class="token expression"><span class="token number">0x01a8</span>  </span><span class="token comment">// SH5</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_ARM</span>               <span class="token expression"><span class="token number">0x01c0</span>  </span><span class="token comment">// ARM Little-Endian</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_THUMB</span>             <span class="token expression"><span class="token number">0x01c2</span>  </span><span class="token comment">// ARM Thumb/Thumb-2 Little-Endian</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_ARMNT</span>             <span class="token expression"><span class="token number">0x01c4</span>  </span><span class="token comment">// ARM Thumb-2 Little-Endian</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_AM33</span>              <span class="token expression"><span class="token number">0x01d3</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_POWERPC</span>           <span class="token expression"><span class="token number">0x01F0</span>  </span><span class="token comment">// IBM PowerPC Little-Endian</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_POWERPCFP</span>         <span class="token expression"><span class="token number">0x01f1</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_IA64</span>              <span class="token expression"><span class="token number">0x0200</span>  </span><span class="token comment">// Intel 64</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_MIPS16</span>            <span class="token expression"><span class="token number">0x0266</span>  </span><span class="token comment">// MIPS</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_ALPHA64</span>           <span class="token expression"><span class="token number">0x0284</span>  </span><span class="token comment">// ALPHA64</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_MIPSFPU</span>           <span class="token expression"><span class="token number">0x0366</span>  </span><span class="token comment">// MIPS</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_MIPSFPU16</span>         <span class="token expression"><span class="token number">0x0466</span>  </span><span class="token comment">// MIPS</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_AXP64</span>             <span class="token expression">IMAGE_FILE_MACHINE_ALPHA64</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_TRICORE</span>           <span class="token expression"><span class="token number">0x0520</span>  </span><span class="token comment">// Infineon</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_CEF</span>               <span class="token expression"><span class="token number">0x0CEF</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_EBC</span>               <span class="token expression"><span class="token number">0x0EBC</span>  </span><span class="token comment">// EFI Byte Code</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_AMD64</span>             <span class="token expression"><span class="token number">0x8664</span>  </span><span class="token comment">// AMD64 (K8)</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_M32R</span>              <span class="token expression"><span class="token number">0x9041</span>  </span><span class="token comment">// M32R little-endian</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_ARM64</span>             <span class="token expression"><span class="token number">0xAA64</span>  </span><span class="token comment">// ARM64 Little-Endian</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_MACHINE_CEE</span>               <span class="token expression"><span class="token number">0xC0EE</span></span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li>
+<p>NumberOfSections</p>
+<p>PE文件把代码，数据，资源等依据属性分类到各节中存储</p>
+<p>这个值指出了文件中存在的节区数量，值比大于0，如果定义的节区数量与实际情况不符，运行错误</p>
+</li>
+<li>
+<p>SizeOfOptionalHeader</p>
+<p><code>IMAGE_NT_HEADER</code>结构体的最后一个成员为<code>IAMGE_OPTIONAL_HEADER32</code>结构体</p>
+<p>而这个值用于指出<code>IMAGE_OPTIONAL_HEADER32</code>结构体的长度</p>
+</li>
+<li>
+<p>Characteristics</p>
+<p>该字段用于标识文件的属性，文件是否可运行的形态，是否为DLL等信息</p>
+<p>以bit异或形式组合起来</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_RELOCS_STRIPPED</span>           <span class="token expression"><span class="token number">0x0001</span>  </span><span class="token comment">// Relocation info stripped from file.</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_EXECUTABLE_IMAGE</span>          <span class="token expression"><span class="token number">0x0002</span>  </span><span class="token comment">// File is executable  (i.e. no unresolved external references).</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_LINE_NUMS_STRIPPED</span>        <span class="token expression"><span class="token number">0x0004</span>  </span><span class="token comment">// Line nunbers stripped from file.</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_LOCAL_SYMS_STRIPPED</span>       <span class="token expression"><span class="token number">0x0008</span>  </span><span class="token comment">// Local symbols stripped from file.</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_AGGRESIVE_WS_TRIM</span>         <span class="token expression"><span class="token number">0x0010</span>  </span><span class="token comment">// Aggressively trim working set</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_LARGE_ADDRESS_AWARE</span>       <span class="token expression"><span class="token number">0x0020</span>  </span><span class="token comment">// App can handle >2gb addresses</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_BYTES_REVERSED_LO</span>         <span class="token expression"><span class="token number">0x0080</span>  </span><span class="token comment">// Bytes of machine word are reversed.</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_32BIT_MACHINE</span>             <span class="token expression"><span class="token number">0x0100</span>  </span><span class="token comment">// 32 bit word machine.</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_DEBUG_STRIPPED</span>            <span class="token expression"><span class="token number">0x0200</span>  </span><span class="token comment">// Debugging info stripped from file in .DBG file</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP</span>   <span class="token expression"><span class="token number">0x0400</span>  </span><span class="token comment">// If Image is on removable media, copy and run from the swap file.</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_NET_RUN_FROM_SWAP</span>         <span class="token expression"><span class="token number">0x0800</span>  </span><span class="token comment">// If Image is on Net, copy and run from the swap file.</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_SYSTEM</span>                    <span class="token expression"><span class="token number">0x1000</span>  </span><span class="token comment">// System File.</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_DLL</span>                       <span class="token expression"><span class="token number">0x2000</span>  </span><span class="token comment">// File is a DLL.</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_UP_SYSTEM_ONLY</span>            <span class="token expression"><span class="token number">0x4000</span>  </span><span class="token comment">// File should only be run on a UP machine</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_FILE_BYTES_REVERSED_HI</span>         <span class="token expression"><span class="token number">0x8000</span>  </span><span class="token comment">// Bytes of machine word are reversed.</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>另外,PE文件头中的Characteristics可能不是0002h，比如*.obj</p>
+<p>IMAGE_FILE_HEADER的TimeDataStamp成员，不影响文件运行，用来记录编译器创建该文件的时间</p>
+</li>
+</ol>
+<h4 id="nt头可选头"><a class="markdownIt-Anchor" href="#nt头可选头"></a> NT头:可选头</h4>
+<p><code>IMAGE_OPTIONAL_HEADER32</code>是PE头结构体中最大的</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">_IMAGE_OPTIONAL_HEADER</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">//</span>
+    <span class="token comment">// Standard fields.</span>
+    <span class="token comment">//</span>
+
+    WORD    Magic<span class="token punctuation">;</span>
+    BYTE    MajorLinkerVersion<span class="token punctuation">;</span>
+    BYTE    MinorLinkerVersion<span class="token punctuation">;</span>
+    DWORD   SizeOfCode<span class="token punctuation">;</span>
+    DWORD   SizeOfInitializedData<span class="token punctuation">;</span>
+    DWORD   SizeOfUninitializedData<span class="token punctuation">;</span>
+    DWORD   AddressOfEntryPoint<span class="token punctuation">;</span>
+    DWORD   BaseOfCode<span class="token punctuation">;</span>
+    DWORD   BaseOfData<span class="token punctuation">;</span>
+
+    <span class="token comment">//</span>
+    <span class="token comment">// NT additional fields.</span>
+    <span class="token comment">//</span>
+
+    DWORD   ImageBase<span class="token punctuation">;</span>
+    DWORD   SectionAlignment<span class="token punctuation">;</span>
+    DWORD   FileAlignment<span class="token punctuation">;</span>
+    WORD    MajorOperatingSystemVersion<span class="token punctuation">;</span>
+    WORD    MinorOperatingSystemVersion<span class="token punctuation">;</span>
+    WORD    MajorImageVersion<span class="token punctuation">;</span>
+    WORD    MinorImageVersion<span class="token punctuation">;</span>
+    WORD    MajorSubsystemVersion<span class="token punctuation">;</span>
+    WORD    MinorSubsystemVersion<span class="token punctuation">;</span>
+    DWORD   Win32VersionValue<span class="token punctuation">;</span>
+    DWORD   SizeOfImage<span class="token punctuation">;</span>
+    DWORD   SizeOfHeaders<span class="token punctuation">;</span>
+    DWORD   CheckSum<span class="token punctuation">;</span>
+    WORD    Subsystem<span class="token punctuation">;</span>
+    WORD    DllCharacteristics<span class="token punctuation">;</span>
+    DWORD   SizeOfStackReserve<span class="token punctuation">;</span>
+    DWORD   SizeOfStackCommit<span class="token punctuation">;</span>
+    DWORD   SizeOfHeapReserve<span class="token punctuation">;</span>
+    DWORD   SizeOfHeapCommit<span class="token punctuation">;</span>
+    DWORD   LoaderFlags<span class="token punctuation">;</span>
+    DWORD   NumberOfRvaAndSizes<span class="token punctuation">;</span>
+    IMAGE_DATA_DIRECTORY DataDirectory<span class="token punctuation">[</span>IMAGE_NUMBEROF_DIRECTORY_ENTRIES<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> IMAGE_OPTIONAL_HEADER32<span class="token punctuation">,</span> <span class="token operator">*</span>PIMAGE_OPTIONAL_HEADER32<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>文件运行必须包含指定的成员</p>
+<ol>
+<li>
+<p>Magic</p>
+<p>为<code>IMAGE_OPTIONAL_HEADER32</code>结构体时，<code>Magic</code>码为<code>10B</code>；</p>
+<p>为<code>IMAGE_OPTIONALHEADER64</code>结构体时，<code>Magic</code>码为<code>20B</code></p>
+</li>
+<li>
+<p>AddressOfEntryPoint</p>
+<p>持有EP的RVA值，指出程序最先执行的代码起始地址</p>
+</li>
+<li>
+<p>ImageBase</p>
+<p>进程虚拟内存的范围是0~FFFFFFFF(32位)。PE文件被加载到如此大的内存中时，<code>ImageBase</code>指出文件的优先装入地址</p>
+<p><code>EXE，dll</code>等装载到用户内存的<code>0x7FFFFFFF</code></p>
+<p><code>SYS</code>文件被载入到内核内存的<code>80000000-FFFFFFFF</code>中</p>
+<p>一般而言<code>EXE</code>的IMAGEBASE值为00400000</p>
+<p>DLL的IMAGEBASE值为10000000，也可以指定为其他值</p>
+<p>执行PE文件时，PE装载器先创建进程，再将文件载入内存，然后把EIP寄存器的值设置为<code>IMAGEBASE+OEP</code></p>
+</li>
+<li>
+<p>SectionAliginment,FileAlignment</p>
+<p>PE文件的body部分划分为若干节区，这些节存储不同类型的数据</p>
+<p><code>FileAlignment</code>指定了节区磁盘文件中的最小单位</p>
+<p><code>SectionAlignment</code>指定了节区在内存中的最小单位</p>
+<p>磁盘文件或内存的节区大小必定为<code>File/SecitonAlignment</code>的整数倍</p>
+</li>
+<li>
+<p>SizeOfImage</p>
+<p>加载PE文件到内存时，SizeOfImage指定了PE Image在虚拟内存中所占的空间大小（文件大小与加载的内存大小是不一样的，会经过映射</p>
+</li>
+<li>
+<p>SizeOfHeader</p>
+<p>用来指出整个PE头的大小,也必须是	<code>FileAlignment</code>的整数倍</p>
+</li>
+<li>
+<p>Subsystem</p>
+<p>区别系统驱动文件(<em>/sys)与普通的可执行文件(</em>.dll,.exe)</p>
+<p>值为1  Driver文件   系统驱动(ntfs.sys)</p>
+<p>值为2  GUI文件   窗口应用程序(notepad.exe)</p>
+<p>值为3 CUI文件  控制台应用程序(cmd.exe)</p>
+</li>
+<li>
+<p>NumberOfRvaAndSizes</p>
+<p>用来指定<code>DataDirectory</code>（即<code>IMAGE_OPTIONAL_HEADER32</code>结构体的最后一个成员）数组的个数。定义上是16，也可能不是16</p>
+</li>
+<li>
+<p>DataDirectory</p>
+<img src="/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/image-20240709224937160.png" class="" alt="image-20240709224937160" loading="lazy">
+</li>
+</ol>
+<h4 id="节区头"><a class="markdownIt-Anchor" href="#节区头"></a> 节区头</h4>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/07/09/%E5%88%9D%E8%AF%86Windows%E5%86%85%E6%A0%B8/" rel="prev" title="初识Windows内核"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">初识Windows内核</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/07/08/XXElab%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/" rel="next" title="XXElab通关记录"><span class="post-nav-text">XXElab通关记录</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2023 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>
