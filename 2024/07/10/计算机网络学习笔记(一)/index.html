@@ -1,0 +1,298 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>计算机网络学习笔记(一) | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="[TOC]  前言 阅读笔记基于 图解TCPIP 计网教材 以及网上的各个blog 课程 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1JV411t7ow?p&#x3D;1  Chap1概论    互联网的构成 网络边缘:位于互联网边缘与互联网相连的计算机和其他设备,如桌面计算机、移动计算机、服务器、其他智能终端设备 网络核心:由互联端系统的分组交换设备和通信链路构成的网状网络 如：分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络学习笔记(一)">
+<meta property="og:url" content="http://npc0vo.github.io/2024/07/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(%E4%B8%80)/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="[TOC]  前言 阅读笔记基于 图解TCPIP 计网教材 以及网上的各个blog 课程 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1JV411t7ow?p&#x3D;1  Chap1概论    互联网的构成 网络边缘:位于互联网边缘与互联网相连的计算机和其他设备,如桌面计算机、移动计算机、服务器、其他智能终端设备 网络核心:由互联端系统的分组交换设备和通信链路构成的网状网络 如：分">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-07-10T13:10:01.000Z">
+<meta property="article:modified_time" content="2024-07-10T15:44:52.048Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">48</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chap1%E6%A6%82%E8%AE%BA"><span class="toc-number">2.</span> <span class="toc-text"> Chap1概论</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#-swig0-"><span class="toc-number">2.1.</span> <span class="toc-text"> </span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%92%E8%81%94%E7%BD%91%E7%9A%84%E6%9E%84%E6%88%90"><span class="toc-number">2.2.</span> <span class="toc-text"> 互联网的构成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%88%86%E7%B1%BB"><span class="toc-number">2.3.</span> <span class="toc-text"> 网络分类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#panpersonalareanetwork"><span class="toc-number">2.3.1.</span> <span class="toc-text"> PAN(PersonalAreaNetwork)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#lanlocalareanetwork"><span class="toc-number">2.3.2.</span> <span class="toc-text"> LAN(LocalAreaNetwork)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#manmetropolitanareanetwork"><span class="toc-number">2.3.3.</span> <span class="toc-text"> MAN(MetropolitanAreaNetwork)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#walwideareanetwork"><span class="toc-number">2.3.4.</span> <span class="toc-text"> WAL(WideAreaNetwork)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E5%85%A5%E7%BD%91"><span class="toc-number">2.4.</span> <span class="toc-text"> 接入网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-number">2.5.</span> <span class="toc-text"> 网络核心功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%88%86%E5%B1%82"><span class="toc-number">2.6.</span> <span class="toc-text"> 网络分层</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#osi-7%E5%B1%82%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.6.1.</span> <span class="toc-text"> OSI 7层模型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-number">2.6.1.1.</span> <span class="toc-text"> 数据链路层</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="toc-number">2.6.1.2.</span> <span class="toc-text"> 网络层</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="toc-number">2.6.1.3.</span> <span class="toc-text"> 传输层</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D%E5%B1%82-session-layer"><span class="toc-number">2.6.1.4.</span> <span class="toc-text"> 会话层 (Session Layer)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A1%A8%E7%A4%BA%E5%B1%82presentation-layer"><span class="toc-number">2.6.1.5.</span> <span class="toc-text"> 表示层（Presentation Layer）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82application-layer"><span class="toc-number">2.6.1.6.</span> <span class="toc-text"> 应用层（Application Layer）</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tcpip-%E5%9B%9B%E5%B1%82%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.6.2.</span> <span class="toc-text"> TCP&#x2F;IP 四层模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%A4%E8%80%85%E4%BC%98%E5%8A%A3"><span class="toc-number">2.6.3.</span> <span class="toc-text"> 两者优劣</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chap2%E7%89%A9%E7%90%86%E5%B1%82"><span class="toc-number">3.</span> <span class="toc-text"> Chap2物理层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E4%BB%8B%E8%B4%A8"><span class="toc-number">3.1.</span> <span class="toc-text"> 物理介质</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%AF%BC%E5%9E%8B%E4%BB%8B%E8%B4%A8"><span class="toc-number">3.1.1.</span> <span class="toc-text"> 引导型介质</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%89%E7%BA%A4"><span class="toc-number">3.1.1.1.</span> <span class="toc-text"> 光纤</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%8C%E7%BB%9E%E7%BA%BF"><span class="toc-number">3.1.1.2.</span> <span class="toc-text"> 双绞线</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%8C%E8%BD%B4%E7%94%B5%E7%BC%86"><span class="toc-number">3.1.1.3.</span> <span class="toc-text"> 同轴电缆</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E5%BC%95%E5%AF%BC%E5%9E%8B%E4%BB%8B%E8%B4%A8"><span class="toc-number">3.1.2.</span> <span class="toc-text"> 非引导型介质</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E7%94%B5"><span class="toc-number">3.1.2.1.</span> <span class="toc-text"> 无线电</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%97%A0%E9%99%90%E9%93%BE%E8%B7%AF%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.1.2.2.</span> <span class="toc-text"> 无限链路类型</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text"> 数据交换方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E7%BB%84%E4%BA%A4%E6%8D%A2"><span class="toc-number">3.2.1.</span> <span class="toc-text"> 分组交换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%B5%E8%B7%AF%E4%BA%A4%E6%8D%A2"><span class="toc-number">3.2.2.</span> <span class="toc-text"> 电路交换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%B5%E8%B7%AF%E4%BA%A4%E6%8D%A2%E7%9A%84%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="toc-number">3.2.3.</span> <span class="toc-text"> 电路交换的多路复用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E9%81%93%E5%A4%8D%E7%94%A8"><span class="toc-number">3.3.</span> <span class="toc-text"> 信道复用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%91%E5%88%86%E5%A4%8D%E7%94%A8"><span class="toc-number">3.3.1.</span> <span class="toc-text"> 频分复用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E5%88%86%E5%A4%8D%E7%94%A8"><span class="toc-number">3.3.2.</span> <span class="toc-text"> 时分复用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A2%E5%88%86%E5%A4%8D%E7%94%A8"><span class="toc-number">3.3.3.</span> <span class="toc-text"> 波分复用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A0%81%E5%88%86%E5%A4%8D%E7%94%A8"><span class="toc-number">3.3.4.</span> <span class="toc-text"> 码分复用</span></a></li></ol></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(%E4%B8%80)/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">计算机网络学习笔记(一)</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-10 21:10:01" itemprop="dateCreated datePublished" datetime="2024-07-10T21:10:01+08:00">2024-07-10</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">2k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">7m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="--text-color:#FB7299" itemprop="url" rel="index"><span itemprop="text">学习笔记</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">学习笔记</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><p>[TOC]</p>
+<h2 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h2>
+<p>阅读笔记基于</p>
+<p><code>图解TCPIP</code></p>
+<p><code>计网教材</code></p>
+<p>以及网上的各个blog</p>
+<p>课程</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1JV411t7ow?p=1">https://www.bilibili.com/video/BV1JV411t7ow?p=1</a></p>
+<h2 id="chap1概论"><a class="markdownIt-Anchor" href="#chap1概论"></a> Chap1概论</h2>
+<h3 id="-swig0-"><a class="markdownIt-Anchor" href="#-swig0-"></a> </h3>
+<h3 id="互联网的构成"><a class="markdownIt-Anchor" href="#互联网的构成"></a> 互联网的构成</h3>
+<p><strong>网络边缘</strong>:位于互联网边缘与互联网相连的计算机和其他设备,如桌面计算机、移动计算机、服务器、其他智能终端设备<br />
+<strong>网络核心</strong>:由互联端系统的分组交换设备和通信链路构成的网状网络<br />
+如：分组交换路由器、链路层交换机、通信链路(光纤、铜缆、无线电、激光链路)</p>
+<h3 id="网络分类"><a class="markdownIt-Anchor" href="#网络分类"></a> 网络分类</h3>
+<h4 id="panpersonalareanetwork"><a class="markdownIt-Anchor" href="#panpersonalareanetwork"></a> PAN(PersonalAreaNetwork)</h4>
+<ul>
+<li>能在便携式消费电器与通信设备之间进行短距离通信的网络</li>
+<li>覆盖范围一般在10米半径以内，如蓝牙耳机等</li>
+</ul>
+<h4 id="lanlocalareanetwork"><a class="markdownIt-Anchor" href="#lanlocalareanetwork"></a> LAN(LocalAreaNetwork)</h4>
+<ul>
+<li>局部地区形成的区域网络，如企业网络</li>
+<li>分布地区范围有限，可大可小，大到一栋建筑、小到办公室内的组网</li>
+<li>电脑WLAN接入，打印机共享等等</li>
+</ul>
+<h4 id="manmetropolitanareanetwork"><a class="markdownIt-Anchor" href="#manmetropolitanareanetwork"></a> MAN(MetropolitanAreaNetwork)</h4>
+<ul>
+<li>覆盖整个城市的网络</li>
+</ul>
+<h4 id="walwideareanetwork"><a class="markdownIt-Anchor" href="#walwideareanetwork"></a> WAL(WideAreaNetwork)</h4>
+<ul>
+<li>覆盖很大地理区域，乃至覆盖地区和国家</li>
+</ul>
+<h3 id="接入网"><a class="markdownIt-Anchor" href="#接入网"></a> 接入网</h3>
+<p><strong>接入网的用途</strong></p>
+<ul>
+<li>接入网的用途是将主机连接到边缘路由器上</li>
+<li>边缘路由器是端系统Host去往任何其他远程端系统的路径上的第一台路由器</li>
+</ul>
+<p><strong>各种异构网络通过边缘路由器接入</strong></p>
+<p><strong>接入网分类</strong>：</p>
+<ul>
+<li>光纤到户FTTH</li>
+<li>数字用户线DSL</li>
+<li>同轴电缆</li>
+<li>无线接入</li>
+<li>企业和家庭网络</li>
+</ul>
+<h3 id="网络核心功能"><a class="markdownIt-Anchor" href="#网络核心功能"></a> 网络核心功能</h3>
+<ol>
+<li>
+<p>路由</p>
+<p>确定数据分组从源到目标所使用的路径(全局操作)</p>
+</li>
+<li>
+<p>转发</p>
+<p>路由器或交换机将接收到的数据分组转发出去(即移动到该设备的某个输出接口)</p>
+</li>
+</ol>
+<h3 id="网络分层"><a class="markdownIt-Anchor" href="#网络分层"></a> 网络分层</h3>
+<h4 id="osi-7层模型"><a class="markdownIt-Anchor" href="#osi-7层模型"></a> OSI 7层模型</h4>
+<ol>
+<li>Application Layer 应用层</li>
+<li>Presentation Layer 表示层</li>
+<li>Seesion Layer 会话层</li>
+<li>Transprot Layer 传输层</li>
+<li>Network Layer 网络层</li>
+<li>Data Link Layer 数据链路层</li>
+<li>Physical Layer 物理层</li>
+</ol>
+<h5 id="数据链路层"><a class="markdownIt-Anchor" href="#数据链路层"></a> 数据链路层</h5>
+<ul>
+<li>实现相邻（Neighboring）网络实体间的数据传输</li>
+<li>成帧（Framing）：从物理层的比特流中提取出完整的帧</li>
+<li>错误检测与纠正：为提供可靠数据通信提供可能</li>
+<li>物理地址（MAC address）：48位，理论上唯一网络标识，烧录在网卡，不便更改</li>
+<li>流量控制，避免“淹没”（overwhelming）:当快速的发送端遇上慢速的接收端，接收端缓存溢出</li>
+<li>共享信道上的访问控制（MAC）：同一个信道，同时传输信号。如同：同一个Wifi热点（AP）连接着多个无线用户（手机），则多个用户同时需要发送数据，如何控制发送顺序？</li>
+</ul>
+<h5 id="网络层"><a class="markdownIt-Anchor" href="#网络层"></a> 网络层</h5>
+<ul>
+<li>将数据包跨越网络从源设备发送到目的设备（host to host）</li>
+<li>路由（Routing）：在网络中选取从源端到目的端转发路径，常常会根据网络可达性动态选取最佳路径，也可以使用静态路由</li>
+<li>路由协议：路由器之间交互路由信息所遵循的协议规范，使得单个路由器能够获取网络的可达性等信息<br />
+服务质量（QoS）控制：处理网络拥塞、负载均衡、准入控制、保障延迟</li>
+<li>异构网络互联：在异构编址和异构网络中路由寻址和转发</li>
+</ul>
+<h5 id="传输层"><a class="markdownIt-Anchor" href="#传输层"></a> 传输层</h5>
+<ul>
+<li>将数据从源端口发送到目的端口（进程到进程）</li>
+<li>网络层定位到一台主机（host），传输层的作用域具体到主机上的某一个进程</li>
+<li>网络层的控制主要面向运营商，传输层为终端用户提供端到端的数据传输控制</li>
+<li>两类模式：可靠的传输模式，或不可靠传输模式</li>
+<li>可靠传输：可靠的端到端数据传输，适合于对通信质量有要求的应用场景，如文件传输等</li>
+<li>不可靠传输：更快捷、更轻量的端到端数据传输，适合于对通信质量要求不高，对通信响应速度要求高的应用场景，如语音对话、视频会议等</li>
+</ul>
+<h5 id="会话层-session-layer"><a class="markdownIt-Anchor" href="#会话层-session-layer"></a> 会话层 (Session Layer)</h5>
+<p>利用传输层提供的服务，在应用程序之间建立和维持会话，并能使会话获得同步</p>
+<h5 id="表示层presentation-layer"><a class="markdownIt-Anchor" href="#表示层presentation-layer"></a> 表示层（Presentation Layer）</h5>
+<p>关注所传递信息的语法和语义，管理数据的表示方法，传输的数据结构</p>
+<h5 id="应用层application-layer"><a class="markdownIt-Anchor" href="#应用层application-layer"></a> 应用层（Application Layer）</h5>
+<p>通过应用层协议，提供应用程序便捷的网络服务调用</p>
+<h4 id="tcpip-四层模型"><a class="markdownIt-Anchor" href="#tcpip-四层模型"></a> TCP/IP 四层模型</h4>
+<ol>
+<li>应用层</li>
+<li>传输层</li>
+<li>互联网层</li>
+<li>网络接口层</li>
+</ol>
+<h4 id="两者优劣"><a class="markdownIt-Anchor" href="#两者优劣"></a> 两者优劣</h4>
+
+<h2 id="chap2物理层"><a class="markdownIt-Anchor" href="#chap2物理层"></a> Chap2物理层</h2>
+<ul>
+<li>物理层考虑的是怎样才能<strong>在连接各种计算机的传输媒体上传输数据比特流</strong>，而不是指具体的传输媒体。</li>
+<li>物理层的作用是要尽可能地<strong>屏蔽掉不同传输媒体和通信手段的差异</strong>。</li>
+<li>用于物理层的协议也常称为<strong>物理层规程</strong> (procedure)。</li>
+</ul>
+<h3 id="物理介质"><a class="markdownIt-Anchor" href="#物理介质"></a> 物理介质</h3>
+<h4 id="引导型介质"><a class="markdownIt-Anchor" href="#引导型介质"></a> 引导型介质</h4>
+<blockquote>
+<p>信号在固体介质中传播，例如铜，光纤，同轴电缆</p>
+</blockquote>
+<h5 id="光纤"><a class="markdownIt-Anchor" href="#光纤"></a> 光纤</h5>
+<ul>
+<li>
+<p>高速运行<br />
+高速点对点传输（10-100 Gbps）</p>
+</li>
+<li>
+<p>低错误率<br />
+中继器相距很远，对电磁噪声免疫</p>
+
+</li>
+</ul>
+<h5 id="双绞线"><a class="markdownIt-Anchor" href="#双绞线"></a> 双绞线</h5>
+<ul>
+<li>两根绝缘铜线互相缠绕为一对</li>
+<li>电话线为1对双绞线，网线为4对双绞线，广泛用于计算机网络（以太网）双向传输</li>
+<li>第5类：100 Mbps~1 Gbps；第6类：10Gbps</li>
+<li>传输距离一般为为100米</li>
+</ul>
+
+<h5 id="同轴电缆"><a class="markdownIt-Anchor" href="#同轴电缆"></a> 同轴电缆</h5>
+<ul>
+<li>两根同心铜导线，双向传输</li>
+<li>电缆上的多个频率通道</li>
+<li>带宽可达100Mbps</li>
+<li>传输距离一般为200米</li>
+</ul>
+<h4 id="非引导型介质"><a class="markdownIt-Anchor" href="#非引导型介质"></a> 非引导型介质</h4>
+<p>信号自由传播，例如无线电（陆地无线电、卫星无线电信道)</p>
+<h5 id="无线电"><a class="markdownIt-Anchor" href="#无线电"></a> 无线电</h5>
+<ul>
+<li>电磁频谱中各种“波段”携带的信号</li>
+<li>没有物理“电线”</li>
+<li>不依赖介质的广播</li>
+<li>半双工（发送方到接收方）</li>
+</ul>
+<h5 id="无限链路类型"><a class="markdownIt-Anchor" href="#无限链路类型"></a> 无限链路类型</h5>
+<ul>
+<li>无线局域网（WiFi）<br />
+10-100 Mbps；10米</li>
+<li>广域（如3/4/5G蜂窝）<br />
+在~10公里范围内</li>
+<li>蓝牙：短距离，有限速率</li>
+<li>地面微波：点对点；45 Mbps</li>
+<li>同步卫星：36000km高空， 280毫秒的往返时延</li>
+<li>低轨卫星：近地，但围绕地球高速运动，需要大量卫星才能覆盖地球</li>
+</ul>
+<h3 id="数据交换方式"><a class="markdownIt-Anchor" href="#数据交换方式"></a> 数据交换方式</h3>
+<h4 id="分组交换"><a class="markdownIt-Anchor" href="#分组交换"></a> 分组交换</h4>
+<p><strong>分组交换采用把一个个小的数据包存储转发传输来实现数据交换</strong></p>
+<p>主要的一些<strong>缺点</strong>：<br />
+1、不具有实时性。<br />
+2、存在延时。<br />
+3、会造成通信阻塞。<br />
+4、存在无用的重复数据。<br />
+5、会出现丢包的情况。</p>
+<p><strong>优点</strong>：<br />
+1、设计简单。<br />
+2、资源利用率很高。</p>
+<h4 id="电路交换"><a class="markdownIt-Anchor" href="#电路交换"></a> 电路交换</h4>
+<p>电路连接的<strong>三个阶段</strong>：</p>
+<p>1、建立连接。<br />
+2、数据传输。<br />
+3、释放连接。</p>
+<p><strong>优点</strong>：<br />
+1、传输速度快、高效。<br />
+2、实时。</p>
+<p><strong>缺点</strong>：<br />
+1、资源利用率低。<br />
+2、新建连接需要占据一定的时间，甚至比通话的时间还长。</p>
+<h4 id="电路交换的多路复用"><a class="markdownIt-Anchor" href="#电路交换的多路复用"></a> <strong>电路交换的多路复用</strong></h4>
+<p>频分多路复用FDM<br />
+时分多路复用TDM</p>
+
+<h3 id="信道复用"><a class="markdownIt-Anchor" href="#信道复用"></a> 信道复用</h3>
+<blockquote>
+<p>复用 (multiplexing) 是通信技术中的基本概念。<br />
+它允许用户使用一个共享信道进行通信，降低成本，提高利用率。</p>
+</blockquote>
+<h4 id="频分复用"><a class="markdownIt-Anchor" href="#频分复用"></a> 频分复用</h4>
+<ul>
+<li>将整个带宽分为多份，用户在分配到一定的频带后，在通信过程中自始至终都占用这个频带。</li>
+<li>频分复用的所有用户在同样的时间占用不同的带宽资源（请注意，这里的“带宽”是频率带宽而不是数据的发送速率）。</li>
+</ul>
+
+<h4 id="时分复用"><a class="markdownIt-Anchor" href="#时分复用"></a> 时分复用</h4>
+<p>时分复用则是将时间划分为一段段等长的时分复用帧（TDM 帧）。每一个时分复用的用户在每一个 TDM 帧中占用固定序号的时隙。</p>
+
+<h4 id="波分复用"><a class="markdownIt-Anchor" href="#波分复用"></a> 波分复用</h4>
+<p>波分复用就是光的频分复用。使用一根光纤来同时传输多个光载波信号。</p>
+
+<h4 id="码分复用"><a class="markdownIt-Anchor" href="#码分复用"></a> 码分复用</h4>
+<p>各用户使用经过特殊挑选的不同码型，因此彼此不会造成干扰。</p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/07/09/%E5%88%9D%E8%AF%86Windows%E5%86%85%E6%A0%B8/" rel="next" title="初识Windows内核"><span class="post-nav-text">初识Windows内核</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/07/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(%E4%B8%80)/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2023 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>
