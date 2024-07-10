@@ -39,8 +39,10 @@ document.addEventListener("pjax:success", initScrollReveal);
 <meta property="og:image" content="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/8a74e7185d9f4d0e911e64800af9fba1.png">
 <meta property="og:image" content="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/image-20240709221525439.png">
 <meta property="og:image" content="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/image-20240709224937160.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/image-20240710193542122.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/image-20240710224952220.png">
 <meta property="article:published_time" content="2024-07-09T10:59:58.000Z">
-<meta property="article:modified_time" content="2024-07-09T14:52:46.089Z">
+<meta property="article:modified_time" content="2024-07-10T14:58:40.290Z">
 <meta property="article:author" content="Npc">
 <meta property="article:tag" content="Reverse">
 <meta name="twitter:card" content="summary">
@@ -61,7 +63,7 @@ IconifyProviders = {
     // Wait for 1 second before switching API hosts
     rotate: 1000,
   },
-};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">47</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text"> 基础概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text"> 文件格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pe%E8%A3%85%E8%BD%BD"><span class="toc-number">1.2.</span> <span class="toc-text"> PE装载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pe%E7%BB%84%E6%88%90"><span class="toc-number">1.3.</span> <span class="toc-text"> PE组成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#pe%E6%96%87%E4%BB%B6%E5%A4%B4"><span class="toc-number">1.3.1.</span> <span class="toc-text"> PE文件头</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#pe%E5%A4%B4-image_nt_headers"><span class="toc-number">1.3.1.1.</span> <span class="toc-text"> PE头 IMAGE_NT_HEADERS</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A9%E5%B1%95pe%E5%A4%B4%E5%8F%AF%E9%80%89%E5%A4%B4image_optional_header32"><span class="toc-number">1.3.2.</span> <span class="toc-text"> 扩展PE头／可选头(IMAGE_OPTIONAL_HEADER３２)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#image_data_directory"><span class="toc-number">1.3.2.1.</span> <span class="toc-text"> IMAGE_DATA_DIRECTORY</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.4.</span> <span class="toc-text"> 地址转换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98"><span class="toc-number">1.4.1.</span> <span class="toc-text"> 虚拟内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8A%82%E5%81%8F%E7%A7%BB"><span class="toc-number">1.4.2.</span> <span class="toc-text"> 节偏移</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A5%E5%8F%A3%E7%82%B9oep"><span class="toc-number">1.5.</span> <span class="toc-text"> 入口点（OEP）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%98%A0%E5%83%8F"><span class="toc-number">1.6.</span> <span class="toc-text"> 内存映像</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E7%BB%84%E6%88%90"><span class="toc-number">1.6.1.</span> <span class="toc-text"> 可执行程序在内存中的组成</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pe%E5%A4%B4"><span class="toc-number">2.</span> <span class="toc-text"> PE头</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#dos%E5%A4%B4"><span class="toc-number">2.1.</span> <span class="toc-text"> DOS头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dosstub"><span class="toc-number">2.2.</span> <span class="toc-text"> DOSstub</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nt%E5%A4%B4"><span class="toc-number">2.3.</span> <span class="toc-text"> NT头</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nt%E5%A4%B4file-header"><span class="toc-number">2.3.1.</span> <span class="toc-text"> NT头:FILE Header</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nt%E5%A4%B4%E5%8F%AF%E9%80%89%E5%A4%B4"><span class="toc-number">2.3.2.</span> <span class="toc-text"> NT头:可选头</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%82%E5%8C%BA%E5%A4%B4"><span class="toc-number">2.4.</span> <span class="toc-text"> 节区头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">2.5.</span> <span class="toc-text"> </span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">初识WindowsPE</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-09 18:59:58" itemprop="dateCreated datePublished" datetime="2024-07-09T18:59:58+08:00">2024-07-09</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">3.1k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">12m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Reverse/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Reverse</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Reverse/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Reverse</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><p>先简单了解一下，后期跟着&quot;PE权威指南&quot;详细学习</p>
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">47</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">9</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">12</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text"> 基础概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text"> 文件格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pe%E8%A3%85%E8%BD%BD"><span class="toc-number">1.2.</span> <span class="toc-text"> PE装载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pe%E7%BB%84%E6%88%90"><span class="toc-number">1.3.</span> <span class="toc-text"> PE组成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#pe%E6%96%87%E4%BB%B6%E5%A4%B4"><span class="toc-number">1.3.1.</span> <span class="toc-text"> PE文件头</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#pe%E5%A4%B4-image_nt_headers"><span class="toc-number">1.3.1.1.</span> <span class="toc-text"> PE头 IMAGE_NT_HEADERS</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A9%E5%B1%95pe%E5%A4%B4%E5%8F%AF%E9%80%89%E5%A4%B4image_optional_header32"><span class="toc-number">1.3.2.</span> <span class="toc-text"> 扩展PE头／可选头(IMAGE_OPTIONAL_HEADER３２)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#image_data_directory"><span class="toc-number">1.3.2.1.</span> <span class="toc-text"> IMAGE_DATA_DIRECTORY</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.4.</span> <span class="toc-text"> 地址转换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98"><span class="toc-number">1.4.1.</span> <span class="toc-text"> 虚拟内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8A%82%E5%81%8F%E7%A7%BB"><span class="toc-number">1.4.2.</span> <span class="toc-text"> 节偏移</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A5%E5%8F%A3%E7%82%B9oep"><span class="toc-number">1.5.</span> <span class="toc-text"> 入口点（OEP）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%98%A0%E5%83%8F"><span class="toc-number">1.6.</span> <span class="toc-text"> 内存映像</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E7%BB%84%E6%88%90"><span class="toc-number">1.6.1.</span> <span class="toc-text"> 可执行程序在内存中的组成</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pe%E5%A4%B4"><span class="toc-number">2.</span> <span class="toc-text"> PE头</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#dos%E5%A4%B4"><span class="toc-number">2.1.</span> <span class="toc-text"> DOS头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dosstub"><span class="toc-number">2.2.</span> <span class="toc-text"> DOSstub</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nt%E5%A4%B4"><span class="toc-number">2.3.</span> <span class="toc-text"> NT头</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nt%E5%A4%B4file-header"><span class="toc-number">2.3.1.</span> <span class="toc-text"> NT头:FILE Header</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nt%E5%A4%B4%E5%8F%AF%E9%80%89%E5%A4%B4"><span class="toc-number">2.3.2.</span> <span class="toc-text"> NT头:可选头</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%82%E5%8C%BA%E5%A4%B4"><span class="toc-number">2.4.</span> <span class="toc-text"> 节区头</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#image_section_header"><span class="toc-number">2.4.1.</span> <span class="toc-text"> IMAGE_SECTION_HEADER</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rva-to-raw"><span class="toc-number">3.</span> <span class="toc-text"> RVA to RAW</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iat"><span class="toc-number">4.</span> <span class="toc-text"> IAT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#dll"><span class="toc-number">4.1.</span> <span class="toc-text"> DLL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#image_import_descriptor"><span class="toc-number">4.2.</span> <span class="toc-text"> IMAGE_IMPORT_DESCRIPTOR</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#eat"><span class="toc-number">5.</span> <span class="toc-text"> EAT</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">初识WindowsPE</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-09 18:59:58" itemprop="dateCreated datePublished" datetime="2024-07-09T18:59:58+08:00">2024-07-09</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-07-10 22:58:40" itemprop="dateModified" datetime="2024-07-10T22:58:40+08:00">2024-07-10</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">4.8k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">19m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Reverse/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Reverse</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Reverse/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Reverse</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><p>先简单了解一下，后期跟着&quot;PE权威指南&quot;详细学习</p>
 <p><code>PE</code>（Portable文件是<code>Windows</code>下使用的可执行文件格式</p>
 <p>基于UNIX平台的<code>COFF</code>(Common Object File Format 通用对象文件格式)基础上制作而成</p>
 <h2 id="基础概念"><a class="markdownIt-Anchor" href="#基础概念"></a> 基础概念</h2>
@@ -396,7 +398,243 @@ IconifyProviders = {
 </li>
 </ol>
 <h3 id="节区头"><a class="markdownIt-Anchor" href="#节区头"></a> 节区头</h3>
-<h3 id=""><a class="markdownIt-Anchor" href="#"></a> </h3>
+<p><code>PE</code>文件中的<code>code</code>,<code>data</code>,<code>resource</code>等按照属性分类存储在不同节区</p>
+<p>把PE文件创建成多个节区的结构的好处是 可以保证程序的安全性</p>
+<p>若把<code>code</code>与<code>data</code>放在一个节区中相互纠缠很容易引发安全问题</p>
+<p>加入我们向data写数据，由于某个原因导致溢出，那么<code>code</code>就会被覆盖，程序就容易崩溃</p>
+<p>因此<code>PE</code>文件格式的设计者决定把具有相似属性的数据统一保存在一个被称为<code>节区</code>的地方，并且把各节区属性记录在节区头中</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>访问权限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>code</td>
+<td>执行，读取权限</td>
+</tr>
+<tr>
+<td>data</td>
+<td>非执行，读写权限</td>
+</tr>
+<tr>
+<td>resource</td>
+<td>非执行，读取权限</td>
+</tr>
+</tbody>
+</table>
+<h4 id="image_section_header"><a class="markdownIt-Anchor" href="#image_section_header"></a> IMAGE_SECTION_HEADER</h4>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">IMAGE_SIZEOF_SHORT_NAME</span>              <span class="token expression"><span class="token number">8</span></span></span>
+
+<span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">_IMAGE_SECTION_HEADER</span> <span class="token punctuation">&#123;</span>
+    BYTE    Name<span class="token punctuation">[</span>IMAGE_SIZEOF_SHORT_NAME<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">union</span> <span class="token punctuation">&#123;</span>
+            DWORD   PhysicalAddress<span class="token punctuation">;</span>
+            DWORD   VirtualSize<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> Misc<span class="token punctuation">;</span>
+    DWORD   VirtualAddress<span class="token punctuation">;</span>
+    DWORD   SizeOfRawData<span class="token punctuation">;</span>
+    DWORD   PointerToRawData<span class="token punctuation">;</span>
+    DWORD   PointerToRelocations<span class="token punctuation">;</span>
+    DWORD   PointerToLinenumbers<span class="token punctuation">;</span>
+    WORD    NumberOfRelocations<span class="token punctuation">;</span>
+    WORD    NumberOfLinenumbers<span class="token punctuation">;</span>
+    DWORD   Characteristics<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> IMAGE_SECTION_HEADER<span class="token punctuation">,</span> <span class="token operator">*</span>PIMAGE_SECTION_HEADER<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>几个重要的成员</p>
+<ul>
+<li>
+<p>VirtualSize   内存中节区所占大小</p>
+</li>
+<li>
+<p>VirtualAddress 内存中节区起始地址(RVA)</p>
+</li>
+<li>
+<p>SizeOfRawData  磁盘文件中节区所占大小</p>
+</li>
+<li>
+<p>PointerToRawData  磁盘文件中节区起始地址</p>
+</li>
+<li>
+<p>Charateristics   节区属性(bit OR)</p>
+</li>
+</ul>
+<p><code>VirtualAddress</code>与<code>PointerToRawData</code>不带有任何只。由定义在<code>IMAGE_OPTIONAL_HEADER32</code>中的<code>SectionAlignment</code>与<code>FileAlignment</code>	确定</p>
+<p><code>VirtualSize</code>与<code>SizeOfRawData</code>一般具有不同的值，因为</p>
+<p>磁盘中和内存中的节区大小是不一样的</p>
+<ul>
+<li>
+<p>再了解一下<code>Name</code>字段，name成员不像C语言的字符串一样以NULL结束，可以放入任何值甚至填充NULL值</p>
+</li>
+<li>
+<p>术语<code>IMAGE</code>实际上指的的内存中的PE映像</p>
+</li>
+</ul>
+<h2 id="rva-to-raw"><a class="markdownIt-Anchor" href="#rva-to-raw"></a> RVA to RAW</h2>
+<p>RAW是磁盘中数据对文件的偏移</p>
+<p>PE文件从磁盘到内存映射的内容</p>
+<pre class="line-numbers language-none"><code class="language-none">节中数据的RAW-节头的RAW&#x3D;节中数据RVA-节头的RVA
+RAW-PointerToRawData&#x3D;RVA-VirtualAddress
+RAW&#x3D;RVA-VirtualAddress+PointerToRawData<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<img src="/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/image-20240710193542122.png" class="" alt="image-20240710193542122" loading="lazy">
+<p>因此RAW=(RVA-节的VirtualAddress)+节的PonterToRawData</p>
+<p>同理 RVA=RAW-节的PonterToRawData+节的VirtualAddress</p>
+<p>几个练习</p>
+<p>RVA=5000,File Offset=</p>
+<p>RAW=5000(RVA)-1000(VirtualAddress)+400(PointerToRawData)=4400</p>
+<p>FileOffset=RAW+ImageBse</p>
+<h2 id="iat"><a class="markdownIt-Anchor" href="#iat"></a> IAT</h2>
+<p><strong>IAT</strong>(Import Address Table 导入地址表)</p>
+<p>IAT保存的内容与Windows操作系统的核心进程，内存，DLL结构等有关</p>
+<h3 id="dll"><a class="markdownIt-Anchor" href="#dll"></a> DLL</h3>
+<p>DLL(DynamicLinkedLibrary)</p>
+<ul>
+<li>不需要把库包含到程序，单独组成DLL文件，需要时调用即可</li>
+<li>内存映射技术使加载后的DLL代码资源在多个进程中实现共享</li>
+<li>更新库时只要替换相关DLL文件，操作简单</li>
+</ul>
+<p><strong>加载DLL的方式实际有两种</strong></p>
+<ul>
+<li>
+<p>显式链接(Explicit Linking)</p>
+<p>程序使用DLL时加载，使用完毕后释放内存</p>
+</li>
+<li>
+<p>隐式链接(Implicit Linking)</p>
+<p>程序开始时就加载DLL，程序终止时再释放占用的内存</p>
+</li>
+</ul>
+<p>例如调用<code>CreateFileW</code>函数的代码（位于kernel32.dll)</p>
+<p>调用CreateFileW()并非直接调用，而是通过获取01001104地址的值来实现</p>
+<p>这个地址是*.exe中text节区的内存区域，这个区域的值为7C8107F0是加载到<code>*.exe</code>进程内存中的<code>CreateFileW()</code>函数(位于kernel32.dll)中的地址</p>
+<hr />
+<p>为什么要这样操作，因为实际操作中无法保证<code>DLL</code>一定会被加载到PE头内指定的<code>ImageBase</code>处。但是<code>EXE</code>文件却能准确加载到自身的<code>ImageBase</code></p>
+<h3 id="image_import_descriptor"><a class="markdownIt-Anchor" href="#image_import_descriptor"></a> IMAGE_IMPORT_DESCRIPTOR</h3>
+<p>这个结构体中记录着<code>PE</code>文件要导入那些库文件</p>
+<p>执行一个普通程序往往需要导入多个库，导入多少库就存在多少个<code>IMAGE_IMPOET_DESCRIPTOR</code>结构体</p>
+<blockquote>
+<p>Import:导入 向库提供服务(函数)</p>
+<p>Export:导出  从库向其他PE文件提供服务（函数)</p>
+</blockquote>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">_IMAGE_IMPORT_DESCRIPTOR</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">union</span> <span class="token punctuation">&#123;</span>
+        DWORD   Characteristics<span class="token punctuation">;</span>            <span class="token comment">// 0 for terminating null import descriptor</span>
+        DWORD   OriginalFirstThunk<span class="token punctuation">;</span>         <span class="token comment">// RVA to original unbound IAT (PIMAGE_THUNK_DATA)</span>
+    <span class="token punctuation">&#125;</span> DUMMYUNIONNAME<span class="token punctuation">;</span>
+    DWORD   TimeDateStamp<span class="token punctuation">;</span>                  <span class="token comment">// 0 if not bound,</span>
+                                            <span class="token comment">// -1 if bound, and real date\time stamp</span>
+                                            <span class="token comment">//     in IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT (new BIND)</span>
+                                            <span class="token comment">// O.W. date/time stamp of DLL bound to (Old BIND)</span>
+
+    DWORD   ForwarderChain<span class="token punctuation">;</span>                 <span class="token comment">// -1 if no forwarders</span>
+    DWORD   Name<span class="token punctuation">;</span>
+    DWORD   FirstThunk<span class="token punctuation">;</span>                     <span class="token comment">// RVA to IAT (if bound this IAT has actual addresses)</span>
+<span class="token punctuation">&#125;</span> IMAGE_IMPORT_DESCRIPTOR<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>OriginalFirstThunk  INT(import name table)的地址(RVA)</li>
+<li>Name      库名称字符串的地址(RVA)</li>
+<li>FirstThunk  IAT的地址(RVA)</li>
+</ul>
+<blockquote>
+<p>PE头中提到的<code>Table</code>即指数组</p>
+<p>INT与IAT是长整型数组，以NULL结束</p>
+<p>INT中各元素的值为<code>IMAGE_IMPORT_BY_NAME</code>结构体指针(有时IAT也拥有相同的值)</p>
+<p>INT与IAT的大小相同</p>
+</blockquote>
+<p>INT与IAT指向的地址可能不同(会有很多变形的PE文件)</p>
+<p><mark>PE装载器把导入函数输入至IAT的顺序</mark></p>
+<ol>
+<li>
+<p>读取IID(image_import_descriptor)的Name成员，获取库名称字符串(“kernel32.dll”)</p>
+</li>
+<li>
+<p>装载相应库</p>
+<p>-&gt;LoadLibrary(“kernel32.dll”)</p>
+</li>
+<li>
+<p>读取IID的OriginalFirstThunk成员，获取INT地址</p>
+</li>
+<li>
+<p>逐一读取INT中数组的值，获取相应IMAGE_IMPORT_BY_NAME地址(RVA)</p>
+</li>
+<li>
+<p>使用IMAGE_IMPORT_BY_NAME的Hint或Name项，获取相应函数的起始地址</p>
+<p>-&gt;GetProcAddress(“GetCurrentThreadld”)</p>
+</li>
+<li>
+<p>读取IID的FirstThunk(IAT)成员，获得IAT地址</p>
+</li>
+<li>
+<p>将上面获得的函数地址填入相应的IAT数组值</p>
+</li>
+<li>
+<p>重复以上步骤4-7 直到INT结束(遇到NULL)</p>
+</li>
+</ol>
+<hr />
+<p>寻找<code>IMAGE_IMPORT_DESCRIPTOR</code></p>
+<p>这个东西不在PE头，而在PE体，但是查找其位置的信息在PE头中，<code>IMAGE_ORPTIONAL_HEADER32_DATADIRECTORY[1].VirtualAddress</code>的值即是<code>IMAGE_IMPORT_DESCRIPTOR</code>结构体数组的起始地址(RVA)</p>
+<p>然后使用<code>RVA TO RAW</code>的转换公式</p>
+<h2 id="eat"><a class="markdownIt-Anchor" href="#eat"></a> EAT</h2>
+<p>在Windows中，库是为了方便其他程序调用而集中包含相关函数的文件(DLL/SYS)</p>
+<p>win32api是最具代表性的库，其中kernel32.dll被称为最核心的库文件</p>
+<p><mark>EAT是一种核心机制，它使不同的应用程序可以调用库文件中提供的函数，也就是只有通过EAT才能准确求得从相应库中导出函数的起始地址</mark></p>
+<p>与前文讲解的IAT相对，PE文件内的特定结构体(IMAGE_EXPORT_DIRECTORY)保存着导出信息，且PE文件中仅有一个用来说明库EAT的<code>IMAGE_EXPORT_DIRECTORY</code>结构体</p>
+<blockquote>
+<p>IAT的IMAGE_IMPORT_DESCRIPTOR结构体以数组形式存在，且拥有多个成员。这样是因为PE文件可以同时导入多个库</p>
+</blockquote>
+<p><code>IMAGE_EXPORT_DIRECTORY</code>结构体的RVA就是<code>IMAGE_OPTIONAL_HEADER32.DataDirectory[0].VirtualAddress</code></p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">_IMAGE_EXPORT_DIRECTORY</span> <span class="token punctuation">&#123;</span>
+    DWORD   Characteristics<span class="token punctuation">;</span>
+    DWORD   TimeDateStamp<span class="token punctuation">;</span>
+    WORD    MajorVersion<span class="token punctuation">;</span>
+    WORD    MinorVersion<span class="token punctuation">;</span>
+    DWORD   Name<span class="token punctuation">;</span>
+    DWORD   Base<span class="token punctuation">;</span>
+    DWORD   NumberOfFunctions<span class="token punctuation">;</span>
+    DWORD   NumberOfNames<span class="token punctuation">;</span>
+    DWORD   AddressOfFunctions<span class="token punctuation">;</span>     <span class="token comment">// RVA from base of image</span>
+    DWORD   AddressOfNames<span class="token punctuation">;</span>         <span class="token comment">// RVA from base of image</span>
+    DWORD   AddressOfNameOrdinals<span class="token punctuation">;</span>  <span class="token comment">// RVA from base of image</span>
+<span class="token punctuation">&#125;</span> IMAGE_EXPORT_DIRECTORY<span class="token punctuation">,</span> <span class="token operator">*</span>PIMAGE_EXPORT_DIRECTORY<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>
+<p>NumberOfFunctions  实际Export函数的个数</p>
+</li>
+<li>
+<p>NumberOfNames  Export函数中具名的函数个数</p>
+</li>
+<li>
+<p>AddressOfFunctions   Export函数地址数组(数组元素个数=NumberOfFunctions)</p>
+</li>
+<li>
+<p>AddressOfNames 函数名称地址数组(数组元素个数=NumberOfNames)</p>
+</li>
+<li>
+<p>AddressOfNameOridinals  Ordinal地址数组(数组元素个数=NumberOfNames)</p>
+</li>
+</ul>
+<img src="/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/image-20240710224952220.png" class="" alt="image-20240710224952220" loading="lazy">
+<hr />
+<p>从库中获得函数地址的API为<code>GetProcAddress()</code>函数</p>
+<p>该API引用EAT来获取指定API的地址</p>
+<p><code>GetProcAddress</code>原理</p>
+<ol>
+<li>利用AddressOfNames成员转到函数名称数组</li>
+<li>比较字符串查找指定的函数名称</li>
+<li>利用<code>AddressOfNameOridinals</code>成员,转到<code>orinal</code>数组</li>
+<li>在<code>ordinal</code>数组中通过<code>name_index</code>查找相应的<code>ordinal</code>值</li>
+<li>利用<code>AddressOfFunctions</code>成员转到EAT</li>
+<li>在EAT将刚刚求得的<code>oridinal</code>当做数组索引，获得指定函数的起始地址</li>
+</ol>
+<p><code>kernel32.dll</code>中所有导出函数均有相应名称</p>
+<p>导出函数也有一些函数没有名称(仅通过ordinal导出)</p>
+<blockquote>
+<p>把Ordinal当做导出函数的固有编号就行了，因为有时候某些函数对外不会公布函数名，仅仅公开函数的固有编号</p>
+</blockquote>
 </div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/07/09/%E5%88%9D%E8%AF%86Windows%E5%86%85%E6%A0%B8/" rel="prev" title="初识Windows内核"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">初识Windows内核</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/07/08/XXElab%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/" rel="next" title="XXElab通关记录"><span class="post-nav-text">XXElab通关记录</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/07/09/%E5%88%9D%E8%AF%86WindowsPE/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2023 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
   // Handle and trigger popup window
   document.querySelector(".popup-trigger").addEventListener("click", () => {
