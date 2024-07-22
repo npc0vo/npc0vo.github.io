@@ -1,0 +1,300 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>初识idaPro | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="这一部分主要是粗略阅读IdaPro权威指南的阅读笔记 主要记录一些使用idaPro的一些技巧 以及重点会放在ida python脚本的编写 以及idc  ida基本常识  ida 目录结构   IDA 的任务是将选定的可执行文件加载到内存中，并对相关部分进行分析。随后，IDA 会创建一个数据库，其组件分别保存在4 个文件中，这些文件的名称与选定的可执行文件的名称相同，扩展名分别为.id0 、.id">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识idaPro">
+<meta property="og:url" content="http://npc0vo.github.io/2024/07/12/%E5%88%9D%E8%AF%86idaPro/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="这一部分主要是粗略阅读IdaPro权威指南的阅读笔记 主要记录一些使用idaPro的一些技巧 以及重点会放在ida python脚本的编写 以及idc  ida基本常识  ida 目录结构   IDA 的任务是将选定的可执行文件加载到内存中，并对相关部分进行分析。随后，IDA 会创建一个数据库，其组件分别保存在4 个文件中，这些文件的名称与选定的可执行文件的名称相同，扩展名分别为.id0 、.id">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182239531-1222120575.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182239235-1356328358.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182239293-576944231.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182239190-642597980.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182239604-1306306267.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182239290-636340187.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182239532-725260498.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182240271-1802605117.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182240104-742480276.png">
+<meta property="article:published_time" content="2024-07-12T04:15:42.000Z">
+<meta property="article:modified_time" content="2024-07-22T12:44:09.714Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Reverse">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://npc0vo.github.io/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182239531-1222120575.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">68</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">10</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">13</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ida%E5%9F%BA%E6%9C%AC%E5%B8%B8%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text"> ida基本常识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ida-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text"> ida 目录结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ida%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.2.</span> <span class="toc-text"> ida常用快捷键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="toc-number">1.3.</span> <span class="toc-text"> 使用技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E5%9B%BE%E6%B7%BB%E5%8A%A0%E5%9C%B0%E5%9D%80%E5%81%8F%E7%A7%BB"><span class="toc-number">1.3.1.</span> <span class="toc-text"> 流程图添加地址偏移</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E7%BB%84"><span class="toc-number">1.3.2.</span> <span class="toc-text"> 创建数组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E5%9B%BE"><span class="toc-number">1.3.3.</span> <span class="toc-text"> 函数调用图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number">1.3.4.</span> <span class="toc-text"> 创建结构体</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95"><span class="toc-number">1.3.5.</span> <span class="toc-text"> 动态调试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%93patch"><span class="toc-number">1.3.6.</span> <span class="toc-text"> 打PATCH</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.7.</span> <span class="toc-text"> 导出数据文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E5%91%BD%E5%90%8D%E5%90%AB%E4%B9%89"><span class="toc-number">1.3.8.</span> <span class="toc-text"> 常见命名含义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ida%E5%8F%8D%E7%BC%96%E8%AF%91%E6%8A%A5%E9%94%99"><span class="toc-number">1.3.9.</span> <span class="toc-text"> IDA反编译报错</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEida"><span class="toc-number">1.3.10.</span> <span class="toc-text"> 配置ida</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%B8%8E%E4%BB%A3%E7%A0%81%E7%9A%84%E4%BA%92%E8%BD%AC"><span class="toc-number">1.3.11.</span> <span class="toc-text"> 数据与代码的互转</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ida-python"><span class="toc-number">2.</span> <span class="toc-text"> IDA-Python</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/12/%E5%88%9D%E8%AF%86idaPro/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">初识idaPro</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-12 12:15:42" itemprop="dateCreated datePublished" datetime="2024-07-12T12:15:42+08:00">2024-07-12</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-07-22 20:44:09" itemprop="dateModified" datetime="2024-07-22T20:44:09+08:00">2024-07-22</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">4.4k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">16m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Reverse/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Reverse</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Reverse/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Reverse</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><p>这一部分主要是粗略阅读<code>IdaPro权威指南</code>的阅读笔记</p>
+<p>主要记录一些使用<code>idaPro</code>的一些技巧</p>
+<p>以及重点会放在<code>ida python</code>脚本的编写</p>
+<p>以及idc</p>
+<h2 id="ida基本常识"><a class="markdownIt-Anchor" href="#ida基本常识"></a> ida基本常识</h2>
+<h3 id="ida-目录结构"><a class="markdownIt-Anchor" href="#ida-目录结构"></a> ida 目录结构</h3>
+<ul>
+<li>
+<p>IDA 的任务是将选定的可执行文件加载到内存中，并对相关部分进行分析。随后，IDA 会创建一个数据库，其组件分别保存在4 个文件中，这些文件的名称与选定的可执行文件的名称相同，扩展名分别为.id0 、.id1 、.nam 和.til。.id0 文件是一个二叉树形式的数据库，.id1 文件包含描述每个程序字节的标记。.nam 文件包含与IDA 的Names 窗口（将在第 5 章详细介绍）中显示的给定程序位置有关的索引信息。最后，.til文件用于存储与一个给定数据库的本地类型定义有关的信息。这些文件的格式为 IDA 专用，在 IDA 环境以外很难对它们编辑。</p>
+<p>为了方便，在你关闭当前项目时，这4 个文件将被存档，你还可以选择将它们压缩成一个IDB文件。</p>
+</li>
+<li>
+<p>在IDA的安装根目录下有许多文件夹，各个文件夹存储不同的内容</p>
+</li>
+</ul>
+<p>cfg：包含各种配置文件，基本IDA配置文件ida.cfg,GUI配置文件idagui.cfg，文本模式用户界面配置文件idatui.cfg,<br />
+idc：包含IDA内置脚本语言IDC所需要的核心文件<br />
+ids：包含一些符号文件<br />
+loaders：包含用于识别和解析PE或者ELF<br />
+plugins：附加的插件模块<br />
+procs：包含处理器模块</p>
+<h3 id="ida常用快捷键"><a class="markdownIt-Anchor" href="#ida常用快捷键"></a> ida常用快捷键</h3>
+<p>a：将数据转换为字符串</p>
+<p>f5：一键反汇编</p>
+<p>esc：回退键，能够倒回上一部操作的视图（只有在反汇编窗口才是这个作用，如果是在其他窗口按下esc，会关闭该窗口）</p>
+<p>shift+f12：可以打开string窗口，一键找出所有的字符串，右击setup，还能对窗口的属性进行设置</p>
+<p>ctrl+w：保存ida数据库</p>
+<p>ctrl+s：选择某个数据段，直接进行跳转</p>
+<p>ctrl+鼠标滚轮：能够调节流程视图的大小</p>
+<p>x：对着某个函数、变量按该快捷键，可以查看它的交叉引用</p>
+<p>g：直接跳转到某个地址</p>
+<p>n：更改变量的名称</p>
+<p>y：更改变量的类型</p>
+<p>/ ：在反编译后伪代码的界面中写下注释</p>
+<p>\：在反编译后伪代码的界面中隐藏/显示变量和函数的类型描述，有时候变量特别多的时候隐藏掉类型描述看起来会轻松很多</p>
+<p>；：在反汇编后的界面中写下注释</p>
+<p>ctrl+shift+w：拍摄IDA快照</p>
+<p>u：undefine，取消定义函数、代码、数据的定义</p>
+<h3 id="使用技巧"><a class="markdownIt-Anchor" href="#使用技巧"></a> 使用技巧</h3>
+<h4 id="流程图添加地址偏移"><a class="markdownIt-Anchor" href="#流程图添加地址偏移"></a> 流程图添加地址偏移</h4>
+<p><strong>想在流程图中添加地址偏移的话，我们取地址就非常方便，不再需要按空格切换视图去找，在菜单栏中设置：option–&gt;general</strong></p>
+<img src="/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182239531-1222120575.png" class="" alt="img" loading="lazy">
+<h4 id="创建数组"><a class="markdownIt-Anchor" href="#创建数组"></a> 创建数组</h4>
+<p>选中想要转换成数组的一块区域</p>
+<p>然后Edit-&gt;Array</p>
+<img src="/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182239235-1356328358.png" class="" alt="img" loading="lazy">
+<p><code>Array element size</code> 这个值表示各数组元素的大小（这里是1个字节），是根据你选中的数据值的大小所决定的</p>
+<p><code>Maximum possible size</code> 这个值是由自动计算得出的，他表示数组中的元素的可能的最大值</p>
+<p><code>Array size</code> 表示数组元素的数量，一般都根据你选定的自动产生默认值</p>
+<p><code>Items on a line</code> 这个表示指定每个反汇编行显示的元素数量，它可以减少显示数组所需的空间</p>
+<p><code>Element print width</code> 这个值用于格式化，当一行显示多个项目时，他控制列宽</p>
+<p><code>Use “dup” construct</code> ：使用重复结构，这个选项可以使得相同的数据值合并起来，用一个重复说明符组合成一项</p>
+<p><code>Signed elements</code> 表示将数据显示为有符号数还是无符号数</p>
+<p><code>Display indexes</code> 显示索引，使得数组索引以常规的形式显示，如果选了这个选项，还会启动右边的Indexes选项栏，用于选择索引的显示格式</p>
+<p><code>Create as array</code> 创建为数组，这个一般默认选上的</p>
+<h4 id="函数调用图"><a class="markdownIt-Anchor" href="#函数调用图"></a> 函数调用图</h4>
+<p><code>View</code>-&gt;<code>graphs</code>-&gt;<code>function calls</code> 快捷键F12</p>
+<h4 id="创建结构体"><a class="markdownIt-Anchor" href="#创建结构体"></a> 创建结构体</h4>
+<p>有些情况反汇编的数据结构不准确就需要我们手动恢复创建结构体</p>
+<p>有以下这种方法</p>
+<ul>
+<li>
+<p>导入C语言申明的结构体</p>
+<p>在View–&gt;Open Subviews–&gt;Local Types中可以看到本地已有的结构体，在该窗口中右击insert</p>
+<p>可以添加新的结构体：</p>
+<img src="/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182239293-576944231.png" class="" alt="img" loading="lazy">
+</li>
+<li>
+<p>手工创建结构体</p>
+<p>创建结构体的快捷键是<code>insert</code></p>
+<p>在弹出的窗口可以编辑结构体的名字</p>
+<img src="/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182239190-642597980.png" class="" alt="img" loading="lazy">
+<p><strong>这底下有三个复选框，第一个表示显示在当前结构体之前（就会排列在第一位，否则排列在你鼠标选定的位置），第二个表示是否在窗口中显示新的结构体，第三个表示是否创建联合体。</strong></p>
+<p>需要注意的是，结构体的大小是它所包含的字段大小的总和，而联合体的大小则等于其中最大字段的大小</p>
+<p>在单击ok以后，就定好了一个空的结构体：</p>
+<p><strong>将鼠标放在 ends这一行，单击快捷键D即可添加结构体成员，成员的命名默认是以field_x表示的，x代表了该成员在结构体中的偏移</strong></p>
+<img src="/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182239604-1306306267.png" class="" alt="img" loading="lazy">
+<p>同时，可以把鼠标放在结构体成员所在的行，按D，就可以切换不同的字节大小</p>
+<p>默认情况下可供选择的就只有db，dw，dd（1，2，4字节大小）</p>
+<p>如果想添加型的类型，可以在option–&gt;setup data types(快捷键Alt+D)，进行设置</p>
+<img src="/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182239290-636340187.png" class="" alt="img" loading="lazy">
+<p><strong>勾选了第五个和第九个的话，就会出现dq和xmmword了（代表了8字节和16字节）</strong></p>
+<p><strong>如果要添加数组成员则可以对着成员所在的那一行，右击选择array</strong></p>
+<p><strong>给结构体的成员重命名可以用快捷键N</strong></p>
+<p>应用我们创建好的结构体就需要使用快捷键Y</p>
+<p><strong>快捷键Y可以更改函数、变量的类型和参数</strong></p>
+<p>将变量的类型更改为我们定义的结构体的名称即可</p>
+</li>
+</ul>
+<h4 id="动态调试"><a class="markdownIt-Anchor" href="#动态调试"></a> 动态调试</h4>
+<img src="/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182239532-725260498.png" class="" alt="img" loading="lazy">
+<p>注意，application和input file 都是填写在虚拟机中的elf的路径，记得要加文件名</p>
+<p>而directory 填写elf所在目录，不用加文件名</p>
+<p>hostname是虚拟机的ip地址，port是默认的连接端口</p>
+<p>parameter和password一般都不用填</p>
+<p>设置好了以后点击ok</p>
+<p>接着可以直接在反汇编视图中下断点，只要点击左边的小蓝点即可</p>
+<img src="/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182240271-1802605117.png" class="" alt="img" loading="lazy">
+<p>这时按下快捷键F9，可以直接开始调试</p>
+<p>按下快捷键F4，则直接运行到断点处停下</p>
+<p>动态调试常用快捷键</p>
+<p><code>F7</code> <strong>单步步入，遇到函数，将进入函数代码内部</strong><br />
+<code>F8</code> <strong>单步步过，执行下一条指令，不进入函数代码内部</strong><br />
+<code>F4</code> <strong>运行到光标处（断点处）</strong><br />
+<code>F9</code> <strong>继续运行</strong><br />
+<code>CTRL+F2</code> <strong>终止一个正在运行的调试进程</strong><br />
+<code>CTRL+F7</code> <strong>运行至返回,直到遇到RETN（或断点）时才停止.</strong></p>
+<h4 id="打patch"><a class="markdownIt-Anchor" href="#打patch"></a> 打PATCH</h4>
+<p>可以安装一个<code>keypatch</code>的插件增强ida的patch功能</p>
+<p>修改程序本身的命令</p>
+<p>然后<code>Apply patches to input file</code></p>
+<h4 id="导出数据文件"><a class="markdownIt-Anchor" href="#导出数据文件"></a> 导出数据文件</h4>
+<img src="/2024/07/12/%E5%88%9D%E8%AF%86idaPro/572188-20230308182240104-742480276.png" class="" alt="img" loading="lazy">
+<p>.map文件描述二进制文件的总体结构，包括与构成改二进制文件的节有关的信息，以及每个节中符号的位置。</p>
+<p>.asm文件，也就是汇编了，直接能导出ida中反汇编的结果，这个非常实用，有的时候在逆向中经常遇到大量数据加解密的情况，如果在从IDA中一个个慢慢复制可就太没效率了，直接导出生成asm，在里面复制数据快很多</p>
+<h4 id="常见命名含义"><a class="markdownIt-Anchor" href="#常见命名含义"></a> 常见命名含义</h4>
+<p>sub <em>指令和子函数起点<br />
+locret</em> 返回指令<br />
+loc <em>指令<br />
+off</em> 数据，包含偏移量<br />
+seg <em>数据，包含段地址值<br />
+asc</em> 数据，ASCII字符串<br />
+byte <em>数据，字节（或字节数组）<br />
+word</em> 数据，16位数据（或字数组）<br />
+dword <em>数据，32位数据（或双字数组）<br />
+qword</em> 数据，64位数据（或4字数组）<br />
+flt <em>浮点数据，32位（或浮点数组）<br />
+dbl</em> 浮点数，64位（或双精度数组）<br />
+tbyte <em>浮点数，80位（或扩展精度浮点数）<br />
+stru</em> 结构体(或结构体数组)<br />
+algn <em>对齐指示<br />
+unk</em> 未处理字节</p>
+<p>IDA中有常见的说明符号，如db、dw、dd分别代表了1个字节、2个字节、4个字节</p>
+<h4 id="ida反编译报错"><a class="markdownIt-Anchor" href="#ida反编译报错"></a> IDA反编译报错</h4>
+<p><strong>一是由于程序存在动态加密，导致程序的某些代码段被修改，</strong>(smc)</p>
+<p>二是存在junk code，需要我们手动修复错误识别的结果</p>
+<h4 id="配置ida"><a class="markdownIt-Anchor" href="#配置ida"></a> 配置ida</h4>
+<p><strong>一、ida.cfg</strong></p>
+<p>该文件包含了option–&gt;general中的所有选项的配置，可以通过选项中的描述在配置文件总找到相应的选项</p>
+<p>这里举几个例子：</p>
+<p><code>SHOW_AUTOCOMMENTS</code> 表示是否自动生成汇编指令的注释</p>
+<p><code>GRAPH_SHOW_LINEPREFIXES</code> 表示是否在流程控制视图中显示地址</p>
+<p><code>VPAGESIZE</code> 表示内存调整参数，当处理非常大的输入文件时，IDA可能报告内存不足而无法创建新数据库，在这种情况下增大该参数，重新打开输入文件即可解决问题</p>
+<p><code>OPCODE_BYTES</code> 表示要显示的操作码字节数的默认值</p>
+<p><code>INDENTATION</code> 表示指令缩进的距离</p>
+<p><code>NameChars</code> 表示IDA支持的变量命令使用的字符集，默认是数字+字母还有几个特殊符号，如果需要添加就改变该参数</p>
+<p><strong>二、idagui.cfg</strong></p>
+<p>这个文件主要配置默认的GUI行为，键盘的快捷键等，这个很少需要修改，不做过多介绍。感兴趣的可以自己打开该文件观察，并不难懂，改改快捷键还是很容易的</p>
+<p><strong>三、idatui.cfg</strong></p>
+<p>不常用</p>
+<p>需要注意的是，以上三个文件是默认配置，也就是说，每次打开创建新的ida数据库的时候，都会以这三个配置文件的设置进行创建，之前临时在菜单栏的设置就会消失，要永久设置ida的配置，就改这三个文件</p>
+<p>但，凡是都有例外，在option–&gt;font和option–&gt;colors这两个选项是全局选项，修改一次就永久生效的，不用在以上三个配置文件中改</p>
+<h4 id="数据与代码的互转"><a class="markdownIt-Anchor" href="#数据与代码的互转"></a> 数据与代码的互转</h4>
+<p>在自动分析阶段，字节有时可能被错误地归类。数据字节可能被错误地归类为代码字节，并被反汇编成指令；而代码字节可能被错误地归类为数据字节，并被格式化成数据值。有许多原因会导致这类情况，如一些编译器将数据嵌入在程序的代码部分，或者一些代码字节从未被作为代码直接引用，因而IDA 选择不对它们反汇编。模糊程序则特别容易模糊代码部分与数据部分之间的区别。</p>
+<p>。在重新格式化之前，首先必须删除其当前的格式（代码或数据）。右击你希望取消定义的项目，在结果上下文菜单中选择Undefine（也可使用Edit▶Undefine命令或热键U），即可取消函数、代码或数据的定义。取消某个项目的定义后，其基础字节将作为原始字节值重新格式化。在执行取消定义操作之前，使用“单击并拖动”操作选择一个地址范围，可以取消大范围内的定义。下面以一个简单的函数为例：</p>
+<pre class="line-numbers language-none"><code class="language-none">.text:004013E0 sub_4013E0      proc near  
+.text:004013E0                 push    ebp  
+.text:004013E1                 mov     ebp, esp  
+.text:004013E3                 pop     ebp  
+.text:004013E4                 retn  
+.text:004013E4 sub_4013E0      endp  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>取消这个函数的定义将得到下面这些未分类的字节，我们几乎可以以任何方式重新对它们进 行格式化：</p>
+<pre class="line-numbers language-none"><code class="language-none">.text:004013E0 unk_4013E0      db  55h ; U  
+.text:004013E1                 db  89h ; ë  
+.text:004013E2                 db 0E5h ; s  
+.text:004013E3                 db  5Dh ; ]  
+.text:004013E4                 db 0C3h ; +    <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>要反汇编一组未定义的字节，右击其中的第一个字节，在上下文菜单中选择Code（也可使用Edit▶Code或热键C）。这样，IDA 将开始反汇编所有字节，直到它遇到一个已定义的项目或非法指令。在执行代码转换操作之前，使用“单击并拖动”操作选择一个地址范围，可以进行大范围代码转换操作。</p>
+<p>将代码转换为数据的逆向操作要复杂一些。首先，使用上下文菜单不可能将代码转换为数据。你可以通过EditData 和热键D来完成。要想将指令批量转换为数据，最简单的方法是取消你希望转换为数据的所有指令的定义，然后对数据进行相应的格式化。基本的数据格式化将在下一节讨论。</p>
+<h2 id="ida-python"><a class="markdownIt-Anchor" href="#ida-python"></a> IDA-Python</h2>
+<p>IDAPYTHON 官方文档<a target="_blank" rel="noopener" href="https://hex-rays.com/products/ida/support/idapython_docs/">hex-rays.com/products/ida/support/idapython_docs/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1117330-1-1.html">总结idapython在逆向中的应用 - 『脱壳破解区』 - 吾爱破解 - LCG - LSG |安卓破解|病毒分析|www.52pojie.cn</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1198722-1-1.html">IDAPython常用API整理 - 『脱壳破解区』 - 吾爱破解 - LCG - LSG |安卓破解|病毒分析|www.52pojie.cn</a></p>
+<p>在IDA中.有三个重要的库.分别是IDC,idautils,idaapi</p>
+<p>IDC 他是封装IDA与IDC函数的兼容性模块.</p>
+<p>Idautils 这个是IDA提供给我们的一个高级实用的模块.</p>
+<p>idaapi 他可以允许我们访问更加底层的数据.</p>
+<p>在IDA中我们要使用脚本有三种方式</p>
+<p>第一种 .可以直接按 <strong>shift + F2</strong> 快捷键调出界面.也可以直接在菜单中选择命令脚本.</p>
+<p>第二种 可以是写一个脚本文件直接进行引用.</p>
+<p>第三种  就是在导航栏底部直接写命令</p>
+<p>ida-python的常用api</p>
+<ul>
+<li>idc.MinEA()：获取载入程序的最小的有效地址，兼容函数，等价于“get_inf_attr(INF_MIN_EA)”；</li>
+<li>idc.MaxEA()：获取载入的程序最大的有效地址，兼容函数，等价于“get_inf_attr(INF_MAX_EA)”；</li>
+<li>ida_idaapi.get_inf_structure()：获取当前打开的IDA的版本的信息，返回的是一个idainfo类型的结构体。</li>
+<li>ida_ida.is_32bit()/is_64bit()：判断IDA是否为32位的还是64位的，属于idainfo的一个方法属性。</li>
+<li>idautils.Assemble(head, line)：从head地址开始反汇编，寻找直到遇到line这条指令时停止，返回两个变量，一个表示是否成功，另外一个是最后这条line指令的字节表示，例如：<code>ret</code>就会是<code>'\xc3'</code>这一个字节来表示，有些指令可能由多个字节表示。</li>
+<li>idc.GetMnem(ea)：获取ea地址处的指令助记符，兼容函数，同“print_insn_mnem(ea)”功能相同。</li>
+<li>idc.MakeCode(ea)：从ea地址处开始尝试将数据转换为汇编代码，兼容函数，等价于“create_insn(ea)”。</li>
+<li>ida_bytes.next_not_tail(ea)：往下走一个指令，如果不是尾部，则返回下一条指令的起始地址。</li>
+<li>idc.GetDisasm(ea)：获取ea地址开始的一条汇编指令，等价于“generate_disasm_line(ea, 0)”。</li>
+<li>idc.GetFlags(addr)：获取addr地址处的一系列标志位，可用来判断属于code还是data，等价于ida_bytes.get_full_flags(ea)，返回一个flags_t类型的实例。</li>
+<li>idc.isCode(Flags)：通过Flags判断是否是汇编代码，其中“Flags”为flags_t的一个实例，等价于“is_code(F)”。</li>
+<li>idc.MakeUnkn(ea, flags)：取消对ea地址处的定义，暂不清楚该地址是代码还是数据时可以使用，兼容函数，等价于“del_items(ea, flags)”。</li>
+<li>idc.GetOpnd(addr, index)：取addr地址处的指令的第index个操作数，从零开始，从左开始，依次为intel汇编语法中的目的操作数、源操作数，兼容函数，等价于“print_operand(ea, n)”。</li>
+<li>ida_name.get_name_ea(min_ea, name)：从min_ea地址开始，寻找名为name的有效地址，该name可以为函数名、label名。</li>
+<li>ida_bytes.get_dword(addr)：从addr地址处获取一个大小为dword的数据。</li>
+<li>idc.MakeDword(addr)：将addr开始的一个DWORD大小的数据定义为双字形式，举一反三，Q代表四字节数据，API形式一致，兼容函数，等价于create_data(ea, dataflag, size, tid)的不同参数形式。</li>
+<li>idc.SegName(ea)：得到ea地址所处的区段名，返回字符串，兼容函数，等价于“get_segm_name()”。</li>
+<li>idc.MakeFunction(start, end)：将start到end地址处定义为一个函数，相当于快捷键“P”，兼容函数，等价于“add_func(start, end)”。</li>
+<li>idc.GetSpd(ea)：获取ea地址处的栈指针SP的值，而在IDA中显示的值则是SP到BP基址针的差值，例如获取到的值为“-4”，在IDA中显示栈指针的情况时则为4，兼容函数，等价于“get_spd(ea)”。</li>
+<li>idc.SetSpDiff(ea, delta)：设置ea地址处的Sp指针与Bp指针的差值为“delta”，兼容函数，等价于“add_user_stkpnt(ea, delta)”。</li>
+<li>ida_bytes.next_head(ea, maxea)：在ea到maxea之间遍历下一条指令，返回下一条指令的地址，与“next_not_tail”功能相似。</li>
+<li>ida_ua.ua_mnem(ea)：返回ea地址处的指令助记符，等价于“print_insn_mnem(ea)”。</li>
+<li>idc.MakeName(ea, label)：给ea地址处一个标记label，兼容函数，等价于“set_name(ea, name, SN_CHECK)”。</li>
+<li>idc.FindFuncEnd(ea): ea为函数的起始地址，找到该函数的结尾地址并返回，兼容函数，等价于“find_func_end(ea)”。</li>
+</ul>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/07/12/%E5%88%9D%E8%AF%86UPX/" rel="prev" title="初识UPX"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">初识UPX</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/07/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(%E4%B8%80)/" rel="next" title="计算机网络学习笔记(一)"><span class="post-nav-text">计算机网络学习笔记(一)</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/07/12/%E5%88%9D%E8%AF%86idaPro/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2023 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>初识Windowsx64的异常处理 | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="原生x64程序的异常分发   x64平台上原生x64程序的异常分发流程与x86平台上一致 不同的是SEH相关数据结构改变了   主要设计思路如下   在编译阶段，确定所有异常处理Handler的地址将其放入一个自读的表中，当异常发生，异常分发函数会根据异常分发的地址在这个表中查找相应的handler进行处理 这是一种基于table的异常处理机制   编译器做了以下的工作   提取所有函数的起始地">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识Windowsx64的异常处理">
+<meta property="og:url" content="http://npc0vo.github.io/2024/07/22/%E5%88%9D%E8%AF%86Windowsx64%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="原生x64程序的异常分发   x64平台上原生x64程序的异常分发流程与x86平台上一致 不同的是SEH相关数据结构改变了   主要设计思路如下   在编译阶段，确定所有异常处理Handler的地址将其放入一个自读的表中，当异常发生，异常分发函数会根据异常分发的地址在这个表中查找相应的handler进行处理 这是一种基于table的异常处理机制   编译器做了以下的工作   提取所有函数的起始地">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/22/%E5%88%9D%E8%AF%86Windowsx64%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/image-20240722151728918.png">
+<meta property="article:published_time" content="2024-07-22T07:06:04.000Z">
+<meta property="article:modified_time" content="2024-07-22T07:28:29.511Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Reverse">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://npc0vo.github.io/2024/07/22/%E5%88%9D%E8%AF%86Windowsx64%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/image-20240722151728918.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">68</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">10</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">13</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%94%9Fx64%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%BC%82%E5%B8%B8%E5%88%86%E5%8F%91"><span class="toc-number">1.</span> <span class="toc-text"> 原生x64程序的异常分发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wow64"><span class="toc-number">2.</span> <span class="toc-text"> wow64</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#veh%E5%92%8Cseh%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BA%94%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text"> veh和SEh的一些应用</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/22/%E5%88%9D%E8%AF%86Windowsx64%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">初识Windowsx64的异常处理</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-22 15:06:04" itemprop="dateCreated datePublished" datetime="2024-07-22T15:06:04+08:00">2024-07-22</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">1.4k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">5m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Reverse/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Reverse</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Reverse/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Reverse</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="原生x64程序的异常分发"><a class="markdownIt-Anchor" href="#原生x64程序的异常分发"></a> 原生x64程序的异常分发</h2>
+<ul>
+<li>
+<p>x64平台上原生x64程序的异常分发流程与x86平台上一致</p>
+<p>不同的是SEH相关数据结构改变了</p>
+</li>
+</ul>
+<p>主要设计思路如下</p>
+<ul>
+<li>
+<p>在编译阶段，确定所有异常处理<code>Handler</code>的地址将其放入一个自读的表中，当异常发生，异常分发函数会根据异常分发的地址在这个表中查找相应的handler进行处理</p>
+<p>这是一种基于table的异常处理机制</p>
+</li>
+<li>
+<p>编译器做了以下的工作</p>
+<ol>
+<li>
+<p>提取所有函数的起始地址，结束地址，函数的序言操作（包括栈操作和寄存器操作)异常处理信息等生成两个表，其中一个称做函数信息表，包含当前程序中所有函数在内存中的位置信息（除了叶函数，即那些既不调用其他函数，也不包含异常处理的函数)。这些信息被放在一个单独的区段<code>.pdata</code>中，该区段的位置可以从PE头部的数据目录<code>IMAGE_EXVEPTION_DIRECTORY</code>中找到</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">_RUNTIME_FUNTION</span><span class="token punctuation">&#123;</span>
+    ULONG BeginAddress<span class="token punctuation">;</span>
+    ULONG EndAddress<span class="token punctuation">;</span>
+    ULONG UnwindData<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>RUNTIME_FUNCTION<span class="token punctuation">,</span><span class="token operator">*</span>PRUNTIME_FUNCTION<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在该表中，每一条函数的信息被称为一个<code>FunctionEntry</code>所有的<code>FuntionEntry</code>都是按照RVA的大小升序排列的，便于使用二分法快速查找</p>
+<ol>
+<li>
+<p>当异常发生时，<code>ntdll!RtlDispatchException</code>函数根据异常发生时的Rip调用函数<code>ntdll!RtlLookupFuncitonTable</code>，查找异常Rip位于哪个模块的<code>ExceptionTable</code>中，然后调用<code>RtlLookupFuncitonEntry</code>查找<code>Rip</code>所在的<code>FuncitonEntry</code>来取它的UnWindInfo，从UnWindInfo中取得ExceptionHandler并执行</p>
+</li>
+<li>
+<p>X64上该函数通常是<code>_C_specifc_handler</code>。<code>_C_specifc_handler </code>函数的功能等同于 x86 平台上的<code>_exceplhandler3/_excepi_handler4</code> 函数，它会继续根据异常 Rip 和 ScopeTahle 定位异常到底发生在哪个 TRy<br />
+块中，然后转去执行相应的 FiterFunc，并根据返回值确定是执行 HandlerFunc、返回异常点继续执<br />
+行还是查找下一个异常处理函数。在査找下一个异常处理节点时，需要调用 ntd!RtlVirtualUnwind<br />
+函数进行模拟展开，该函数是推动异常遍历的重要函数，其原型如下。</p>
+<img src="/2024/07/22/%E5%88%9D%E8%AF%86Windowsx64%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/image-20240722151728918.png" class="" alt="image-20240722151728918" loading="lazy">
+<p>该函数的主要功能是根据传入的 ControlPc(也就是异常发生时的 Rip)和 ContextRecord 等参数<br />
+虚拟(模拟)展开该函数，并返回该函数的一些信息，例如HandlerData(SCOPE_TABLE)、<br />
+EstablisherFrame(rsp 或栈帧 )。这样，ContextRecord 就被恢复成父函数在调用 ControlPe 所在函数之<br />
+后的状态了。<br />
+根据 SEH 异常处理的嵌套关系可以知道,当子函数不处理异常时,会继续寻找其父函数的异常处理函数。所以,当 RtlVirtualUnwind 返回后,RtDispatchException 就可以根据“ContextRecord-&gt;Rip语句找到父函数对应RUNTIMEFUNCTION，进而找到它的UNWINDINFO，从而推动整个遍历过程了。</p>
+<p>对于叶函数，RtlLookupFunetionEnty 将返回“NULL”，RtlDispatchException 就能知道这是<br />
+一个叶函数，并找到该叶函数的父函数，从父函数开始继续遍历。因为叶函数对整个异常处理过程<br />
+没有影响，所以在这里将完全无视叶函数。<br />
+关于顶层异常处理，x64平台与 x86 平台相同，UEF 函数都是 kemel32!UnhandledExceptionFilter,<br />
+功能也完全相同，因此就不重复介绍了。</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="wow64"><a class="markdownIt-Anchor" href="#wow64"></a> wow64</h2>
+<p>WOW64是在x64平台上运行32位程序的机制，在内部实现使用了操作系统提供的一些特殊模块，在32位应用程序和64位系统内核之间做了一个代理，也就是截获32位程序的系统调用，然后翻译成64位调用，再把内核返回结果翻译为32位返回</p>
+<ul>
+<li>Wow64.d:管理进程和线程的创建，勾住异常分发和 Nloskrml.exe 导出的基本系统调用，实现文件重定向及注册表重定向。</li>
+<li>Wow64Cpu.dl:为每个正在 WOW64 内部运行的线程管理其 32 位 CPU 环境，针对从 32 位到 64 位或者从 64 位到 32 位的 CPU 模式切换，提供与处理器体系结构相关的支持。</li>
+<li>Wow64Win.dll:截取 Win32k.sys 导出的 GUI系统调用。</li>
+<li>64 位 ntdll.dll:负责执行真正的系统调用。</li>
+</ul>
+<p>WOW64 通过 64 位 ntdll.dl 的 KiUserExceptionDispatcher 勾住异常分发过程。在 64 位内核要给一个 WOW64 进程分发一个异常时，异常信息会先到达 64 位 ntdll.dll 的 KiUserExceplionDispalcher<br />
+函数处。</p>
+<p>在该函数中，WOW64 会捕获原生的异常及用户模式下的环境记录(ConlextRecord)，</p>
+<p>然后将其转换为 32 位的异常和环境记录，再把它交给 32 位 ntdll.dl 的 KiUserExceptionDispatcher，接下来的过程与原生 32 位程序中的异常分发过程一致</p>
+<h2 id="veh和seh的一些应用"><a class="markdownIt-Anchor" href="#veh和seh的一些应用"></a> veh和SEh的一些应用</h2>
+<ul>
+<li>
+<p>利用SEH对用户输入进行验证</p>
+<p>如验证字符串的API IsBadStringPtrA 就使用SEH机制</p>
+</li>
+<li>
+<p>驱动层的输入合法性验证</p>
+<p>如<code>ProbeForRead</code>和<code>ProbeForWrite</code></p>
+</li>
+<li>
+<p>加密与解密</p>
+<p>由于SEH可方便地操作线程环境CONTEXT，而且不像普通函数调用能直接看到调用关系，在加密和解密中肯呢个会使用SEH实现一些隐蔽的调用和特殊的功能，典型的应用就是主动制造异常，然后在异常处理程序中修改CONTEXT达到反调试的效果，或者跳跃性的改变程序的流程，达到反跟踪的目的</p>
+</li>
+<li>
+<p>利用VEH可以实现API Hook</p>
+<p>可以利用VEH的全局特性和优先SEH执行的特性，在进程内的指定代码处下断点，然后进行一些干预操作，可以只更改1字节就能实现API HOOK</p>
+</li>
+</ul>
+</div></section></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/07/21/%E5%88%9D%E8%AF%86VEH/" rel="next" title="初识VEH"><span class="post-nav-text">初识VEH</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/07/22/%E5%88%9D%E8%AF%86Windowsx64%E7%9A%84%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2023 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>

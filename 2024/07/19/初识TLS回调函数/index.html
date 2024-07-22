@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>初识TLS回调函数 | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="TLS分析 TLS回调函数会先于EP代码的运行 TLS是各线程的独立的数据存储空间。使用TLS技术可以在线程内部独立使用或修改进程的全局数据或静态数据，就像对待自身的局部变量一样。  IMAGE_DATA_DIRECTORY[9] 如果在程序中使用了TLS功能，PE文件的数据目录表第十项就会设置TLS表  IMAGE_TLS_DIRECTORY typedef struct _IMAGE_TLS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识TLS回调函数">
+<meta property="og:url" content="http://npc0vo.github.io/2024/07/19/%E5%88%9D%E8%AF%86TLS%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="TLS分析 TLS回调函数会先于EP代码的运行 TLS是各线程的独立的数据存储空间。使用TLS技术可以在线程内部独立使用或修改进程的全局数据或静态数据，就像对待自身的局部变量一样。  IMAGE_DATA_DIRECTORY[9] 如果在程序中使用了TLS功能，PE文件的数据目录表第十项就会设置TLS表  IMAGE_TLS_DIRECTORY typedef struct _IMAGE_TLS">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/19/%E5%88%9D%E8%AF%86TLS%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0/image-20240721205331221.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/19/%E5%88%9D%E8%AF%86TLS%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0/QQ%E6%88%AA%E5%9B%BE20220315163815.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/19/%E5%88%9D%E8%AF%86TLS%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0/QQ%E6%88%AA%E5%9B%BE20220315193828.png">
+<meta property="article:published_time" content="2024-07-19T04:10:19.000Z">
+<meta property="article:modified_time" content="2024-07-21T13:20:49.769Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Reverse">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://npc0vo.github.io/2024/07/19/%E5%88%9D%E8%AF%86TLS%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0/image-20240721205331221.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">68</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">10</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">13</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tls%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text"> TLS分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#image_data_directory9"><span class="toc-number">1.1.</span> <span class="toc-text"> IMAGE_DATA_DIRECTORY[9]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#image_tls_directory"><span class="toc-number">1.2.</span> <span class="toc-text"> IMAGE_TLS_DIRECTORY</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#addressofcallbacks"><span class="toc-number">1.3.</span> <span class="toc-text"> AddressOfCallbacks</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tls%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text"> TLS回调函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#image_tls_callback"><span class="toc-number">2.1.</span> <span class="toc-text"> IMAGE_TLS_CALLBACK</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%83%E4%B9%A0tlstestexe"><span class="toc-number">3.</span> <span class="toc-text"> 练习TlsTest.exe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95tlstestexe"><span class="toc-number">4.</span> <span class="toc-text"> 调试TlsTest.exe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E5%B7%A5%E6%B7%BB%E5%8A%A0tls%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text"> 手工添加TLS回调函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1"><span class="toc-number">5.1.</span> <span class="toc-text"> 设计</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/19/%E5%88%9D%E8%AF%86TLS%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">初识TLS回调函数</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-19 12:10:19" itemprop="dateCreated datePublished" datetime="2024-07-19T12:10:19+08:00">2024-07-19</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-07-21 21:20:49" itemprop="dateModified" datetime="2024-07-21T21:20:49+08:00">2024-07-21</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">1.2k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">4m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Reverse/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Reverse</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Reverse/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Reverse</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="tls分析"><a class="markdownIt-Anchor" href="#tls分析"></a> TLS分析</h2>
+<p>TLS回调函数会先于EP代码的运行</p>
+<p>TLS是各线程的独立的数据存储空间。使用TLS技术可以在线程内部独立使用或修改进程的全局数据或静态数据，就像对待自身的局部变量一样。</p>
+<h3 id="image_data_directory9"><a class="markdownIt-Anchor" href="#image_data_directory9"></a> IMAGE_DATA_DIRECTORY[9]</h3>
+<p>如果在程序中使用了TLS功能，PE文件的数据目录表第十项就会设置TLS表</p>
+<h3 id="image_tls_directory"><a class="markdownIt-Anchor" href="#image_tls_directory"></a> IMAGE_TLS_DIRECTORY</h3>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">_IMAGE_TLS_DIRECTORY32</span> 
+<span class="token punctuation">&#123;</span>
+    DWORD   StartAddressOfRawData<span class="token punctuation">;</span>
+    DWORD   EndAddressOfRawData<span class="token punctuation">;</span>
+    PDWORD  AddressOfIndex<span class="token punctuation">;</span>
+    PIMAGE_TLS_CALLBACK <span class="token operator">*</span>AddressOfCallBacks<span class="token punctuation">;</span>
+    DWORD   SizeOfZeroFill<span class="token punctuation">;</span>
+    DWORD   Characteristics<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> IMAGE_TLS_DIRECTORY32<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>
+<p>比较重要的成员为<code>AddressOfCallbacks</code>，这个值含有<code>TLS</code>回调函数地址(VA)的数组。</p>
+<p>这意味着可以向同一程序注册多个TLS回调函数</p>
+<img src="/2024/07/19/%E5%88%9D%E8%AF%86TLS%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0/image-20240721205331221.png" class="" alt="image-20240721205331221" loading="lazy">
+</li>
+</ul>
+<h3 id="addressofcallbacks"><a class="markdownIt-Anchor" href="#addressofcallbacks"></a> AddressOfCallbacks</h3>
+<p>这个数组存储的就是TLS回调函数的地址</p>
+<p>进程启动运行时(<mark>执行EP代码前</mark>)系统会逐一调用存储在该数组中的函数</p>
+<h2 id="tls回调函数"><a class="markdownIt-Anchor" href="#tls回调函数"></a> TLS回调函数</h2>
+<p>TLS回调函数是指，<code>每当创建/终止进程的线程时会自动调用执行的函数，而创建进程的主线程也会自动调用回调函数，且会在EP代码之前执行</code>，反调试技术利用的就是这个特征。</p>
+<h3 id="image_tls_callback"><a class="markdownIt-Anchor" href="#image_tls_callback"></a> IMAGE_TLS_CALLBACK</h3>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">typedef</span> <span class="token function">VOID</span>
+<span class="token punctuation">(</span>NTAPI <span class="token operator">*</span>PIMAGE_TLS_CALLBACK<span class="token punctuation">)</span> <span class="token punctuation">(</span>
+    PVOID DllHandle<span class="token punctuation">,</span>
+    DWORD Reason<span class="token punctuation">,</span>
+    PVOID Reserved
+    <span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>定义TLS回调函数的方法，与DLLMAIN()的定义方法类似</p>
+<p>DllHandle为模块句柄，即加载地址</p>
+<p>Reason为调用TLS回调函数的原因</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">DLL_PROCESS_ATTACH</span>   <span class="token expression"><span class="token number">1</span>    </span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">DLL_THREAD_ATTACH</span>    <span class="token expression"><span class="token number">2</span>    </span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">DLL_THREAD_DETACH</span>    <span class="token expression"><span class="token number">3</span>    </span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">DLL_PROCESS_DETACH</span>   <span class="token expression"><span class="token number">0</span>    </span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="练习tlstestexe"><a class="markdownIt-Anchor" href="#练习tlstestexe"></a> 练习TlsTest.exe</h2>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">_CRT_SECURE_NO_WARNINGS</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;windows.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression"><span class="token function">comment</span><span class="token punctuation">(</span>linker<span class="token punctuation">,</span> </span><span class="token string">"/INCLUDE:__tls_used"</span><span class="token expression"><span class="token punctuation">)</span></span></span>
+<span class="token keyword">void</span> <span class="token function">print_console</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token operator">*</span> szMsg<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    HANDLE hStdout <span class="token operator">=</span> <span class="token function">GetStdHandle</span><span class="token punctuation">(</span>STD_OUT1PUT_HANDLE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token function">WriteConsoleA</span><span class="token punctuation">(</span>hStdout<span class="token punctuation">,</span> szMsg<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>szMsg<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> NTAPI <span class="token function">TLS_CALLBACK1</span><span class="token punctuation">(</span>PVOID DllHandle<span class="token punctuation">,</span> DWORD Reason<span class="token punctuation">,</span> PVOID Reserved<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> szMsg<span class="token punctuation">[</span><span class="token number">80</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token function">wsprintfA</span><span class="token punctuation">(</span>szMsg<span class="token punctuation">,</span> <span class="token string">"TLS_CALLBACK1() : DllHandle = %X, Reason = %d\n"</span><span class="token punctuation">,</span> DllHandle<span class="token punctuation">,</span> Reason<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">print_console</span><span class="token punctuation">(</span>szMsg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> NTAPI <span class="token function">TLS_CALLBACK2</span><span class="token punctuation">(</span>PVOID DllHandle<span class="token punctuation">,</span> DWORD Reason<span class="token punctuation">,</span> PVOID Reserved<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> szMsg<span class="token punctuation">[</span><span class="token number">80</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token function">wsprintfA</span><span class="token punctuation">(</span>szMsg<span class="token punctuation">,</span> <span class="token string">"TLS_CALLBACK2() : DllHandle = %X, Reason = %d\n"</span><span class="token punctuation">,</span> DllHandle<span class="token punctuation">,</span> Reason<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">print_console</span><span class="token punctuation">(</span>szMsg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression"><span class="token function">data_seg</span><span class="token punctuation">(</span></span><span class="token string">".CRT$XLX"</span><span class="token expression"><span class="token punctuation">)</span></span></span>
+PIMAGE_TLS_CALLBACK pTLS_CALLBACKs<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span> TLS_CALLBACK1<span class="token punctuation">,</span> TLS_CALLBACK2<span class="token punctuation">,</span> <span class="token number">0</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression"><span class="token function">data_seg</span><span class="token punctuation">(</span><span class="token punctuation">)</span></span></span>
+DWORD WINAPI <span class="token function">ThreadProc</span><span class="token punctuation">(</span>LPVOID lParam<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token function">print_console</span><span class="token punctuation">(</span><span class="token string">"ThreadProc() start\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">print_console</span><span class="token punctuation">(</span><span class="token string">"ThreadProc() end\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    HANDLE hThread <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+    <span class="token function">print_console</span><span class="token punctuation">(</span><span class="token string">"main() start\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    hThread <span class="token operator">=</span> <span class="token function">CreateThread</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> ThreadProc<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">WaitForSingleObject</span><span class="token punctuation">(</span>hThread<span class="token punctuation">,</span> <span class="token number">60</span> <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">CloseHandle</span><span class="token punctuation">(</span>hThread<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">print_console</span><span class="token punctuation">(</span><span class="token string">"main() end\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在这份代码里，先注册了2个TLS回调函数(TLS_CALLBACK1、TLS_CALLBACK2)。它们的操作就是把DllHandle和Reason打印到控制台，然后退出。</p>
+<img src="/2024/07/19/%E5%88%9D%E8%AF%86TLS%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0/QQ%E6%88%AA%E5%9B%BE20220315163815.png" class="" alt="img" loading="lazy">
+<ul>
+<li>DLL_PROCESS_ATTACH</li>
+</ul>
+<p>​		进程的主线程调用main()函数前，已经注册的TLS回调函数TLS_CALLBACK1、TLS_CALLBACK2会先被执行调用，此时Reason为1</p>
+<ul>
+<li>DLL_THREAD_ATTACH</li>
+</ul>
+<p>​		所有TLS回调函数完成调用后，main()函数开始执行，创建用户线程(ThreadProc)前，TLS回调函数会被再次调用执行，此时Reason为2</p>
+<ul>
+<li>DLL_THREAD_DETACH</li>
+</ul>
+<p>​		TLS回调函数全部执行完后，ThreadProc开始执行，在执行完后，Reason为3，此时TLS回调函数被调用执行</p>
+<ul>
+<li>​	DLL_PROCESS_DETACH</li>
+</ul>
+<p>​	main()主线程也会终止，此时Reason为0，TLS回调函数最后一次被调用执行。</p>
+<h2 id="调试tlstestexe"><a class="markdownIt-Anchor" href="#调试tlstestexe"></a> 调试TlsTest.exe</h2>
+<p>再调试带有TLS的程序时，会自动在ntdll.dll模块内部的“System Startup Breakpoint”处暂停，调试器暂停的位置是系统启动断点。然后根据前面的IMAGE_TLS_DIRECTORY获取TLS回调函数的地址，在回调函数的起始地址设置好断点，这样就可以进行TLS回调函数的调试了。</p>
+<p>前面我们知道回调函数的首地址是00401000，所以我们在这个地方下个断点，然后F9运行到这。</p>
+<h2 id="手工添加tls回调函数"><a class="markdownIt-Anchor" href="#手工添加tls回调函数"></a> 手工添加TLS回调函数</h2>
+<h3 id="设计"><a class="markdownIt-Anchor" href="#设计"></a> 设计</h3>
+<p>首先要确定IMAGE_TLS_DIRECTORY结构体与TLS回调函数放到文件的哪个位置。向PE文件添加代码或者数据时。有如下3种方法来查找合适位置：</p>
+<ol>
+<li>添加到节区末尾的空白区域</li>
+<li>增加最后一个节区的大小</li>
+<li>在最后添加新节区</li>
+</ol>
+<p>我们采用第二种方法，增加最后一个节区的大小</p>
+<p>首先在PE头中修改最后一个节区的大小</p>
+<img src="/2024/07/19/%E5%88%9D%E8%AF%86TLS%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0/QQ%E6%88%AA%E5%9B%BE20220315193828.png" class="" alt="img" loading="lazy">
+<p>Pointer to Raw Data=9000</p>
+<p>Size of Raw Data=600</p>
+<p>所以PE头中定义的文件整体大小为9600</p>
+<p>我们用010editor打开hello.exe，然后在尾部插入200h个字节</p>
+<p>然后编辑PE文件头</p>
+<p>修改.rcrs节区头中的Size of Raw Data=800，Characteristics=E0000060</p>
+<p>在原有属性的基础上新增加了IMAGE_SCN_CNT_CODE|IMAGE_SCN_MEM_EXECUTE|IMAGE_SCN_MEM_WRITE属性</p>
+<p>接下来要设置TLS表的值</p>
+<p>我们的TLS表放在9600的位置，大小为24个字节(0x18)，9600是文件偏移，转化成RVA就是1 E600</p>
+<p>然后设置IMAGE_TLS_DIRECTORY结构体</p>
+<p>我们在9600位置开始填入数据，大小为0x18个字节，把从9618开始后面0x18字节，0x18/4=6个地址，刚好赋给IMAGE_TLS_DIRECTORY,在9630位置设置函数地址，存放在Address of Callbacks指向的回调函数数组中，其中C20C是机器码，对应汇编就是 RETN 0C,也就是说这个函数只进行了平衡堆栈的操作，TLS有三个参数，所以retn 0xc</p>
+<p>最后可以利用OD直接写汇编，最终将程序保存下来就可以了</p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/" rel="prev" title="初识Hook技术"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">初识Hook技术</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/07/19/%E5%88%9D%E8%AF%86PEB/" rel="next" title="初识PEB"><span class="post-nav-text">初识PEB</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/07/19/%E5%88%9D%E8%AF%86TLS%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2023 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>初识Hook技术 | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="Hook分为应用层（Ring3）Hook和内核层（Ring0）Hook，应用层Hook适用于x86和x64，而内核层Hook一般仅在x86平台适用，因为从Windows Vista的64版本开始引入的Patch Guard技术极大地限制了Windows x64内核挂钩的使用。  Ring3 Hook  IAT Hook 核心思路就是修改IAT中的函数地址 IAT（Import Address T">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识Hook技术">
+<meta property="og:url" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="Hook分为应用层（Ring3）Hook和内核层（Ring0）Hook，应用层Hook适用于x86和x64，而内核层Hook一般仅在x86平台适用，因为从Windows Vista的64版本开始引入的Patch Guard技术极大地限制了Windows x64内核挂钩的使用。  Ring3 Hook  IAT Hook 核心思路就是修改IAT中的函数地址 IAT（Import Address T">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/59ee26f99b8deaa2ac21aed1b2eb91cf.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/1a89901a127a96e67724d91ab921d421.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/0a99866c4023612aa992b4ec173a6d99.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/4deaa7a300fde2fd95ec17bb10ed9bb8.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/2661f6b0689400a569990142c7dec350.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/37f1601353be62159821507fd52560ea.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/6798abeca79f5c0897e5a4b100a21d35.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/0d31b4abec8222a5702dca14f5e176a2.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/1c211dc9da8c456a85b75d1512fea68d.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/d5c2c0b3bef87d444a70ef1d339e20f4.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/cee0d53dc25a0310393fb76added38ae.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/723af2432b03a0dba0fc1b18c14679d3.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/5616fdfe01d352a3846e15ffcdf8cc47.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/7698fb744c51e97432b0fa38ea04c489.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/896aefeeca9816d35167a3aa5345a8fb.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/568a9a1b7d4f3552507d91a8c263e931.png">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/b4e5cd2d8f27f5288ad230179335213f.png">
+<meta property="article:published_time" content="2024-07-21T08:02:02.000Z">
+<meta property="article:modified_time" content="2024-07-22T10:06:40.454Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Reverse">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/59ee26f99b8deaa2ac21aed1b2eb91cf.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">68</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">10</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">13</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ring3-hook"><span class="toc-number">1.</span> <span class="toc-text"> Ring3 Hook</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#iat-hook"><span class="toc-number">1.1.</span> <span class="toc-text"> IAT Hook</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E5%AF%BC%E5%85%A5%E8%A1%A8"><span class="toc-number">1.1.1.</span> <span class="toc-text"> 分析导入表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%92%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.2.</span> <span class="toc-text"> 实现原理和流程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.2.1.</span> <span class="toc-text"> 原理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.2.2.</span> <span class="toc-text"> 流程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inline-hook"><span class="toc-number">1.2.</span> <span class="toc-text"> Inline Hook</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-2"><span class="toc-number">1.2.1.</span> <span class="toc-text"> 原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.2.</span> <span class="toc-text"> 代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hotfix-hook"><span class="toc-number">1.3.</span> <span class="toc-text"> HotFix Hook</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-3"><span class="toc-number">1.3.1.</span> <span class="toc-text"> 原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-2"><span class="toc-number">1.3.2.</span> <span class="toc-text"> 代码实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setwindowshook"><span class="toc-number">1.4.</span> <span class="toc-text"> SetWindowsHook</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-4"><span class="toc-number">1.4.1.</span> <span class="toc-text"> 原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E4%BB%A3%E7%A0%81"><span class="toc-number">1.4.2.</span> <span class="toc-text"> 核心代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#debugactiveprocess"><span class="toc-number">1.5.</span> <span class="toc-text"> DebugActiveProcess</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E4%BB%A3%E7%A0%81-2"><span class="toc-number">1.5.1.</span> <span class="toc-text"> 核心代码</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ring0-hook"><span class="toc-number">2.</span> <span class="toc-text"> Ring0 Hook</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ssdt-hook"><span class="toc-number">2.1.</span> <span class="toc-text"> SSDT Hook</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-5"><span class="toc-number">2.1.1.</span> <span class="toc-text"> 原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B-2"><span class="toc-number">2.1.2.</span> <span class="toc-text"> 流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E4%BB%A3%E7%A0%81-3"><span class="toc-number">2.1.3.</span> <span class="toc-text"> 核心代码</span></a></li></ol></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">初识Hook技术</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-21 16:02:02" itemprop="dateCreated datePublished" datetime="2024-07-21T16:02:02+08:00">2024-07-21</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-07-22 18:06:40" itemprop="dateModified" datetime="2024-07-22T18:06:40+08:00">2024-07-22</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">2.7k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">9m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Reverse/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Reverse</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Reverse/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Reverse</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/59ee26f99b8deaa2ac21aed1b2eb91cf.png" class="" alt="2" loading="lazy">
+<p>Hook分为应用层（Ring3）Hook和内核层（Ring0）Hook，应用层Hook适用于x86和x64，而内核层Hook一般仅在x86平台适用，因为从Windows Vista的64版本开始引入的Patch Guard技术极大地限制了Windows x64内核挂钩的使用。</p>
+<h2 id="ring3-hook"><a class="markdownIt-Anchor" href="#ring3-hook"></a> Ring3 Hook</h2>
+<h3 id="iat-hook"><a class="markdownIt-Anchor" href="#iat-hook"></a> IAT Hook</h3>
+<p><mark>核心思路就是修改IAT中的函数地址</mark></p>
+<p>IAT（Import Address Table）Hook是一种针对Windows操作系统的API Hooking 技术，用于修改应用程序对动态链接库（DLL）中导入函数的调用。IAT是一个数据结构，其中包含了应用程序在运行时使用的导入函数的地址。</p>
+<p>IAT Hook的原理是**通过修改IAT中的函数指针，将原本要调用的函数指向另一个自定义的函数。**这样，在应用程序执行时，当调用被钩子的函数时，实际上会执行自定义的函数。通过IAT Hook，我们可以拦截和修改应用程序的函数调用，以实现一些自定义的行为，比如记录日志、修改函数参数或返回值等。</p>
+<p>IAT Hook的步骤通常包括以下几个步骤：</p>
+<ul>
+<li><strong>获取目标函数的地址：通过遍历模块的导入表，找到目标函数在DLL中的地址。</strong></li>
+<li><strong>保存原始函数地址：将目标函数的地址保存下来，以便后续恢复</strong>。</li>
+<li><strong>修改IAT表项：将目标函数在IAT中对应的函数指针修改为自定义函数的地址。</strong></li>
+<li><strong>实现自定义函数：编写自定义的函数，该函数会在被钩子函数被调用时执行。</strong></li>
+<li><strong>调用原始函数：在自定义函数中，可以选择是否调用原始的被钩子函数。</strong></li>
+</ul>
+<p>该技术常用于实现一些系统级的功能，例如API监控、函数跟踪、代码注入等，接下来将具体分析<code>IAT Hook</code>的实现原理，并编写一个<code>DLL</code>注入文件，实现<code>IAT Hook</code>替换<code>MessageBox</code>弹窗的功能。</p>
+<h4 id="分析导入表"><a class="markdownIt-Anchor" href="#分析导入表"></a> 分析导入表</h4>
+<p>在PE加载过程中，双桥结构断裂之后，IAT中存放的就是函数的真实地址，我们修改这个地址也就是实现了Hook。</p>
+<p>IAT结构</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">struct</span> <span class="token class-name">_IMAGE_THUNK_DATA32</span><span class="token punctuation">&#123;</span>
+   
+    <span class="token keyword">union</span> <span class="token punctuation">&#123;</span>
+   
+        DWORD ForwarderString<span class="token punctuation">;</span> <span class="token comment">//指向一个转向者字符串的RVA</span>
+        DWORD Function <span class="token punctuation">;</span>       <span class="token comment">//被输入的函数的内存地址</span>
+        DWORD Ordinal <span class="token punctuation">;</span>        <span class="token comment">//被输入的API的序数值</span>
+       DWORD  AddressOfData <span class="token punctuation">;</span>  <span class="token comment">//高位为0则指向IMAGE_IMPORT_BY_NAME 结构体二</span>
+    <span class="token punctuation">&#125;</span>u1<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>IMAGE_THUNK_DATA32<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>原来的调用过程:<br />
+call [aaaaa] =&gt; IAT[aaaaaa]::bbbbb =&gt; xxx.dll::bbbbb<br />
+ret后<br />
+next code of call [aaaaa] &lt;= next ret of xxx.dll::bbbbb</p>
+<h4 id="实现原理和流程"><a class="markdownIt-Anchor" href="#实现原理和流程"></a> 实现原理和流程</h4>
+<h5 id="原理"><a class="markdownIt-Anchor" href="#原理"></a> 原理</h5>
+<p>在进行Windows编程的时候，我们会经常使用Windows的API函数。而我们的API函数一般都是写在dll里，导入表里写着加载的dll和函数，代表该模块调用了哪些外部API，模块被加载到内存后， PE加载器会修改该表，地址改成外部API重定位后的真实地址， 我们只要直接把里面的地址改成我们新函数的地址， 就可以完成对相应API的Hook。</p>
+<h5 id="流程"><a class="markdownIt-Anchor" href="#流程"></a> 流程</h5>
+<p>1、在Dll里构造Hook函数(也就是我们自己的函数)<br />
+2、获取Target函数地址，并找到Target函数所在的IAT的地址<br />
+3、保存原始的IAT地址和IAT地址所存储的内容<br />
+4、修改IAT地址中的数据(前提：修改内存属性为可写)<br />
+5、恢复IAT</p>
+<p>核心代码如下</p>
+<img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/1a89901a127a96e67724d91ab921d421.png" class="" alt="9" loading="lazy">
+<h3 id="inline-hook"><a class="markdownIt-Anchor" href="#inline-hook"></a> Inline Hook</h3>
+<p>[<a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-271098.htm">原创]万字长文！inlinehook看这一篇足够了！-软件逆向-看雪-安全社区|安全招聘|kanxue.com</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/PeaZomboss/p/17131778.html">Windows下x86和x64平台的Inline Hook介绍 - PeacoorZomboss - 博客园 (cnblogs.com)</a></p>
+<p>内联Hook相比于IAT Hook，显得更简单粗暴，它直接修改内存中任意函数的代码，将其劫持至Hook API。同时，它比IAT Hook的适用范围更广，因为只要是内存中有的函数它都能Hook，而后者只能Hook IAT表里存在的函数（有些程序会动态加载函数）。</p>
+<p><mark>核心就是跳板，跳转,本质是一种汇编代码修改技术</mark></p>
+<h4 id="原理-2"><a class="markdownIt-Anchor" href="#原理-2"></a> 原理</h4>
+<p>Inline Hook的目标是系统函数，如下，左图是Hook之前的状态，procexp.exe进程调用ZwQuerySystemInformation()函数时，ZwQuerySystemInformation()的代码是正常的代码。右图是Hook后的状态，注意红框中的代码，ZwQuerySystemInformation()函数开头5个字节已被修改，变成了jmp 0x10001120，也就是我们恶意代码的地址，之后便可以开始我们的自定义操作。0x1000116A我们先进行unhook操作（脱钩），目的是将ZwQuerySystemInformation()的代码恢复。大家可能有疑惑，为什么刚修改完又要恢复回来，原因很简单，Hook的目的是当调用某个函数时，我们能劫持进程的执行流。现在我们已经劫持了进程的执行流，便可以恢复ZwQuerySystemInformation()的代码，以便我们的恶意代码可以正常调用ZwQuerySystemInformation()。执行完恶意代码后，再次挂钩，监控该函数。</p>
+<img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/0a99866c4023612aa992b4ec173a6d99.png" class="" alt="10" loading="lazy">
+<img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/4deaa7a300fde2fd95ec17bb10ed9bb8.png" class="" alt="11" loading="lazy">
+<h4 id="代码实现"><a class="markdownIt-Anchor" href="#代码实现"></a> 代码实现</h4>
+<p>首先获取原API的地址，并保存在pfnOrg中，然后修改内存段属性为RWX，备份原有代码（以便后续代码恢复），实时计算JMP的相对偏移，最后修改API前5字节的代码，恢复内存属性。</p>
+<img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/2661f6b0689400a569990142c7dec350.png" class="" alt="12" loading="lazy">
+<h3 id="hotfix-hook"><a class="markdownIt-Anchor" href="#hotfix-hook"></a> HotFix Hook</h3>
+<p>从上节对Code Hook方法的讲解中，我们会发现Code Hook存在一个效率的问题，因为每次Code Hook都要进行“挂钩+脱钩”的操作，也就是要对API的前5字节修改两次，这样，当我们要进行全局Hook的时候，系统运行效率会受影响。而且，当一个线程尝试运行某段代码时，若另一个线程正在对该段代码进行“写”操作，这时就会程序冲突，最终引发一些错误。<br />
+有没有办法避免这种隐患呢？答案是有的，可以使用HotFix Hook（“热补丁”）方法。</p>
+<h4 id="原理-3"><a class="markdownIt-Anchor" href="#原理-3"></a> 原理</h4>
+<p>以上累出的API起始代码有如下两个明显的相似点：<br />
+[1]API代码以“MOV EDI,EDI”指令开始。<br />
+[2]API代码上方有5个NOP指令。</p>
+<p>MOV EDI,EDI用于将EDI的值再次复制给EDI，这没有什么实际意义。也就是说，API起始代码的MOV指令（2个字节）与其上方的5个NOP指令（5个字节）合起来共7个字节的指令没有任何意义。所以我们就可以通过修改这7个字节来实现Hook操作。这种方法因为可以在进程处于运行状态时临时更改进程内存中的库文件，所以微软也常用这种方法来打“热补丁”。<br />
+直接修改汇编代码即可</p>
+<p>将前7个字节改成：<br />
+JMP 10001000（恶意代码地址）<br />
+JMP SHORT 0x7C802366</p>
+<h4 id="代码实现-2"><a class="markdownIt-Anchor" href="#代码实现-2"></a> 代码实现</h4>
+<p>难点在与计算偏移地址</p>
+<img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/37f1601353be62159821507fd52560ea.png" class="" alt="15" loading="lazy">
+<p>由于HotFix Hook需要修改7个字节的代码，所以并不是所有API都适用这种方法，若不适用，请使用5字节代码修改技术。</p>
+<h3 id="setwindowshook"><a class="markdownIt-Anchor" href="#setwindowshook"></a> SetWindowsHook</h3>
+<h4 id="原理-4"><a class="markdownIt-Anchor" href="#原理-4"></a> 原理</h4>
+<p>首先先来了解下常规的Windows消息流：<br />
+[1]发生键盘输入事件时，WM_KEYDOWN消息被添加到[OS message queue]。<br />
+[2]OS判断哪个应用程序中发生了事件，然后从[OS message queue]取出消息，添加到相应应用程序的[application message queue]中。<br />
+[3]应用程序（如记事本）监视自身的[application message queue]，发现新添加的WM_KEYDOWN消息后，调用相应的事件处理程序处理。</p>
+<p>所以，我们只需在[OS message queue]和[application message queue]之间安装钩子即可窃取键盘消息，并实现恶意操作。</p>
+<img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/6798abeca79f5c0897e5a4b100a21d35.png" class="" alt="3" loading="lazy">
+<p>那么我们该如何安装这个消息钩子呢？很简单，Windows提供了一个官方函数SetWindowsHookEx()用于设置消息Hook，编程时只要调用该API就能简单地实现Hook。</p>
+<p>消息Hook常被窃密木马用来监听用户的键盘输入，程序里只需写入如下代码就能对键盘消息进行Hook:<br />
+SetWindowsHookEx(<br />
+WH_KEYBOARD, //键盘消息<br />
+KeyboardProc, //钩子函数（处理键盘输入的函数）<br />
+hInstance, //钩子函数所在DLL的Handle<br />
+0 //该参数用于设定要Hook的线程ID，为0时表示监视所有线程<br />
+)</p>
+<h4 id="核心代码"><a class="markdownIt-Anchor" href="#核心代码"></a> 核心代码</h4>
+<img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/0d31b4abec8222a5702dca14f5e176a2.png" class="" alt="4" loading="lazy">
+<p>该API在简单高效的同时也有一个弊端，就是它只能监视较少的消息，如：击键消息、鼠标移动消息、窗口消息。</p>
+<h3 id="debugactiveprocess"><a class="markdownIt-Anchor" href="#debugactiveprocess"></a> DebugActiveProcess</h3>
+<p>该Hook方法的原理跟调试器的工作机制相似，核心思想都是让进程发生异常，然后自己捕获到该异常，对处于被调试状态下的级才能进行恶意操作。<br />
+下图是常规进程的异常事件处理，当进程未被其他进程调试时，其默认异常事件处理者是OS，一旦进程发生异常，OS将捕获到该异常，并进行相应的事件处理。</p>
+<img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/1c211dc9da8c456a85b75d1512fea68d.png" class="" alt="5" loading="lazy">
+<p>若进程被另一个进程调试了（如OllyDbg），异常事件的处理工作将移交给调试者，比如进程发生了除0错误，OllyDbg将接收到这个异常事件并对进行相应处理。<br />
+PS：调试器无处理或不关心的调试事件最终由OS处理。</p>
+<img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/d5c2c0b3bef87d444a70ef1d339e20f4.png" class="" alt="6" loading="lazy">
+<p>所以，调试Hook的核心思路就是将API的第一个字节修改为0xCC（INT 3），当API被调用时，由于触发了异常，控制权就被转交给调试器。</p>
+<h4 id="核心代码-2"><a class="markdownIt-Anchor" href="#核心代码-2"></a> 核心代码</h4>
+<img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/cee0d53dc25a0310393fb76added38ae.png" class="" alt="7" loading="lazy">
+<h2 id="ring0-hook"><a class="markdownIt-Anchor" href="#ring0-hook"></a> Ring0 Hook</h2>
+<h3 id="ssdt-hook"><a class="markdownIt-Anchor" href="#ssdt-hook"></a> SSDT Hook</h3>
+<p>SSDT Hook属于内核层Hook，也是最底层的Hook。由于用户层的API最后实质也是调用内核API（Kernel32-&gt;Ntdll-&gt;Ntoskrnl），所以该Hook方法最为强大。</p>
+<h4 id="原理-5"><a class="markdownIt-Anchor" href="#原理-5"></a> 原理</h4>
+<p>内核通过SSDT（System Service Descriptor Table）调用各种内核函数，SSDT就是一个函数表，只要得到一个索引值，就能根据这个索引值在该表中得到想要的函数地址。</p>
+<img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/723af2432b03a0dba0fc1b18c14679d3.png" class="" alt="16" loading="lazy">
+<p>下图0x80563520处就是ntoskrnl对应的服务描述符表结构SSDT。那么第一个32位的0x804e58a0则是SSDT Base，即SSDT的首地址。</p>
+<img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/5616fdfe01d352a3846e15ffcdf8cc47.png" class="" alt="17" loading="lazy">
+<p>通过对这些地址反汇编，就能得到相应的函数，下图中0x80591bfb是SSDT表中的第一个函数NtAcceptConnectPort的地址。</p>
+<img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/7698fb744c51e97432b0fa38ea04c489.png" class="" alt="18" loading="lazy">
+<p>我们接下来试着寻找NtQuerySystemInformation的地址，首先反汇编ZwQuerySystemInformation，得知它要寻找SSDT中索引号为0xAD的地址。</p>
+<img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/896aefeeca9816d35167a3aa5345a8fb.png" class="" alt="19" loading="lazy">
+<p>从上面我们可以知道，NtQuerySystemInformation的索引号为0xAD，那么我们就可以算出NtQuerySystemInformation的地址：<br />
+0x80591bfb + 0xAD = 0x8056ff1</p>
+<img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/568a9a1b7d4f3552507d91a8c263e931.png" class="" alt="20" loading="lazy">
+<h4 id="流程-2"><a class="markdownIt-Anchor" href="#流程-2"></a> 流程</h4>
+<p>Hook的原理相同，只不过Hook的对象不一样罢了。Hook步骤还是那5步：<br />
+1.修改内存属性为RWX。<br />
+2.拼接汇编码jmp [HookFunc]。<br />
+3.保存原代码头5个字节。<br />
+4.将头5个字节替换为2的汇编码。<br />
+5.恢复前5个字节。<br />
+6.恢复内存属性。</p>
+<h4 id="核心代码-3"><a class="markdownIt-Anchor" href="#核心代码-3"></a> 核心代码</h4>
+<img src="/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/b4e5cd2d8f27f5288ad230179335213f.png" class="" alt="21" loading="lazy">
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/07/21/%E5%88%9D%E8%AF%86SSDT/" rel="prev" title="初识SSDT"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">初识SSDT</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/07/19/%E5%88%9D%E8%AF%86TLS%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0/" rel="next" title="初识TLS回调函数"><span class="post-nav-text">初识TLS回调函数</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/07/21/%E5%88%9D%E8%AF%86Hook%E6%8A%80%E6%9C%AF/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2023 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>

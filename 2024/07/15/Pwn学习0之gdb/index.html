@@ -1,0 +1,339 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>Pwn学习0之gdb&amp;pwntools | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="gdb+pwngdb  基本指令  help   帮助 i &#x2F;&#x2F;info   查看一些信息  i b&#x2F;&#x2F;常用  info break  查看所有断点信息( 编号，断点位置) i r&#x2F;&#x2F;常用  info registers 查看各个寄存器当前的值 i f &#x2F;&#x2F;info function 查看所有函数名   show 和info类似，但是查看调试器的基本信息 rdi 寄存器名代表一个寄存器内的值，用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pwn学习0之gdb&amp;pwntools">
+<meta property="og:url" content="http://npc0vo.github.io/2024/07/15/Pwn%E5%AD%A6%E4%B9%A00%E4%B9%8Bgdb/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="gdb+pwngdb  基本指令  help   帮助 i &#x2F;&#x2F;info   查看一些信息  i b&#x2F;&#x2F;常用  info break  查看所有断点信息( 编号，断点位置) i r&#x2F;&#x2F;常用  info registers 查看各个寄存器当前的值 i f &#x2F;&#x2F;info function 查看所有函数名   show 和info类似，但是查看调试器的基本信息 rdi 寄存器名代表一个寄存器内的值，用">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-07-15T04:13:28.000Z">
+<meta property="article:modified_time" content="2024-07-20T14:25:50.620Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Pwn">
+<meta name="twitter:card" content="summary"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">68</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">10</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">13</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#gdbpwngdb"><span class="toc-number">1.</span> <span class="toc-text"> gdb+pwngdb</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4"><span class="toc-number">1.1.</span> <span class="toc-text"> 基本指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%8C%87%E4%BB%A4"><span class="toc-number">1.2.</span> <span class="toc-text"> 执行指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%AD%E7%82%B9%E6%8C%87%E4%BB%A4"><span class="toc-number">1.3.</span> <span class="toc-text"> 断点指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E7%A6%81%E7%94%A8%E6%96%AD%E7%82%B9"><span class="toc-number">1.4.</span> <span class="toc-text"> 删除，禁用断点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%96%AD%E7%82%B9%E6%8C%87%E4%BB%A4watch"><span class="toc-number">1.5.</span> <span class="toc-text"> 内存断点指令watch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8D%95%E8%8E%B7%E6%96%AD%E7%82%B9catch"><span class="toc-number">1.6.</span> <span class="toc-text"> 捕获断点catch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%93%E5%8D%B0%E6%8C%87%E4%BB%A4"><span class="toc-number">1.7.</span> <span class="toc-text"> 打印指令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%86%85%E5%AD%98%E6%8C%87%E4%BB%A4"><span class="toc-number">1.7.1.</span> <span class="toc-text"> 查看内存指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%93%E5%8D%B0%E6%8C%87%E4%BB%A4pprint"><span class="toc-number">1.7.2.</span> <span class="toc-text"> 打印指令p(print)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%93%E5%8D%B0%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4"><span class="toc-number">1.7.3.</span> <span class="toc-text"> 打印汇编指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%93%E5%8D%B0%E6%BA%90%E4%BB%A3%E7%A0%81%E6%8C%87%E4%BB%A4list"><span class="toc-number">1.7.4.</span> <span class="toc-text"> 打印源代码指令list</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%92%8C%E6%9F%A5%E6%89%BE%E6%8C%87%E4%BB%A4"><span class="toc-number">1.8.</span> <span class="toc-text"> 修改和查找指令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE%E6%8C%87%E4%BB%A4set"><span class="toc-number">1.8.1.</span> <span class="toc-text"> 修改数据指令set：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE%E6%95%B0%E6%8D%AE"><span class="toc-number">1.8.2.</span> <span class="toc-text"> 查找数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A0%86%E6%93%8D%E4%BD%9C%E6%8C%87%E4%BB%A4pwndbg%E7%8B%AC%E6%9C%89"><span class="toc-number">1.8.3.</span> <span class="toc-text"> 堆操作指令(pwndbg独有)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96pwndbg%E6%8F%92%E4%BB%B6%E7%8B%AC%E6%9C%89%E6%8C%87%E4%BB%A4"><span class="toc-number">1.9.</span> <span class="toc-text"> 其他pwndbg插件独有指令</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/15/Pwn%E5%AD%A6%E4%B9%A00%E4%B9%8Bgdb/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">Pwn学习0之gdb&amp;pwntools</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-15 12:13:28" itemprop="dateCreated datePublished" datetime="2024-07-15T12:13:28+08:00">2024-07-15</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-07-20 22:25:50" itemprop="dateModified" datetime="2024-07-20T22:25:50+08:00">2024-07-20</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">1.7k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">6m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Pwn/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Pwn</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Pwn/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Pwn</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h2 id="gdbpwngdb"><a class="markdownIt-Anchor" href="#gdbpwngdb"></a> gdb+pwngdb</h2>
+<h3 id="基本指令"><a class="markdownIt-Anchor" href="#基本指令"></a> 基本指令</h3>
+<ul>
+<li>help   帮助</li>
+<li>i //info   查看一些信息
+<ul>
+<li>i b//常用  info break  查看所有断点信息( 编号，断点位置)</li>
+<li>i r//常用  info registers 查看各个寄存器当前的值</li>
+<li>i f //info function 查看所有函数名</li>
+</ul>
+</li>
+<li>show 和info类似，但是查看调试器的基本信息</li>
+<li>rdi 寄存器名代表一个寄存器内的值，<strong>用在地址上直接相当与一个十六进制变量</strong></li>
+<li>backtrace //查看调用栈</li>
+<li>q //quit 退出，<strong>常用</strong></li>
+</ul>
+<h3 id="执行指令"><a class="markdownIt-Anchor" href="#执行指令"></a> 执行指令</h3>
+<ul>
+<li>
+<p>s //单步步入，遇到调用跟进函数中，相当于step into，</p>
+<p>源码层面的一步</p>
+<ul>
+<li>si //<strong>常用</strong>，同s，<strong>汇编层面的一步</strong></li>
+</ul>
+</li>
+<li>
+<p>n //单步补过，遇到电泳不跟进，相当于step over，</p>
+<p>源码层面的一步</p>
+<ul>
+<li>ni //<strong>常用</strong>，同n，<strong>汇编层面的一步</strong></li>
+</ul>
+</li>
+<li>
+<p>c //continue，<strong>常用</strong>，继续执行到断点，没断点就一直执行下去</p>
+</li>
+<li>
+<p>r //run，<strong>常用</strong>，重新开始执行</p>
+</li>
+</ul>
+<h3 id="断点指令"><a class="markdownIt-Anchor" href="#断点指令"></a> 断点指令</h3>
+<ul>
+<li>
+<p>b *(0x123456) //</p>
+<p>常用</p>
+<p>，给0x123456地址处的指令下断点</p>
+<ul>
+<li>b *$ rebase(0x123456) //$rebase 在<strong>调试开PIE的程序的时候</strong>可以直接加上程序的随机地址</li>
+</ul>
+</li>
+<li>
+<p>b fun_name //</p>
+<p>常用</p>
+<p>，给函数fun_name下断点，</p>
+<p>目标文件要保留符号才行</p>
+<ul>
+<li>b file_name:fun_name</li>
+</ul>
+</li>
+<li>
+<p>b file_name:15 //给file_name的15行下断点，</p>
+<p>要有源码才行</p>
+<ul>
+<li>b 15</li>
+</ul>
+</li>
+<li>
+<p>b +0x10 //在程序当前停住的位置下0x10的位置下断点，同样可以-0x10，就是前0x10</p>
+</li>
+<li>
+<p>break fun if $rdi==5 //条件断点，rdi值为5的时候才断</p>
+</li>
+</ul>
+<h3 id="删除禁用断点"><a class="markdownIt-Anchor" href="#删除禁用断点"></a> 删除，禁用断点</h3>
+<ul>
+<li>
+<p>使用info break(简写: i b)来查看断点编号</p>
+</li>
+<li>
+<p>delete 5 //<strong>常用</strong>，删除5号断点，直接delete不接数字删除所有</p>
+</li>
+<li>
+<p>disable 5 //</p>
+<p>常用</p>
+<p>，禁用5号断点</p>
+<ul>
+<li>enable 5 //启用5号断点</li>
+</ul>
+</li>
+<li>
+<p>clear //清除下面的所有断点</p>
+</li>
+</ul>
+<h3 id="内存断点指令watch"><a class="markdownIt-Anchor" href="#内存断点指令watch"></a> 内存断点指令watch</h3>
+<ul>
+<li>
+<p>watch 0x123456 //0x123456地址的数据改变的时候会断</p>
+</li>
+<li>
+<p>watch a //变量a改变的时候会断</p>
+</li>
+<li>
+<p>info watchpoints //查看watch断点信息</p>
+</li>
+</ul>
+<h3 id="捕获断点catch"><a class="markdownIt-Anchor" href="#捕获断点catch"></a> 捕获断点catch</h3>
+<ul>
+<li>
+<p>catch syscall //syscall系统调用的时候断住</p>
+</li>
+<li>
+<p>tcatch syscall //syscall系统调用的时候断住，只断一次</p>
+</li>
+<li>
+<p>info break //catch的断点可以通过i b查看</p>
+</li>
+</ul>
+<blockquote>
+<p>除syscall外还可以使用的有：<br />
+1）throw: 抛出异常<br />
+2）catch: 捕获异常<br />
+3）exec: exec被调用<br />
+4）fork: fork被调用<br />
+5）vfork: vfork被调用<br />
+6）load: 加载动态库<br />
+7）load libname: 加载名为libname的动态库<br />
+8）unload: 卸载动态库<br />
+9）unload libname: 卸载名为libname的动态库<br />
+10）syscall [args]: 调用系统调用，args可以指定系统调用号，或者系统名称</p>
+</blockquote>
+<h3 id="打印指令"><a class="markdownIt-Anchor" href="#打印指令"></a> 打印指令</h3>
+<h4 id="查看内存指令"><a class="markdownIt-Anchor" href="#查看内存指令"></a> 查看内存指令</h4>
+<ul>
+<li>x /nuf 0x123456 //常用，x指令的格式是：x空格/nfu，nfu代表三个参数<br />
+n代表显示几个单元（而不是显示几个字节，后面的u表示一个单元多少个字节），放在’/'后面<br />
+u代表一个单元几个字节，b(一个字节)，h(俩字节)，w(四字节)，g(八字节)<br />
+f代表显示数据的格式，f和u的顺序可以互换，也可以只有一个或者不带n，用的时候很灵活<br />
+下列是常见的数据格式</li>
+</ul>
+<blockquote>
+<p>x 按十六进制格式显示变量。<br />
+d 按十进制格式显示变量。<br />
+u 按十六进制格式显示无符号整型。<br />
+o 按八进制格式显示变量。<br />
+t 按二进制格式显示变量。<br />
+a 按十六进制格式显示变量。<br />
+c 按字符格式显示变量。<br />
+f 按浮点数格式显示变量。<br />
+s 按字符串显示。<br />
+b 按字符显示。<br />
+i 显示汇编指令。</p>
+</blockquote>
+<p>x /10gx 0x123456 //常用，从0x123456开始每个单元八个字节，十六进制显示是个单元的数据<br />
+x /10xd $rdi //从rdi指向的地址向后打印10个单元，每个单元4字节的十进制数<br />
+x /10i 0x123456 //常用，从0x123456处向后显示十条汇编指令</p>
+<h4 id="打印指令pprint"><a class="markdownIt-Anchor" href="#打印指令pprint"></a> 打印指令p(print)</h4>
+<p>p fun_name //打印fun_name的地址，需要保留符号<br />
+p 0x10-0x08 //计算0x10-0x08的结果<br />
+p &amp;a //查看变量a的地址<br />
+p *(0x123456) //查看0x123456地址的值，注意和x指令的区别，x指令查看地址的值不用星号<br />
+p <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>d</mi><mi>i</mi><mi mathvariant="normal">/</mi><mi mathvariant="normal">/</mi><mtext>显示</mtext><mi>r</mi><mi>d</mi><mi>i</mi><mtext>寄存器的值，注意和</mtext><mi>x</mi><mtext>的区别，这只是显示</mtext><mi>r</mi><mi>d</mi><mi>i</mi><mtext>的值，而不是</mtext><mi>r</mi><mi>d</mi><mi>i</mi><mtext>指向的值</mtext><mi>p</mi><mo>∗</mo><mo stretchy="false">(</mo></mrow><annotation encoding="application/x-tex">rdi //显示rdi寄存器的值，注意和x的区别，这只是显示rdi的值，而不是rdi指向的值
+p *(</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">d</span><span class="mord mathnormal">i</span><span class="mord">/</span><span class="mord">/</span><span class="mord cjk_fallback">显</span><span class="mord cjk_fallback">示</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">d</span><span class="mord mathnormal">i</span><span class="mord cjk_fallback">寄</span><span class="mord cjk_fallback">存</span><span class="mord cjk_fallback">器</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">值</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">注</span><span class="mord cjk_fallback">意</span><span class="mord cjk_fallback">和</span><span class="mord mathnormal">x</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">区</span><span class="mord cjk_fallback">别</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">这</span><span class="mord cjk_fallback">只</span><span class="mord cjk_fallback">是</span><span class="mord cjk_fallback">显</span><span class="mord cjk_fallback">示</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">d</span><span class="mord mathnormal">i</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">值</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">而</span><span class="mord cjk_fallback">不</span><span class="mord cjk_fallback">是</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">d</span><span class="mord mathnormal">i</span><span class="mord cjk_fallback">指</span><span class="mord cjk_fallback">向</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">值</span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span></span></span></span>rdi) //显示rdi指向的值</p>
+<h4 id="打印汇编指令"><a class="markdownIt-Anchor" href="#打印汇编指令"></a> 打印汇编指令</h4>
+<ul>
+<li>
+<p>disass 0x123456 //显示0x123456前后的汇编指令</p>
+</li>
+<li>
+<p>x /10i //<strong>我一般喜欢用x显示指令</strong></p>
+</li>
+</ul>
+<h4 id="打印源代码指令list"><a class="markdownIt-Anchor" href="#打印源代码指令list"></a> 打印源代码指令list</h4>
+<ul>
+<li>
+<p>list //查看当前附近10行代码，</p>
+<p>要有源码，list指令pwn题中几乎不用</p>
+<p>，但为了完整性还是简单举几个例子</p>
+<ul>
+<li>list 38 //查看38行附近10行代码</li>
+<li>list 1,10 //查看1-10行</li>
+<li>list main //查看main函数开始10行</li>
+</ul>
+</li>
+</ul>
+<h3 id="修改和查找指令"><a class="markdownIt-Anchor" href="#修改和查找指令"></a> 修改和查找指令</h3>
+<h4 id="修改数据指令set"><a class="markdownIt-Anchor" href="#修改数据指令set"></a> 修改数据指令set：</h4>
+<p>set $rdi=0x10 //把rdi寄存器的值变为0x10<br />
+set *(0x123456)=0x10 //0x123456地址的值变为0x10，注意带星号<br />
+set args “abc” “def” “gh“//给参数123赋值<br />
+set args “python -c ‘print “1234\x7f\xde”’” //使用python给参数赋值不可见字符</p>
+<h4 id="查找数据"><a class="markdownIt-Anchor" href="#查找数据"></a> 查找数据</h4>
+<p>查找数据：<br />
+search rdi //从当前位置向后查包含rdi的指令，返回若干<br />
+search -h //查看search帮助，我也不太长用这个指令<br />
+find “hello” //查找hello字符串，pwndbg独有<br />
+ropgadget //查找ropgadget，pwndbg独有，没啥用，可以用其他工具</p>
+<h4 id="堆操作指令pwndbg独有"><a class="markdownIt-Anchor" href="#堆操作指令pwndbg独有"></a> 堆操作指令(pwndbg独有)</h4>
+<ul>
+<li>
+<p>arena //显示arena的详细信息</p>
+<ul>
+<li>arenas //显示所有arena的基本信息</li>
+<li>arenainfo //好看的显示所有arena的信息</li>
+</ul>
+</li>
+<li>
+<p>bins //常用，查看所有种类的堆块的链表情况</p>
+<ul>
+<li>fastbins //单独查看fastbins的链表情况</li>
+<li>largebins //同上，单独查看largebins的链表情况</li>
+<li>smallbins //同上，单独查看smallbins的链表情况</li>
+<li>unsortedbin //同上，单独查看unsortedbin链表情况</li>
+<li>tcachebins //同上，单独查看tcachebins的链表情况
+<ul>
+<li>tcache //查看tcache详细信息</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>heap //数据结构的形式显示所有堆块，会显示一大堆</p>
+<ul>
+<li>heapbase //查看堆起始地址</li>
+<li>heapinfo、heapinfoall //显示堆得信息，和bins的挺像的，没bins好用</li>
+<li>parseheap //显示堆结构，很好</li>
+</ul>
+</li>
+<li>
+<p>tracemalloc //好用，会跟提示所有操作堆的地方</p>
+</li>
+</ul>
+<h3 id="其他pwndbg插件独有指令"><a class="markdownIt-Anchor" href="#其他pwndbg插件独有指令"></a> 其他pwndbg插件独有指令</h3>
+<ul>
+<li>
+<p>cyclc 50 //生成50个用来溢出的字符，如：aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaama</p>
+</li>
+<li>
+<p>$reabse //开启PIE的情况的地址偏移</p>
+</li>
+<li>
+<p>b *$reabse(0x123456) //断住PIE状态下的二进制文件中0x123456的地方<br />
+codebase //打印PIE偏移，与rebase不同，这是打印，rebase是使用<br />
+stack //查看栈</p>
+</li>
+<li>
+<p>retaddr //打印包含返回地址的栈地址<br />
+canary //直接看canary的值</p>
+</li>
+<li>
+<p>plt //查看plt表</p>
+</li>
+<li>
+<p>got //查看got表</p>
+</li>
+<li>
+<p>hexdump //想IDA那样显示数据，带字符串</p>
+</li>
+</ul>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/07/15/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="prev" title="操作系统学习笔记"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">操作系统学习笔记</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/07/14/%E5%88%9D%E8%AF%86windbg/" rel="next" title="初识windbg"><span class="post-nav-text">初识windbg</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/07/15/Pwn%E5%AD%A6%E4%B9%A00%E4%B9%8Bgdb/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2023 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>
