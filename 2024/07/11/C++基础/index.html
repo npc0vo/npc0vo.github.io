@@ -1,0 +1,681 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>初学C++ | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><script src="//at.alicdn.com/t/font_1140697_dxory92pb0h.js" async></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="基础 从C进阶C++的时候，我不会的语法知识点的记录(摘录自菜鸟教程) 后续会随着看C++ Primer慢慢完善  左右值 C++ 中的左值（Lvalues）和右值（Rvalues） C++ 中有两种类型的表达式：  **左值（lvalue）：**指向内存位置的表达式被称为左值（lvalue）表达式。左值可以出现在赋值号的左边或右边。 **右值（rvalue）：**术语右值（rvalue）指的是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初学C++">
+<meta property="og:url" content="http://npc0vo.github.io/2024/07/11/C++%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="基础 从C进阶C++的时候，我不会的语法知识点的记录(摘录自菜鸟教程) 后续会随着看C++ Primer慢慢完善  左右值 C++ 中的左值（Lvalues）和右值（Rvalues） C++ 中有两种类型的表达式：  **左值（lvalue）：**指向内存位置的表达式被称为左值（lvalue）表达式。左值可以出现在赋值号的左边或右边。 **右值（rvalue）：**术语右值（rvalue）指的是">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://npc0vo.github.io/2024/07/11/C++%E5%9F%BA%E7%A1%80/cpp-inheritance-2020-12-15-1.png">
+<meta property="article:published_time" content="2024-07-11T14:39:37.000Z">
+<meta property="article:modified_time" content="2024-10-18T15:20:25.873Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://npc0vo.github.io/2024/07/11/C++%E5%9F%BA%E7%A1%80/cpp-inheritance-2020-12-15-1.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">想s</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">72</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">11</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">14</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.yuque.com/npc0vo" title="Yuque" target="_blank" style="color:#a0c69d"><span class="icon iconify" data-icon="ri:yuque-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80"><span class="toc-number">1.</span> <span class="toc-text"> 基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A6%E5%8F%B3%E5%80%BC"><span class="toc-number">1.1.</span> <span class="toc-text"> 左右值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#const-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">1.2.</span> <span class="toc-text"> Const 关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#c-%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%9E%8B%E9%99%90%E5%AE%9A%E7%AC%A6"><span class="toc-number">1.3.</span> <span class="toc-text"> C++ 中的类型限定符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#const-%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.3.1.</span> <span class="toc-text"> const 实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile-%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.3.2.</span> <span class="toc-text"> volatile 实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mutable-%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.3.3.</span> <span class="toc-text"> mutable 实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#static-%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.3.4.</span> <span class="toc-text"> static 实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#register-%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.3.5.</span> <span class="toc-text"> register 实例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#c-%E5%AD%98%E5%82%A8%E7%B1%BB"><span class="toc-number">1.4.</span> <span class="toc-text"> C++ 存储类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#auto-%E5%AD%98%E5%82%A8%E7%B1%BB"><span class="toc-number">1.4.1.</span> <span class="toc-text"> auto 存储类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#register-%E5%AD%98%E5%82%A8%E7%B1%BB"><span class="toc-number">1.4.2.</span> <span class="toc-text"> register 存储类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#static-%E5%AD%98%E5%82%A8%E7%B1%BB"><span class="toc-number">1.4.3.</span> <span class="toc-text"> static 存储类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#extern-%E5%AD%98%E5%82%A8%E7%B1%BB"><span class="toc-number">1.4.4.</span> <span class="toc-text"> extern 存储类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mutable-%E5%AD%98%E5%82%A8%E7%B1%BB"><span class="toc-number">1.4.5.</span> <span class="toc-text"> mutable 存储类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#thread_local-%E5%AD%98%E5%82%A8%E7%B1%BB"><span class="toc-number">1.4.6.</span> <span class="toc-text"> thread_local 存储类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#typedef-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">1.5.</span> <span class="toc-text"> typedef 关键字</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text"> 容器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#c-vector-%E5%AE%B9%E5%99%A8"><span class="toc-number">2.1.</span> <span class="toc-text"> C++ vector 容器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-vector"><span class="toc-number">2.1.1.</span> <span class="toc-text"> 创建 Vector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0"><span class="toc-number">2.1.2.</span> <span class="toc-text"> 添加元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E5%85%83%E7%B4%A0"><span class="toc-number">2.1.3.</span> <span class="toc-text"> 访问元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%A4%A7%E5%B0%8F"><span class="toc-number">2.1.4.</span> <span class="toc-text"> 获取大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E8%AE%BF%E9%97%AE"><span class="toc-number">2.1.5.</span> <span class="toc-text"> 迭代访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%85%83%E7%B4%A0"><span class="toc-number">2.1.6.</span> <span class="toc-text"> 删除元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%85%E7%A9%BA-vector"><span class="toc-number">2.1.7.</span> <span class="toc-text"> 清空 Vector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.1.8.</span> <span class="toc-text"> 实例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="toc-number">3.</span> <span class="toc-text"> 面向对象</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1"><span class="toc-number">3.1.</span> <span class="toc-text"> 类和对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF"><span class="toc-number">3.2.</span> <span class="toc-text"> 继承</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%B1%BB%E6%B4%BE%E7%94%9F%E7%B1%BB"><span class="toc-number">3.2.1.</span> <span class="toc-text"> 基类&amp;派生类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%92%8C%E7%BB%A7%E6%89%BF"><span class="toc-number">3.2.2.</span> <span class="toc-text"> 访问控制和继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.2.3.</span> <span class="toc-text"> 继承类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%BB%A7%E6%89%BF"><span class="toc-number">3.2.4.</span> <span class="toc-text"> 多继承</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E8%BD%BD"><span class="toc-number">3.3.</span> <span class="toc-text"> 重载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD"><span class="toc-number">3.3.1.</span> <span class="toc-text"> 函数重载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E7%BD%AE"><span class="toc-number">3.3.2.</span> <span class="toc-text"> 运算符重置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E4%B8%8D%E5%8F%AF%E9%87%8D%E8%BD%BD%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">3.3.3.</span> <span class="toc-text"> 可&#x2F;不可重载运算符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E6%80%81"><span class="toc-number">3.4.</span> <span class="toc-text"> 多态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0"><span class="toc-number">3.4.1.</span> <span class="toc-text"> 虚函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0"><span class="toc-number">3.4.2.</span> <span class="toc-text"> 纯虚函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%8A%BD%E8%B1%A1"><span class="toc-number">3.5.</span> <span class="toc-text"> 数据抽象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E5%B0%81%E8%A3%85%E6%8A%BD%E8%B1%A1"><span class="toc-number">3.6.</span> <span class="toc-text"> 类的封装(抽象)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E7%AD%96%E7%95%A5"><span class="toc-number">3.6.1.</span> <span class="toc-text"> 设计策略</span></a></li></ol></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2024/07/11/C++%E5%9F%BA%E7%A1%80/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">初学C++</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2024-07-11 22:39:37" itemprop="dateCreated datePublished" datetime="2024-07-11T22:39:37+08:00">2024-07-11</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2024-10-18 23:20:25" itemprop="dateModified" datetime="2024-10-18T23:20:25+08:00">2024-10-18</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">6.9k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">26m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="--text-color:#FB7299" itemprop="url" rel="index"><span itemprop="text">学习笔记</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">学习笔记</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><h1 id="基础"><a class="markdownIt-Anchor" href="#基础"></a> 基础</h1>
+<p>从C进阶C++的时候，我不会的语法知识点的记录(摘录自菜鸟教程)</p>
+<p>后续会随着看<code>C++ Primer</code>慢慢完善</p>
+<h2 id="左右值"><a class="markdownIt-Anchor" href="#左右值"></a> 左右值</h2>
+<p>C++ 中的左值（Lvalues）和右值（Rvalues）</p>
+<p>C++ 中有两种类型的表达式：</p>
+<ul>
+<li>**左值（lvalue）：**指向内存位置的表达式被称为左值（lvalue）表达式。左值可以出现在赋值号的左边或右边。</li>
+<li>**右值（rvalue）：**术语右值（rvalue）指的是存储在内存中某些地址的数值。右值是不能对其进行赋值的表达式，也就是说，右值可以出现在赋值号的右边，但不能出现在赋值号的左边。</li>
+</ul>
+<p>变量是左值，因此可以出现在赋值号的左边。数值型的字面值是右值，因此不能被赋值，不能出现在赋值号的左边。</p>
+<h2 id="const-关键字"><a class="markdownIt-Anchor" href="#const-关键字"></a> Const 关键字</h2>
+<p>您可以使用 <strong>const</strong> 前缀声明指定类型的常量，如下所示：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">const type variable &#x3D; value;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="c-中的类型限定符"><a class="markdownIt-Anchor" href="#c-中的类型限定符"></a> C++ 中的类型限定符</h2>
+<p>类型限定符提供了变量的额外信息，用于在定义变量或函数时改变它们的默认行为的关键字。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">限定符</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">const</td>
+<td style="text-align:left"><strong>const</strong> 定义常量，表示该变量的值不能被修改。</td>
+</tr>
+<tr>
+<td style="text-align:left">volatile</td>
+<td style="text-align:left">修饰符 <strong>volatile</strong> 告诉该变量的值可能会被程序以外的因素改变，如硬件或其他线程。。</td>
+</tr>
+<tr>
+<td style="text-align:left">restrict</td>
+<td style="text-align:left">由 <strong>restrict</strong> 修饰的指针是唯一一种访问它所指向的对象的方式。只有 C99 增加了新的类型限定符 restrict。</td>
+</tr>
+<tr>
+<td style="text-align:left">mutable</td>
+<td style="text-align:left">表示类中的成员变量可以在 const 成员函数中被修改。</td>
+</tr>
+<tr>
+<td style="text-align:left">static</td>
+<td style="text-align:left">用于定义静态变量，表示该变量的作用域仅限于当前文件或当前函数内，不会被其他文件或函数访问。</td>
+</tr>
+<tr>
+<td style="text-align:left">register</td>
+<td style="text-align:left">用于定义寄存器变量，表示该变量被频繁使用，可以存储在CPU的寄存器中，以提高程序的运行效率。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="const-实例"><a class="markdownIt-Anchor" href="#const-实例"></a> const 实例</h3>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">const</span> <span class="token keyword">int</span> NUM <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span> <span class="token comment">// 定义常量 NUM，其值不可修改</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span><span class="token operator">*</span> ptr <span class="token operator">=</span> <span class="token operator">&amp;</span>NUM<span class="token punctuation">;</span> <span class="token comment">// 定义指向常量的指针，指针所指的值不可修改</span>
+<span class="token keyword">int</span> <span class="token keyword">const</span><span class="token operator">*</span> ptr2 <span class="token operator">=</span> <span class="token operator">&amp;</span>NUM<span class="token punctuation">;</span> <span class="token comment">// 和上面一行等价</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="volatile-实例"><a class="markdownIt-Anchor" href="#volatile-实例"></a> volatile 实例</h3>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">volatile</span> <span class="token keyword">int</span> num <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span> <span class="token comment">// 定义变量 num，其值可能会在未知的时间被改变</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="mutable-实例"><a class="markdownIt-Anchor" href="#mutable-实例"></a> mutable 实例</h3>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Example</span> <span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">int</span> <span class="token function">get_value</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> value_<span class="token punctuation">;</span> <span class="token comment">// const 关键字表示该成员函数不会修改对象中的数据成员</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">void</span> <span class="token function">set_value</span><span class="token punctuation">(</span><span class="token keyword">int</span> value<span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">&#123;</span>
+        value_ <span class="token operator">=</span> value<span class="token punctuation">;</span> <span class="token comment">// mutable 关键字允许在 const 成员函数中修改成员变量</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    <span class="token keyword">mutable</span> <span class="token keyword">int</span> value_<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="static-实例"><a class="markdownIt-Anchor" href="#static-实例"></a> static 实例</h3>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">example_function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">static</span> <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// static 关键字使变量 count 存储在程序生命周期内都存在</span>
+    count<span class="token operator">++</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="register-实例"><a class="markdownIt-Anchor" href="#register-实例"></a> register 实例</h3>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">example_function</span><span class="token punctuation">(</span><span class="token keyword">register</span> <span class="token keyword">int</span> num<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// register 关键字建议编译器将变量 num 存储在寄存器中</span>
+    <span class="token comment">// 以提高程序执行速度</span>
+    <span class="token comment">// 但是实际上是否会存储在寄存器中由编译器决定</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="c-存储类"><a class="markdownIt-Anchor" href="#c-存储类"></a> C++ 存储类</h2>
+<p>存储类定义 C++ 程序中变量/函数的范围（可见性）和生命周期。这些说明符放置在它们所修饰的类型之前。下面列出 C++ 程序中可用的存储类：</p>
+<ul>
+<li><strong>auto</strong>：这是默认的存储类说明符，通常可以省略不写。auto 指定的变量具有自动存储期，即它们的生命周期仅限于定义它们的块（block）。auto 变量通常在栈上分配。</li>
+<li><strong>register</strong>：用于建议编译器将变量存储在CPU寄存器中以提高访问速度。在 C++11 及以后的版本中，register 已经是一个废弃的特性，不再具有实际作用。</li>
+<li><strong>static</strong>：用于定义具有静态存储期的变量或函数，它们的生命周期贯穿整个程序的运行期。在函数内部，static变量的值在函数调用之间保持不变。在文件内部或全局作用域，static变量具有内部链接，只能在定义它们的文件中访问。</li>
+<li><strong>extern</strong>：用于声明具有外部链接的变量或函数，它们可以在多个文件之间共享。默认情况下，全局变量和函数具有 extern 存储类。在一个文件中使用extern声明另一个文件中定义的全局变量或函数，可以实现跨文件共享。</li>
+<li><strong>mutable (C++11)</strong>：用于修饰类中的成员变量，允许在const成员函数中修改这些变量的值。通常用于缓存或计数器等需要在const上下文中修改的数据。</li>
+<li><strong>thread_local (C++11)</strong>：用于定义具有线程局部存储期的变量，每个线程都有自己的独立副本。线程局部变量的生命周期与线程的生命周期相同。</li>
+</ul>
+<p>从 C++ 17 开始，auto 关键字不再是 C++ 存储类说明符，且 register 关键字被弃用。</p>
+<p>中的存储类说明符为程序员提供了控制变量和函数生命周期及可见性的手段。</p>
+<p>合理使用存储类说明符可以提高程序的可维护性和性能。</p>
+<p>从 C++11 开始，register 已经失去了原有的作用，而 mutable 和 thread_local 则是新引入的特性，用于解决特定的编程问题。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
+
+<span class="token comment">// 全局变量，具有外部链接，默认存储类为extern</span>
+<span class="token keyword">int</span> globalVar<span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">// 局部变量，具有自动存储期，默认存储类为auto</span>
+  <span class="token keyword">auto</span> <span class="token keyword">int</span> localVar <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// 静态变量，具有静态存储期，生命周期贯穿整个程序</span>
+  <span class="token keyword">static</span> <span class="token keyword">int</span> staticVar <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">const</span> <span class="token keyword">int</span> constVar <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span> <span class="token comment">// const变量默认具有static存储期</span>
+
+  <span class="token comment">// 尝试修改const变量，编译错误</span>
+  <span class="token comment">// constVar = 40;</span>
+
+  <span class="token comment">// mutable成员变量，可以在const成员函数中修改</span>
+  <span class="token keyword">class</span> <span class="token class-name">MyClass</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">mutable</span> <span class="token keyword">int</span> mutableVar<span class="token punctuation">;</span>
+
+​    <span class="token keyword">void</span> <span class="token function">constMemberFunc</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">&#123;</span>
+​      mutableVar <span class="token operator">=</span> <span class="token number">50</span><span class="token punctuation">;</span> <span class="token comment">// 允许修改mutable成员变量</span>
+​    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// 线程局部变量，每个线程有自己的独立副本</span>
+  <span class="token keyword">thread_local</span> <span class="token keyword">int</span> threadVar <span class="token operator">=</span> <span class="token number">60</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">extern</span> <span class="token keyword">int</span> externalVar<span class="token punctuation">;</span> <span class="token comment">// 声明具有外部链接的变量</span>
+
+  <span class="token function">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="auto-存储类"><a class="markdownIt-Anchor" href="#auto-存储类"></a> auto 存储类</h3>
+<p>自 C++ 11 以来，<strong>auto</strong> 关键字用于两种情况：声明变量时根据初始化表达式自动推断该变量的类型、声明函数时函数返回值的占位符。</p>
+<p>C<ins>98 标准中 auto 关键字用于自动变量的声明，但由于使用极少且多余，在 C</ins>17 中已删除这一用法。</p>
+<p>根据初始化表达式自动推断被声明的变量的类型，如：</p>
+<p>auto f=3.14;      //double auto s(“hello”);  //const char* auto z = new auto(9); // int* auto x1 = 5, x2 = 5.0, x3=‘r’;//错误，必须是初始化为同一类型</p>
+<h3 id="register-存储类"><a class="markdownIt-Anchor" href="#register-存储类"></a> register 存储类</h3>
+<p>register 是一种存储类（storage class），用于声明变量，并提示编译器将这些变量存储在寄存器中，以便快速访问。</p>
+<p>使用 register 关键字可以提高程序的执行速度，因为它减少了对内存的访问次数。</p>
+<p>然而，需要注意的是，register 存储类只是一种提示，编译器可以忽略它，因为现代的编译器通常会自动优化代码，选择合适的存储位置。</p>
+<p><strong>语法格式：</strong></p>
+<pre class="line-numbers language-none"><code class="language-none">register data_type variable_name;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<ul>
+<li><code>register</code> 是存储类的关键字，用于提示编译器将变量存储在寄存器中。</li>
+<li><code>data_type</code> 是变量的数据类型，可以是任何合法的 C++ 数据类型。</li>
+<li><code>variable_name</code> 是变量的名称。</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">void loop() 
+&#123;    
+	register int i;    
+	for (i &#x3D; 0; i &lt; 1000; ++i) 
+	&#123;        &#x2F;&#x2F; 循环体    
+	&#125; 
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>register 存储类用于提示编译器将变量存储在寄存器中，以便提高访问速度。然而，由于现代编译器的自动优化能力，使用 register 关键字并不是必需的，而且在实践中很少使用。</p>
+<p>在 C<ins>11 标准中，register 关键字不再是一个存储类说明符，而是一个废弃的特性。这意味着在 C</ins>11 及以后的版本中，使用 register 关键字将不会对程序产生任何影响。</p>
+<p>在 C++ 中，可以使用引用或指针来提高访问速度，尤其是在处理大型数据结构时。</p>
+<h3 id="static-存储类"><a class="markdownIt-Anchor" href="#static-存储类"></a> static 存储类</h3>
+<p><strong>static</strong> 存储类指示编译器在程序的生命周期内保持局部变量的存在，而不需要在每次它进入和离开作用域时进行创建和销毁。因此，使用 static 修饰局部变量可以在函数调用之间保持局部变量的值。</p>
+<p>static 修饰符也可以应用于全局变量。当 static 修饰全局变量时，会使变量的作用域限制在声明它的文件内。</p>
+<p>在 C++ 中，当 static 用在类数据成员上时，会导致仅有一个该成员的副本被类的所有对象共享。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span>  </span>
+<span class="token comment">// 函数声明  </span>
+<span class="token keyword">void</span> <span class="token function">func</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+tatic <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span> <span class="token comment">/* 全局变量 */</span>  
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>    
+    <span class="token keyword">while</span><span class="token punctuation">(</span>count<span class="token operator">--</span><span class="token punctuation">)</span>    
+    <span class="token punctuation">&#123;</span>       <span class="token function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token punctuation">&#125;</span>    
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span> 
+<span class="token punctuation">&#125;</span> 
+<span class="token comment">// 函数定义 </span>
+<span class="token keyword">void</span> <span class="token function">func</span><span class="token punctuation">(</span> <span class="token keyword">void</span> <span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>   
+    <span class="token keyword">static</span> <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span> 
+    <span class="token comment">// 局部静态变量   </span>
+    i<span class="token operator">++</span><span class="token punctuation">;</span>    
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"变量 i 为 "</span> <span class="token operator">&lt;&lt;</span> i <span class="token punctuation">;</span>  
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">" , 变量 count 为 "</span> <span class="token operator">&lt;&lt;</span> count <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span> <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>当上面的代码被编译和执行时，它会产生下列结果：</p>
+<pre class="line-numbers language-none"><code class="language-none">变量 i 为 6 , 变量 count 为 9
+变量 i 为 7 , 变量 count 为 8
+变量 i 为 8 , 变量 count 为 7
+变量 i 为 9 , 变量 count 为 6
+变量 i 为 10 , 变量 count 为 5
+变量 i 为 11 , 变量 count 为 4
+变量 i 为 12 , 变量 count 为 3
+变量 i 为 13 , 变量 count 为 2
+变量 i 为 14 , 变量 count 为 1
+变量 i 为 15 , 变量 count 为 0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="extern-存储类"><a class="markdownIt-Anchor" href="#extern-存储类"></a> extern 存储类</h3>
+<p><strong>extern</strong> 存储类用于提供一个全局变量的引用，全局变量对所有的程序文件都是可见的。当您使用 ‘extern’ 时，对于无法初始化的变量，会把变量名指向一个之前定义过的存储位置。</p>
+<p>当您有多个文件且定义了一个可以在其他文件中使用的全局变量或函数时，可以在其他文件中使用 <em>extern</em> 来得到已定义的变量或函数的引用。可以这么理解，<em>extern</em> 是用来在另一个文件中声明一个全局变量或函数。</p>
+<p>extern 修饰符通常用于当有两个或多个文件共享相同的全局变量或函数的时候，如下所示：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span>  </span>
+<span class="token keyword">int</span> count <span class="token punctuation">;</span>
+<span class="token keyword">extern</span> <span class="token keyword">void</span> <span class="token function">write_extern</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>   
+    count <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>   
+    <span class="token function">rite_extern</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span>  </span>
+<span class="token keyword">extern</span> <span class="token keyword">int</span> count<span class="token punctuation">;</span>  
+<span class="token keyword">void</span> <span class="token function">write_extern</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>   
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Count is "</span> <span class="token operator">&lt;&lt;</span> count <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span> 
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在这里，第二个文件中的 <em>extern</em> 关键字用于声明已经在第一个文件 main.cpp 中定义的 count。现在 ，编译这两个文件，如下所示：</p>
+<pre class="line-numbers language-none"><code class="language-none">$ g++ main.cpp support.cpp -o write<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这会产生 <strong>write</strong> 可执行程序，尝试执行 <strong>write</strong>，它会产生下列结果：</p>
+<pre class="line-numbers language-none"><code class="language-none">$ .&#x2F;write
+Count is 5<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="mutable-存储类"><a class="markdownIt-Anchor" href="#mutable-存储类"></a> mutable 存储类</h3>
+<p><strong>mutable</strong> 说明符仅适用于类的对象，这将在本教程的最后进行讲解。它允许对象的成员替代常量。也就是说，mutable 成员可以通过 const 成员函数修改。</p>
+<h3 id="thread_local-存储类"><a class="markdownIt-Anchor" href="#thread_local-存储类"></a> thread_local 存储类</h3>
+<p>使用 thread_local 说明符声明的变量仅可在它在其上创建的线程上访问。 变量在创建线程时创建，并在销毁线程时销毁。 每个线程都有其自己的变量副本。</p>
+<p>thread_local 说明符可以与 static 或 extern 合并。</p>
+<p>可以将 thread_local 仅应用于数据声明和定义，thread_local 不能用于函数声明或定义。</p>
+<p>以下演示了可以被声明为 thread_local 的变量：</p>
+<pre class="line-numbers language-none"><code class="language-none">thread_local int x;  
+&#x2F;&#x2F; 命名空间下的全局变量 
+class X &#123;    
+static thread_local std::string s; 
+&#x2F;&#x2F; 类的static成员变量 &#125;
+; static thread_local std::string X::s;  
+&#x2F;&#x2F; X::s 是需要定义的  
+void foo()
+&#123;    
+thread_local std::vector&lt;int&gt; v;  
+&#x2F;&#x2F; 本地变量 
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="typedef-关键字"><a class="markdownIt-Anchor" href="#typedef-关键字"></a> typedef 关键字</h2>
+<p>下面是一种更简单的定义结构的方式，您可以为创建的类型取一个&quot;别名&quot;。例如：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">Books</span>
+<span class="token punctuation">&#123;</span>
+   <span class="token keyword">char</span>  title<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+   <span class="token keyword">char</span>  author<span class="token punctuation">[</span><span class="token number">50</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+   <span class="token keyword">char</span>  subject<span class="token punctuation">[</span><span class="token number">100</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+   <span class="token keyword">int</span>   book_id<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>Books<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>现在，您可以直接使用 <em>Books</em> 来定义 <em>Books</em> 类型的变量，而不需要使用 struct 关键字。下面是实例：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">Books Book1<span class="token punctuation">,</span> Book2<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>您可以使用 <strong>typedef</strong> 关键字来定义非结构类型，如下所示：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">typedef</span> <span class="token keyword">long</span> <span class="token keyword">int</span> <span class="token operator">*</span>pint32<span class="token punctuation">;</span>
+ 
+pint32 x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> z<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>x, y 和 z 都是指向长整型 long int 的指针。</p>
+<h1 id="容器"><a class="markdownIt-Anchor" href="#容器"></a> 容器</h1>
+<h2 id="c-vector-容器"><a class="markdownIt-Anchor" href="#c-vector-容器"></a> C++ vector 容器</h2>
+<p>C++ 中的 vector 是一种序列容器，它允许你在运行时动态地插入和删除元素。</p>
+<p>vector 是基于数组的数据结构，但它可以自动管理内存，这意味着你不需要手动分配和释放内存。</p>
+<p>与 C++ 数组相比，vector 具有更多的灵活性和功能，使其成为 C++ 中常用的数据结构之一。</p>
+<p>vector 是 C++ 标准模板库（STL）的一部分，提供了灵活的接口和高效的操作。</p>
+<p><strong>基本特性:</strong></p>
+<ul>
+<li><strong>动态大小</strong>：<code>vector</code> 的大小可以根据需要自动增长和缩小。</li>
+<li><strong>连续存储</strong>：<code>vector</code> 中的元素在内存中是连续存储的，这使得访问元素非常快速。</li>
+<li><strong>可迭代</strong>：<code>vector</code> 可以被迭代，你可以使用循环（如 <code>for</code> 循环）来访问它的元素。</li>
+<li><strong>元素类型</strong>：<code>vector</code> 可以存储任何类型的元素，包括内置类型、对象、指针等。</li>
+</ul>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>当你需要一个可以动态增长和缩小的数组时。</li>
+<li>当你需要频繁地在序列的末尾添加或移除元素时。</li>
+<li>当你需要一个可以高效随机访问元素的容器时。</li>
+</ul>
+<p>要使用 vector，首先需要包含`` <vector> `头文件：</p>
+<pre class="line-numbers language-none"><code class="language-none">#include &lt;vector&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="创建-vector"><a class="markdownIt-Anchor" href="#创建-vector"></a> 创建 Vector</h3>
+<p>创建一个 vector 可以像创建其他变量一样简单：</p>
+<pre class="line-numbers language-none"><code class="language-none">std::vector&lt;int&gt; myVector; &#x2F;&#x2F; 创建一个存储整数的空 vector<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这将创建一个空的整数向量,也可以在创建时指定初始大小和初始值：</p>
+<pre class="line-numbers language-none"><code class="language-none">std::vector&lt;int&gt; myVector(5); &#x2F;&#x2F; 创建一个包含 5 个整数的 vector，每个值都为默认值（0）
+std::vector&lt;int&gt; myVector(5, 10); &#x2F;&#x2F; 创建一个包含 5 个整数的 vector，每个值都为 10<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>或：</p>
+<pre class="line-numbers language-none"><code class="language-none">std::vector&lt;int&gt; vec; &#x2F;&#x2F; 默认初始化一个空的 vector
+std::vector&lt;int&gt; vec2 &#x3D; &#123;1, 2, 3, 4&#125;; &#x2F;&#x2F; 初始化一个包含元素的 vector<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="添加元素"><a class="markdownIt-Anchor" href="#添加元素"></a> 添加元素</h3>
+<p>可以使用 push_back 方法向 vector 中添加元素：</p>
+<pre class="line-numbers language-none"><code class="language-none">myVector.push_back(7); &#x2F;&#x2F; 将整数 7 添加到 vector 的末尾<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="访问元素"><a class="markdownIt-Anchor" href="#访问元素"></a> 访问元素</h3>
+<p>可以使用下标操作符 [] 或 at() 方法访问 vector 中的元素：</p>
+<pre class="line-numbers language-none"><code class="language-none">int x &#x3D; myVector[0]; &#x2F;&#x2F; 获取第一个元素
+int y &#x3D; myVector.at(1); &#x2F;&#x2F; 获取第二个元素<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="获取大小"><a class="markdownIt-Anchor" href="#获取大小"></a> 获取大小</h3>
+<p>可以使用 size() 方法获取 vector 中元素的数量：</p>
+<pre class="line-numbers language-none"><code class="language-none">int size &#x3D; myVector.size(); &#x2F;&#x2F; 获取 vector 中的元素数量<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="迭代访问"><a class="markdownIt-Anchor" href="#迭代访问"></a> 迭代访问</h3>
+<p>可以使用迭代器遍历 vector 中的元素：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">auto</span> it <span class="token operator">=</span> myVector<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> it <span class="token operator">!=</span> myVector<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token operator">++</span>it<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>it <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>或者使用范围循环：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> element <span class="token operator">:</span> myVector<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> element <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="删除元素"><a class="markdownIt-Anchor" href="#删除元素"></a> 删除元素</h3>
+<p>可以使用 erase() 方法删除 vector 中的元素：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">myVector<span class="token punctuation">.</span><span class="token function">erase</span><span class="token punctuation">(</span>myVector<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 删除第三个元素</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="清空-vector"><a class="markdownIt-Anchor" href="#清空-vector"></a> 清空 Vector</h3>
+<p>可以使用 clear() 方法清空 vector 中的所有元素：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">myVector<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 清空 vector</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<hr />
+<h3 id="实例"><a class="markdownIt-Anchor" href="#实例"></a> 实例</h3>
+<p>以下是一个完整的使用实例，包括创建 vector、添加元素、访问元素以及输出结果的代码：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector></span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">// 创建一个空的整数向量</span>
+  std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> myVector<span class="token punctuation">;</span>
+
+  <span class="token comment">// 添加元素到向量中</span>
+  myVector<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  myVector<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  myVector<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  myVector<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// 访问向量中的元素并输出</span>
+  std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Elements in the vector: "</span><span class="token punctuation">;</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> element <span class="token operator">:</span> myVector<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> element <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+
+  <span class="token comment">// 访问向量中的第一个元素并输出</span>
+  std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"First element: "</span> <span class="token operator">&lt;&lt;</span> myVector<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+
+  <span class="token comment">// 访问向量中的第二个元素并输出</span>
+  std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Second element: "</span> <span class="token operator">&lt;&lt;</span> myVector<span class="token punctuation">.</span><span class="token function">at</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+
+  <span class="token comment">// 获取向量的大小并输出</span>
+  std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Size of the vector: "</span> <span class="token operator">&lt;&lt;</span> myVector<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+
+  <span class="token comment">// 删除向量中的第三个元素</span>
+  myVector<span class="token punctuation">.</span><span class="token function">erase</span><span class="token punctuation">(</span>myVector<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// 输出删除元素后的向量</span>
+  std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Elements in the vector after erasing: "</span><span class="token punctuation">;</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> element <span class="token operator">:</span> myVector<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> element <span class="token operator">&lt;&lt;</span> <span class="token string">" "</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+  std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+
+  <span class="token comment">// 清空向量并输出</span>
+  myVector<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Size of the vector after clearing: "</span> <span class="token operator">&lt;&lt;</span> myVector<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>以上代码创建了一个整数向量，向其中添加了几个元素，然后输出了向量的内容、元素的访问、向量的大小等信息，接着删除了向量中的第三个元素，并输出删除元素后的向量。最后清空了向量，并输出清空后的向量大小。</p>
+<p>输出结果为：</p>
+<pre class="line-numbers language-none"><code class="language-none">Elements in the vector: 3 7 11 5 
+First element: 3
+Second element: 7
+Size of the vector: 4
+Elements in the vector after erasing: 3 7 5 
+Size of the vector after clearing: 0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="面向对象"><a class="markdownIt-Anchor" href="#面向对象"></a> 面向对象</h1>
+<h2 id="类和对象"><a class="markdownIt-Anchor" href="#类和对象"></a> 类和对象</h2>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">概念</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/cplusplus/cpp-class-member-functions.html">类成员函数</a></td>
+<td style="text-align:left">类的成员函数是指那些把定义和原型写在类定义内部的函数，就像类定义中的其他变量一样。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/cplusplus/cpp-class-access-modifiers.html">类访问修饰符</a></td>
+<td style="text-align:left">类成员可以被定义为 public、private 或 protected。默认情况下是定义为 private。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/cplusplus/cpp-constructor-destructor.html">构造函数 &amp; 析构函数</a></td>
+<td style="text-align:left">类的构造函数是一种特殊的函数，在创建一个新的对象时调用。类的析构函数也是一种特殊的函数，在删除所创建的对象时调用。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/cplusplus/cpp-copy-constructor.html">C++ 拷贝构造函数</a></td>
+<td style="text-align:left">拷贝构造函数，是一种特殊的构造函数，它在创建对象时，是使用同一类中之前创建的对象来初始化新创建的对象。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/cplusplus/cpp-friend-functions.html">C++ 友元函数</a></td>
+<td style="text-align:left"><strong>友元函数</strong>可以访问类的 private 和 protected 成员。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/cplusplus/cpp-inline-functions.html">C++ 内联函数</a></td>
+<td style="text-align:left">通过内联函数，编译器试图在调用函数的地方扩展函数体中的代码。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/cplusplus/cpp-this-pointer.html">C++ 中的 this 指针</a></td>
+<td style="text-align:left">每个对象都有一个特殊的指针 <strong>this</strong>，它指向对象本身。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/cplusplus/cpp-pointer-to-class.html">C++ 中指向类的指针</a></td>
+<td style="text-align:left">指向类的指针方式如同指向结构的指针。实际上，类可以看成是一个带有函数的结构。</td>
+</tr>
+<tr>
+<td style="text-align:left"><a target="_blank" rel="noopener" href="https://www.runoob.com/cplusplus/cpp-static-members.html">C++ 类的静态成员</a></td>
+<td style="text-align:left">类的数据成员和函数成员都可以被声明为静态的。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="继承"><a class="markdownIt-Anchor" href="#继承"></a> 继承</h2>
+<p>继承允许我们依据另一个类来定义一个类，这使得创建和维护一个应用程序变得更容易。这样做，也达到了重用代码功能和提高执行效率的效果。</p>
+<p>当创建一个类时，您不需要重新编写新的数据成员和成员函数，只需指定新建的类继承了一个已有的类的成员即可。这个已有的类称为<strong>基类</strong>，新建的类称为<strong>派生类</strong>。</p>
+<p>继承代表了 <strong>is a</strong> 关系。例如，哺乳动物是动物，狗是哺乳动物，因此，狗是动物</p>
+<img src="/2024/07/11/C++%E5%9F%BA%E7%A1%80/cpp-inheritance-2020-12-15-1.png" class="" alt="img" loading="lazy">
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token comment">// 基类</span>
+<span class="token keyword">class</span> <span class="token class-name">Animal</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// eat() 函数</span>
+    <span class="token comment">// sleep() 函数</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+
+<span class="token comment">//派生类</span>
+<span class="token keyword">class</span> <span class="token class-name">Dog</span> <span class="token operator">:</span> <span class="token base-clause"><span class="token keyword">public</span> <span class="token class-name">Animal</span></span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// bark() 函数</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="基类派生类"><a class="markdownIt-Anchor" href="#基类派生类"></a> 基类&amp;派生类</h3>
+<p>一个类可以派生自多个类，这意味着，它可以从多个基类继承数据和函数。定义一个派生类，我们使用一个类派生列表来指定基类。类派生列表以一个或多个基类命名，形式如下：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">derived</span><span class="token operator">-</span><span class="token keyword">class</span><span class="token operator">:</span> access<span class="token operator">-</span>specifier base<span class="token operator">-</span><span class="token keyword">class</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>其中，访问修饰符 access-specifier 是 <strong>public、protected</strong> 或 <strong>private</strong> 其中的一个，base-class 是之前定义过的某个类的名称。如果未使用访问修饰符 access-specifier，则默认为 private。</p>
+<h3 id="访问控制和继承"><a class="markdownIt-Anchor" href="#访问控制和继承"></a> 访问控制和继承</h3>
+<p>派生类可以访问基类中所有的非私有成员。因此基类成员如果不想被派生类的成员函数访问，则应在基类中声明为 private。</p>
+<p>我们可以根据访问权限总结出不同的访问类型，如下所示：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">访问</th>
+<th style="text-align:left">public</th>
+<th style="text-align:left">protected</th>
+<th style="text-align:left">private</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">同一个类</td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">yes</td>
+</tr>
+<tr>
+<td style="text-align:left">派生类</td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">no</td>
+</tr>
+<tr>
+<td style="text-align:left">外部的类</td>
+<td style="text-align:left">yes</td>
+<td style="text-align:left">no</td>
+<td style="text-align:left">no</td>
+</tr>
+</tbody>
+</table>
+<p>一个派生类继承了所有的基类方法，但下列情况除外：</p>
+<ul>
+<li>基类的构造函数、析构函数和拷贝构造函数。</li>
+<li>基类的重载运算符。</li>
+<li>基类的友元函数。</li>
+</ul>
+<h3 id="继承类型"><a class="markdownIt-Anchor" href="#继承类型"></a> 继承类型</h3>
+<p>当一个类派生自基类，该基类可以被继承为 <strong>public、protected</strong> 或 <strong>private</strong> 几种类型。继承类型是通过上面讲解的访问修饰符 access-specifier 来指定的。</p>
+<p>我们几乎不使用 <strong>protected</strong> 或 <strong>private</strong> 继承，通常使用 <strong>public</strong> 继承。当使用不同类型的继承时，遵循以下几个规则：</p>
+<ul>
+<li><strong>公有继承（public）：<strong>当一个类派生自</strong>公有</strong>基类时，基类的<strong>公有</strong>成员也是派生类的<strong>公有</strong>成员，基类的<strong>保护</strong>成员也是派生类的<strong>保护</strong>成员，基类的<strong>私有</strong>成员不能直接被派生类访问，但是可以通过调用基类的<strong>公有</strong>和<strong>保护</strong>成员来访问。</li>
+<li><strong>保护继承（protected）：</strong> 当一个类派生自<strong>保护</strong>基类时，基类的<strong>公有</strong>和<strong>保护</strong>成员将成为派生类的<strong>保护</strong>成员。</li>
+<li><strong>私有继承（private）：<strong>当一个类派生自</strong>私有</strong>基类时，基类的<strong>公有</strong>和<strong>保护</strong>成员将成为派生类的<strong>私有</strong>成员</li>
+</ul>
+<h3 id="多继承"><a class="markdownIt-Anchor" href="#多继承"></a> 多继承</h3>
+<p>多继承即一个子类可以有多个父类，它继承了多个父类的特性。</p>
+<p>C++ 类可以从多个类继承成员，语法如下：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token operator">&lt;</span>派生类名<span class="token operator">></span><span class="token operator">:</span><span class="token operator">&lt;</span>继承方式<span class="token number">1</span><span class="token operator">></span><span class="token operator">&lt;</span>基类名<span class="token number">1</span><span class="token operator">></span><span class="token punctuation">,</span><span class="token operator">&lt;</span>继承方式<span class="token number">2</span><span class="token operator">></span><span class="token operator">&lt;</span>基类名<span class="token number">2</span><span class="token operator">></span><span class="token punctuation">,</span>…
+<span class="token punctuation">&#123;</span>
+<span class="token operator">&lt;</span>派生类类体<span class="token operator">></span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>其中，访问修饰符继承方式是 <strong>public、protected</strong> 或 <strong>private</strong> 其中的一个，用来修饰每个基类，各个基类之间用逗号分隔</p>
+<h2 id="重载"><a class="markdownIt-Anchor" href="#重载"></a> 重载</h2>
+<h3 id="函数重载"><a class="markdownIt-Anchor" href="#函数重载"></a> 函数重载</h3>
+<p>在同一个作用域内，可以声明几个功能类似的同名函数，但是这些同名函数的形式参数（指参数的个数、类型或者顺序）必须不同。您不能仅通过返回类型的不同来重载函数。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token keyword">class</span> <span class="token class-name">printData</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"整数为:"</span><span class="token operator">&lt;&lt;</span>i<span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token keyword">double</span> f<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"浮点数为: "</span><span class="token operator">&lt;&lt;</span>f<span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="运算符重置"><a class="markdownIt-Anchor" href="#运算符重置"></a> 运算符重置</h3>
+<p>您可以重定义或重载大部分 C++ 内置的运算符。这样，您就能使用自定义类型的运算符。</p>
+<p>重载的运算符是带有特殊名称的函数，函数名是由关键字 operator 和其后要重载的运算符符号构成的。与其他函数一样，重载运算符有一个返回类型和一个参数列表。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">Box <span class="token keyword">operator</span><span class="token operator">+</span><span class="token punctuation">(</span><span class="token keyword">const</span> Box<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>声明加法运算符用于把两个 Box 对象相加，返回最终的 Box 对象。大多数的重载运算符可被定义为普通的非成员函数或者被定义为类成员函数。如果我们定义上面的函数为类的非成员函数，那么我们需要为每次操作传递两个参数，如下所示：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">Box <span class="token keyword">operator</span><span class="token operator">+</span><span class="token punctuation">(</span><span class="token keyword">const</span> Box<span class="token operator">&amp;</span><span class="token punctuation">,</span> <span class="token keyword">const</span> Box<span class="token operator">&amp;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="可不可重载运算符"><a class="markdownIt-Anchor" href="#可不可重载运算符"></a> 可/不可重载运算符</h3>
+<p>下面是可重载的运算符列表：</p>
+<table>
+<thead>
+<tr>
+<th>双目算术运算符</th>
+<th>+ (加)，-(减)，*(乘)，/(除)，% (取模)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>关系运算符</td>
+<td>==(等于)，!= (不等于)，&lt; (小于)，&gt; (大于)，&lt;=(小于等于)，&gt;=(大于等于)</td>
+</tr>
+<tr>
+<td>逻辑运算符</td>
+<td>||(逻辑或)，&amp;&amp;(逻辑与)，!(逻辑非)</td>
+</tr>
+<tr>
+<td>单目运算符</td>
+<td>+ (正)，-(负)，*(指针)，&amp;(取地址)</td>
+</tr>
+<tr>
+<td>自增自减运算符</td>
+<td>++(自增)，–(自减)</td>
+</tr>
+<tr>
+<td>位运算符</td>
+<td>| (按位或)，&amp; (按位与)，~(按位取反)，^(按位异或),，&lt;&lt; (左移)，&gt;&gt;(右移)</td>
+</tr>
+<tr>
+<td>赋值运算符</td>
+<td>=, +=, -=, *=, /= , % = , &amp;=, |=, ^=, &lt;&lt;=, &gt;&gt;=</td>
+</tr>
+<tr>
+<td>空间申请与释放</td>
+<td>new, delete, new[ ] , delete[]</td>
+</tr>
+<tr>
+<td>其他运算符</td>
+<td><strong>()</strong>(函数调用)，<strong>-&gt;</strong>(成员访问)，<strong>,</strong>(逗号)，<strong>[]</strong>(下标)</td>
+</tr>
+</tbody>
+</table>
+<p>下面是不可重载的运算符列表：</p>
+<ul>
+<li><strong>.</strong>：成员访问运算符</li>
+<li><strong>.*</strong>, <strong>-&gt;*</strong>：成员指针访问运算符</li>
+<li><strong>::</strong>：域运算符</li>
+<li><strong>sizeof</strong>：长度运算符</li>
+<li><strong>?:</strong>：条件运算符</li>
+<li><strong>#</strong>： 预处理符号</li>
+</ul>
+<h2 id="多态"><a class="markdownIt-Anchor" href="#多态"></a> 多态</h2>
+<p><strong>多态</strong>按字面的意思就是多种形态。当类之间存在层次结构，并且类之间是通过继承关联时，就会用到多态。</p>
+<p>C++ 多态意味着调用成员函数时，会根据调用函数的对象的类型来执行不同的函数。</p>
+<h3 id="虚函数"><a class="markdownIt-Anchor" href="#虚函数"></a> 虚函数</h3>
+<p><strong>虚函数</strong> 是在基类中使用关键字 <strong>virtual</strong> 声明的函数。在派生类中重新定义基类中定义的虚函数时，会告诉编译器不要静态链接到该函数。</p>
+<p>我们想要的是在程序中任意点可以根据所调用的对象类型来选择调用的函数，这种操作被称为<strong>动态链接</strong>，或<strong>后期绑定</strong>。</p>
+<h3 id="纯虚函数"><a class="markdownIt-Anchor" href="#纯虚函数"></a> 纯虚函数</h3>
+<p>您可能想要在基类中定义虚函数，以便在派生类中重新定义该函数更好地适用于对象，但是您在基类中又不能对虚函数给出有意义的实现，这个时候就会用到纯虚函数。</p>
+<p>我们可以把基类中的虚函数 area() 改写如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">class Shape <span class="token punctuation">&#123;</span>   
+    protected<span class="token operator">:</span>      
+    <span class="token keyword">int</span> width<span class="token punctuation">,</span> height<span class="token punctuation">;</span>  
+    public<span class="token operator">:</span>      
+    <span class="token function">Shape</span><span class="token punctuation">(</span> <span class="token keyword">int</span> a<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">int</span> b<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span>      
+    <span class="token punctuation">&#123;</span>         width <span class="token operator">=</span> a<span class="token punctuation">;</span>         
+     height <span class="token operator">=</span> b<span class="token punctuation">;</span>      
+    <span class="token punctuation">&#125;</span>      <span class="token comment">// pure virtual function      </span>
+    virtual <span class="token keyword">int</span> <span class="token function">area</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> 
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token operator">=</span> <span class="token number">0</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>告诉编译器，函数没有主体，上面的虚函数是<strong>纯虚函数</strong>。</p>
+<h2 id="数据抽象"><a class="markdownIt-Anchor" href="#数据抽象"></a> 数据抽象</h2>
+<p>数据封装（Data Encapsulation）是面向对象编程（OOP）的一个基本概念，它通过将数据和操作数据的函数封装在一个类中来实现。这种封装确保了数据的私有性和完整性，防止了外部代码对其直接访问和修改。</p>
+<p>所有的 C++ 程序都有以下两个基本要素：</p>
+<ul>
+<li>**程序语句（代码）：**这是程序中执行动作的部分，它们被称为函数。</li>
+<li>**程序数据：**数据是程序的信息，会受到程序函数的影响。</li>
+</ul>
+<p>封装是面向对象编程中的把数据和操作数据的函数绑定在一起的一个概念，这样能避免受到外界的干扰和误用，从而确保了安全。数据封装引申出了另一个重要的 OOP 概念，即<strong>数据隐藏</strong>。</p>
+<p><strong>数据封装</strong>是一种把数据和操作数据的函数捆绑在一起的机制，<strong>数据抽象</strong>是一种仅向用户暴露接口而把具体的实现细节隐藏起来的机制。</p>
+<p>C++ 通过创建<strong>类</strong>来支持封装和数据隐藏（public、protected、private）。我们已经知道，类包含私有成员（private）、保护成员（protected）和公有成员（public）成员。默认情况下，在类中定义的所有项目都是私有的。例如：</p>
+<p>把一个类定义为另一个类的友元类，会暴露实现细节，从而降低了封装性。理想的做法是尽可能地对外隐藏每个类的实现细节。</p>
+<p><strong>访问修饰符：</strong></p>
+<ul>
+<li><strong>private</strong>: 私有成员只能在类的内部访问，不能被类的外部代码直接访问。</li>
+<li><strong>public</strong>: 公有成员可以被类的外部代码直接访问。</li>
+<li><strong>protected</strong>: 受保护成员可以被类和其派生类访问。</li>
+</ul>
+<h2 id="类的封装抽象"><a class="markdownIt-Anchor" href="#类的封装抽象"></a> 类的封装(抽象)</h2>
+<h3 id="设计策略"><a class="markdownIt-Anchor" href="#设计策略"></a> 设计策略</h3>
+<p>面向对象的系统可能会使用一个抽象基类为所有的外部应用程序提供一个适当的、通用的、标准化的接口。然后，派生类通过继承抽象基类，就把所有类似的操作都继承下来。</p>
+<p>外部应用程序提供的功能（即公有函数）在抽象基类中是以纯虚函数的形式存在的。这些纯虚函数在相应的派生类中被实现。</p>
+<p>这个架构也使得新的应用程序可以很容易地被添加到系统中，即使是在系统被定义之后依然可以如此。</p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2024/07/12/%E5%88%9D%E8%AF%86UPX/" rel="prev" title="初识UPX"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">初识UPX</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2024/07/11/%E5%88%9D%E8%AF%86idaPro/" rel="next" title="初识idaPro"><span class="post-nav-text">初识idaPro</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2024/07/11/C++%E5%9F%BA%E7%A1%80/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2023 – 2024 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>
