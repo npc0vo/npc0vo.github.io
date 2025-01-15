@@ -1,0 +1,741 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>stl逆向 | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><script src="//at.alicdn.com/t/font_1140697_dxory92pb0h.js" async></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="about https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;261735714 [原创]STL容器逆向与实战(N1CTF2022 cppmaster wp)-CTF对抗-看雪-安全社区|安全招聘|kanxue.com   About 最近遇到suctf的mapmap2，发现我对stl逆向一无所知，今天深入了解一下 这篇文章主要是已有资料的一些总结，参考文章写的是真好orz 逆向stl往">
+<meta property="og:type" content="article">
+<meta property="og:title" content="stl逆向">
+<meta property="og:url" content="http://npc0vo.github.io/2025/01/15/stl%E9%80%86%E5%90%91/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="about https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;261735714 [原创]STL容器逆向与实战(N1CTF2022 cppmaster wp)-CTF对抗-看雪-安全社区|安全招聘|kanxue.com   About 最近遇到suctf的mapmap2，发现我对stl逆向一无所知，今天深入了解一下 这篇文章主要是已有资料的一些总结，参考文章写的是真好orz 逆向stl往">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://npc0vo.github.io/2025/01/15/stl%E9%80%86%E5%90%91/1736945422182-0e3c72cd-62c7-4f38-8eba-5ff82180dfa2.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/01/15/stl%E9%80%86%E5%90%91/1736945811451-4916f52e-0ede-46b5-a9ed-7748b1c79cab.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/01/15/stl%E9%80%86%E5%90%91/1736946100376-24a76771-352e-4250-9348-f264a93aa124.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/01/15/stl%E9%80%86%E5%90%91/1736946895677-1dd18ca4-ab43-44fb-bc30-d1959fbbf23a.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/01/15/stl%E9%80%86%E5%90%91/1736950319229-a691a0f3-8e8b-4325-95c2-f800c27179c9.png">
+<meta property="article:published_time" content="2025-01-15T14:39:25.000Z">
+<meta property="article:modified_time" content="2025-01-15T14:40:12.078Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Reverse">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://npc0vo.github.io/2025/01/15/stl%E9%80%86%E5%90%91/1736945422182-0e3c72cd-62c7-4f38-8eba-5ff82180dfa2.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">又活了一天</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">76</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">11</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">14</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.yuque.com/npc0vo" title="Yuque" target="_blank" style="color:#a0c69d"><span class="icon iconify" data-icon="ri:yuque-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#about"><span class="toc-number">1.</span> <span class="toc-text"> About</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#font-stylecolorrgb47-47-47stl%E7%9A%84%E5%88%86%E7%B1%BBfont"><span class="toc-number">2.</span> <span class="toc-text"> STL的分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8"><span class="toc-number">2.1.</span> <span class="toc-text"> 顺序容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-stylecolorrgb25-27-31%E5%85%B3%E8%81%94%E5%BC%8F%E5%AE%B9%E5%99%A8font"><span class="toc-number">2.2.</span> <span class="toc-text"> 关联式容器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E5%85%B3%E8%81%94%E5%AE%B9%E5%99%A8"><span class="toc-number">2.2.1.</span> <span class="toc-text"> 有序关联容器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A0%E5%BA%8F%E5%85%B3%E8%81%94%E5%AE%B9%E5%99%A8"><span class="toc-number">2.2.2.</span> <span class="toc-text"> 无序关联容器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-stylecolorrgb25-27-31%E5%AE%B9%E5%99%A8%E9%80%82%E9%85%8D%E5%99%A8font"><span class="toc-number">2.3.</span> <span class="toc-text"> 容器适配器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stl%E7%AC%A6%E5%8F%B7%E9%80%86%E5%90%91"><span class="toc-number">3.</span> <span class="toc-text"> STL符号逆向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stl%E6%95%B0%E6%8D%AE%E9%80%86%E5%90%91"><span class="toc-number">4.</span> <span class="toc-text"> STL数据逆向</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#dump%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.1.</span> <span class="toc-text"> dump数据结构的内存模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#clanggnu"><span class="toc-number">4.1.1.</span> <span class="toc-text"> clang&#x2F;gnu</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#msvs"><span class="toc-number">4.1.2.</span> <span class="toc-text"> msvs</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stdstring"><span class="toc-number">4.2.</span> <span class="toc-text"> std::string</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-stylecolorrgb51-51-51stdstringsteamfont"><span class="toc-number">4.3.</span> <span class="toc-text"> std::stringsteam</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stdvector"><span class="toc-number">4.4.</span> <span class="toc-text"> std::vector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-stylecolorrgb51-51-51stdlistfont"><span class="toc-number">4.5.</span> <span class="toc-text"> std::list</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-stylecolorrgb51-51-51stddequestackfont"><span class="toc-number">4.6.</span> <span class="toc-text"> std::deque&#x2F;stack</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stdunordered_mapsethashtable"><span class="toc-number">4.7.</span> <span class="toc-text"> std::unordered_map&#x2F;set(hashtable)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-stylecolorrgb0-0-0stdmapsetrbtreefont"><span class="toc-number">4.8.</span> <span class="toc-text"> std::map&#x2F;set(rbtree)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-stylecolorrgb0-0-0otherthingsfont"><span class="toc-number">4.9.</span> <span class="toc-text"> otherthings</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#font-stylecolorrgb0-0-0n1ctf2022-cppmasterfont"><span class="toc-number">4.10.</span> <span class="toc-text"> n1ctf2022-cppmaster</span></a></li></ol></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2025/01/15/stl%E9%80%86%E5%90%91/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">stl逆向</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2025-01-15 22:39:25" itemprop="dateCreated datePublished" datetime="2025-01-15T22:39:25+08:00">2025-01-15</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">3.7k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">16m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Reverse/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Reverse</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Reverse/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Reverse</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><blockquote>
+<p><a target="_blank" rel="noopener" href="https://pa1r0t.github.io/2023/01/20/STL%E9%80%86%E5%90%91/">about</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/261735714">https://zhuanlan.zhihu.com/p/261735714</a></p>
+<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-275133.htm#msg_header_h1_5">[原创]STL容器逆向与实战(N1CTF2022 cppmaster wp)-CTF对抗-看雪-安全社区|安全招聘|kanxue.com</a></p>
+</blockquote>
+<h2 id="about"><a class="markdownIt-Anchor" href="#about"></a> About</h2>
+<p>最近遇到suctf的mapmap2，发现我对stl逆向一无所知，今天深入了解一下</p>
+<p>这篇文章主要是已有资料的一些总结，参考文章写的是真好orz</p>
+<p>逆向stl往往需要三步走</p>
+<ul>
+<li><font style="color:rgb(47, 47, 47);">识别 STL 容器类型</font></li>
+<li><font style="color:rgb(47, 47, 47);">识别 STL 容器操作</font></li>
+<li><font style="color:rgb(47, 47, 47);">提取 STL 容器中的数据</font></li>
+</ul>
+<p>遇到的困难存在</p>
+<ol>
+<li><font style="color:rgb(47, 47, 47);">缺少符号，无法判断 STL 容器类型</font></li>
+<li><font style="color:rgb(47, 47, 47);">STL 内部数据结构复杂，难以提取数据</font></li>
+<li><font style="color:rgb(47, 47, 47);">优化使大量 stl 函数被 inline</font></li>
+</ol>
+<p><font style="color:rgb(47, 47, 47);">比较有效的方法：解析 STL 容器内存数据，从内存数据角度判断容器类型，提取容器内容判断函数操作。</font></p>
+<h2 id="font-stylecolorrgb47-47-47stl的分类font"><a class="markdownIt-Anchor" href="#font-stylecolorrgb47-47-47stl的分类font"></a> <font style="color:rgb(47, 47, 47);">STL的分类</font></h2>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://en.cppreference.com/w/">https://en.cppreference.com/w/</a></p>
+<p><a target="_blank" rel="noopener" href="https://zh.cppreference.com/w/%E9%A6%96%E9%A1%B5">https://zh.cppreference.com/w/%E9%A6%96%E9%A1%B5</a></p>
+</blockquote>
+<h3 id="顺序容器"><a class="markdownIt-Anchor" href="#顺序容器"></a> 顺序容器</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong><font style="color:rgb(25, 27, 31);">容器</font></strong></th>
+<th style="text-align:left"><strong><font style="color:rgb(25, 27, 31);">简介说明</font></strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">vector</font></td>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">可变大小数组。相当于数组，可动态构建，支持随机访问，无头插和尾插，仅支持inset插入，除尾部外的元素删除比较麻烦。但使用最为广泛</font></td>
+</tr>
+<tr>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">deque</font></td>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">双端队列。支持头插、删，尾插、删，随机访问较vector容器来说慢,但对于首尾的数据操作比较方便</font></td>
+</tr>
+<tr>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">list</font></td>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">双向循环链表。使用起来很高效，对于任意位置的插入和删除都很快，在操作过后，以后指针、迭代器、引用都不会失效</font></td>
+</tr>
+<tr>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">forward_list</font></td>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">单向链表。只支持单向访问，在链表的任何位置进行插入/删除操作都非常快</font></td>
+</tr>
+<tr>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">array</font></td>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">固定数组。vector的底层即为array数组，它保存了一个以严格顺序排列的特定数量的元素</font></td>
+</tr>
+</tbody>
+</table>
+<h3 id="font-stylecolorrgb25-27-31关联式容器font"><a class="markdownIt-Anchor" href="#font-stylecolorrgb25-27-31关联式容器font"></a> <font style="color:rgb(25, 27, 31);">关联式容器</font></h3>
+<h4 id="有序关联容器"><a class="markdownIt-Anchor" href="#有序关联容器"></a> 有序关联容器</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong><font style="color:rgb(25, 27, 31);">容器</font></strong></th>
+<th style="text-align:left"><strong><font style="color:rgb(25, 27, 31);">简介说明</font></strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">set/mutliset</font></td>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">集合/多重集合。对于set，在使用insert插入元素时，已插入过的元素不可重复插入，这正好符合了集合的互异性，在插入完成显示后，会默认按照升序进行排序，对于</font><a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=213478473&amp;content_type=Article&amp;match_order=1&amp;q=multiset&amp;zhida_source=entity"><font style="color:rgb(25, 27, 31);">multiset</font></a><br/><font style="color:rgb(25, 27, 31);">，可插入多个重复的元素</font></td>
+</tr>
+<tr>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">map/</font><a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=213478473&amp;content_type=Article&amp;match_order=1&amp;q=mutlimap&amp;zhida_source=entity"><font style="color:rgb(25, 27, 31);">mutlimap</font></a></td>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">映射/多重映射。二者均为二元关联容器（在构造时需要写两个参数类型，前者对key值，后者对应value值），因为有两个参数，因此在插入元素的时候需要配合对组pair进行插入，具体见深入详解</font><br/><font style="color:rgb(25, 27, 31);"></font></td>
+</tr>
+</tbody>
+</table>
+<h4 id="无序关联容器"><a class="markdownIt-Anchor" href="#无序关联容器"></a> 无序关联容器</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong><font style="color:rgb(25, 27, 31);">容器</font></strong></th>
+<th style="text-align:left"><strong><font style="color:rgb(25, 27, 31);">简介说明</font></strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">unorderedset/unordered_mutliset</font></td>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">集合/多重集合。对于set，在使用insert插入元素时，已插入过的元素不可重复插入，这正好符合了集合的互异性，在插入完成显示后，会默认按照升序进行排序，对于</font><a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=213478473&amp;content_type=Article&amp;match_order=1&amp;q=multiset&amp;zhida_source=entity"><font style="color:rgb(25, 27, 31);">multiset</font></a><br/><font style="color:rgb(25, 27, 31);">，可插入多个重复的元素</font></td>
+</tr>
+<tr>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">unordered_map/unordered_</font><a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=213478473&amp;content_type=Article&amp;match_order=1&amp;q=mutlimap&amp;zhida_source=entity"><font style="color:rgb(25, 27, 31);">mutlimap</font></a></td>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">映射/多重映射。二者均为二元关联容器（在构造时需要写两个参数类型，前者对key值，后者对应value值），因为有两个参数，因此在插入元素的时候需要配合对组pair进行插入，具体见深入详解</font><br/><font style="color:rgb(25, 27, 31);"></font></td>
+</tr>
+</tbody>
+</table>
+<h3 id="font-stylecolorrgb25-27-31容器适配器font"><a class="markdownIt-Anchor" href="#font-stylecolorrgb25-27-31容器适配器font"></a> <font style="color:rgb(25, 27, 31);">容器适配器</font></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong><font style="color:rgb(25, 27, 31);">容器</font></strong></th>
+<th style="text-align:left"><strong><font style="color:rgb(25, 27, 31);">简介说明</font></strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">stack</font></td>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">堆栈。其原理是先进后出（FILO），其底层容器可以是任何标准的容器适配器，默认为deque双端队列</font></td>
+</tr>
+<tr>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">queue</font></td>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">队列。其原理是先进先出（FIFO），只有队头和队尾可以被访问，故不可有遍历行为，默认也为deque双端队列</font></td>
+</tr>
+<tr>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">pirority_queue</font></td>
+<td style="text-align:left"><font style="color:rgb(25, 27, 31);">优先队列。它的第一个元素总是它所包含的元素中优先级最高的，就像数据结构里的堆，会默认形成大堆，还可以使用仿函数来控制生成大根堆还是生成小根堆，若没定义，默认使用vector容器</font></td>
+</tr>
+</tbody>
+</table>
+<h2 id="stl符号逆向"><a class="markdownIt-Anchor" href="#stl符号逆向"></a> STL符号逆向</h2>
+<ol>
+<li>ida flirt 找到对应版本的sig文件，可以恢复大部分符号</li>
+<li>跑一下lumen 能恢复一些符号</li>
+<li>结合容器类型，动调猜测大概属于什么operation</li>
+<li>静态结合源码分析</li>
+</ol>
+<h2 id="stl数据逆向"><a class="markdownIt-Anchor" href="#stl数据逆向"></a> STL数据逆向</h2>
+<p>由于msvc，gcc，clang中的stl实现，以及各个版本的cpp实现都不太相同，所以我们很难确定内存模型是一定不变的，一定情况下要结合对应版本的源码分析</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/gcc-mirror/gcc">https://github.com/gcc-mirror/gcc</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/microsoft/STL">https://github.com/microsoft/STL</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/llvm/llvm-project/tree/69ead949d08ff0bb8cbbf4f7143aaa6687830f6b/libcxx/include">https://github.com/llvm/llvm-project/tree/69ead949d08ff0bb8cbbf4f7143aaa6687830f6b/libcxx/include</a></p>
+</blockquote>
+<p>但是绝大部分情况下，内存模型是差不多的，我们以clang的为例进行分析</p>
+<h3 id="dump数据结构的内存模型"><a class="markdownIt-Anchor" href="#dump数据结构的内存模型"></a> dump数据结构的内存模型</h3>
+<p>以下stl数据结构定义是简化版定义</p>
+<h4 id="clanggnu"><a class="markdownIt-Anchor" href="#clanggnu"></a> clang/gnu</h4>
+<p>看雪的那篇文章已经给出了</p>
+<h4 id="msvs"><a class="markdownIt-Anchor" href="#msvs"></a> msvs</h4>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.openrce.org/articles/full_view/23">https://www.openrce.org/articles/full_view/23</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012662731/article/details/53889105">https://blog.csdn.net/u012662731/article/details/53889105</a></p>
+</blockquote>
+<p><font style="color:rgb(85, 85, 85);">cl编译器存在未公开的参数</font></p>
+<p><font style="color:rgb(85, 85, 85);">/d1reportSingleClassLayoutXXX  显示指定XXX类的内存布局</font><br />
+<font style="color:rgb(85, 85, 85);">/d1reportAllClassLayou          显示所有类的内存布局</font></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">cl <span class="token operator">/</span>d1reportSingleClassLayoutB test<span class="token punctuation">.</span>cpp
+
+<span class="token keyword">class</span> <span class="token class-name">B</span> size<span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">:</span>  
+        <span class="token operator">+</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>  
+ <span class="token number">0</span>      <span class="token operator">|</span> <span class="token punctuation">&#123;</span>vfptr<span class="token punctuation">&#125;</span>  
+        <span class="token operator">|</span> <span class="token operator">+</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span> <span class="token punctuation">(</span>base <span class="token keyword">class</span> <span class="token class-name">A</span><span class="token punctuation">)</span>  
+ <span class="token number">4</span>      <span class="token operator">|</span> <span class="token operator">|</span> a  
+        <span class="token operator">|</span> <span class="token operator">+</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>  
+        <span class="token operator">+</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>  
+  
+B<span class="token punctuation">:</span><span class="token punctuation">:</span>$vftable@<span class="token punctuation">:</span>  
+        <span class="token operator">|</span> <span class="token operator">&amp;</span>B_meta  
+        <span class="token operator">|</span>  <span class="token number">0</span>  
+ <span class="token number">0</span>      <span class="token operator">|</span> <span class="token operator">&amp;</span>B<span class="token punctuation">:</span><span class="token punctuation">:</span>doX  
+  
+B<span class="token punctuation">:</span><span class="token punctuation">:</span>doX this adjustor<span class="token punctuation">:</span> <span class="token number">0</span>  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>把llvm的stl放到windows解析应该也行</p>
+<h3 id="stdstring"><a class="markdownIt-Anchor" href="#stdstring"></a> std::string</h3>
+<p><font style="color:rgb(0, 0, 0);">string的结构比较简单。</font><strong><font style="color:rgb(0, 0, 0);">主要由一个指针ptr和字符串长度string_length构成</font></strong><font style="color:rgb(0, 0, 0);">。除此之外还会存在一个联合体，当字符串的长度小于8时会直接存储与这个缓冲区中，</font><strong><font style="color:rgb(0, 0, 0);">此时ptr指针将指向这个local_buf</font></strong><font style="color:rgb(0, 0, 0);">，大于这个local_buf将会在堆上另外分配内存，此时这个union转而用于存储分配堆的大小。</font></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">basic_string</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span>begin_<span class="token punctuation">;</span>	<span class="token comment">// actual string data</span>
+    <span class="token class-name">size_t</span> size_<span class="token punctuation">;</span> <span class="token comment">// actual size</span>
+    <span class="token keyword">union</span><span class="token punctuation">&#123;</span>
+        <span class="token class-name">size_t</span> capacity_<span class="token punctuation">;</span> <span class="token comment">// used if larger than 15 bytes</span>
+        <span class="token keyword">char</span> sso_buffer<span class="token punctuation">[</span><span class="token number">16</span><span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment">// used if smaller than 16 bytes&#125;;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><font style="color:rgb(0, 0, 0);">小字符串不用在堆上分配</font></p>
+<img src="/2025/01/15/stl%E9%80%86%E5%90%91/1736945422182-0e3c72cd-62c7-4f38-8eba-5ff82180dfa2.png" class="" loading="lazy">
+<p>dump脚本</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">read_dbg_cppstr_64</span><span class="token punctuation">(</span>objectAddr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># a easy function for read std:string</span>
+    <span class="token comment"># 首地址就是begin指针</span>
+    strPtr <span class="token operator">=</span> idc<span class="token punctuation">.</span>get_bytes<span class="token punctuation">(</span>objectAddr<span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">)</span>
+    result <span class="token operator">=</span> <span class="token string">''</span>
+    i <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+        onebyte <span class="token operator">=</span> idc<span class="token punctuation">.</span>get_bytes<span class="token punctuation">(</span>strPtr <span class="token operator">+</span> i<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> onebyte <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            <span class="token keyword">break</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            result <span class="token operator">=</span> <span class="token builtin">chr</span><span class="token punctuation">(</span>onebyte<span class="token punctuation">)</span>
+        i <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword">return</span> result<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="font-stylecolorrgb51-51-51stdstringsteamfont"><a class="markdownIt-Anchor" href="#font-stylecolorrgb51-51-51stdstringsteamfont"></a> <font style="color:rgb(51, 51, 51);">std::stringsteam</font></h3>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">stringsteam</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span> vtable1<span class="token punctuation">;</span><span class="token comment">// std::basic stringstream</span>
+    int64 pad<span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span> vtable2<span class="token punctuation">;</span><span class="token comment">//std::basic stringstream</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span> vtable3<span class="token punctuation">;</span><span class="token comment">// std::stringbuf</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span> _M_in_beg<span class="token punctuation">;</span> <span class="token comment">// 输入流开始</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span> _M in_cur<span class="token punctuation">;</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span> _M in_end<span class="token punctuation">;</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span> _M_out_beg<span class="token punctuation">;</span><span class="token comment">// 输出流开始</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span> _M_out_cur<span class="token punctuation">;</span><span class="token comment">// 输出流开始</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span> _M_out_end<span class="token punctuation">;</span><span class="token comment">// 输出流开始</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="stdvector"><a class="markdownIt-Anchor" href="#stdvector"></a> std::vector</h3>
+<ul>
+<li><font style="color:rgb(47, 47, 47);">固定长度 24 字节，3 个 dq</font></li>
+<li><font style="color:rgb(47, 47, 47);">第一个指针字段指向数组起始地址</font></li>
+<li><font style="color:rgb(47, 47, 47);">第二个指针字段指向数组最后元素地址</font></li>
+<li><font style="color:rgb(47, 47, 47);">第三个指针字段指向最大内存地址</font></li>
+</ul>
+<img src="/2025/01/15/stl%E9%80%86%E5%90%91/1736945811451-4916f52e-0ede-46b5-a9ed-7748b1c79cab.png" class="" loading="lazy">
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">vector</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span> start<span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span> end<span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span> max<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>dump脚本</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">vetor_dump</span><span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    ELEMENT_SIZE <span class="token operator">=</span> <span class="token number">8</span>
+    data_addr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    data<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    vetor_base <span class="token operator">=</span> idc<span class="token punctuation">.</span>read_dbg_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">0x0</span><span class="token punctuation">)</span>
+    vetor_end <span class="token operator">=</span> idc<span class="token punctuation">.</span>read_dbg_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">0x8</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>vetor_base<span class="token punctuation">,</span>vetor_end<span class="token punctuation">,</span>ELEMENT_SIZE<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        data_addr<span class="token punctuation">.</span>append<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+        data<span class="token punctuation">.</span>append<span class="token punctuation">(</span>idc<span class="token punctuation">.</span>get_bytes<span class="token punctuation">(</span>i<span class="token punctuation">,</span>ELEMENT_SIZE<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> data_addr<span class="token punctuation">,</span>data<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="font-stylecolorrgb51-51-51stdlistfont"><a class="markdownIt-Anchor" href="#font-stylecolorrgb51-51-51stdlistfont"></a> <font style="color:rgb(51, 51, 51);">std::list</font></h3>
+<ul>
+<li><font style="color:rgb(47, 47, 47);">双向循环链表存储</font></li>
+<li><font style="color:rgb(47, 47, 47);">头结构 + 节点结构</font></li>
+<li><font style="color:rgb(47, 47, 47);">遍历长度可以用 size 字段确定</font></li>
+</ul>
+<img src="/2025/01/15/stl%E9%80%86%E5%90%91/1736946100376-24a76771-352e-4250-9348-f264a93aa124.png" class="" loading="lazy">
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">List_node</span>
+<span class="token punctuation">&#123;</span>
+    List_node<span class="token operator">*</span> next<span class="token punctuation">;</span>
+    List_node<span class="token operator">*</span> prev<span class="token punctuation">;</span>
+    <span class="token comment">//data区域</span>
+    
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">struct</span> <span class="token class-name">List_node_header</span>
+<span class="token punctuation">&#123;</span>
+    List_node<span class="token operator">*</span> next<span class="token punctuation">;</span>
+    List_node<span class="token operator">*</span> prev<span class="token punctuation">;</span>
+    <span class="token class-name">size_t</span> SIZE<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>dump脚本</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">dump_stl_list</span><span class="token punctuation">(</span>p_list_addr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    data_addr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    data<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>	<span class="token comment">#data要具体判断</span>
+    list_size <span class="token operator">=</span> idc<span class="token punctuation">.</span>read_dbg_qword<span class="token punctuation">(</span>p_list_addr<span class="token operator">+</span><span class="token number">0x10</span><span class="token punctuation">)</span>
+    cur_node <span class="token operator">=</span> p_list_addr
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>list_size<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        cur_node <span class="token operator">=</span> idc<span class="token punctuation">.</span>read_dbg_qword<span class="token punctuation">(</span>cur_node <span class="token operator">+</span> <span class="token number">0x0</span><span class="token punctuation">)</span>
+        data_addr<span class="token punctuation">.</span>append<span class="token punctuation">(</span>cur_node <span class="token operator">+</span> <span class="token number">0x10</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="font-stylecolorrgb51-51-51stddequestackfont"><a class="markdownIt-Anchor" href="#font-stylecolorrgb51-51-51stddequestackfont"></a> <font style="color:rgb(51, 51, 51);">std::deque/stack</font></h3>
+<p><font style="color:rgb(0, 0, 0);">deque是queue，stack，deque等线性容器的底层实现</font></p>
+<p><strong><font style="color:rgb(0, 0, 0);">主要分为三个部分，</font></strong></p>
+<p><strong><font style="color:rgb(0, 0, 0);">第一个用于描述map的，其中包含map大小和map的指针，</font></strong></p>
+<p><strong><font style="color:rgb(0, 0, 0);">第二个则是指向deque中起始元素的Deque_iterator，</font></strong></p>
+<p><strong><font style="color:rgb(0, 0, 0);">第三个则是指向了deque中结束元素的Deque_iterator</font></strong><font style="color:rgb(0, 0, 0);">。</font></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">stl_deque_iterator</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span> cur<span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span> first<span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span> last<span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span> node<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">struct</span> <span class="token class-name">stl_deque</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span> map<span class="token punctuation">;</span>
+    <span class="token class-name">size_t</span> map_size<span class="token punctuation">;</span>
+    stl_deque_iterator start<span class="token punctuation">;</span>
+    stl_deque_iterator finish<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong><font style="color:rgb(0, 0, 0);">deque对元素的保存采取了分块保存的机制</font></strong><font style="color:rgb(0, 0, 0);">。deque采用一块连续的内存保存了一系列的指针。其中map即指向这一块连续的内存，换句话说map是一个指针，指向一个指针数组。而这个指针数组中的指针指向的则是一篇连续的，用于实际保存数据的内存区域，我们称为data array(</font><strong><font style="color:rgb(0, 0, 0);">每个元素的大小取决于deque中的模板类型</font></strong><font style="color:rgb(0, 0, 0);">)，具体的内存示意图可以如下图所示。</font></p>
+<img src="/2025/01/15/stl%E9%80%86%E5%90%91/1736946895677-1dd18ca4-ab43-44fb-bc30-d1959fbbf23a.png" class="" loading="lazy">
+<ol>
+<li><font style="color:rgb(47, 47, 47);">stl_deque.start.node 确定first map 项位置</font></li>
+<li><font style="color:rgb(47, 47, 47);">stl_deque.start.last - stl_deque.start.first 确定缓冲区大小</font></li>
+<li><font style="color:rgb(47, 47, 47);">stl_deque.finish.node 确定last map 项位置</font></li>
+<li><font style="color:rgb(47, 47, 47);">对于每一个 map 项：</font>
+<ol>
+<li><font style="color:rgb(47, 47, 47);">start 项，解析 cur, last 区间</font></li>
+<li><font style="color:rgb(47, 47, 47);">finish 项，解析 start, cur 区间</font></li>
+<li><font style="color:rgb(47, 47, 47);">其余项，解析 start, last 区间</font></li>
+</ol>
+</li>
+</ol>
+<p>dump脚本</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token triple-quoted-string string">'''
+struct stl_deque_iterator&#123;
+    void * cur;
+    void * first;
+    void * last;
+    void * node;
+&#125;;
+
+struct stl_deque&#123;
+    void * map;
+    size_t map_size;
+    stl_deque_iterator start;
+    stl_deque_iterator finish;
+&#125;;
+'''</span>
+deque_iter <span class="token operator">=</span> namedtuple<span class="token punctuation">(</span><span class="token string">'deque_iter'</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token string">'cur'</span><span class="token punctuation">,</span><span class="token string">'first'</span><span class="token punctuation">,</span><span class="token string">'last'</span><span class="token punctuation">,</span><span class="token string">'node'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">parse_iter</span><span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 解析队列迭代器</span>
+    cur <span class="token operator">=</span> idc<span class="token punctuation">.</span>read_dbg_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">0x0</span><span class="token punctuation">)</span>
+    first <span class="token operator">=</span> idc<span class="token punctuation">.</span>read_dbg_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">0x8</span><span class="token punctuation">)</span>
+    last <span class="token operator">=</span> idc<span class="token punctuation">.</span>read_dbg_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">0x10</span><span class="token punctuation">)</span>
+    node <span class="token operator">=</span> idc<span class="token punctuation">.</span>read_dbg_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">0x18</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> deque_iter<span class="token punctuation">(</span>cur<span class="token punctuation">,</span>first<span class="token punctuation">,</span>last<span class="token punctuation">,</span>node<span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">dump_deque</span><span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    ELEMENT_SIZE <span class="token operator">=</span> <span class="token number">4</span>    <span class="token comment"># std::deque&lt;xx> xx 的类型大小来指定</span>
+    data_addr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    start_iter <span class="token operator">=</span> parse_iter<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">0x10</span><span class="token punctuation">)</span>
+    finish_iter <span class="token operator">=</span> parse_iter<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">0x30</span><span class="token punctuation">)</span>
+    buf_size <span class="token operator">=</span> start_iter<span class="token punctuation">.</span>last <span class="token operator">-</span> start_iter<span class="token punctuation">.</span>first
+    map_size <span class="token operator">=</span> start_iter<span class="token punctuation">.</span>node
+    map_finish <span class="token operator">=</span> finish_iter<span class="token punctuation">.</span>node
+
+    <span class="token comment"># 解析第一个缓存数据</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>start_iter<span class="token punctuation">.</span>cur<span class="token punctuation">,</span>start_iter<span class="token punctuation">.</span>last<span class="token punctuation">,</span>ELEMENT_SIZE<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        data_addr<span class="token punctuation">.</span>append<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+    <span class="token comment"># 解析中间缓存数据</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>map_start <span class="token operator">+</span> <span class="token number">8</span><span class="token punctuation">,</span>map_finish <span class="token operator">-</span> <span class="token number">8</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        buf_start <span class="token operator">=</span> idc<span class="token punctuation">.</span>read_dbg_qword<span class="token punctuation">(</span>b<span class="token punctuation">)</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>buf_start<span class="token punctuation">,</span>buf_start <span class="token operator">+</span> buf_size<span class="token punctuation">,</span> ELEMENT_SIZE<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            data_addr<span class="token punctuation">.</span>append<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+    <span class="token comment"># 解析最后一个缓存数据</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>finish_iter<span class="token punctuation">.</span>first<span class="token punctuation">,</span>finish_iter<span class="token punctuation">.</span>cur<span class="token punctuation">,</span>ELEMENT_SIZE<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        data_addr<span class="token punctuation">.</span>append<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> data_addr<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="stdunordered_mapsethashtable"><a class="markdownIt-Anchor" href="#stdunordered_mapsethashtable"></a> std::unordered_map/set(hashtable)</h3>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/259857549">https://zhuanlan.zhihu.com/p/259857549</a></p>
+</blockquote>
+<ul>
+<li><font style="color:rgb(47, 47, 47);">底层采用</font><strong><font style="color:rgb(47, 47, 47);"> HashTable</font></strong><font style="color:rgb(47, 47, 47);"> 实现</font></li>
+<li><font style="color:rgb(47, 47, 47);">头结构 + Bucket 数组 + 节点结构</font></li>
+<li><strong><font style="color:rgb(47, 47, 47);">所有节点结构用单链表串联（****dump</font></strong><font style="color:rgb(47, 47, 47);"> </font><strong><font style="color:rgb(47, 47, 47);">只需要遍历单链表）</font></strong></li>
+<li><strong><font style="color:rgb(47, 47, 47);">头结构的第三个字段为单链表头</font></strong></li>
+<li><strong><font style="color:rgb(47, 47, 47);">适用</font></strong><font style="color:rgb(47, 47, 47);">std::</font><strong><font style="color:rgb(47, 47, 47);">unsorted_map</font></strong><font style="color:rgb(47, 47, 47);">/ std::</font><strong><font style="color:rgb(47, 47, 47);">unsorted_set</font></strong><font style="color:rgb(47, 47, 47);"> </font><strong><font style="color:rgb(47, 47, 47);">/ …</font></strong></li>
+</ul>
+<p><strong><font style="color:rgb(47, 47, 47);">简化结构体定义</font></strong></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">bucket</span><span class="token punctuation">&#123;</span>
+    bucket <span class="token operator">*</span> next<span class="token punctuation">;</span> <span class="token comment">//最后一个node为NULL</span>
+    valtype val<span class="token punctuation">;</span>
+    <span class="token class-name">size_t</span> hash<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">struct</span> <span class="token class-name">hashmap</span><span class="token punctuation">&#123;</span>
+    bucket <span class="token operator">*</span> buckets<span class="token punctuation">;</span>
+    <span class="token class-name">size_t</span> buckets_count<span class="token punctuation">;</span>
+    bucket <span class="token operator">*</span> first<span class="token punctuation">;</span>
+    <span class="token class-name">size_t</span> elements_count<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li><font style="color:rgb(25, 27, 31);">当bucket为空时，该bucket指针为null</font></li>
+<li><font style="color:rgb(25, 27, 31);">每个哈希容器有一个哨兵节点（_M_before_begin），作为使用迭代器遍历容器的起点。</font></li>
+<li><font style="color:rgb(25, 27, 31);">每一个bucket链表的最后一个结点，同时又是某一个bucket的哨兵节点。</font></li>
+</ul>
+<img src="/2025/01/15/stl%E9%80%86%E5%90%91/1736950319229-a691a0f3-8e8b-4325-95c2-f800c27179c9.png" class="" loading="lazy">
+<p>因此遍历hashtable由两种方法，一种是遍历bucket，只要遍历其中一个列表就能获得所有元素</p>
+<p>另一种是直接利用哨兵节点，直接进行遍历</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">dump_stl_hashmap1</span><span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># dump stl hashmap gnu c++ x64</span>
+    data_addr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    bucket_addr <span class="token operator">=</span> idc<span class="token punctuation">.</span>read_dbg_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">0x10</span><span class="token punctuation">)</span>
+    node_addr <span class="token operator">=</span> bucket_addr
+    <span class="token keyword">while</span> node_addr <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        data_addr<span class="token punctuation">.</span>append<span class="token punctuation">(</span>node_addr <span class="token operator">+</span> <span class="token number">0x8</span><span class="token punctuation">)</span>
+        node_addr <span class="token operator">=</span> idc<span class="token punctuation">.</span>read_dbg_qword<span class="token punctuation">(</span>node_addr<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> data_addr<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">dump_hashtable_map</span><span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    addrs <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    hash_table <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr<span class="token punctuation">)</span>
+    table_num <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">8</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>table_num<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        link_list <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>hash_table <span class="token operator">+</span> <span class="token number">8</span> <span class="token operator">*</span> i<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> link_list <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            <span class="token keyword">continue</span>
+        ptr <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>link_list<span class="token punctuation">)</span>
+        <span class="token keyword">while</span> ptr <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            <span class="token keyword">assert</span> ptr <span class="token operator">!=</span> idaapi<span class="token punctuation">.</span>BADADDR
+            addrs<span class="token punctuation">.</span>add<span class="token punctuation">(</span>ptr<span class="token punctuation">)</span>
+            ptr <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>ptr<span class="token punctuation">)</span>
+    result <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+    <span class="token keyword">for</span> a <span class="token keyword">in</span> addrs<span class="token punctuation">:</span>
+        result<span class="token punctuation">[</span>ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>a <span class="token operator">+</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> a <span class="token operator">+</span> <span class="token number">16</span>
+    <span class="token keyword">return</span> result<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="font-stylecolorrgb0-0-0stdmapsetrbtreefont"><a class="markdownIt-Anchor" href="#font-stylecolorrgb0-0-0stdmapsetrbtreefont"></a> <font style="color:rgb(0, 0, 0);">std::map/set(rbtree)</font></h3>
+<ul>
+<li><font style="color:rgb(47, 47, 47);">底层采用 Rb-Tree 实现（红黑二叉树）</font></li>
+<li><font style="color:rgb(47, 47, 47);">头结构 + 节点结构</font></li>
+<li><font style="color:rgb(47, 47, 47);">用二叉树遍历可提取数据</font></li>
+<li><font style="color:rgb(47, 47, 47);">适用 std::map / std::set / std::multimap / std::multiset</font></li>
+</ul>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">std</span><span class="token operator">::</span>map<span class="token punctuation">&#123;</span>
+    <span class="token keyword">void</span> <span class="token operator">*</span> allocator<span class="token punctuation">;</span>
+    _Rb_tree_color _M_color<span class="token punctuation">;</span>
+    node <span class="token operator">*</span> root<span class="token punctuation">;</span>
+    node <span class="token operator">*</span> leftmost<span class="token punctuation">;</span><span class="token comment">//ignore</span>
+    node <span class="token operator">*</span> rightmost<span class="token punctuation">;</span><span class="token comment">//ignore</span>
+    <span class="token class-name">size_t</span> node_count<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+
+<span class="token keyword">struct</span> <span class="token class-name">node</span><span class="token punctuation">&#123;</span>
+    _Rb_tree_color color<span class="token punctuation">;</span>
+    node<span class="token operator">*</span> parent<span class="token punctuation">;</span>
+    node<span class="token operator">*</span> left<span class="token punctuation">;</span>
+    node<span class="token operator">*</span> right<span class="token punctuation">;</span>
+    TypeKey key<span class="token punctuation">;</span>
+    TypeValue value<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><font style="color:rgb(0, 0, 0);">rb_tree分为两个部分，一个适用于比较的key_compare，另一个则是header。重点分析header，header中存在一个node，和node_count。</font><strong><font style="color:rgb(0, 0, 0);">node即这个红黑树的起始节点，而node_count则代表这颗红黑树拥有多少的节点</font></strong><font style="color:rgb(0, 0, 0);">。node中描述了当前节点的颜色，父亲节点，左儿子和右儿子节点。</font></p>
+<p><strong><font style="color:rgb(0, 0, 0);">当红黑树中不存在节点时，header中node的parent是0，而left和right则指向node自身</font></strong><font style="color:rgb(0, 0, 0);">。当插入了结点之后，</font><strong><font style="color:rgb(0, 0, 0);">这个parent则会指向树的根节点</font></strong><font style="color:rgb(0, 0, 0);">，而l</font><strong><font style="color:rgb(0, 0, 0);">eft和right则指向红黑树的最左边的节点和最右边的节点。</font></strong></p>
+<p><strong><font style="color:rgb(0, 0, 0);">同时需要分清楚rb_tree变量本身和树本身。rb_tree变量中的node是不携带具体数据元素的，而树本身的节点在其node_base结构体结束后的内存区域则是数据元素</font></strong><font style="color:rgb(0, 0, 0);">。</font></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">parse_gnu_map_header</span><span class="token punctuation">(</span>address<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    root <span class="token operator">=</span> idc<span class="token punctuation">.</span>read_dbg_qword<span class="token punctuation">(</span>address <span class="token operator">+</span> <span class="token number">0x10</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> root
+
+<span class="token keyword">def</span> <span class="token function">parse_gnu_map_node</span><span class="token punctuation">(</span>address<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    left <span class="token operator">=</span> idc<span class="token punctuation">.</span>read_dbg_qword<span class="token punctuation">(</span>address <span class="token operator">+</span> <span class="token number">0x10</span><span class="token punctuation">)</span>
+    right <span class="token operator">=</span> idc<span class="token punctuation">.</span>read_dbg_dword<span class="token punctuation">(</span>address <span class="token operator">+</span> <span class="token number">0x18</span><span class="token punctuation">)</span>
+    data <span class="token operator">=</span> address <span class="token operator">+</span> <span class="token number">0x20</span>
+    <span class="token keyword">return</span> left<span class="token punctuation">,</span> right<span class="token punctuation">,</span> data
+
+<span class="token keyword">def</span> <span class="token function">parse_gnu_map_travel</span><span class="token punctuation">(</span>address<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># address &lt;—— std::map struct address</span>
+    result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    worklist <span class="token operator">=</span> <span class="token punctuation">[</span>parse_gnu_map_header<span class="token punctuation">(</span>address<span class="token punctuation">)</span><span class="token punctuation">]</span>
+    <span class="token keyword">while</span> <span class="token builtin">len</span><span class="token punctuation">(</span>worklist<span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">:</span>
+        addr <span class="token operator">=</span> worklist<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">(</span>left<span class="token punctuation">,</span> right<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token operator">=</span> parse_gnu_map_node<span class="token punctuation">(</span>addr<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> left <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">:</span> worklist<span class="token punctuation">.</span>append<span class="token punctuation">(</span>left<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> right <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">:</span> worklist<span class="token punctuation">.</span>append<span class="token punctuation">(</span>right<span class="token punctuation">)</span>
+        result<span class="token punctuation">.</span>append<span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> result<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">dump_rbtree_node</span><span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">'color'</span> <span class="token punctuation">:</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'parent'</span> <span class="token punctuation">:</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'left'</span> <span class="token punctuation">:</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">16</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'right'</span> <span class="token punctuation">:</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">24</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span>
+ 
+ 
+<span class="token keyword">def</span> <span class="token function">dump_rbtree_map</span><span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    key <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr<span class="token punctuation">)</span>
+    node_addr <span class="token operator">=</span> addr <span class="token operator">+</span> <span class="token number">8</span>
+    node_num <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">40</span><span class="token punctuation">)</span>
+    result <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+    <span class="token keyword">def</span> <span class="token function">visit</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> node <span class="token operator">==</span> idaapi<span class="token punctuation">.</span>BADADDR<span class="token punctuation">:</span>
+            <span class="token keyword">return</span>
+        info <span class="token operator">=</span> dump_rbtree_node<span class="token punctuation">(</span>node<span class="token punctuation">)</span>
+        <span class="token keyword">assert</span> info<span class="token punctuation">[</span><span class="token string">'color'</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">1</span> <span class="token keyword">or</span> info<span class="token punctuation">[</span><span class="token string">'color'</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span>
+        value_key <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>node <span class="token operator">+</span> <span class="token number">32</span><span class="token punctuation">)</span>
+        data_addr <span class="token operator">=</span> node <span class="token operator">+</span> <span class="token number">40</span>
+        result<span class="token punctuation">[</span>value_key<span class="token punctuation">]</span> <span class="token operator">=</span> data_addr
+        <span class="token keyword">if</span> info<span class="token punctuation">[</span><span class="token string">'left'</span><span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            visit<span class="token punctuation">(</span>info<span class="token punctuation">[</span><span class="token string">'left'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> info<span class="token punctuation">[</span><span class="token string">'right'</span><span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            visit<span class="token punctuation">(</span>info<span class="token punctuation">[</span><span class="token string">'right'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    d <span class="token operator">=</span> dump_rbtree_node<span class="token punctuation">(</span>node_addr<span class="token punctuation">)</span>
+    visit<span class="token punctuation">(</span>d<span class="token punctuation">[</span><span class="token string">'parent'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token keyword">assert</span> <span class="token builtin">len</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>keys<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">==</span> node_num
+    <span class="token keyword">return</span> result<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><font style="color:rgb(0, 0, 0);">map和set的实现皆是基于rb_tree，而唯一不同之处在于</font><strong><font style="color:rgb(0, 0, 0);">set直接在node中存储数据</font></strong><font style="color:rgb(0, 0, 0);">，</font><strong><font style="color:rgb(0, 0, 0);">而map在node中存储的是键值对</font></strong><font style="color:rgb(0, 0, 0);">，是一个pair，</font><strong><font style="color:rgb(0, 0, 0);">而pair&lt;a,b&gt;在内存中的表示则是直接a后存放b</font></strong><font style="color:rgb(0, 0, 0);">。</font></p>
+<h3 id="font-stylecolorrgb0-0-0otherthingsfont"><a class="markdownIt-Anchor" href="#font-stylecolorrgb0-0-0otherthingsfont"></a> <font style="color:rgb(0, 0, 0);">otherthings</font></h3>
+<p>几个关键区分点</p>
+<ol>
+<li><strong><font style="color:rgb(0, 0, 0);">可以发现unordered_map的代码明显存在一个取mod的操作，而map存在std::rebalanced的操作。这是是区分map和unordered_map的关键</font></strong></li>
+</ol>
+<p>…等后续记录</p>
+<h3 id="font-stylecolorrgb0-0-0n1ctf2022-cppmasterfont"><a class="markdownIt-Anchor" href="#font-stylecolorrgb0-0-0n1ctf2022-cppmasterfont"></a> <font style="color:rgb(0, 0, 0);">n1ctf2022-cppmaster</font></h3>
+<p>没做，感觉wp不错，抄一下以后学习</p>
+<ol>
+<li>获取容器的嵌套关系</li>
+</ol>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> ida_bytes
+<span class="token keyword">import</span> ida_funcs
+<span class="token keyword">import</span> ida_xref
+<span class="token keyword">import</span> idaapi
+step_funcs <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+funclist <span class="token operator">=</span> Functions<span class="token punctuation">(</span><span class="token punctuation">)</span>
+rebalance_func <span class="token operator">=</span> <span class="token boolean">None</span>
+<span class="token keyword">for</span> f <span class="token keyword">in</span> funclist<span class="token punctuation">:</span>
+    name <span class="token operator">=</span> ida_funcs<span class="token punctuation">.</span>get_func_name<span class="token punctuation">(</span>f<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token string">'step'</span> <span class="token keyword">in</span> name<span class="token punctuation">:</span>
+        step_funcs<span class="token punctuation">[</span>name<span class="token punctuation">]</span> <span class="token operator">=</span> f
+    <span class="token keyword">elif</span> <span class="token string">'rebalance'</span> <span class="token keyword">in</span> name<span class="token punctuation">:</span>
+        rebalance_func <span class="token operator">=</span> f
+<span class="token keyword">assert</span> rebalance_func <span class="token operator">!=</span> <span class="token boolean">None</span>
+ 
+step_type <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token keyword">for</span> name<span class="token punctuation">,</span> addr <span class="token keyword">in</span> step_funcs<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    code <span class="token operator">=</span> <span class="token builtin">str</span><span class="token punctuation">(</span>idaapi<span class="token punctuation">.</span>decompile<span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token string">'rebalance'</span> <span class="token keyword">in</span> code<span class="token punctuation">:</span>
+        step_type<span class="token punctuation">[</span>name<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'map'</span>
+    <span class="token keyword">elif</span> <span class="token string">'%'</span> <span class="token keyword">in</span> code<span class="token punctuation">:</span>
+        step_type<span class="token punctuation">[</span>name<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'hash_map'</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        step_type<span class="token punctuation">[</span>name<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'deque'</span>
+ 
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">28</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'\''</span> <span class="token operator">+</span> step_type<span class="token punctuation">[</span><span class="token string">'step'</span> <span class="token operator">+</span> <span class="token builtin">str</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token string">'\''</span> <span class="token operator">+</span> <span class="token string">', '</span><span class="token punctuation">,</span> end <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ol start="2">
+<li>解析容器数据</li>
+</ol>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> ida_bytes
+<span class="token keyword">import</span> idaapi
+ 
+size_table <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">'map'</span> <span class="token punctuation">:</span> <span class="token number">48</span><span class="token punctuation">,</span>
+    <span class="token string">'deque'</span> <span class="token punctuation">:</span> <span class="token number">80</span><span class="token punctuation">,</span>
+    <span class="token string">'string'</span> <span class="token punctuation">:</span> <span class="token number">32</span><span class="token punctuation">,</span>
+    <span class="token string">'hash_map'</span> <span class="token punctuation">:</span> <span class="token number">16</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span>
+ 
+<span class="token keyword">def</span> <span class="token function">dump_rbtree_node</span><span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">'color'</span> <span class="token punctuation">:</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'parent'</span> <span class="token punctuation">:</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'left'</span> <span class="token punctuation">:</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">16</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'right'</span> <span class="token punctuation">:</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">24</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span>
+ 
+ 
+<span class="token keyword">def</span> <span class="token function">dump_rbtree_map</span><span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    key <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr<span class="token punctuation">)</span>
+    node_addr <span class="token operator">=</span> addr <span class="token operator">+</span> <span class="token number">8</span>
+    node_num <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">40</span><span class="token punctuation">)</span>
+    result <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+    <span class="token keyword">def</span> <span class="token function">visit</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> node <span class="token operator">==</span> idaapi<span class="token punctuation">.</span>BADADDR<span class="token punctuation">:</span>
+            <span class="token keyword">return</span>
+        info <span class="token operator">=</span> dump_rbtree_node<span class="token punctuation">(</span>node<span class="token punctuation">)</span>
+        <span class="token keyword">assert</span> info<span class="token punctuation">[</span><span class="token string">'color'</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">1</span> <span class="token keyword">or</span> info<span class="token punctuation">[</span><span class="token string">'color'</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span>
+        value_key <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>node <span class="token operator">+</span> <span class="token number">32</span><span class="token punctuation">)</span>
+        data_addr <span class="token operator">=</span> node <span class="token operator">+</span> <span class="token number">40</span>
+        result<span class="token punctuation">[</span>value_key<span class="token punctuation">]</span> <span class="token operator">=</span> data_addr
+        <span class="token keyword">if</span> info<span class="token punctuation">[</span><span class="token string">'left'</span><span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            visit<span class="token punctuation">(</span>info<span class="token punctuation">[</span><span class="token string">'left'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> info<span class="token punctuation">[</span><span class="token string">'right'</span><span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            visit<span class="token punctuation">(</span>info<span class="token punctuation">[</span><span class="token string">'right'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    d <span class="token operator">=</span> dump_rbtree_node<span class="token punctuation">(</span>node_addr<span class="token punctuation">)</span>
+    visit<span class="token punctuation">(</span>d<span class="token punctuation">[</span><span class="token string">'parent'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token keyword">assert</span> <span class="token builtin">len</span><span class="token punctuation">(</span>result<span class="token punctuation">.</span>keys<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">==</span> node_num
+    <span class="token keyword">return</span> result
+ 
+<span class="token keyword">def</span> <span class="token function">dump_deque_iterator</span><span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">'cur'</span> <span class="token punctuation">:</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'first'</span> <span class="token punctuation">:</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'last'</span> <span class="token punctuation">:</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">16</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">'map'</span> <span class="token punctuation">:</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">24</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span>
+ 
+<span class="token keyword">def</span> <span class="token function">dump_deque</span><span class="token punctuation">(</span>addr<span class="token punctuation">,</span> delta<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    deque_map <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr<span class="token punctuation">)</span>
+    map_size <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">8</span><span class="token punctuation">)</span>
+    <span class="token keyword">assert</span> map_size <span class="token operator">==</span> <span class="token number">8</span>
+    start <span class="token operator">=</span> dump_deque_iterator<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">16</span><span class="token punctuation">)</span>
+    finish <span class="token operator">=</span> dump_deque_iterator<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">16</span> <span class="token operator">+</span> <span class="token number">32</span><span class="token punctuation">)</span>
+    <span class="token keyword">assert</span> start<span class="token punctuation">[</span><span class="token string">'last'</span><span class="token punctuation">]</span> <span class="token operator">==</span> finish<span class="token punctuation">[</span><span class="token string">'last'</span><span class="token punctuation">]</span> <span class="token keyword">and</span> start<span class="token punctuation">[</span><span class="token string">'first'</span><span class="token punctuation">]</span> <span class="token operator">==</span> finish<span class="token punctuation">[</span><span class="token string">'first'</span><span class="token punctuation">]</span> <span class="token keyword">and</span> start<span class="token punctuation">[</span><span class="token string">'map'</span><span class="token punctuation">]</span> <span class="token operator">==</span> finish<span class="token punctuation">[</span><span class="token string">'map'</span><span class="token punctuation">]</span>
+    <span class="token keyword">assert</span> <span class="token punctuation">(</span>finish<span class="token punctuation">[</span><span class="token string">'cur'</span><span class="token punctuation">]</span> <span class="token operator">-</span> start<span class="token punctuation">[</span><span class="token string">'cur'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">%</span> delta <span class="token operator">==</span> <span class="token number">0</span>
+    ptr <span class="token operator">=</span> start<span class="token punctuation">[</span><span class="token string">'cur'</span><span class="token punctuation">]</span>
+    index <span class="token operator">=</span> <span class="token number">0</span>
+    result <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+    <span class="token keyword">while</span> ptr <span class="token operator">!=</span> finish<span class="token punctuation">[</span><span class="token string">'cur'</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+        result<span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token operator">=</span> ptr
+        index <span class="token operator">+=</span> <span class="token number">1</span>
+        ptr <span class="token operator">+=</span> delta
+    <span class="token keyword">return</span> result
+ 
+<span class="token keyword">def</span> <span class="token function">dump_string</span><span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    data <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr<span class="token punctuation">)</span>
+    length <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">8</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> ida_bytes<span class="token punctuation">.</span>get_bytes<span class="token punctuation">(</span>data<span class="token punctuation">,</span> length<span class="token punctuation">)</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token punctuation">)</span>
+ 
+<span class="token keyword">def</span> <span class="token function">dump_hashtable_map</span><span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    addrs <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    hash_table <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr<span class="token punctuation">)</span>
+    table_num <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>addr <span class="token operator">+</span> <span class="token number">8</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>table_num<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        link_list <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>hash_table <span class="token operator">+</span> <span class="token number">8</span> <span class="token operator">*</span> i<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> link_list <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            <span class="token keyword">continue</span>
+        ptr <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>link_list<span class="token punctuation">)</span>
+        <span class="token keyword">while</span> ptr <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            <span class="token keyword">assert</span> ptr <span class="token operator">!=</span> idaapi<span class="token punctuation">.</span>BADADDR
+            addrs<span class="token punctuation">.</span>add<span class="token punctuation">(</span>ptr<span class="token punctuation">)</span>
+            ptr <span class="token operator">=</span> ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>ptr<span class="token punctuation">)</span>
+    result <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+    <span class="token keyword">for</span> a <span class="token keyword">in</span> addrs<span class="token punctuation">:</span>
+        result<span class="token punctuation">[</span>ida_bytes<span class="token punctuation">.</span>get_qword<span class="token punctuation">(</span>a <span class="token operator">+</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> a <span class="token operator">+</span> <span class="token number">16</span>
+    <span class="token keyword">return</span> result
+ 
+type_list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'deque'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'hash_map'</span><span class="token punctuation">,</span> <span class="token string">'deque'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'hash_map'</span><span class="token punctuation">,</span> <span class="token string">'hash_map'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'hash_map'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'deque'</span><span class="token punctuation">,</span> <span class="token string">'deque'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'map'</span><span class="token punctuation">,</span> <span class="token string">'deque'</span><span class="token punctuation">,</span> <span class="token string">'deque'</span><span class="token punctuation">,</span> <span class="token string">'string'</span><span class="token punctuation">]</span>
+ 
+ 
+<span class="token keyword">def</span> <span class="token function">dump_dfs</span><span class="token punctuation">(</span>depth<span class="token punctuation">,</span> addr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    stl_type <span class="token operator">=</span> type_list<span class="token punctuation">[</span>depth<span class="token punctuation">]</span>
+    tmp <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+    <span class="token keyword">if</span> stl_type <span class="token operator">==</span> <span class="token string">'map'</span><span class="token punctuation">:</span>
+        tmp <span class="token operator">=</span> dump_rbtree_map<span class="token punctuation">(</span>addr<span class="token punctuation">)</span>
+    <span class="token keyword">elif</span> stl_type <span class="token operator">==</span> <span class="token string">'hash_map'</span><span class="token punctuation">:</span>
+        tmp <span class="token operator">=</span> dump_hashtable_map<span class="token punctuation">(</span>addr<span class="token punctuation">)</span>
+    <span class="token keyword">elif</span> stl_type <span class="token operator">==</span> <span class="token string">'deque'</span><span class="token punctuation">:</span>
+        next_type <span class="token operator">=</span> type_list<span class="token punctuation">[</span>depth <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span>
+        tmp <span class="token operator">=</span> dump_deque<span class="token punctuation">(</span>addr<span class="token punctuation">,</span> size_table<span class="token punctuation">[</span>next_type<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token keyword">elif</span> stl_type <span class="token operator">==</span> <span class="token string">'string'</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> dump_string<span class="token punctuation">(</span>addr<span class="token punctuation">)</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">assert</span> <span class="token boolean">False</span>
+    node <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+    <span class="token keyword">for</span> k<span class="token punctuation">,</span> v <span class="token keyword">in</span> tmp<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        node<span class="token punctuation">[</span>k<span class="token punctuation">]</span> <span class="token operator">=</span> dump_dfs<span class="token punctuation">(</span>depth <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> v<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> node
+result <span class="token operator">=</span> dump_dfs<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0x7FFEA5D3A460</span><span class="token punctuation">)</span>
+<span class="token keyword">import</span> json
+<span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">'json_data.txt'</span><span class="token punctuation">,</span><span class="token string">'w+'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+    json<span class="token punctuation">.</span>dump<span class="token punctuation">(</span>result<span class="token punctuation">,</span> f<span class="token punctuation">)</span>
+<span class="token comment">#dump_rbtree_map(0x55F47B277658)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><font style="color:rgb(0, 0, 0);">最后main函数通过对比字符串，来判断我们输入的一系列数字是否能够访问到对应的字符串，从而判断数字是否正确。</font></p>
+<p><font style="color:rgb(0, 0, 0);">最后根据dump出的dict从而写出dfs查找出对应的数字序列，从而获得flag。</font></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">target <span class="token operator">=</span> <span class="token string">'8850a16d-e427-446e-b4df-5f45376e20e4'</span>
+path <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token keyword">def</span> <span class="token function">dfs</span><span class="token punctuation">(</span>depth<span class="token punctuation">,</span> node<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">global</span> path
+    <span class="token keyword">if</span> <span class="token builtin">type</span><span class="token punctuation">(</span>node<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token builtin">dict</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> k<span class="token punctuation">,</span> v <span class="token keyword">in</span> node<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            path<span class="token punctuation">.</span>append<span class="token punctuation">(</span>k<span class="token punctuation">)</span>
+            dfs<span class="token punctuation">(</span>depth <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> v<span class="token punctuation">)</span>
+            path<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> node <span class="token operator">==</span> target<span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span>
+<span class="token keyword">import</span> json
+f <span class="token operator">=</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">'json_data.txt'</span><span class="token punctuation">,</span><span class="token string">'r'</span><span class="token punctuation">)</span>
+data <span class="token operator">=</span> json<span class="token punctuation">.</span>load<span class="token punctuation">(</span>f<span class="token punctuation">)</span>
+f<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+dfs<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> data<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</div></section></article><div class="post-nav"><div class="post-nav-item"></div><div class="post-nav-item"><a class="post-nav-next" href="/2025/01/13/pyd%E9%80%86%E5%90%91/" rel="next" title="pyd逆向"><span class="post-nav-text">pyd逆向</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2025/01/15/stl%E9%80%86%E5%90%91/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2023 – 2025 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>
