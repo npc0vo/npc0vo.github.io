@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>vmp相关1：编译vmp | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><script src="//at.alicdn.com/t/font_1140697_dxory92pb0h.js" async></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="https:&#x2F;&#x2F;bbs.kanxue.com&#x2F;thread-279882.htm https:&#x2F;&#x2F;www.chinapyg.com&#x2F;thread-149872-1-1.html https:&#x2F;&#x2F;bbs.kanxue.com&#x2F;thread-279886.htm   准备工作 Visual Studio 2019    QT 5.6.0 https:&#x2F;&#x2F;builds.dotnet.microsoft">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vmp相关1：编译vmp">
+<meta property="og:url" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="https:&#x2F;&#x2F;bbs.kanxue.com&#x2F;thread-279882.htm https:&#x2F;&#x2F;www.chinapyg.com&#x2F;thread-149872-1-1.html https:&#x2F;&#x2F;bbs.kanxue.com&#x2F;thread-279886.htm   准备工作 Visual Studio 2019    QT 5.6.0 https:&#x2F;&#x2F;builds.dotnet.microsoft">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740805994982-956016a7-aa21-4b67-bf3c-bca0d5f2e526.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740807313892-a3cfbce9-d395-4a93-89a9-e2cf27d7943a.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740807861054-c7838307-a313-4422-a593-547d6c60f37f.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740807881207-44630720-f44a-43bd-9550-4650b8e0d2cc.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740808314077-a24210d4-cf16-4056-b006-814f425df517.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740808612301-077d6e9f-8095-4a71-8d80-7729b6147e42.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740808678942-2380de89-85cb-4ab3-9dad-33a75eb9b600.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740808907527-184d4802-95bd-4158-870a-9432c5f9f2d3.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740808982823-fca84d38-bd3c-436f-bf5e-ea9242980df5.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740809011108-80add1f6-5efc-4f33-8b07-3d052c2dfc9e.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740809170048-9a71a270-c4fd-4971-baf2-0a4178894f0f.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740809082269-757f5e34-242e-486f-921e-0087dee5abdd.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740809114163-a594b401-dbbc-4d42-b83a-4a574994308c.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740809097172-727f9a9e-e213-46c3-876a-e381bbb122be.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740809131620-7d36e090-35ee-437c-8d9e-5cbf0e8b0b26.png">
+<meta property="article:published_time" content="2025-02-15T11:06:02.000Z">
+<meta property="article:modified_time" content="2025-03-18T11:08:58.570Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Reverse">
+<meta property="article:tag" content="vmp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740805994982-956016a7-aa21-4b67-bf3c-bca0d5f2e526.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">又活了一天</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">78</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">12</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">17</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.yuque.com/npc0vo" title="Yuque" target="_blank" style="color:#a0c69d"><span class="icon iconify" data-icon="ri:yuque-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">1.</span> <span class="toc-text"> 准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91"><span class="toc-number">2.</span> <span class="toc-text"> 编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="toc-number">3.</span> <span class="toc-text"> 项目结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vmp%E7%9B%B8%E5%85%B3%E5%88%86%E6%9E%90%E8%B5%84%E6%96%99"><span class="toc-number">4.</span> <span class="toc-text"> vmp相关分析资料</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">vmp相关1：编译vmp</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2025-02-15 19:06:02" itemprop="dateCreated datePublished" datetime="2025-02-15T19:06:02+08:00">2025-02-15</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2025-03-18 19:08:58" itemprop="dateModified" datetime="2025-03-18T19:08:58+08:00">2025-03-18</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">1.1k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">5m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/Reverse/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">Reverse</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Reverse/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Reverse</span></a><a class="tag-item" href="/tags/vmp/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">vmp</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><blockquote>
+<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-279882.htm">https://bbs.kanxue.com/thread-279882.htm</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.chinapyg.com/thread-149872-1-1.html">https://www.chinapyg.com/thread-149872-1-1.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-279886.htm">https://bbs.kanxue.com/thread-279886.htm</a></p>
+</blockquote>
+<h2 id="准备工作"><a class="markdownIt-Anchor" href="#准备工作"></a> 准备工作</h2>
+<p>Visual Studio 2019    QT 5.6.0</p>
+<p><a target="_blank" rel="noopener" href="https://builds.dotnet.microsoft.com/dotnet/Sdk/3.1.426/dotnet-sdk-3.1.426-win-x64.exe">https://builds.dotnet.microsoft.com/dotnet/Sdk/3.1.426/dotnet-sdk-3.1.426-win-x64.exe</a></p>
+<p><a target="_blank" rel="noopener" href="https://download.qt.io/new_archive/qt/5.6/5.6.0/qt-opensource-windows-x86-msvc2015_64-5.6.0.exe">https://download.qt.io/new_archive/qt/5.6/5.6.0/qt-opensource-windows-x86-msvc2015_64-5.6.0.exe</a></p>
+<img src="/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740805994982-956016a7-aa21-4b67-bf3c-bca0d5f2e526.png" class="" loading="lazy">
+<h2 id="编译"><a class="markdownIt-Anchor" href="#编译"></a> 编译</h2>
+<p>只是为了学习vmp的源码，实际上只编译console版即可。但是命令行还是有点不方便，所以编译了一个共享库版本的ultimate vmp。静态编译有点麻烦，而且也用不上，所以就没搞</p>
+<p>编译过程具体参考上方的网站，这里记录我编译过程遇到的问题</p>
+<p>初次装载项目</p>
+<img src="/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740807313892-a3cfbce9-d395-4a93-89a9-e2cf27d7943a.png" class="" loading="lazy">
+<blockquote>
+<p>如果VMProtect.Netcore装载不上下载<a target="_blank" rel="noopener" href="https://builds.dotnet.microsoft.com/dotnet/Sdk/3.1.426/dotnet-sdk-3.1.426-win-x64.exe">https://builds.dotnet.microsoft.com/dotnet/Sdk/3.1.426/dotnet-sdk-3.1.426-win-x64.exe</a></p>
+</blockquote>
+<p><font style="color:rgb(0, 0, 0);">打开项目文件，自动检查解决方案不匹配的地方，显示如下对话框，允许项目升级</font></p>
+<p><font style="color:rgb(0, 0, 0);">设置工程为X64</font></p>
+<p><font style="color:rgb(0, 0, 0);">直接在VMProtectSDK工程上右键“生成”，很快显示成功。</font></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">“void IntelFunction<span class="token punctuation">:</span><span class="token punctuation">:</span>Mutate<span class="token punctuation">(</span>const CompileContext   <span class="token operator">&amp;</span><span class="token punctuation">,</span><span class="token builtin">bool</span><span class="token punctuation">)</span>”<span class="token punctuation">:</span>“IntelFunction”中没有找到重载的成员函数
+void Mutate<span class="token punctuation">(</span>const CompileContext <span class="token operator">&amp;</span>ctx<span class="token punctuation">,</span> <span class="token builtin">bool</span> for_virtualization<span class="token punctuation">,</span> <span class="token builtin">int</span> index <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+原因是声明中使用默认构造参数，定义中直接缺少了构造参数。
+intel<span class="token punctuation">.</span>cc将其修改为：
+void IntelFunction<span class="token punctuation">:</span><span class="token punctuation">:</span>Mutate<span class="token punctuation">(</span>const CompileContext<span class="token operator">&amp;</span> ctx<span class="token punctuation">,</span> <span class="token builtin">bool</span> for_virtualization<span class="token punctuation">,</span> <span class="token builtin">int</span> index <span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">“void IntelObfuscation<span class="token punctuation">:</span><span class="token punctuation">:</span>Compile<span class="token punctuation">(</span>IntelFunction   <span class="token operator">*</span><span class="token punctuation">,</span>size_t<span class="token punctuation">)</span>”<span class="token punctuation">:</span>“IntelObfuscation”中没有找到重载的成员函数
+intel<span class="token punctuation">.</span>cc将其修改为：
+
+void IntelObfuscation<span class="token punctuation">:</span><span class="token punctuation">:</span>Compile<span class="token punctuation">(</span>IntelFunction<span class="token operator">*</span> func<span class="token punctuation">,</span> size_t index<span class="token punctuation">,</span> size_t end_index<span class="token punctuation">,</span> <span class="token builtin">bool</span> for_virtualization<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">无法打开 源 文件   <span class="token string">"QtCore/QMap"</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><font style="color:black;">右键VMProtect属性，修改VC++目录的包含目录和库目录</font></p>
+<img src="/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740807861054-c7838307-a313-4422-a593-547d6c60f37f.png" class="" loading="lazy">
+<p>修改附加包含目录</p>
+<img src="/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740807881207-44630720-f44a-43bd-9550-4650b8e0d2cc.png" class="" loading="lazy">
+<p><font style="color:rgb(68, 68, 68);">编码报错：双击打开错误打开文件，然后点击：文件——高级保存选项——以&quot;Unicode-代码页1200&quot;保存。或者直接用vscode打开重新复制然后粘贴到vsstudio即可</font></p>
+<p><font style="color:rgb(68, 68, 68);"></font></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">Your project does <span class="token keyword">not</span> reference<span class="token string">".NETFramework,Version=v4.8"</span> framework<span class="token punctuation">.</span> Add a reference to<span class="token string">".NETFramework,Version=v4.8"</span> <span class="token keyword">in</span> the <span class="token string">"TargetFrameworks"</span><span class="token builtin">property</span> of your project <span class="token builtin">file</span> <span class="token keyword">and</span> then re<span class="token operator">-</span>run NuGet restore<span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><font style="color:rgb(68, 68, 68);">“F:\codes\vmp\runtime\VMProtect.Runtime\VMProtect.Netcore.csproj”</font></p>
+<p>5839</p>
+<p>补充net48后出现</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">Your project <span class="token builtin">file</span> doesn<span class="token string">'t list '</span>win<span class="token operator">-</span>x64<span class="token string">' asa "RuntimeIdentifier". You should add '</span>win<span class="token operator">-</span>x64' to the<span class="token string">"RuntimeIdentifiers"</span> <span class="token builtin">property</span> <span class="token keyword">in</span> your project <span class="token builtin">file</span> <span class="token keyword">and</span> then re<span class="token operator">-</span>runNuGet restore<span class="token punctuation">.</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>6793</p>
+<p>补充<code>&lt;RuntimeIdentifier&gt;win-x64&lt;/RuntimeIdentifier&gt;</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">error CS0030<span class="token punctuation">:</span> 无法将类型“<span class="token builtin">object</span>”转换为“System<span class="token punctuation">.</span>TypedReference”<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>(TypedReference)args[0]`改为__makeref(args[0])</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">res<span class="token punctuation">.</span>bat<span class="token punctuation">:</span> QT resources <span class="token string">'VMProtect\resources.cc'</span> are up to date<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>修改<code>&quot;F:\codes\vmp\VMProtect\res.bat&quot;</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">echo res<span class="token punctuation">.</span>bat<span class="token punctuation">:</span> generating QT resources<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+SET RC_DIR<span class="token operator">=</span><span class="token operator">%</span><span class="token operator">~</span>dp0
+
+<span class="token builtin">set</span> rc_out<span class="token operator">=</span><span class="token operator">%</span>RC_DIR<span class="token operator">%</span>resources<span class="token punctuation">.</span>cc
+<span class="token builtin">set</span> rc<span class="token operator">=</span><span class="token operator">%</span>rc_out<span class="token operator">%</span>
+<span class="token builtin">set</span> check_rc<span class="token operator">=</span><span class="token number">0</span>
+<span class="token keyword">if</span> exist <span class="token operator">%</span>rc_out<span class="token operator">%</span> <span class="token punctuation">(</span>
+    <span class="token builtin">set</span> rc_out<span class="token operator">=</span><span class="token operator">%</span>RC_DIR<span class="token operator">%</span>resources<span class="token punctuation">.</span>cc<span class="token punctuation">.</span>tmp
+    <span class="token builtin">set</span> check_rc<span class="token operator">=</span><span class="token number">1</span>
+<span class="token punctuation">)</span>
+
+
+<span class="token string">"F:\QT\QT5.6\5.6\msvc2015_64\bin\rcc.exe"</span> <span class="token operator">%</span>RC_DIR<span class="token operator">%</span>application<span class="token punctuation">.</span>qrc <span class="token operator">-</span>o <span class="token operator">%</span>rc_out<span class="token operator">%</span>
+
+call <span class="token punctuation">:</span>ReplaceOld <span class="token operator">%</span>check_rc<span class="token operator">%</span> <span class="token operator">%</span>rc_out<span class="token operator">%</span> <span class="token operator">%</span>rc<span class="token operator">%</span>
+goto <span class="token punctuation">:</span>EOF
+
+<span class="token punctuation">:</span>ReplaceOld
+setlocal enableextensions enabledelayedexpansion
+<span class="token keyword">if</span> <span class="token string">"%1"</span> <span class="token operator">==</span> <span class="token string">"1"</span> <span class="token punctuation">(</span>
+  fc <span class="token operator">%</span><span class="token number">2</span> <span class="token operator">%</span><span class="token number">3</span> <span class="token operator">/</span>B<span class="token operator">>></span>nul <span class="token number">2</span><span class="token operator">></span><span class="token operator">&amp;</span><span class="token number">1</span>
+  <span class="token keyword">if</span> !ERRORLEVEL! <span class="token operator">==</span> <span class="token number">1</span> <span class="token punctuation">(</span>
+   copy <span class="token operator">/</span>y <span class="token operator">%</span><span class="token number">2</span> <span class="token operator">%</span><span class="token number">3</span><span class="token operator">>></span>nul <span class="token number">2</span><span class="token operator">></span><span class="token operator">&amp;</span><span class="token number">1</span>
+   <span class="token keyword">del</span> <span class="token operator">%</span><span class="token number">2</span><span class="token operator">>></span>nul <span class="token number">2</span><span class="token operator">></span><span class="token operator">&amp;</span><span class="token number">1</span>
+   echo  res<span class="token punctuation">.</span>bat<span class="token punctuation">:</span> QT resources <span class="token string">'%3'</span> are updated 
+  <span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token punctuation">(</span>
+   echo  res<span class="token punctuation">.</span>bat<span class="token punctuation">:</span> QT resources <span class="token string">'%3'</span> are up to date
+  <span class="token punctuation">)</span>
+<span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token punctuation">(</span>
+ echo  res<span class="token punctuation">.</span>bat<span class="token punctuation">:</span> QT resources <span class="token string">'%3'</span> are generated
+<span class="token punctuation">)</span>
+endlocal
+goto <span class="token punctuation">:</span>EOF<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>缺少MOC文件:</p>
+<p>重新生成解决方案，神秘原因会导致VMProtect目录下的MOC文件也被删除，直接复制粘贴补回去就行了</p>
+<p>最终:</p>
+<img src="/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740808314077-a24210d4-cf16-4056-b006-814f425df517.png" class="" loading="lazy">
+<h2 id="项目结构"><a class="markdownIt-Anchor" href="#项目结构"></a> 项目结构</h2>
+<img src="/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740808612301-077d6e9f-8095-4a71-8d80-7729b6147e42.png" class="" loading="lazy">
+<p>Common文件夹存在两个项目，是核心模块，包括了vmp的核心功能,重点分析</p>
+<img src="/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740808678942-2380de89-85cb-4ab3-9dad-33a75eb9b600.png" class="" loading="lazy">
+<p>misc文件夹存在3个项目</p>
+<p>Tests就是测试模块</p>
+<p>ipn_tool 是注册网络验证模块,添加水印等</p>
+<p>ShellExt <font style="color:rgb(6, 6, 7);">Windows外壳扩展，增强文件或文件夹的右键菜单功能。</font></p>
+<p>不重要</p>
+<img src="/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740808907527-184d4802-95bd-4158-870a-9432c5f9f2d3.png" class="" loading="lazy">
+<ul>
+<li><font style="color:rgb(6, 6, 7);">这个文件夹通常包含解决方案级别的配置文件，如：</font>
+<ul>
+<li><code>NetX64.testsettings</code><font style="color:rgb(6, 6, 7);"> 和 </font><code>NetX86.testsettings</code><font style="color:rgb(6, 6, 7);">：这些文件可能用于配置不同平台（64位和32位）的测试环境。</font></li>
+</ul>
+</li>
+</ul>
+<p>不重要</p>
+<img src="/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740808982823-fca84d38-bd3c-436f-bf5e-ea9242980df5.png" class="" loading="lazy">
+<p>QT版本的vmp</p>
+<p>不重要</p>
+<img src="/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740809011108-80add1f6-5efc-4f33-8b07-3d052c2dfc9e.png" class="" loading="lazy">
+<p>不重要</p>
+<img src="/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740809170048-9a71a270-c4fd-4971-baf2-0a4178894f0f.png" class="" loading="lazy">
+<p>不重要</p>
+<img src="/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740809082269-757f5e34-242e-486f-921e-0087dee5abdd.png" class="" loading="lazy">
+<img src="/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740809114163-a594b401-dbbc-4d42-b83a-4a574994308c.png" class="" loading="lazy">
+<img src="/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740809097172-727f9a9e-e213-46c3-876a-e381bbb122be.png" class="" loading="lazy">
+<p>控制台版本的vmp</p>
+<img src="/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/1740809131620-7d36e090-35ee-437c-8d9e-5cbf0e8b0b26.png" class="" loading="lazy">
+<p>比较重要</p>
+<h2 id="vmp相关分析资料"><a class="markdownIt-Anchor" href="#vmp相关分析资料"></a> vmp相关分析资料</h2>
+<p><a target="_blank" rel="noopener" href="https://github.com/lmy375/awesome-vmp">GitHub - lmy375/awesome-vmp: 虚拟化保护（VMP壳）分析相关资料</a></p>
+<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-284883.htm">[原创]vm虚拟机的初探-Android安全-看雪-安全社区|安全招聘|kanxue.com</a></p>
+<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-282300.htm">[原创]某短视频虚拟机分析和还原-Android安全-看雪-安全社区|安全招聘|kanxue.com</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Misaka10046/article/details/138485125">VMP 简单源码分析（.net）_vmp源码讲解-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-274112.htm">[原创]VMP3.6代码虚拟化从了解到放弃-软件逆向-看雪-安全社区|安全招聘|kanxue.com</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.planejun.cn/2023/01/05/VMProtect%E5%88%86%E6%9E%90-%E8%99%9A%E6%8B%9F%E5%8C%96%E6%B5%81%E7%A8%8B/">VMProtect分析-虚拟化流程</a></p>
+<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-225262.htm%5B%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E8%99%9A%E6%8B%9F%E6%9C%BA%EF%BC%881%EF%BC%89%EF%BC%9A%E6%96%B0%E6%89%8B%E7%AF%87VMProtect">[原创]如何分析虚拟机（1）：新手篇VMProtect 1.81 Demo-软件逆向-看雪-安全社区|安全招聘|kanxue.com</a></p>
+<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-225803.htm">[原创]如何分析虚拟机（2）：进阶篇 VMProtect 2.13.8-软件逆向-看雪-安全社区|安全招聘|kanxue.com</a></p>
+<p><a target="_blank" rel="noopener" href="https://whereisr0da.github.io/blog/posts/2021-01-26-vmp-2/">🔥 Quick look around VMP 3.x - Part 2 : Code Mutation</a></p>
+<p><a target="_blank" rel="noopener" href="https://nac-l.github.io/2025/01/25/lifting_0.html">Lifting Binaries, Part 0: Devirtualizing VMProtect and Themida: It’s Just Flattening?</a></p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2025/03/01/ollvm%E7%9B%B8%E5%85%B31_%E6%A0%87%E5%87%86ollvm%E6%B7%B7%E6%B7%86%E4%B8%8E%E5%AF%B9%E6%8A%97%E5%88%9D%E6%8E%A2/" rel="prev" title="ollvm相关1:标准ollvm混淆与对抗初探"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">ollvm相关1:标准ollvm混淆与对抗初探</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2025/01/15/stl%E9%80%86%E5%90%91/" rel="next" title="stl逆向"><span class="post-nav-text">stl逆向</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2025/02/15/vmp%E7%9B%B8%E5%85%B31%EF%BC%9A%E7%BC%96%E8%AF%91vmp/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2023 – 2025 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>
