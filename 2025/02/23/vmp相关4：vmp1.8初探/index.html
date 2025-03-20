@@ -1,0 +1,784 @@
+<!DOCTYPE html><html lang="[&quot;en&quot;,&quot;zh-CN&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0078E7"><meta name="author" content="Npc"><meta name="copyright" content="Npc"><meta name="generator" content="Hexo 7.1.1"><meta name="theme" content="hexo-theme-yun"><title>vmp相关4:vmp1.8初探 | Npc | Blog</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&amp;display=swap" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.css"><script src="https://cdn.jsdelivr.net/npm/my_blog_prism@1.0.5/prism.js"></script><script src="https://fastly.jsdelivr.net/npm/scrollreveal/dist/scrollreveal.min.js" defer></script><script>function initScrollReveal() {
+  [".post-card",".markdown-body img"].forEach((target)=> {
+    ScrollReveal().reveal(target);
+  })
+}
+document.addEventListener("DOMContentLoaded", initScrollReveal);
+document.addEventListener("pjax:success", initScrollReveal);
+</script><link rel="icon" type="image/svg+xml" href="/yun.svg"><link rel="mask-icon" href="/yun.svg" color="#0078E7"><link rel="preload" href="/css/hexo-theme-yun.css" as="style"><link rel="prefetch" href="/js/sidebar.js" as="script"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fastly.jsdelivr.net/npm/" crossorigin><script id="yun-config">
+    window.Yun = {}
+    window.CONFIG = {"hostname":"npc0vo.github.io","root":"/","title":"Npc小站","version":"1.10.11","mode":"light","copycode":true,"page":{"isPost":true},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms"},"anonymous_image":"https://cdn.yunyoujun.cn/img/avatar/none.jpg","say":{"api":"https://el-bot-api.vercel.app/api/words/young"},"local_search":{"path":"/search.xml"},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"fireworks":{"colors":null},"waline":{"config":{"enable":true,"serverURL":"https://waline-onelastchicks-projects.vercel.app/","comment":false,"el":"#waline","lang":["en","zh-CN","default"]},"cdn":"https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.js","dark":"html.dark"},"vendors":{"host":"https://fastly.jsdelivr.net/npm/","darken":"https://fastly.jsdelivr.net/npm/darken@1.5.0"}};
+  </script><link rel="stylesheet" href="/css/hexo-theme-yun.css"><script src="/js/hexo-theme-yun.js" type="module"></script><script src="//at.alicdn.com/t/font_1140697_dxory92pb0h.js" async></script><link rel="preconnect" href="https://www.google-analytics.com" crossorigin><script async src="https://www.googletagmanager.com/gtag/js?id=G-1LL0D86CY9"></script><script>if (CONFIG.hostname === location.hostname) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1LL0D86CY9');
+}</script><script data-ad-client="ca-pub-2245427233262012" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https') {
+    bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else {
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(bp, s);
+})();</script><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M9KWR9L');</script><!-- End Google Tag Manager --><meta name="description" content="https:&#x2F;&#x2F;www.52pojie.cn&#x2F;thread-713219-1-1.html   准备 vmp 1.8.1 demo(因为此版本的虚拟机结构未被混淆，适合我这样的新手入门vmp) 除了虚拟化什么都不开  可见ida的cfg很清晰，vmp的handler ，dispatcher 很容易识别 二进制文件在https:&#x2F;&#x2F;www.52pojie.cn&#x2F;thread-713219-1-1.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vmp相关4:vmp1.8初探">
+<meta property="og:url" content="http://npc0vo.github.io/2025/02/23/vmp%E7%9B%B8%E5%85%B34%EF%BC%9Avmp1.8%E5%88%9D%E6%8E%A2/index.html">
+<meta property="og:site_name" content="Npc | Blog">
+<meta property="og:description" content="https:&#x2F;&#x2F;www.52pojie.cn&#x2F;thread-713219-1-1.html   准备 vmp 1.8.1 demo(因为此版本的虚拟机结构未被混淆，适合我这样的新手入门vmp) 除了虚拟化什么都不开  可见ida的cfg很清晰，vmp的handler ，dispatcher 很容易识别 二进制文件在https:&#x2F;&#x2F;www.52pojie.cn&#x2F;thread-713219-1-1.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/23/vmp%E7%9B%B8%E5%85%B34%EF%BC%9Avmp1.8%E5%88%9D%E6%8E%A2/1740902919586-bb902c30-d12f-4820-aae3-e51d27aa2b85.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/23/vmp%E7%9B%B8%E5%85%B34%EF%BC%9Avmp1.8%E5%88%9D%E6%8E%A2/1740919627941-f2825b42-cf59-4b56-a631-f8b71463bad0.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/23/vmp%E7%9B%B8%E5%85%B34%EF%BC%9Avmp1.8%E5%88%9D%E6%8E%A2/1740928873439-7005204c-4e0f-4cac-a2b8-7c75115c3979.png">
+<meta property="og:image" content="http://npc0vo.github.io/2025/02/23/vmp%E7%9B%B8%E5%85%B34%EF%BC%9Avmp1.8%E5%88%9D%E6%8E%A2/1741011290524-c0537af2-85d0-4ab5-8380-4781ceb7ed11.png">
+<meta property="article:published_time" content="2025-02-23T04:56:54.000Z">
+<meta property="article:modified_time" content="2025-03-20T04:59:32.048Z">
+<meta property="article:author" content="Npc">
+<meta property="article:tag" content="Reverse">
+<meta property="article:tag" content="vmp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://npc0vo.github.io/2025/02/23/vmp%E7%9B%B8%E5%85%B34%EF%BC%9Avmp1.8%E5%88%9D%E6%8E%A2/1740902919586-bb902c30-d12f-4820-aae3-e51d27aa2b85.png"><script>(function() {
+  if (CONFIG.mode !== 'auto') return
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const setting = localStorage.getItem('darken-mode') || 'auto'
+  if (setting === 'dark' || (prefersDark && setting !== 'light'))
+    document.documentElement.classList.toggle('dark', true)
+})()</script></head><body><script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script><script>// Define global variable
+IconifyProviders = {
+  // Empty prefix: overwrite default API provider configuration
+  '': {
+    // Use custom API first, use Iconify public API as backup
+    resources: [
+        'https://api.iconify.design',
+    ],
+    // Wait for 1 second before switching API hosts
+    rotate: 1000,
+  },
+};</script><script defer src="https://fastly.jsdelivr.net/npm/animejs@latest"></script><script defer src="/js/ui/fireworks.js" type="module"></script><canvas class="fireworks"></canvas><div class="container"><a class="sidebar-toggle hty-icon-button" id="menu-btn"><div class="hamburger hamburger--spin" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></div></a><div class="sidebar-toggle sidebar-overlay"></div><aside class="sidebar"><script src="/js/sidebar.js" type="module"></script><ul class="sidebar-nav"><li class="sidebar-nav-item sidebar-nav-toc hty-icon-button sidebar-nav-active" data-target="post-toc-wrap" title="Table of Contents"><span class="icon iconify" data-icon="ri:list-ordered"></span></li><li class="sidebar-nav-item sidebar-nav-overview hty-icon-button" data-target="site-overview-wrap" title="Overview"><span class="icon iconify" data-icon="ri:passport-line"></span></li></ul><div class="sidebar-panel" id="site-overview-wrap"><div class="site-info fix-top"><a class="site-author-avatar" href="/about/" title="Npc"><img width="96" loading="lazy" src="/images/avatar.jpg" alt="Npc"><span class="site-author-status">😭</span></a><div class="site-author-name"><a href="/about/">Npc</a></div><span class="site-name">Npc | Blog</span><sub class="site-subtitle">又活了一天</sub><div class="site-description"></div></div><nav class="site-state"><a class="site-state-item hty-icon-button icon-home" href="/" title="Home"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:home-4-line"></span></span></a><div class="site-state-item"><a href="/archives/" title="Archives"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:archive-line"></span></span><span class="site-state-item-count">81</span></a></div><div class="site-state-item"><a href="/categories/" title="Categories"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:folder-2-line"></span></span><span class="site-state-item-count">13</span></a></div><div class="site-state-item"><a href="/tags/" title="Tags"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="site-state-item-count">17</span></a></div><a class="site-state-item hty-icon-button" href="/about/#comment" title="留言板"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:clipboard-line"></span></span></a></nav><hr style="margin-bottom:0.5rem"><div class="links-of-author"><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://github.com/npc0vo" title="GitHub" target="_blank" style="color:#6e5494"><span class="icon iconify" data-icon="ri:github-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="mailto:me@1930278836@qq.com" title="E-Mail" target="_blank" style="color:#8E71C1"><span class="icon iconify" data-icon="ri:mail-line"></span></a><a class="links-of-author-item hty-icon-button" rel="noopener" href="https://www.yuque.com/npc0vo" title="Yuque" target="_blank" style="color:#a0c69d"><span class="icon iconify" data-icon="ri:yuque-line"></span></a></div><hr style="margin:0.5rem 1rem"><div class="links"><a class="links-item hty-icon-button" href="/links/" title="我的小伙伴们" style="color:dodgerblue"><span class="icon iconify" data-icon="ri:genderless-line"></span></a></div></div><div class="sidebar-panel sidebar-panel-active" id="post-toc-wrap"><div class="post-toc"><div class="post-toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87"><span class="toc-number">1.</span> <span class="toc-text"> 准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#handler%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text"> handler分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vmp%E7%9A%84%E8%BF%98%E5%8E%9F"><span class="toc-number">3.</span> <span class="toc-text"> vmp的还原</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%951-%E5%9F%BA%E4%BA%8Eida-python"><span class="toc-number">3.1.</span> <span class="toc-text"> 方法1: 基于ida python</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%952-%E5%9F%BA%E4%BA%8Eod-trace"><span class="toc-number">3.2.</span> <span class="toc-text"> 方法2 基于od trace</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text"> 总结</span></a></li></ol></div></div></div></aside><main class="sidebar-translate" id="content"><div id="post"><article class="hty-card post-block" itemscope itemtype="https://schema.org/Article" style="--smc-primary:#0078E7;"><link itemprop="mainEntityOfPage" href="http://npc0vo.github.io/2025/02/23/vmp%E7%9B%B8%E5%85%B34%EF%BC%9Avmp1.8%E5%88%9D%E6%8E%A2/"><span hidden itemprop="author" itemscope itemtype="https://schema.org/Person"><meta itemprop="name" content="Npc"><meta itemprop="description"></span><span hidden itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="Npc | Blog"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">vmp相关4:vmp1.8初探</h1><div class="post-meta"><div class="post-time" style="display:block"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-line"></span></span> <time title="Created: 2025-02-23 12:56:54" itemprop="dateCreated datePublished" datetime="2025-02-23T12:56:54+08:00">2025-02-23</time><span class="post-meta-divider">-</span><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:calendar-2-line"></span></span> <time title="Modified: 2025-03-20 12:59:32" itemprop="dateModified" datetime="2025-03-20T12:59:32+08:00">2025-03-20</time></div><span class="post-count"><span class="post-symbolcount"><span class="post-meta-item-icon" title="Word count in article"><span class="icon iconify" data-icon="ri:file-word-line"></span></span> <span title="Word count in article">3.9k</span><span class="post-meta-divider">-</span><span class="post-meta-item-icon" title="Reading time"><span class="icon iconify" data-icon="ri:timer-line"></span></span> <span title="Reading time">20m</span></span></span><div class="post-classify"><span class="post-category"> <span class="post-meta-item-icon" style="margin-right:3px;"><span class="icon iconify" data-icon="ri:folder-line"></span></span><span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a class="category-item" href="/categories/vmp/" style="--text-color:var(--hty-text-color)" itemprop="url" rel="index"><span itemprop="text">vmp</span></a></span></span><span class="post-tag"><span class="post-meta-divider">-</span><a class="tag-item" href="/tags/Reverse/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">Reverse</span></a><a class="tag-item" href="/tags/vmp/" style="--text-color:var(--hty-text-color)"><span class="post-meta-item-icon"><span class="icon iconify" data-icon="ri:price-tag-3-line"></span></span><span class="tag-name">vmp</span></a></span></div></div></header><section class="post-body" itemprop="articleBody"><div class="post-content markdown-body"><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-713219-1-1.html">https://www.52pojie.cn/thread-713219-1-1.html</a></p>
+</blockquote>
+<h2 id="准备"><a class="markdownIt-Anchor" href="#准备"></a> 准备</h2>
+<p>vmp 1.8.1 demo(因为此版本的虚拟机结构未被混淆，适合我这样的新手入门vmp)</p>
+<p>除了虚拟化什么都不开</p>
+<img src="/2025/02/23/vmp%E7%9B%B8%E5%85%B34%EF%BC%9Avmp1.8%E5%88%9D%E6%8E%A2/1740902919586-bb902c30-d12f-4820-aae3-e51d27aa2b85.png" class="" loading="lazy">
+<p>可见ida的cfg很清晰，vmp的handler ，dispatcher 很容易识别</p>
+<p>二进制文件在<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-713219-1-1.html">https://www.52pojie.cn/thread-713219-1-1.html</a>里下载</p>
+<p>源码</p>
+<pre class="line-numbers language-plain" data-language="plain"><code class="language-plain">
+    include \masm32\include\masm32rt.inc
+
+    .data
+      item dd 0deadbeefh
+
+    .code
+
+main proc
+    mov eax, item
+    add eax, 12345678h
+    sub eax, 12345678h
+    mov item, eax    
+    ret
+
+main endp
+
+
+
+start:   
+
+    call main
+    exit
+
+
+
+; 
+
+end start
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="handler分析"><a class="markdownIt-Anchor" href="#handler分析"></a> handler分析</h2>
+<p>在未被混淆的虚拟化下: vmp直接进入虚拟机的入口，首先压入vm_data</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">00401000</span> sub_401000      proc near               <span class="token punctuation">;</span> CODE XREF<span class="token punctuation">:</span> start↓p
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">00401000</span>                 push    offset VM_DATA
+<span class="token punctuation">.</span>text<span class="token punctuation">:</span><span class="token number">00401005</span>                 call    sub_40472C      <span class="token punctuation">;</span> 虚拟机入口<span class="token punctuation">,</span>保存各种寄存器<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>虚拟机的入口</p>
+<img src="/2025/02/23/vmp%E7%9B%B8%E5%85%B34%EF%BC%9Avmp1.8%E5%88%9D%E6%8E%A2/1740919627941-f2825b42-cf59-4b56-a631-f8b71463bad0.png" class="" loading="lazy">
+<p>进行各种初始化工作 分配栈空间  初始化esi edi ebp esp</p>
+<p>接下来</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404751</span> loc_404751<span class="token punctuation">:</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404751</span> mov     al<span class="token punctuation">,</span> <span class="token punctuation">[</span>esi<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404753</span> movzx   eax<span class="token punctuation">,</span> al
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404756</span> inc     esi  <span class="token punctuation">;</span>此时esi指向VM_DATA
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404757</span> jmp     ds<span class="token punctuation">:</span>jpt_404757<span class="token punctuation">[</span>eax<span class="token operator">*</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token punctuation">;</span> switch <span class="token number">256</span> cases<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>此时我们可以分析出<code>esi</code>即为<code>VM_EIP</code></p>
+<p><code>edi</code> 与 <code>ebp</code> 仍然未知用途,继续分析</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404058</span> <span class="token keyword">and</span>     al<span class="token punctuation">,</span> 3Ch
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040405B mov     edx<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040405E add     ebp<span class="token punctuation">,</span> <span class="token number">4</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404061</span> mov     <span class="token punctuation">[</span>edi<span class="token operator">+</span>eax<span class="token punctuation">]</span><span class="token punctuation">,</span> edx
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404064</span> jmp     loc_404751<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>先取al后2位 此时<code>ebp</code>指向的栈的某个值赋给了<code>[edi+eax]</code>  结合vmp流程分析，第一个handler往往是进行初始化，vmp同时维护了一个<code>VM_CONTEXT</code> 通过这里的操作结合后面的操作我们可以猜测出 这就是<code>寄存器出栈</code>的handler ，  <code>ebp</code>指向<code>VM_ESP</code>  <code>edi</code> 执行 <code>VM_CONTEXT</code> 即vm维护的寄存器</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040462B
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040462B loc_40462B<span class="token punctuation">:</span>             <span class="token punctuation">;</span> jumptable <span class="token number">00404757</span> cases <span class="token number">105</span><span class="token punctuation">,</span><span class="token number">232</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040462B mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>esi<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040462D sub     ebp<span class="token punctuation">,</span> <span class="token number">4</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404630</span> lea     esi<span class="token punctuation">,</span> <span class="token punctuation">[</span>esi<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404633</span> mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> eax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404636</span> jmp     loc_40400F<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>发现从<code>VM_DATA</code>取出了4字节常量,再抬高栈顶，往栈顶写入了这个常量，因此我们可以分析出这个Handler就是压入立即数</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404000</span> loc_404000<span class="token punctuation">:</span>             <span class="token punctuation">;</span> jumptable <span class="token number">00404757</span> cases <span class="token number">92</span><span class="token punctuation">,</span><span class="token number">122</span><span class="token punctuation">,</span><span class="token number">171</span><span class="token punctuation">,</span><span class="token number">247</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404000</span> mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404003</span> add     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> eax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404006</span> pushf
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404007</span> pop     dword ptr <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><font style="color:rgb(68, 68, 68);">ebp + 0 是栈顶， ebp + 4 是次栈顶。 二者相加，保存在 [ebp + 4]。 eflag 值保存在 [ebp + 0]。</font><br />
+<font style="color:rgb(68, 68, 68);">即先从栈中弹出两个数，相加后将结果压入栈中，再将eflag值压入栈中。</font></p>
+<p><font style="color:rgb(68, 68, 68);">即</font><font style="color:rgb(68, 68, 68);">vAdd4</font></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404058</span> <span class="token keyword">and</span>     al<span class="token punctuation">,</span> 3Ch
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040405B mov     edx<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040405E add     ebp<span class="token punctuation">,</span> <span class="token number">4</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404061</span> mov     <span class="token punctuation">[</span>edi<span class="token operator">+</span>eax<span class="token punctuation">]</span><span class="token punctuation">,</span> edx
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404064</span> jmp     loc_404751<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>pop一个值，然后赋给<code>vmContext</code> 因此为  <code>vPopReg4</code></p>
+<p>继续运行</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404584</span> loc_404584<span class="token punctuation">:</span>             <span class="token punctuation">;</span> jumptable <span class="token number">00404757</span> cases <span class="token number">121</span><span class="token punctuation">,</span><span class="token number">143</span><span class="token punctuation">,</span><span class="token number">159</span><span class="token punctuation">,</span><span class="token number">174</span><span class="token punctuation">,</span><span class="token number">230</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404584</span> mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404587</span> mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>eax<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404589</span> mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> eax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040458C jmp     loc_404751<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>将栈顶的值当做地址，读取ds:edx值并存到栈顶，我们用<code>vReadMemDs4</code>来表示</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045AF <span class="token keyword">and</span>     al<span class="token punctuation">,</span> 3Ch
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045B2 mov     edx<span class="token punctuation">,</span> <span class="token punctuation">[</span>edi<span class="token operator">+</span>eax<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045B5 sub     ebp<span class="token punctuation">,</span> <span class="token number">4</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045B8 mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> edx
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045BB jmp     loc_40400F<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>从寄存器指向的地址获取值，并入栈 因此为<code>vPushReg4</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046B2 mov     eax<span class="token punctuation">,</span> ebp
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046B4 sub     ebp<span class="token punctuation">,</span> <span class="token number">4</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046B7 mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> eax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046BA jmp     loc_40400F<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>将ebp的值压入压顶  因此为 <code>vPushEBP</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404069</span> mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040406C mov     eax<span class="token punctuation">,</span> ss<span class="token punctuation">:</span><span class="token punctuation">[</span>eax<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040406F mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> eax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404072</span> jmp     loc_404751<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>将栈顶的值存入<code>eax</code> 并读取 ss:[eax]的值  存入栈顶 因此称之为 <code>vReadMemSs4</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040451A loc_40451A<span class="token punctuation">:</span>             <span class="token punctuation">;</span> jumptable <span class="token number">00404757</span> cases <span class="token number">17</span><span class="token punctuation">,</span><span class="token number">107</span><span class="token punctuation">,</span><span class="token number">120</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040451A mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040451D mov     edx<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404520</span> <span class="token keyword">not</span>     eax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404522</span> <span class="token keyword">not</span>     edx
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404524</span> <span class="token keyword">and</span>     eax<span class="token punctuation">,</span> edx
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404526</span> mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> eax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404529</span> pushf
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040452A pop     dword ptr <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>结合之前的vmp原理学习，我们可以知道这就是vmp的逻辑运算的实现，这里实际上就是pop 了2个值 然后进行nor(~a &amp; ~b)操作 最后的结果入栈,并且压入eflags  因此称之为<code>vNor4</code></p>
+<hr />
+<p>分析一下没有走到的handler</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040476F mov     al<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404772</span> sub     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404775</span> add     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> al
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404778</span> pushf
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404779</span> pop     dword ptr <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040477C jmp     loc_40400F
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040477C sub_40472C endp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>实际上是<code>vAdd1</code> ,逻辑没有变化，只是操作数改变了而已</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404041</span> <span class="token keyword">not</span>     dword ptr <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404044</span> mov     ax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404048</span> sub     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040404B <span class="token keyword">and</span>     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> ax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040404F pushf
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404050</span> pop     dword ptr <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>实际上是<code>vNor2</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404077</span> mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040407A mov     cl<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040407D sub     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404080</span> shr     eax<span class="token punctuation">,</span> cl
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404082</span> mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> eax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404085</span> pushf
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404086</span> pop     dword ptr <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>栈顶弹出到eax，再弹出2字节到cl，然后eax shr cl，因此分析为<code>vShr2</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044BE mov     ax<span class="token punctuation">,</span> <span class="token punctuation">[</span>esi<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044C1 cwde
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044C2 add     esi<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044C5 sub     ebp<span class="token punctuation">,</span> <span class="token number">4</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044C8 mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> eax<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>一眼丁真为 <code>vPush4Imm2</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044D0 mov     al<span class="token punctuation">,</span> <span class="token punctuation">[</span>esi<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044D2 mov     al<span class="token punctuation">,</span> <span class="token punctuation">[</span>edi<span class="token operator">+</span>eax<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044D5 sub     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044D8 sub     esi<span class="token punctuation">,</span> 0FFFFFFFFh
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044DB mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> ax<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>vPushReg1</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">004044E4</span> movzx   eax<span class="token punctuation">,</span> byte ptr <span class="token punctuation">[</span>esi<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">004044E7</span> sub     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044EA mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> ax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044EE add     esi<span class="token punctuation">,</span> <span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>vPush2Imm1</code> ,但是在栈的内存还是占2字节</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404532</span> mov     bp<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><code>vSetBP</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040453B mov     al<span class="token punctuation">,</span> <span class="token punctuation">[</span>esi<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040453D cbw
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040453F cwde
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404540</span> sub     ebp<span class="token punctuation">,</span> <span class="token number">4</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404543</span> lea     esi<span class="token punctuation">,</span> <span class="token punctuation">[</span>esi<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404546</span> mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> eax<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>vPush4Imm1</code>,但是栈的内存占4字节</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040454E v2Shr2<span class="token punctuation">:</span>                 <span class="token punctuation">;</span> jumptable <span class="token number">00404757</span> cases <span class="token number">11</span><span class="token punctuation">,</span><span class="token number">39</span><span class="token punctuation">,</span><span class="token number">61</span><span class="token punctuation">,</span><span class="token number">95</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040454E mov     ax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404552</span> mov     cl<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404555</span> sub     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404558</span> shr     ax<span class="token punctuation">,</span> cl
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040455B mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> ax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040455F pushf
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404560</span> pop     dword ptr <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>还是<code>vShr2</code> 用<code>v2Shr2</code>来命名</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040457C vSetEBP<span class="token punctuation">:</span>                <span class="token punctuation">;</span> jumptable <span class="token number">00404757</span> cases <span class="token number">15</span><span class="token punctuation">,</span><span class="token number">53</span><span class="token punctuation">,</span><span class="token number">85</span><span class="token punctuation">,</span><span class="token number">93</span><span class="token punctuation">,</span><span class="token number">166</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040457C mov     ebp<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><code>vSetEBP</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404591</span> mov     ax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404595</span> mov     dx<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404599</span> <span class="token keyword">not</span>     al
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040459B <span class="token keyword">not</span>     dl
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040459D sub     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045A0 <span class="token keyword">and</span>     al<span class="token punctuation">,</span> dl
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045A2 mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> ax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045A6 pushf
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045A7 pop     dword ptr <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>vNor1</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040408E mov     esp<span class="token punctuation">,</span> ebp
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404090</span> pop     edx
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404091</span> pop     ebx
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404092</span> pop     ecx
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404093</span> popf
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404094</span> pop     ebp
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404095</span> pop     edx
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404096</span> pop     eax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404097</span> pop     ebx
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404098</span> pop     esi
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404099</span> pop     edi
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040409A pop     esi
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040409B retn<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>恢复寄存器环境</p>
+<p><code>vRet</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404719</span> mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040471C add     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040471F mov     ax<span class="token punctuation">,</span> ss<span class="token punctuation">:</span><span class="token punctuation">[</span>eax<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404723</span> mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> ax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404727</span> jmp     loc_404751<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>vReadMemSs2</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404706</span> mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404709</span> mov     dx<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040470D add     ebp<span class="token punctuation">,</span> <span class="token number">6</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404710</span> mov     ss<span class="token punctuation">:</span><span class="token punctuation">[</span>eax<span class="token punctuation">]</span><span class="token punctuation">,</span> dx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>vWriteMemSs2</code> 将栈顶的值作为地址 写入2字节(次栈顶的值)</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046DA mov     al<span class="token punctuation">,</span> <span class="token punctuation">[</span>esi<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046DC add     esi<span class="token punctuation">,</span> <span class="token number">1</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046DF mov     dx<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">004046E3</span> add     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">004046E6</span> mov     <span class="token punctuation">[</span>edi<span class="token operator">+</span>eax<span class="token punctuation">]</span><span class="token punctuation">,</span> dx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>vPopReg2</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046BF mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046C2 mov     edx<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046C5 mov     cl<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">8</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046C8 add     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046CB shld    eax<span class="token punctuation">,</span> edx<span class="token punctuation">,</span> cl
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046CE mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> eax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046D1 pushf
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046D2 pop     dword ptr <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>出栈两个值到<code>eax</code> <code>edx</code>  shl <code>cl</code> 又入栈</p>
+<p><code>v8shl1</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404670</span> mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404673</span> mov     edx<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404676</span> add     ebp<span class="token punctuation">,</span> <span class="token number">8</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404679</span> mov     <span class="token punctuation">[</span>eax<span class="token punctuation">]</span><span class="token punctuation">,</span> edx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>vWriteMemDs4</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040465F mov     edx<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404662</span> add     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404665</span> mov     al<span class="token punctuation">,</span> <span class="token punctuation">[</span>edx<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404667</span> mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> ax<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>vReadMemDs1</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404610</span> mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404613</span> mov     edx<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404616</span> mov     cl<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">8</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404619</span> add     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040461C shrd    eax<span class="token punctuation">,</span> edx<span class="token punctuation">,</span> cl
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040461F mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> eax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404622</span> pushf
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404623</span> pop     dword ptr <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>v8shr1</code> 出栈4 字节 出栈 4 字节  出栈 2字节   前2个组成8字节shr val:1字节</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045D8 mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045DB mov     edx<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045DE add     ebp<span class="token punctuation">,</span> <span class="token number">8</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">004045E1</span> mov     ss<span class="token punctuation">:</span><span class="token punctuation">[</span>eax<span class="token punctuation">]</span><span class="token punctuation">,</span> edx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>vWriteMemSs4</code> 弹出4字节-&gt;eax  弹出4字节-&gt;edx  将eax作为地址，在该地址存入edx的内容</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404568</span> mov     al<span class="token punctuation">,</span> <span class="token punctuation">[</span>esi<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040456A mov     dx<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040456E sub     esi<span class="token punctuation">,</span> 0FFFFFFFFh
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404571</span> add     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404574</span> mov     <span class="token punctuation">[</span>edi<span class="token operator">+</span>eax<span class="token punctuation">]</span><span class="token punctuation">,</span> dl<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>vPopReg1</code>  弹出2字节  但是 只将低字节存入 指定寄存器</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404508</span> mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040450B add     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040450E mov     ax<span class="token punctuation">,</span> <span class="token punctuation">[</span>eax<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404511</span> mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> ax<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>弹出2字节-&gt;ax <code>vReadMemDs2</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044F6 mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044F9 mov     dx<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044FD add     ebp<span class="token punctuation">,</span> <span class="token number">6</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404500</span> mov     <span class="token punctuation">[</span>eax<span class="token punctuation">]</span><span class="token punctuation">,</span> dx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>弹出4字节-&gt;eax pop 2字节-&gt;dx   将eax指向的地址 写入dx</p>
+<p><code>vWriteMemDs2</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044AE mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044B1 mov     dl<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044B4 add     ebp<span class="token punctuation">,</span> <span class="token number">6</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044B7 mov     <span class="token punctuation">[</span>eax<span class="token punctuation">]</span><span class="token punctuation">,</span> dl<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>弹出4字节-&gt;eax  弹出2字节-&gt;dl  实际使用1字节</p>
+<p><code>vWriteMemDs1</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040449C mov     edx<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040449F add     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044A2 mov     al<span class="token punctuation">,</span> ss<span class="token punctuation">:</span><span class="token punctuation">[</span>edx<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004044A5 mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> ax<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>弹出4字节-&gt;edx  弹出2字节-&gt;     实际写入1字节</p>
+<p><code>vReadMemSs1</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040475E mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404761</span> mov     dl<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404764</span> add     ebp<span class="token punctuation">,</span> <span class="token number">6</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404767</span> mov     ss<span class="token punctuation">:</span><span class="token punctuation">[</span>eax<span class="token punctuation">]</span><span class="token punctuation">,</span> dl<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>vWriteMemSs1</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046EF mov     eax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046F2 mov     cl<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046F5 sub     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046F8 shl     eax<span class="token punctuation">,</span> cl
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046FA mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> eax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046FD pushf
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004046FE pop     dword ptr <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>v4shl2</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040464D vPush2Imm2<span class="token punctuation">:</span>             <span class="token punctuation">;</span> jumptable <span class="token number">00404757</span> cases <span class="token number">3</span><span class="token punctuation">,</span><span class="token number">83</span><span class="token punctuation">,</span><span class="token number">145</span><span class="token punctuation">,</span><span class="token number">198</span><span class="token punctuation">,</span><span class="token number">229</span><span class="token punctuation">,</span><span class="token number">252</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040464D mov     ax<span class="token punctuation">,</span> <span class="token punctuation">[</span>esi<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404650</span> lea     esi<span class="token punctuation">,</span> <span class="token punctuation">[</span>esi<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404653</span> sub     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404656</span> mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> ax<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>vPush2Imm2</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040463B loc_40463B<span class="token punctuation">:</span>             <span class="token punctuation">;</span> jumptable <span class="token number">00404757</span> cases <span class="token number">108</span><span class="token punctuation">,</span><span class="token number">135</span><span class="token punctuation">,</span><span class="token number">141</span><span class="token punctuation">,</span><span class="token number">144</span><span class="token punctuation">,</span><span class="token number">203</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040463B mov     eax<span class="token punctuation">,</span> ebp
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>0040463D sub     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404640</span> mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> ax<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>vPushBP</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045FC loc_4045FC<span class="token punctuation">:</span>             <span class="token punctuation">;</span> jumptable <span class="token number">00404757</span> cases <span class="token number">164</span><span class="token punctuation">,</span><span class="token number">167</span><span class="token punctuation">,</span><span class="token number">175</span><span class="token punctuation">,</span><span class="token number">180</span><span class="token punctuation">,</span><span class="token number">204</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045FC mov     ax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404600</span> sub     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404603</span> add     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> ax
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404607</span> pushf
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">00404608</span> pop     dword ptr <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>vAdd2</code></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">004045E9</span> loc_4045E9<span class="token punctuation">:</span>             <span class="token punctuation">;</span> jumptable <span class="token number">00404757</span> cases <span class="token number">156</span><span class="token punctuation">,</span><span class="token number">220</span><span class="token punctuation">,</span><span class="token number">250</span><span class="token punctuation">,</span><span class="token number">253</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span><span class="token number">004045E9</span> mov     al<span class="token punctuation">,</span> <span class="token punctuation">[</span>esi<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045EB inc     esi
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045EC mov     ax<span class="token punctuation">,</span> <span class="token punctuation">[</span>edi<span class="token operator">+</span>eax<span class="token punctuation">]</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045F0 sub     ebp<span class="token punctuation">,</span> <span class="token number">2</span>
+<span class="token punctuation">.</span>vmp0<span class="token punctuation">:</span>004045F3 mov     <span class="token punctuation">[</span>ebp<span class="token operator">+</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> ax<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>vPush2Imm1</code></p>
+<hr />
+<p>至此 40多个handler都分析完毕  发现关键handler其实就几种 但是会有很多重复的 只有操作类型大小不一样</p>
+<img src="/2025/02/23/vmp%E7%9B%B8%E5%85%B34%EF%BC%9Avmp1.8%E5%88%9D%E6%8E%A2/1740928873439-7005204c-4e0f-4cac-a2b8-7c75115c3979.png" class="" loading="lazy">
+<h2 id="vmp的还原"><a class="markdownIt-Anchor" href="#vmp的还原"></a> vmp的还原</h2>
+<h3 id="方法1-基于ida-python"><a class="markdownIt-Anchor" href="#方法1-基于ida-python"></a> 方法1: 基于ida python</h3>
+<p>由于这个vmp的结构没被混淆，比较简单，甚至可以写ida python脚本 解析VM_DATA来获得执行顺序，然后自己模拟这个虚拟机，把汇编打印出来，就是传统CTF虚拟机的解法，缺点就是比较耗费精力</p>
+<p>基于ida python 我们可以考虑写一个python脚本自动trace这些handler</p>
+<pre class="line-numbers language-plain" data-language="plain"><code class="language-plain">vPopReg4
+vPushImm4
+vAdd4
+vPopReg4
+vPopReg4
+vPopReg4
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>通过分析handler的地址，我们能知道程序的执行流程，但是我们还需要分析出来具体的操作数,写一个简单的ida自动hook脚本</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token triple-quoted-string string">"""
+summary: programmatically drive a debugging session
+
+description:
+  Start a debugging session, step through instructions one by one.
+  Each instruction is disassembled and printed after execution.
+"""</span>
+
+<span class="token keyword">import</span> ida_dbg
+<span class="token keyword">import</span> ida_ida
+<span class="token keyword">import</span> ida_lines
+
+<span class="token keyword">class</span> <span class="token class-name">MyDbgHook</span><span class="token punctuation">(</span>ida_dbg<span class="token punctuation">.</span>DBG_Hooks<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">""" Own debug hook class that implements the callback functions """</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        ida_dbg<span class="token punctuation">.</span>DBG_Hooks<span class="token punctuation">.</span>__init__<span class="token punctuation">(</span>self<span class="token punctuation">)</span>  <span class="token comment"># important</span>
+        self<span class="token punctuation">.</span>steps <span class="token operator">=</span> <span class="token number">0</span>
+        self<span class="token punctuation">.</span>handler_map <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+            <span class="token number">0x0404000</span><span class="token punctuation">:</span> <span class="token string">'vAdd4'</span><span class="token punctuation">,</span>
+            <span class="token number">0x0404041</span><span class="token punctuation">:</span> <span class="token string">'vNor2'</span><span class="token punctuation">,</span>
+            <span class="token number">0x0404058</span><span class="token punctuation">:</span> <span class="token string">'vPopReg4'</span><span class="token punctuation">,</span>
+            <span class="token number">0x0404069</span><span class="token punctuation">:</span> <span class="token string">'vReadMemSs4'</span><span class="token punctuation">,</span>
+            <span class="token number">0x0404077</span><span class="token punctuation">:</span> <span class="token string">'vShr4'</span><span class="token punctuation">,</span>
+            <span class="token number">0x040408E</span><span class="token punctuation">:</span> <span class="token string">'vRet'</span><span class="token punctuation">,</span>
+            <span class="token number">0x040449C</span><span class="token punctuation">:</span> <span class="token string">'vReadMemSs1'</span><span class="token punctuation">,</span>
+            <span class="token number">0x04044AE</span><span class="token punctuation">:</span> <span class="token string">'vWriteMemDs1'</span><span class="token punctuation">,</span>
+            <span class="token number">0x04044BE</span><span class="token punctuation">:</span> <span class="token string">'vPushImmSx2'</span><span class="token punctuation">,</span>
+            <span class="token number">0x04044D0</span><span class="token punctuation">:</span> <span class="token string">'vPushReg1'</span><span class="token punctuation">,</span>
+            <span class="token number">0x04044E4</span><span class="token punctuation">:</span> <span class="token string">'vPushImm1'</span><span class="token punctuation">,</span>
+            <span class="token number">0x04044F6</span><span class="token punctuation">:</span> <span class="token string">'vWriteMemDs2'</span><span class="token punctuation">,</span>
+            <span class="token number">0x0404508</span><span class="token punctuation">:</span> <span class="token string">'vReadMemDs2'</span><span class="token punctuation">,</span>
+            <span class="token number">0x040451A</span><span class="token punctuation">:</span> <span class="token string">'vNor4'</span><span class="token punctuation">,</span>
+            <span class="token number">0x0404532</span><span class="token punctuation">:</span> <span class="token string">'vPopBP'</span><span class="token punctuation">,</span>
+            <span class="token number">0x040453B</span><span class="token punctuation">:</span> <span class="token string">'vPushImmSx1'</span><span class="token punctuation">,</span>
+            <span class="token number">0x040454E</span><span class="token punctuation">:</span> <span class="token string">'vShr2'</span><span class="token punctuation">,</span>
+            <span class="token number">0x0404568</span><span class="token punctuation">:</span> <span class="token string">'vPopReg1'</span><span class="token punctuation">,</span>
+            <span class="token number">0x040457C</span><span class="token punctuation">:</span> <span class="token string">'vPopEBP'</span><span class="token punctuation">,</span>
+            <span class="token number">0x0404584</span><span class="token punctuation">:</span> <span class="token string">'vReadMemDs4'</span><span class="token punctuation">,</span>
+            <span class="token number">0x0404591</span><span class="token punctuation">:</span> <span class="token string">'vNor1'</span><span class="token punctuation">,</span>
+            <span class="token number">0x04045AF</span><span class="token punctuation">:</span> <span class="token string">'vPushReg4'</span><span class="token punctuation">,</span>
+            <span class="token number">0x04045C0</span><span class="token punctuation">:</span> <span class="token string">'vShl1'</span><span class="token punctuation">,</span>
+            <span class="token number">0x04045D8</span><span class="token punctuation">:</span> <span class="token string">'vWriteMemSs4'</span><span class="token punctuation">,</span>
+            <span class="token number">0x04045E9</span><span class="token punctuation">:</span> <span class="token string">'vPushReg2'</span><span class="token punctuation">,</span>
+            <span class="token number">0x04045FC</span><span class="token punctuation">:</span> <span class="token string">'vAdd2'</span><span class="token punctuation">,</span>
+            <span class="token number">0x0404610</span><span class="token punctuation">:</span> <span class="token string">'vShrd4'</span><span class="token punctuation">,</span>
+            <span class="token number">0x040462B</span><span class="token punctuation">:</span> <span class="token string">'vPushImm4'</span><span class="token punctuation">,</span>
+            <span class="token number">0x040463B</span><span class="token punctuation">:</span> <span class="token string">'vPushBP'</span><span class="token punctuation">,</span>
+            <span class="token number">0x040464D</span><span class="token punctuation">:</span> <span class="token string">'vPushImm2'</span><span class="token punctuation">,</span>
+            <span class="token number">0x040465F</span><span class="token punctuation">:</span> <span class="token string">'vReadMemDs1'</span><span class="token punctuation">,</span>
+            <span class="token number">0x0404670</span><span class="token punctuation">:</span> <span class="token string">'vWriteMemDs4'</span><span class="token punctuation">,</span>
+            <span class="token number">0x0404680</span><span class="token punctuation">:</span> <span class="token string">'vShr1'</span><span class="token punctuation">,</span>
+            <span class="token number">0x0404698</span><span class="token punctuation">:</span> <span class="token string">'vShl2'</span><span class="token punctuation">,</span>
+            <span class="token number">0x04046B2</span><span class="token punctuation">:</span> <span class="token string">'vPushEBP'</span><span class="token punctuation">,</span>
+            <span class="token number">0x04046BF</span><span class="token punctuation">:</span> <span class="token string">'vShld4'</span><span class="token punctuation">,</span>
+            <span class="token number">0x04046DA</span><span class="token punctuation">:</span> <span class="token string">'vPopReg2'</span><span class="token punctuation">,</span>
+            <span class="token number">0x04046EF</span><span class="token punctuation">:</span> <span class="token string">'vShl4'</span><span class="token punctuation">,</span>
+            <span class="token number">0x0404706</span><span class="token punctuation">:</span> <span class="token string">'vWriteMemSs2'</span><span class="token punctuation">,</span>
+            <span class="token number">0x0404719</span><span class="token punctuation">:</span> <span class="token string">'vReadMemSs2'</span><span class="token punctuation">,</span>
+            <span class="token number">0x040475E</span><span class="token punctuation">:</span> <span class="token string">'vWriteMemSs1'</span><span class="token punctuation">,</span>
+            <span class="token number">0x040476F</span><span class="token punctuation">:</span> <span class="token string">'vAdd1'</span>
+        <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">def</span> <span class="token function">log</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> msg<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">">>> %s"</span> <span class="token operator">%</span> msg<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">dbg_process_start</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> pid<span class="token punctuation">,</span> tid<span class="token punctuation">,</span> ea<span class="token punctuation">,</span> name<span class="token punctuation">,</span> base<span class="token punctuation">,</span> size<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>log<span class="token punctuation">(</span><span class="token string">"Process started, pid=%d tid=%d name=%s"</span> <span class="token operator">%</span> <span class="token punctuation">(</span>pid<span class="token punctuation">,</span> tid<span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">dbg_process_exit</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> pid<span class="token punctuation">,</span> tid<span class="token punctuation">,</span> ea<span class="token punctuation">,</span> code<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>log<span class="token punctuation">(</span><span class="token string">"Process exited pid=%d tid=%d ea=0x%x code=%d"</span> <span class="token operator">%</span> <span class="token punctuation">(</span>pid<span class="token punctuation">,</span> tid<span class="token punctuation">,</span> ea<span class="token punctuation">,</span> code<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">dbg_library_load</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> pid<span class="token punctuation">,</span> tid<span class="token punctuation">,</span> ea<span class="token punctuation">,</span> name<span class="token punctuation">,</span> base<span class="token punctuation">,</span> size<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>log<span class="token punctuation">(</span><span class="token string">"Library loaded: pid=%d tid=%d name=%s base=%x"</span> <span class="token operator">%</span> <span class="token punctuation">(</span>pid<span class="token punctuation">,</span> tid<span class="token punctuation">,</span> name<span class="token punctuation">,</span> base<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">dbg_bpt</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> tid<span class="token punctuation">,</span> ea<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>log<span class="token punctuation">(</span><span class="token string">"Break point at 0x%x pid=%d"</span> <span class="token operator">%</span> <span class="token punctuation">(</span>ea<span class="token punctuation">,</span> tid<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token number">0</span>
+
+    <span class="token keyword">def</span> <span class="token function">dbg_step_into</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        eip <span class="token operator">=</span> ida_dbg<span class="token punctuation">.</span>get_reg_val<span class="token punctuation">(</span><span class="token string">"EIP"</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> eip <span class="token keyword">in</span> self<span class="token punctuation">.</span>handler_map<span class="token punctuation">:</span>
+            <span class="token comment">#print(self.handler_map[eip])</span>
+            ins<span class="token operator">=</span>self<span class="token punctuation">.</span>handler_map<span class="token punctuation">[</span>eip<span class="token punctuation">]</span>
+            <span class="token keyword">if</span> ins<span class="token operator">==</span><span class="token string">'vPopReg4'</span> <span class="token keyword">or</span> ins <span class="token operator">==</span><span class="token string">'vPushReg4'</span><span class="token punctuation">:</span>
+                eax<span class="token operator">=</span>ida_dbg<span class="token punctuation">.</span>get_reg_val<span class="token punctuation">(</span><span class="token string">"EAX"</span><span class="token punctuation">)</span>
+                <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>ins<span class="token punctuation">&#125;</span></span><span class="token string">\tR</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token punctuation">(</span>eax<span class="token operator">&amp;</span><span class="token number">0x3C</span><span class="token punctuation">)</span><span class="token operator">//</span><span class="token number">4</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                <span class="token keyword">print</span><span class="token punctuation">(</span>ins<span class="token punctuation">)</span>
+        <span class="token keyword">elif</span> eip<span class="token operator">-</span><span class="token number">2</span> <span class="token keyword">in</span> self<span class="token punctuation">.</span>handler_map<span class="token punctuation">:</span>
+            <span class="token keyword">if</span> self<span class="token punctuation">.</span>handler_map<span class="token punctuation">[</span>eip<span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">==</span><span class="token string">'vPushImm4'</span> <span class="token keyword">or</span> self<span class="token punctuation">.</span>handler_map<span class="token punctuation">[</span>eip<span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">==</span><span class="token string">'vPushImmSx2'</span><span class="token punctuation">:</span>
+                ins<span class="token operator">=</span>self<span class="token punctuation">.</span>handler_map<span class="token punctuation">[</span>eip<span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">]</span>
+                imm<span class="token operator">=</span>ida_dbg<span class="token punctuation">.</span>get_reg_val<span class="token punctuation">(</span><span class="token string">"EAX"</span><span class="token punctuation">)</span>
+                <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>ins<span class="token punctuation">&#125;</span></span><span class="token string">\t</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token builtin">hex</span><span class="token punctuation">(</span>imm<span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+        ida_dbg<span class="token punctuation">.</span>request_step_into<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">dbg_run_to</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> pid<span class="token punctuation">,</span> tid<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> ea<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>log<span class="token punctuation">(</span><span class="token string">"Runto: tid=%d, ea=%x"</span> <span class="token operator">%</span> <span class="token punctuation">(</span>tid<span class="token punctuation">,</span> ea<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        ida_dbg<span class="token punctuation">.</span>request_step_into<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># Start stepping</span>
+
+
+<span class="token comment"># Remove an existing debug hook</span>
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> debughook<span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Removing previous hook ..."</span><span class="token punctuation">)</span>
+        debughook<span class="token punctuation">.</span>unhook<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">except</span><span class="token punctuation">:</span>
+    <span class="token keyword">pass</span>
+
+<span class="token comment"># Install the debug hook</span>
+debughook <span class="token operator">=</span> MyDbgHook<span class="token punctuation">(</span><span class="token punctuation">)</span>
+debughook<span class="token punctuation">.</span>hook<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+ep <span class="token operator">=</span> ida_ida<span class="token punctuation">.</span>inf_get_start_ip<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> ida_dbg<span class="token punctuation">.</span>request_run_to<span class="token punctuation">(</span>ep<span class="token punctuation">)</span><span class="token punctuation">:</span>  <span class="token comment"># Request stop at entry point</span>
+    ida_dbg<span class="token punctuation">.</span>run_requests<span class="token punctuation">(</span><span class="token punctuation">)</span>      <span class="token comment"># Launch process</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Impossible to prepare debugger requests. Is a debugger selected?"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>还需要结合虚拟机入口来分析</p>
+<img src="/2025/02/23/vmp%E7%9B%B8%E5%85%B34%EF%BC%9Avmp1.8%E5%88%9D%E6%8E%A2/1741011290524-c0537af2-85d0-4ab5-8380-4781ceb7ed11.png" class="" loading="lazy">执行vmhandler时,ebp初始值为esp代表VM_ESP  建议此时用excel画个栈来同时模拟 否则容易晕
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">vPopReg4	R3  <span class="token punctuation">;</span>R3<span class="token operator">=</span><span class="token number">0</span>
+vPushImm4	<span class="token number">0x765da981</span> 
+vAdd4				
+vPopReg4	R7	<span class="token punctuation">;</span>R7<span class="token operator">=</span>eflags
+vPopReg4	R6	<span class="token punctuation">;</span>R6<span class="token operator">=</span><span class="token number">0x765da981</span>
+vPopReg4	R2 	<span class="token punctuation">;</span>R2<span class="token operator">=</span>ecx
+vPopReg4	R15	<span class="token punctuation">;</span>R15<span class="token operator">=</span>eflags
+vPopReg4	R11	<span class="token punctuation">;</span>R11<span class="token operator">=</span>ebp
+vPopReg4	R9	<span class="token punctuation">;</span>R9<span class="token operator">=</span>edx
+vPopReg4	R13	<span class="token punctuation">;</span>R13<span class="token operator">=</span>eax
+vPopReg4	R14	<span class="token punctuation">;</span>R14<span class="token operator">=</span>ebx
+vPopReg4	R10	<span class="token punctuation">;</span>R10<span class="token operator">=</span>esp
+vPopReg4	R4	<span class="token punctuation">;</span>R4<span class="token operator">=</span>edi
+vPopReg4	R0	<span class="token punctuation">;</span>R0<span class="token operator">=</span>esi
+vPopReg4	R1	<span class="token punctuation">;</span>push<span class="token operator">/</span>call 的ret address
+vPopReg4	R8	<span class="token punctuation">;</span>push的vm_data
+<span class="token punctuation">;</span>mov eax<span class="token punctuation">,</span>dword_403000
+vPushImm4	<span class="token number">0x403000</span>	
+vReadMemDs4	
+vPopReg4	R5	<span class="token punctuation">;</span>R5<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">0x403000</span><span class="token punctuation">]</span>
+<span class="token punctuation">;</span>add eax<span class="token punctuation">,</span><span class="token number">0x12345678</span>
+vPushImm4	<span class="token number">0x12345678</span>
+vPushReg4	R5
+vAdd4		<span class="token punctuation">;</span>R5<span class="token operator">+</span><span class="token number">0x12345678</span>
+vPopReg4	R7	<span class="token punctuation">;</span>R7<span class="token operator">=</span>add_eflags
+vPopReg4	R13	<span class="token punctuation">;</span>R13<span class="token operator">=</span>R5<span class="token operator">+</span><span class="token number">0x12345678</span>
+<span class="token punctuation">;</span>sub eax<span class="token punctuation">,</span><span class="token number">0x12345678</span>
+vPushImm4	<span class="token number">0x12345678</span>	<span class="token punctuation">;</span>b<span class="token operator">=</span><span class="token number">0x12345678</span>
+vPushReg4	R13			<span class="token punctuation">;</span>a<span class="token operator">=</span>R13
+vPushEBP				<span class="token punctuation">;</span>
+vReadMemSs4				<span class="token punctuation">;</span>两条指令连在一起相当于push a ，此时栈顶两个a
+vNor4		<span class="token punctuation">;</span>nor<span class="token punctuation">(</span>a<span class="token punctuation">,</span>a<span class="token punctuation">)</span><span class="token operator">=</span><span class="token keyword">not</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+vPopReg4	R1	<span class="token punctuation">;</span>R1<span class="token operator">=</span>not_flag<span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+vAdd4			
+vPopReg4	R15	<span class="token punctuation">;</span>R15<span class="token operator">=</span>add_flag<span class="token punctuation">(</span><span class="token keyword">not</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token operator">+</span>b<span class="token punctuation">)</span>
+vPushEBP
+vReadMemSs4		<span class="token punctuation">;</span> 栈顶两个<span class="token keyword">not</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token operator">+</span>b  <span class="token operator">=</span>c
+vNor4			<span class="token punctuation">;</span>nor<span class="token punctuation">(</span>c<span class="token punctuation">,</span>c<span class="token punctuation">)</span><span class="token operator">=</span><span class="token keyword">not</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token operator">=</span><span class="token keyword">not</span><span class="token punctuation">(</span><span class="token keyword">not</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token operator">+</span>b<span class="token punctuation">)</span><span class="token operator">=</span>sub<span class="token punctuation">(</span>a<span class="token punctuation">,</span>b<span class="token punctuation">)</span>
+vPopReg4	R8	<span class="token punctuation">;</span>R8<span class="token operator">=</span>nor_flag<span class="token punctuation">(</span>sub<span class="token punctuation">(</span>a<span class="token punctuation">,</span>b<span class="token punctuation">)</span><span class="token punctuation">)</span>
+vPopReg4	R1	<span class="token punctuation">;</span>R1<span class="token operator">=</span>sub<span class="token punctuation">(</span>a<span class="token punctuation">,</span>b<span class="token punctuation">)</span><span class="token operator">=</span>R13<span class="token operator">-</span><span class="token number">0x12345678</span>
+vPushReg4	R15	<span class="token punctuation">;</span>R15<span class="token operator">=</span>add_flag<span class="token punctuation">(</span><span class="token keyword">not</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token operator">+</span>b<span class="token punctuation">)</span>
+vPushEBP	
+vReadMemSs4		<span class="token punctuation">;</span>栈顶<span class="token number">2</span>个R15
+vNor4			<span class="token punctuation">;</span><span class="token keyword">not</span><span class="token punctuation">(</span>R15<span class="token punctuation">)</span>
+vPopReg4	R5	<span class="token punctuation">;</span>R5<span class="token operator">=</span>not_flag
+vPushImmSx2		<span class="token number">0xfffff7ea</span>  <span class="token punctuation">;</span>
+vNor4			<span class="token punctuation">;</span>nor<span class="token punctuation">(</span><span class="token number">0xfffff7ea</span><span class="token punctuation">,</span> <span class="token keyword">not</span><span class="token punctuation">(</span>R15<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token keyword">and</span> <span class="token punctuation">(</span><span class="token number">0x815</span><span class="token punctuation">,</span> R15<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token keyword">and</span><span class="token punctuation">(</span><span class="token number">0x815</span><span class="token punctuation">,</span> add_flag<span class="token punctuation">(</span><span class="token keyword">not</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token operator">+</span> b<span class="token punctuation">)</span><span class="token punctuation">)</span>
+vPopReg4	R7	<span class="token punctuation">;</span>R7<span class="token operator">=</span>nor_flag<span class="token punctuation">(</span>nor<span class="token punctuation">(</span><span class="token number">0xfffff7ea</span><span class="token punctuation">,</span> <span class="token keyword">not</span><span class="token punctuation">(</span>R15<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+vPushReg4	R8	<span class="token punctuation">;</span>R8<span class="token operator">=</span>nor_flag<span class="token punctuation">(</span>sub<span class="token punctuation">(</span>a<span class="token punctuation">,</span>b<span class="token punctuation">)</span><span class="token punctuation">)</span>
+vPushReg4	R8	
+vNor4			<span class="token punctuation">;</span><span class="token keyword">not</span><span class="token punctuation">(</span>R8<span class="token punctuation">)</span>
+vPopReg4	R12	<span class="token punctuation">;</span>R12<span class="token operator">=</span>nor_flag
+vPushImmSx2	<span class="token number">0x815</span>
+vNor4			<span class="token punctuation">;</span>nor<span class="token punctuation">(</span><span class="token number">0x815</span><span class="token punctuation">,</span><span class="token keyword">not</span><span class="token punctuation">(</span>R8<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">=</span><span class="token keyword">and</span><span class="token punctuation">(</span><span class="token number">0xfffff7ea</span>，R8<span class="token punctuation">)</span><span class="token operator">=</span><span class="token keyword">and</span><span class="token punctuation">(</span><span class="token number">0xfffff7ea</span>，nor_flag<span class="token punctuation">(</span>sub<span class="token punctuation">(</span>a<span class="token punctuation">,</span>b<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+vPopReg4	R12	<span class="token punctuation">;</span>R12<span class="token operator">=</span>nor_flag
+vAdd4			<span class="token punctuation">;</span>add
+vPopReg4	R12	<span class="token punctuation">;</span>R12<span class="token operator">=</span>add_flag
+vPopReg4	R13	<span class="token punctuation">;</span>R13 <span class="token operator">=</span> <span class="token keyword">and</span><span class="token punctuation">(</span>FFFFF7EA<span class="token punctuation">,</span> not_flag<span class="token punctuation">(</span><span class="token keyword">not</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token operator">+</span> b<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token keyword">and</span><span class="token punctuation">(</span><span class="token number">0x815</span> <span class="token punctuation">,</span> add_flag<span class="token punctuation">(</span><span class="token keyword">not</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">=</span> sub_flag<span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span>
+<span class="token punctuation">;</span>mov dword_403000<span class="token punctuation">,</span>eax
+vPushReg4	R1	<span class="token punctuation">;</span>
+vPushImm4	<span class="token number">0x403000</span>
+vWriteMemDs4	<span class="token punctuation">;</span><span class="token punctuation">[</span><span class="token number">0x403000</span><span class="token punctuation">]</span><span class="token operator">=</span>R1<span class="token operator">=</span>R13<span class="token operator">-</span><span class="token number">0x12345678</span>
+<span class="token punctuation">;</span>ret
+vPushReg4	R0 	<span class="token punctuation">;</span>ESI
+vPushReg4	R4	<span class="token punctuation">;</span>EDI
+vPushReg4	R8	<span class="token punctuation">;</span>eflags
+vPushReg4	R14	<span class="token punctuation">;</span>ebx
+vPushReg4	R1	<span class="token punctuation">;</span>eax
+vPushReg4	R9	<span class="token punctuation">;</span>edx
+vPushReg4	R11	<span class="token punctuation">;</span>ebp
+vPushReg4	R13	<span class="token punctuation">;</span>sub_flags
+vPushReg4	R2	<span class="token punctuation">;</span>ecx
+vPushReg4	R7	<span class="token punctuation">;</span>eflags
+vPushReg4	R0	<span class="token punctuation">;</span>esi
+vRet<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>一些关键推导与化简</p>
+<p>not(a) = nor(a, a)</p>
+<p>and(a, b) = nor(not(a), not(b))</p>
+<p>sub(a, b) = not(not(a) + b) = nor(not(a) + b, not(a) + b) = nor(nor(a, a) + b, nor(a, a) + b)</p>
+<p>0xfffff7ea = not(0x815)</p>
+<p>not_flag(a) = nor_flag(a, a)</p>
+<p>and_flag(a, b) = nor_flag(a, not(b))</p>
+<p>sub_flag(a, b) = and(FFFFF7EA, not_flag(not(a) + b)) + and(0x815 , add_flag(not(a), b))</p>
+<p>其中有很多操作都是在计算eflags，特别是减法标志位的计算步骤很多,我们还原的最后的结果就是</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">mov eax<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0x403000</span><span class="token punctuation">]</span>
+add eax<span class="token punctuation">,</span> 12345678h
+sub eax<span class="token punctuation">,</span> 12345678h
+mov <span class="token punctuation">[</span><span class="token number">0x403000</span><span class="token punctuation">]</span><span class="token punctuation">,</span> eax    
+ret<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>与源码是一致的</p>
+<h3 id="方法2-基于od-trace"><a class="markdownIt-Anchor" href="#方法2-基于od-trace"></a> 方法2 基于od trace</h3>
+<p>这是原贴的方法，基于od的trace log 可以实现相同的效果，不再赘述</p>
+<p>记录一下原贴给的parse od tracelog的脚本</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> re
+<span class="token keyword">import</span> argparse
+
+<span class="token keyword">def</span> <span class="token function">INT16</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token builtin">int</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Trace</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> line<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        Parse Ollydbg 2.0 trace line.
+        """</span>
+        <span class="token keyword">try</span><span class="token punctuation">:</span>
+            mod<span class="token punctuation">,</span> addr<span class="token punctuation">,</span> disasm<span class="token punctuation">,</span> mem_str<span class="token punctuation">,</span> reg_str <span class="token operator">=</span> line<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">'\t'</span><span class="token punctuation">)</span>
+            
+            <span class="token comment"># print line.split('\t')</span>
+
+            self<span class="token punctuation">.</span>module <span class="token operator">=</span> mod
+            self<span class="token punctuation">.</span>address <span class="token operator">=</span> INT16<span class="token punctuation">(</span>addr<span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>disasm <span class="token operator">=</span> disasm           
+            self<span class="token punctuation">.</span>memorys <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+            self<span class="token punctuation">.</span>registers <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+
+            <span class="token keyword">for</span> addr<span class="token punctuation">,</span> value <span class="token keyword">in</span> re<span class="token punctuation">.</span>findall<span class="token punctuation">(</span><span class="token string">'\[([0-9A-F]+)\]=([0-9A-F]+)'</span><span class="token punctuation">,</span> mem_str<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                self<span class="token punctuation">.</span>memorys<span class="token punctuation">[</span>INT16<span class="token punctuation">(</span>addr<span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> INT16<span class="token punctuation">(</span>value<span class="token punctuation">)</span>
+            
+            <span class="token keyword">for</span> reg<span class="token punctuation">,</span> value <span class="token keyword">in</span> re<span class="token punctuation">.</span>findall<span class="token punctuation">(</span><span class="token string">'([EABCDXSPI]+)=([0-9A-F]+)'</span><span class="token punctuation">,</span> reg_str<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                self<span class="token punctuation">.</span>registers<span class="token punctuation">[</span>reg<span class="token punctuation">]</span> <span class="token operator">=</span> INT16<span class="token punctuation">(</span>value<span class="token punctuation">)</span>
+
+            self<span class="token punctuation">.</span>prev <span class="token operator">=</span> <span class="token boolean">None</span>
+            self<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> <span class="token boolean">None</span>
+        <span class="token keyword">except</span><span class="token punctuation">:</span>
+            <span class="token keyword">raise</span> Exception<span class="token punctuation">(</span><span class="token string">'[!] Unknown format: %s'</span> <span class="token operator">%</span> line<span class="token punctuation">)</span>
+            
+
+    <span class="token keyword">def</span> <span class="token function">__str__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        mem_str <span class="token operator">=</span> <span class="token string">', '</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'[%#x]=%#x'</span> <span class="token operator">%</span> <span class="token punctuation">(</span>addr<span class="token punctuation">,</span> value<span class="token punctuation">)</span> 
+            <span class="token keyword">for</span> addr<span class="token punctuation">,</span> value <span class="token keyword">in</span> self<span class="token punctuation">.</span>memorys<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        
+        reg_str <span class="token operator">=</span> <span class="token string">', '</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'%s=%#x'</span> <span class="token operator">%</span> <span class="token punctuation">(</span>reg<span class="token punctuation">,</span> value<span class="token punctuation">)</span> 
+            <span class="token keyword">for</span> reg<span class="token punctuation">,</span> value <span class="token keyword">in</span> self<span class="token punctuation">.</span>registers<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            
+        <span class="token keyword">return</span> <span class="token string">'%s\t%#x\t%s\t%s\t%s'</span> <span class="token operator">%</span> <span class="token punctuation">(</span>self<span class="token punctuation">.</span>module<span class="token punctuation">,</span>
+            self<span class="token punctuation">.</span>address<span class="token punctuation">,</span>
+            self<span class="token punctuation">.</span>disasm<span class="token punctuation">,</span>
+            mem_str<span class="token punctuation">,</span>
+            reg_str<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">__repr__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token string">'&lt;Trace %#x %s>'</span> <span class="token operator">%</span> <span class="token punctuation">(</span>self<span class="token punctuation">.</span>address<span class="token punctuation">,</span> self<span class="token punctuation">.</span>disasm<span class="token punctuation">)</span>
+
+
+    <span class="token keyword">def</span> <span class="token function">test</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> addr<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> m<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> mv<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> r<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> rv<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> addr<span class="token punctuation">:</span>
+            <span class="token keyword">if</span> self<span class="token punctuation">.</span>address <span class="token operator">!=</span> addr<span class="token punctuation">:</span> <span class="token keyword">return</span> <span class="token boolean">False</span>
+
+        <span class="token keyword">if</span> m<span class="token punctuation">:</span>
+            <span class="token keyword">if</span> m <span class="token keyword">not</span> <span class="token keyword">in</span> self<span class="token punctuation">.</span>memorys<span class="token punctuation">:</span> <span class="token keyword">return</span> <span class="token boolean">False</span>
+        <span class="token keyword">if</span> mv<span class="token punctuation">:</span>
+            <span class="token keyword">if</span> mv <span class="token keyword">not</span> <span class="token keyword">in</span> self<span class="token punctuation">.</span>memorys<span class="token punctuation">.</span>values<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">return</span> <span class="token boolean">False</span>
+        <span class="token keyword">if</span> m <span class="token keyword">and</span> mv<span class="token punctuation">:</span>
+            <span class="token keyword">if</span> self<span class="token punctuation">.</span>memorys<span class="token punctuation">[</span>m<span class="token punctuation">]</span> <span class="token operator">!=</span> mv <span class="token punctuation">:</span> <span class="token keyword">return</span> <span class="token boolean">False</span>
+
+        <span class="token keyword">if</span> r<span class="token punctuation">:</span>
+            <span class="token keyword">if</span> r <span class="token keyword">not</span> <span class="token keyword">in</span> self<span class="token punctuation">.</span>registers<span class="token punctuation">:</span> <span class="token keyword">return</span> <span class="token boolean">False</span>
+        <span class="token keyword">if</span> rv<span class="token punctuation">:</span>
+            <span class="token keyword">if</span> rv <span class="token keyword">not</span> <span class="token keyword">in</span> self<span class="token punctuation">.</span>registers<span class="token punctuation">.</span>values<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">return</span> <span class="token boolean">False</span>
+        <span class="token keyword">if</span> r <span class="token keyword">and</span> rv<span class="token punctuation">:</span>
+            <span class="token keyword">if</span> self<span class="token punctuation">.</span>registers<span class="token punctuation">[</span>r<span class="token punctuation">]</span> <span class="token operator">!=</span> rv<span class="token punctuation">:</span> <span class="token keyword">return</span> <span class="token boolean">False</span>
+        
+        <span class="token keyword">return</span> <span class="token boolean">True</span>
+    
+    <span class="token keyword">def</span> <span class="token function">next_trace</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> step<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        cur <span class="token operator">=</span> self
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>step<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> cur<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span> 
+                <span class="token keyword">break</span>
+            cur <span class="token operator">=</span> cur<span class="token punctuation">.</span><span class="token builtin">next</span>
+        <span class="token keyword">return</span> cur
+
+<span class="token keyword">def</span> <span class="token function">parse_od2_trace</span><span class="token punctuation">(</span>filename<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    traces <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    
+    buf <span class="token operator">=</span> <span class="token builtin">open</span><span class="token punctuation">(</span>filename<span class="token punctuation">,</span><span class="token string">'rb'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    lines <span class="token operator">=</span> buf<span class="token punctuation">.</span>splitlines<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    prev <span class="token operator">=</span> <span class="token boolean">None</span>
+    <span class="token keyword">for</span> line <span class="token keyword">in</span> lines<span class="token punctuation">:</span>
+        <span class="token keyword">try</span><span class="token punctuation">:</span>
+            t <span class="token operator">=</span> Trace<span class="token punctuation">(</span>line<span class="token punctuation">)</span>
+            traces<span class="token punctuation">.</span>append<span class="token punctuation">(</span>t<span class="token punctuation">)</span>
+            
+            <span class="token keyword">if</span> prev<span class="token punctuation">:</span>
+                t<span class="token punctuation">.</span>prev <span class="token operator">=</span> prev
+                prev<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> t
+            prev <span class="token operator">=</span> t
+        <span class="token keyword">except</span><span class="token punctuation">:</span>
+            <span class="token keyword">pass</span>
+    <span class="token keyword">return</span> traces
+
+<span class="token keyword">def</span> <span class="token function">search_trace</span><span class="token punctuation">(</span>traces<span class="token punctuation">,</span> a<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> m<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> mv<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> r<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> rv<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> t <span class="token keyword">in</span> traces<span class="token punctuation">:</span>
+        <span class="token keyword">if</span> t<span class="token punctuation">.</span>test<span class="token punctuation">(</span>a<span class="token punctuation">,</span> m<span class="token punctuation">,</span> mv<span class="token punctuation">,</span> r<span class="token punctuation">,</span> rv<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            result<span class="token punctuation">.</span>append<span class="token punctuation">(</span>t<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> result
+
+<span class="token keyword">def</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    parser <span class="token operator">=</span> argparse<span class="token punctuation">.</span>ArgumentParser<span class="token punctuation">(</span>description<span class="token operator">=</span><span class="token string">'Parser of Ollydbg 2.0 Trace file.'</span><span class="token punctuation">)</span>
+    parser<span class="token punctuation">.</span>add_argument<span class="token punctuation">(</span><span class="token string">"file"</span><span class="token punctuation">,</span> <span class="token builtin">help</span><span class="token operator">=</span><span class="token string">'Input Ollydbg 2.0 trace file.'</span><span class="token punctuation">)</span>
+    parser<span class="token punctuation">.</span>add_argument<span class="token punctuation">(</span><span class="token string">"-a"</span><span class="token punctuation">,</span> <span class="token string">"--address"</span><span class="token punctuation">,</span> <span class="token builtin">type</span><span class="token operator">=</span>INT16<span class="token punctuation">,</span> <span class="token builtin">help</span><span class="token operator">=</span><span class="token string">'Search instructions at this address.'</span><span class="token punctuation">)</span>
+    parser<span class="token punctuation">.</span>add_argument<span class="token punctuation">(</span><span class="token string">"-m"</span><span class="token punctuation">,</span> <span class="token string">"--memory-address"</span><span class="token punctuation">,</span> <span class="token builtin">type</span><span class="token operator">=</span>INT16<span class="token punctuation">)</span>
+    parser<span class="token punctuation">.</span>add_argument<span class="token punctuation">(</span><span class="token string">"-mv"</span><span class="token punctuation">,</span> <span class="token string">"--memory-value"</span><span class="token punctuation">,</span> <span class="token builtin">type</span><span class="token operator">=</span>INT16<span class="token punctuation">)</span>
+    parser<span class="token punctuation">.</span>add_argument<span class="token punctuation">(</span><span class="token string">"-r"</span><span class="token punctuation">,</span>  <span class="token string">"--register-name"</span><span class="token punctuation">)</span>
+    parser<span class="token punctuation">.</span>add_argument<span class="token punctuation">(</span><span class="token string">"-rv"</span><span class="token punctuation">,</span>  <span class="token string">"--register-value"</span><span class="token punctuation">,</span> <span class="token builtin">type</span><span class="token operator">=</span>INT16<span class="token punctuation">)</span>
+    <span class="token comment"># return parser</span>
+
+    args <span class="token operator">=</span> parser<span class="token punctuation">.</span>parse_args<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    traces <span class="token operator">=</span> parse_od2_trace<span class="token punctuation">(</span>args<span class="token punctuation">.</span><span class="token builtin">file</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">print</span> <span class="token string">'[+] %d traces parsed.'</span> <span class="token operator">%</span> <span class="token builtin">len</span><span class="token punctuation">(</span>traces<span class="token punctuation">)</span>
+
+    <span class="token keyword">print</span> <span class="token string">'[+] Search result:'</span>
+
+    result <span class="token operator">=</span> search_trace<span class="token punctuation">(</span>traces<span class="token punctuation">,</span> args<span class="token punctuation">.</span>address<span class="token punctuation">,</span> 
+            args<span class="token punctuation">.</span>memory_address<span class="token punctuation">,</span> args<span class="token punctuation">.</span>memory_value<span class="token punctuation">,</span> 
+            args<span class="token punctuation">.</span>register_name<span class="token punctuation">,</span> args<span class="token punctuation">.</span>register_value<span class="token punctuation">)</span>
+
+    <span class="token keyword">for</span> t <span class="token keyword">in</span> result<span class="token punctuation">:</span>
+        <span class="token keyword">print</span> t 
+
+    <span class="token keyword">print</span> <span class="token string">'[+] %d traces found.'</span> <span class="token operator">%</span> <span class="token builtin">len</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+
+    main<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<hr />
+<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
+<p>vmp1.8.1已经是10多年前的老壳了</p>
+<p>偶遇vmp，拼尽全力无法战胜</p>
+<p>虽然已经是被大削的vmp1.8.1 demo壳，没有开启反调试和代码编译，分析清楚不难，但是还是很耗费精力，只还原出3,4条汇编，一晚上就过去了，呜呜呜(<font style="color:rgb(68, 68, 68);">正式版 VMProtect 虚拟机的解释执行过程都是添加了冗余指令的, VMProtect 3.x 已经没有解释循环，使用链式寻址代替,提取字节码就更复杂了</font>)</p>
+<p><strong>人生苦短，远离vmp</strong></p>
+</div></section></article><div class="post-nav"><div class="post-nav-item"><a class="post-nav-prev" href="/2025/03/01/ollvm%E7%9B%B8%E5%85%B31_%E6%A0%87%E5%87%86ollvm%E6%B7%B7%E6%B7%86%E4%B8%8E%E5%AF%B9%E6%8A%97%E5%88%9D%E6%8E%A2/" rel="prev" title="ollvm相关1:标准ollvm混淆与对抗初探"><span class="icon iconify" data-icon="ri:arrow-left-s-line"></span><span class="post-nav-text">ollvm相关1:标准ollvm混淆与对抗初探</span></a></div><div class="post-nav-item"><a class="post-nav-next" href="/2025/02/17/vmp%E7%9B%B8%E5%85%B32%EF%BC%9A%E5%8F%8D%E8%B0%83%E8%AF%95%E5%88%86%E6%9E%90/" rel="next" title="vmp相关2：反调试分析"><span class="post-nav-text">vmp相关2：反调试分析</span><span class="icon iconify" data-icon="ri:arrow-right-s-line"></span></a></div></div></div><div class="hty-card" id="comment"><div class="comment-tooltip text-center"><span>您需要科学上网，才可使用评论区功能。</span><br></div><div id="waline"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@waline/client@v2/dist/waline.css"><script>window.CONFIG.waline.config.path = "/2025/02/23/vmp%E7%9B%B8%E5%85%B34%EF%BC%9Avmp1.8%E5%88%9D%E6%8E%A2/"</script><div class="js-Pjax"><script src="/js/comments/waline.js" type="module" defer></script></div></div></main><footer class="sidebar-translate" id="footer"><div class="beian"><a rel="noopener" href="https://beian.miit.gov.cn/" target="_blank"></a></div><div class="copyright"><span>&copy; 2023 – 2025 </span><span class="with-love" id="animate"><span class="icon iconify" data-icon="ri:cloud-line"></span></span><span class="author"> Npc</span></div><div class="footer-custom-text">=w=</div></footer></div><a class="hty-icon-button" id="back-to-top" aria-label="back-to-top" href="#"><span class="icon iconify" data-icon="ri:arrow-up-s-line"></span><svg class="progress-circle-container" viewBox="0 0 100 100"><circle class="progress-circle" id="progressCircle" cx="50" cy="50" r="48" fill="none" stroke="#0078E7" stroke-width="2" stroke-linecap="round"></circle></svg></a><a class="popup-trigger hty-icon-button icon-search" id="search" href="javascript:;" title="Search"><span class="site-state-item-icon"><span class="icon iconify" data-icon="ri:search-line"></span></span></a><script>window.addEventListener("DOMContentLoaded", () => {
+  // Handle and trigger popup window
+  document.querySelector(".popup-trigger").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("show");
+    setTimeout(() => {
+      document.querySelector(".search-input").focus();
+    }, 100);
+  });
+
+  // Monitor main search box
+  const onPopupClose = () => {
+    document.querySelector(".popup").classList.remove("show");
+  };
+
+  document.querySelector(".popup-btn-close").addEventListener("click", () => {
+    onPopupClose();
+  });
+
+  window.addEventListener("keyup", event => {
+    if (event.key === "Escape") {
+      onPopupClose();
+    }
+  });
+});
+</script><script src="https://fastly.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script><script src="/js/search/local-search.js" defer type="module"></script><div class="popup search-popup"><div class="search-header"><span class="popup-btn-close close-icon hty-icon-button"><span class="icon iconify" data-icon="ri:close-line"></span></span></div><div class="search-input-container"><input class="search-input" id="local-search-input" type="text" placeholder="Searching..." value=""></div><div class="search-result-container"></div></div><script src="https://fastly.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script>const images = [...document.querySelectorAll('.markdown-body img')]
+mediumZoom(images)</script><style>.medium-zoom-image {
+  z-index: 99;
+}</style></body></html>
