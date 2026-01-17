@@ -26,6 +26,8 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version-file: ".bun-version"
+      - name: Grant execute permission to CLI script
+        run: chmod +x ./quartz/bootstrap-cli.mjs
       - name: Install Dependencies
         run: bun install
       - name: Build Quartz
